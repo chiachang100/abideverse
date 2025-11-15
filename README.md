@@ -70,6 +70,10 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
   - Windows: `.venv\Scripts\activate`
   - `streamlit run app.py`
 
+### Hosting AbideVerse on Streamlit Community Cloud
+- Deploy AbideVerse from Github repo to Streamlit Community Cloud
+  - URL: [https://abideverse.streamlit.app/](https://abideverse.streamlit.app/)
+
 ---
 ## Use `conda` command
 ### Set up Python Environment
