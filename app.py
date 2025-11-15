@@ -1,86 +1,78 @@
-# app.py
 import streamlit as st
-import json
-import sqlite3
-import yaml
+from models import load_llm
+from chains import build_chat_chain, build_rag_chain, build_quiz_chain
+from vectorstore import get_retriever, add_document
+from utils import load_bible, cloze_text, translate_text
+from storage import init_db, add_memory_card, get_cards
 
-# --- LangChain v1.0+ imports ---
-from langchain_community.chat_models import ChatOllama
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnableSequence
-from langchain_core.output_parsers import StrOutputParser
-from langchain_community.chat_message_histories import ChatMessageHistory
+st.set_page_config(page_title="AbideVerse – Your Daily AI-Powered Bible Verse Companion")
 
-# --- Load configuration ---
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
+init_db()
 
-# --- Load Bible verses ---
-with open("bible_data/bible_verses.json") as f:
-    verses = json.load(f)
+st.title("📖 AbideVerse")
+st.subheader("Your Daily AI-Powered Bible Verse Companion")
 
-# --- Setup database ---
-conn = sqlite3.connect("db.sqlite")
-c = conn.cursor()
-c.execute("""
-CREATE TABLE IF NOT EXISTS progress (
-    user TEXT,
-    verse_id INTEGER,
-    correct INTEGER
-)
-""")
-conn.commit()
+# Settings Sidebar
+st.sidebar.header("⚙️ Settings")
+provider = st.sidebar.selectbox("LLM Provider", ["ollama", "openai", "huggingface", "gemini", "anthropic"],)
+model_name = st.sidebar.selectbox("Model Name", ["llama3", "gpt-3.5-turbo", "google/flan-t5-small", "gemini-1.5-pro", "claude-3-opus"])
+language = st.sidebar.selectbox("Language", ["English", "Chinese"])
 
-# --- Setup LLM and memory ---
+llm = load_llm(provider, model_name)
 
-# Setup history
-history = ChatMessageHistory()
+tabs = st.tabs(["💬 Chat", "📚 RAG", "🧠 Memorize", "🌅 Devotions", "🔧 Settings"])
 
-# Add messages as user interacts
-history.add_user_message("Hello!")
-history.add_ai_message("Hi, how can I help?")
+# ---------------- Chat Tab ----------------
+with tabs[0]:
+    st.subheader("Conversational Bible Chat")
 
-llm = ChatOllama(model=config["local_model"])
+    user_msg = st.text_input("Ask AbideVerse anything:")
+    if st.button("Send") and user_msg:
+        chat_chain = build_chat_chain(llm)
+        response = chat_chain.invoke({"message": user_msg})
+        st.write(response if language == "English" else translate_text(response, "zh"))
 
-# Build prompt with history
-prompt = ChatPromptTemplate.from_messages(
-    [("system", "You are a helpful assistant for Bible verse memorization.")] +
-    history.messages +  # inject past turns
-    [("human", "{input}")]
-)
+# ---------------- RAG Tab ----------------
+with tabs[1]:
+    st.subheader("RAG Bible Q&A")
+    doc = st.text_area("Paste Bible notes or devotional text to index:")
+    if st.button("Add to RAG Store"):
+        add_document(doc)
+        st.success("Added to vectorstore!")
 
-# Build chain using LCEL (LangChain Expression Language)
-chain = RunnableSequence(
-    prompt | llm | StrOutputParser()
-)
+    question = st.text_input("Ask a question from your documents:")
+    if st.button("RAG Search"):
+        retriever = get_retriever(provider)
+        rag_chain = build_rag_chain(llm, retriever)
+        answer = rag_chain.invoke(question)
+        st.write(answer if language == "English" else translate_text(answer, "zh"))
 
-# --- Streamlit UI ---
-st.title("AbideVerse – Your Daily AI-Powered Bible Verse Companion")
+# ---------------- Memorize Tab ----------------
+with tabs[2]:
+    st.subheader("Bible Memorization")
 
-st.sidebar.header("User Settings")
-user = st.sidebar.text_input("Your Name", "Guest")
+    bible = load_bible()
+    verse = st.selectbox("Choose a verse:", list(bible.values()))
+    if st.button("Generate Cloze Quiz"):
+        cloze = cloze_text(verse)
+        add_memory_card(verse, cloze)
+        st.code(cloze)
 
-# --- Verse Quiz Section ---
-st.header("Verse Memorization Quiz")
-verse = st.selectbox(
-    "Choose a verse to memorize",
-    [f"{v['book']} {v['chapter']}:{v['verse']}" for v in verses]
-)
-user_input = st.text_area("Enter your recall:")
+    st.write("📘 Saved Memory Cards:")
+    for card in get_cards():
+        st.write(f"- {card[2]}")
 
-if st.button("Check"):
-    # Find selected verse text
-    v_obj = next(v for v in verses if f"{v['book']} {v['chapter']}:{v['verse']}" == verse)
-    # Call LLM for feedback
-    feedback = chain.invoke({
-        "input": f"Check this user recall for accuracy:\nVerse: {v_obj['text']}\nUser input: {user_input}"
-    })
-    st.write("**Feedback:**", feedback)
-    # Store result in DB (simple example: correct if exact match)
-    correct = int(user_input.strip() == v_obj['text'])
-    c.execute("INSERT INTO progress (user, verse_id, correct) VALUES (?, ?, ?)", (user, verses.index(v_obj), correct))
-    conn.commit()
+# ---------------- Devotions Tab ----------------
+with tabs[3]:
+    st.subheader("Daily Devotion (AI Generated)")
+    verse = st.text_input("Enter a verse to reflect on:")
+    if st.button("Generate Devotion"):
+        chain = build_chat_chain(llm)
+        prompt = f"Create a short devotion based on this verse: {verse}"
+        text = chain.invoke({"message": prompt})
+        st.write(text)
 
-# --- Memory Section ---
-st.header("Conversation History")
-st.text_area("Memory", value="\n".join([f"{m.type}: {m.content}" for m in history.messages]), height=200)
+# ---------------- Settings Tab ----------------
+with tabs[4]:
+    st.subheader("App Settings")
+    st.write("Change provider, language, and model from the sidebar.")

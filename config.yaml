@@ -1,3 +1,0 @@
-llm_provider: local # options: local, openai
-#local_model: ollama-llama3
-local_model: llama3

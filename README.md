@@ -2,6 +2,9 @@
 AbideVerse – Your Daily AI-Powered Bible Verse Companion.
 
 ## Environment Setup
+1. Download and install Python (v3.12)
+- [Python Download](https://www.python.org/downloads/)
+
 1. Create pip Virtualenv:
 - Install virtualenv
   - `pip install virtualenv`
@@ -14,14 +17,14 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
 - `python -m pip install --upgrade pip`
 
 1. Create a Virtual Environment
-- `python -m venv abideverse`
+- `python -m venv .venv`
 
 1. Upgrade pip
 - `python -m pip install --upgrade pip`
 
 1. Activate the Virtual Environment
-- macOS/Linux: `abideverse/bin/activate`
-- Windows: `abideverse\Scripts\activate`
+- macOS/Linux: `.venv/bin/activate`
+- Windows: `.venv\Scripts\activate`
 
 1. Deactivate the Environment
 - `deactivate`
@@ -44,11 +47,18 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
 1. Install Ollama server
 - `pip install ollama`
 
+1. Install Miscellaneous packages
+- Packages: `numpy`, `panda`
+
+- `pip install plotly`
+
+---
 ### Creating a requirements.txt file
 - `pip freeze > requirements.txt`
 
 ### Install packages from a requirements file:
 - `pip install -r requirements.txt`
+- `python.exe -m pip install --upgrade pip`
 
 ---
 ## How to run `streamlit` and `ollama` locally
