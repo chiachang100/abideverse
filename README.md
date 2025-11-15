@@ -70,13 +70,6 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
   - Windows: `.venv\Scripts\activate`
   - `streamlit run app.py`
 
-## How to run `streamlit` and `huggingface` remotely
-- On one terminal, run `streamlit`:
-  - `cd abideverse`
-  - macOS/Linux: `.venv/bin/activate`
-  - Windows: `.venv\Scripts\activate`
-  - `streamlit run app.py`
-
 ---
 ## Use `conda` command
 ### Set up Python Environment
