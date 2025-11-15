@@ -14,7 +14,7 @@ def cloze_text(verse: str):
     return cloze
 
 
-def translate_text(text, target="zh"):
+def translate_text(text, target="en"):
     try:
         return GoogleTranslator(source="auto", target=target).translate(text)
     except:

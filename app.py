@@ -10,17 +10,22 @@ st.set_page_config(page_title="AbideVerse – Your Daily AI-Powered Bible Verse 
 init_db()
 
 st.title("📖 AbideVerse")
-st.subheader("Your Daily AI-Powered Bible Verse Companion")
+#st.subheader("Your Daily AI-Powered Bible Verse Companion")
+st.markdown("*Your Daily AI-Powered Bible Verse Companion*")
 
 # Settings Sidebar
 st.sidebar.header("⚙️ Settings")
-provider = st.sidebar.selectbox("LLM Provider", ["ollama", "openai", "huggingface", "gemini", "anthropic"],)
-model_name = st.sidebar.selectbox("Model Name", ["llama3", "gpt-3.5-turbo", "google/flan-t5-small", "gemini-1.5-pro", "claude-3-opus"])
-language = st.sidebar.selectbox("Language", ["English", "Chinese"])
+
+#provider = st.sidebar.selectbox("LLM Provider", ["ollama", "openai", "huggingface", "gemini", "anthropic"],)
+#model_name = st.sidebar.selectbox("Model Name", ["llama3", "gpt-3.5-turbo", "google/flan-t5-small", "gemini-1.5-pro", "claude-3-opus"])
+provider = st.sidebar.selectbox("LLM Provider", ["ollama", "openai"],)
+model_name = st.sidebar.selectbox("Model Name", ["llama3", "gpt-3.5-turbo"])
+
+language = st.sidebar.selectbox("Language", ["English", "Simplified Chinese", "Traditional Chinese"])
 
 llm = load_llm(provider, model_name)
 
-tabs = st.tabs(["💬 Chat", "📚 RAG", "🧠 Memorize", "🌅 Devotions", "🔧 Settings"])
+tabs = st.tabs(["💬 Chat", "📚 RAG", "🧠 Memorize", "🌅 Devotions", "😊 笑裡藏道", "🔧 Settings"])
 
 # ---------------- Chat Tab ----------------
 with tabs[0]:
@@ -30,7 +35,17 @@ with tabs[0]:
     if st.button("Send") and user_msg:
         chat_chain = build_chat_chain(llm)
         response = chat_chain.invoke({"message": user_msg})
-        st.write(response if language == "English" else translate_text(response, "zh"))
+
+        if language == "English":
+            translated_response = response
+        elif language == "Simplified Chinese":
+            translated_response = translate_text(response, "zh-CN")
+        elif language == "Traditional Chinese":
+            translated_response = translate_text(response, "zh-TW")
+        else:
+            translated_response = response
+
+        st.write(translated_response)
 
 # ---------------- RAG Tab ----------------
 with tabs[1]:
@@ -72,7 +87,12 @@ with tabs[3]:
         text = chain.invoke({"message": prompt})
         st.write(text)
 
-# ---------------- Settings Tab ----------------
+# ---------------- 笑裡藏道-XLCD Tab ----------------
 with tabs[4]:
+    st.subheader("笑裡藏道|主的喜樂")
+    st.markdown("[啟動 笑裡藏道|主的喜樂 App (Launch XLCD|Joyolord App)](https://joyolordapp.web.app/)")
+
+# ---------------- Settings Tab ----------------
+with tabs[5]:
     st.subheader("App Settings")
     st.write("Change provider, language, and model from the sidebar.")
