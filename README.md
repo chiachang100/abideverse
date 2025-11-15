@@ -66,21 +66,25 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
   - `ollama run llama3`
 - On another terminal, run `streamlit`:
   - `cd abideverse`
+  - macOS/Linux: `.venv/bin/activate`
+  - Windows: `.venv\Scripts\activate`
   - `streamlit run app.py`
 
 ## How to run `streamlit` and `huggingface` remotely
 - On one terminal, run `streamlit`:
   - `cd abideverse`
+  - macOS/Linux: `.venv/bin/activate`
+  - Windows: `.venv\Scripts\activate`
   - `streamlit run app.py`
 
 ---
-## Use conda command
+## Use `conda` command
 ### Set up Python Environment
 - `conda create --name abideverse python=3.11`
 - `conda activate abideverse`
 - `conda install numpy pandas scikit-learn -y`
 
-## Logos Lamp App
+## AbideVerse App
 - built for LangChain 1.0+, Streamlit, Ollama (local LLM), FAISS, and optional Gemini / Claude cloud backends.
 
 ### Install Agentic AI/GenAI packages
