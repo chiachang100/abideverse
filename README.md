@@ -1,5 +1,21 @@
+---
+title: AbideVerse
+emoji: 🚀
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+app_port: 8501
+tags:
+  - streamlit
+pinned: false
+short_description: AbideVerse – Your Daily AI-Powered Bible Verse Companion.
+license: apache-2.0
+---
+
 # abideverse
 AbideVerse – Your Daily AI-Powered Bible Verse Companion.
+
+**NOTE**: This is a custom Docker-based Streamlit application deployed to Hugging Face Spaces.
 
 ## Environment Setup
 1. Download and install Python (v3.12)
@@ -62,7 +78,7 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
 
 ---
 ## How to run `streamlit` and `ollama` locally
-- On one terminal, run `ollama1`:
+- On one terminal, run `ollama`:
   - `ollama run llama3`
 - On another terminal, run `streamlit`:
   - `cd abideverse`
