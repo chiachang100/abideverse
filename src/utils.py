@@ -3,7 +3,7 @@ import random
 from deep_translator import GoogleTranslator
 
 def load_bible():
-    with open("data/bible_sample.json", "r", encoding="utf-8") as f:
+    with open("./src/data/bible_sample.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 

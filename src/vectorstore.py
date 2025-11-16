@@ -2,7 +2,7 @@ import os
 from langchain_community.vectorstores import Chroma
 from models import load_embeddings
 
-CHROMA_DIR = "data/chroma_store"
+CHROMA_DIR = "tmp/chroma_store"
 
 def load_vectorstore(provider="ollama", embeddings_model="llama3"):
     embeddings = load_embeddings(provider, embeddings_model)

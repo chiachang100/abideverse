@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_PATH = "data/abideverse.db"
+DB_PATH = "tmp/abideverse.db"
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)

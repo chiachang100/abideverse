@@ -206,4 +206,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+# Ignore general temporary and build artifacts
+**/tmp/
+**/.tmp/
 **/chroma_store/
+**/abideverse.db

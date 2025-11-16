@@ -1,9 +1,9 @@
 import streamlit as st
-from models import load_llm
-from chains import build_chat_chain, build_rag_chain, build_quiz_chain
-from vectorstore import get_retriever, add_document
-from utils import load_bible, cloze_text, translate_text
-from storage import init_db, add_memory_card, get_cards
+from src.models import load_llm
+from src.chains import build_chat_chain, build_rag_chain, build_quiz_chain
+from src.vectorstore import get_retriever, add_document
+from src.utils import load_bible, cloze_text, translate_text
+from src.storage import init_db, add_memory_card, get_cards
 
 st.set_page_config(page_title="AbideVerse – Your Daily AI-Powered Bible Verse Companion")
 

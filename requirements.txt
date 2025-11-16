@@ -23,4 +23,6 @@ python-dotenv
 deep-translator
 pydantic
 faiss-cpu
+altair
+pandas
 plotly
