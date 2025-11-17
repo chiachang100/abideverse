@@ -10,6 +10,8 @@ ollama serve &
 echo "Pulling model llama3..."
 ollama pull llama3
 
+mkdir tmp
+
 echo "Starting Streamlit..."
 streamlit run src/app.py --server.port=8501 --server.address=0.0.0.0
 
