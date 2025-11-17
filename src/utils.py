@@ -1,7 +1,9 @@
 import json
 import random
 from deep_translator import GoogleTranslator
+import streamlit as st
 
+@st.cache_resource
 def load_bible():
     with open("./src/data/bible_sample.json", "r", encoding="utf-8") as f:
         return json.load(f)

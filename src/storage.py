@@ -1,4 +1,5 @@
 import sqlite3
+import streamlit as st
 
 DB_PATH = "tmp/abideverse.db"
 
@@ -28,6 +29,7 @@ def add_memory_card(verse, cloze):
     conn.close()
 
 
+@st.cache_data
 def get_cards():
     conn = sqlite3.connect(DB_PATH)
     rows = conn.execute("SELECT * FROM memory_cards").fetchall()

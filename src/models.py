@@ -4,8 +4,10 @@ from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_anthropic import ChatAnthropic
+import streamlit as st
 
 
+@st.cache_resource
 def load_llm(provider: str = "ollama", model: str = "llama3"):
     """
     Supported providers:

@@ -1,6 +1,7 @@
 import os
 from langchain_community.vectorstores import Chroma
 from models import load_embeddings
+import streamlit as st
 
 CHROMA_DIR = "tmp/chroma_store"
 
@@ -13,6 +14,7 @@ def load_vectorstore(provider="ollama", embeddings_model="llama3"):
     return Chroma(persist_directory=CHROMA_DIR, embedding_function=embeddings)
 
 
+@st.cache_resource
 def get_retriever(provider="ollama", embeddings_model="llama3"):
     vs = load_vectorstore(provider, embeddings_model)
     return vs.as_retriever(search_type="similarity", search_kwargs={"k": 3})

@@ -3,6 +3,9 @@
 # Exit immediately if ANY command in the script fails (returns a non-zero exit code).
 set -e
 
+export OLLAMA_LOG_LEVEL=error  # 'error', 'warn', 'info', 'debug'
+unset OLLAMA_DEBUG
+
 echo "Starting Ollama..."
 ollama serve &
 

@@ -79,7 +79,8 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
 ---
 ## How to run `streamlit` and `ollama` locally
 - On one terminal, run `ollama`:
-  - `ollama run llama3`
+  - Use `TinyLlama` (700MB) instead of `llama3` is large (GB)
+  - `ollama run tinyllama`
 - On another terminal, run `streamlit`:
   - `cd abideverse`
   - macOS/Linux: `.venv/bin/activate`

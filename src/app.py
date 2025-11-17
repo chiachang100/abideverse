@@ -69,6 +69,7 @@ def memorize_tab():
     if st.button("Generate Cloze Quiz"):
         cloze = cloze_text(verse)
         add_memory_card(verse, cloze)
+        st.cache_data.clear()  # Clear cache so new card shows up
         st.code(cloze)
 
     st.write("📘 Saved Memory Cards:")
