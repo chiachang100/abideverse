@@ -37,4 +37,4 @@ EXPOSE 11434
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
 # Start both services
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["./start.sh"]
