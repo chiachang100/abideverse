@@ -9,7 +9,9 @@ def load_bible():
         return json.load(f)
 
 
+@st.cache_data
 def cloze_text(verse: str):
+    # Return cloze-style version of the verse
     words = verse.split()
     hidden = random.sample(words, k=max(1, len(words)//4))
     cloze = " ".join("____" if w in hidden else w for w in words)

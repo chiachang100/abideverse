@@ -15,8 +15,10 @@ until curl -s http://127.0.0.1:11434 > /dev/null; do
   sleep 1
 done
 
-echo "Pulling model llama3..."
+echo "Pulling model tinyllama & llama3..."
+ollama pull tinyllama
 ollama pull llama3
+echo "Models pulled successfully."
 
 mkdir -p tmp
 

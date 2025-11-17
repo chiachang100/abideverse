@@ -2,19 +2,14 @@ import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
+#from langchain_huggingface import HuggingFaceInference
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_anthropic import ChatAnthropic
 import streamlit as st
 
 
 @st.cache_resource
-def load_llm(provider: str = "ollama", model: str = "llama3"):
-    """
-    Supported providers:
-    - ollama (local, free)
-    - openai
-    - huggingface
-    """
+def load_llm(provider: str = "ollama", model: str = "tinyllama"):
     provider = provider.lower()
 
     if provider == "ollama":
@@ -44,7 +39,7 @@ def load_llm(provider: str = "ollama", model: str = "llama3"):
         raise ValueError(f"Unknown provider: {provider}")
 
 
-def load_embeddings(provider: str = "ollama", model: str = "llama3"):
+def load_embeddings(provider: str = "ollama", model: str = "tinyllama"):
     provider = provider.lower()
 
     if provider == "ollama":

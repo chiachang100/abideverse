@@ -1,5 +1,9 @@
 
 import streamlit as st
+import time
+import datetime
+import os
+
 from models import load_llm
 from chains import build_chat_chain, build_rag_chain, build_quiz_chain
 from vectorstore import get_retriever, add_document
@@ -8,23 +12,17 @@ from storage import init_db, add_memory_card, get_cards
 
 st.set_page_config(page_title="AbideVerse – Your Daily AI-Powered Bible Verse Companion")
 
+# -------- Helper: Initialize the storage --------
 init_db()
 
-# App Title
-st.title("📖 AbideVerse")
-st.markdown("*Your Daily AI-Powered Bible Verse Companion*")
+if "first_load" not in st.session_state:
+    st.session_state.first_load = True
 
-# ---------------- Sidebar Settings ----------------
-st.sidebar.header("⚙️ Settings")
-
-#provider = st.sidebar.selectbox("LLM Provider", ["ollama", "openai", "huggingface", "gemini", "anthropic"],)
-#model_name = st.sidebar.selectbox("Model Name", ["llama3", "gpt-3.5-turbo", "google/flan-t5-small", "gemini-1.5-pro", "claude-3-opus"])
-
-provider = st.sidebar.selectbox("LLM Provider", ["ollama", "openai"])
-model_name = st.sidebar.selectbox("Model Name", ["llama3", "gpt-3.5-turbo"])
-language = st.sidebar.selectbox("Language", ["English", "Traditional Chinese", "Simplified Chinese"])
-
-llm = load_llm(provider, model_name)
+# Initialize session state
+if "last_provider" not in st.session_state:
+    st.session_state.last_provider = None
+if "last_model" not in st.session_state:
+    st.session_state.last_model = None
 
 # -------- Helper: Translation wrapper --------
 def maybe_translate(text):
@@ -34,6 +32,117 @@ def maybe_translate(text):
         "Simplified Chinese": "zh-CN"
     }
     return translate_text(text, lang_map.get(language)) if language != "English" else text
+
+# App Title
+st.title("AbideVerse ✝️🌿")
+st.markdown("*Your Daily AI-Powered Bible Verse Companion*")
+
+if st.session_state.first_load:
+    st.markdown("### ✝️🌿 Welcome to AbideVerse")
+    #st.markdown("> *May this space be a place of abiding.*\n> *May wisdom flow, and light be kindled.*\n> *May every verse be a vine, and every word bear fruit.*")
+    st.markdown("> ✝️ *“Abide in me, and I in you. As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me.” (John 15:4, ESV)*")
+    st.markdown("---")
+    st.session_state.first_load = False
+
+# ---------------- Sidebar Settings ----------------
+st.sidebar.header("⚙️ Settings")
+
+# Step 1: Provider selection
+#provider = st.sidebar.selectbox("LLM Provider", ["ollama", "huggingface", "openai", "gemini", "anthropic"],)
+provider = st.sidebar.selectbox("🧠 LLM Provider", ["ollama"])
+
+# Step 2: Dynamically show model options based on provider
+if provider == "ollama":
+    model_name = st.sidebar.selectbox("🪶 Ollama Model", ["tinyllama", "llama3"])
+elif provider == "huggingface":
+    model_name = st.sidebar.selectbox("🧬 Hugging Face Model", 
+                                      [
+                                          "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+                                          "Qwen/Qwen1.5-1.8B-Chat",
+                                          "mistralai/Mistral-7B-Instruct",
+                                          "microsoft/Phi-3-medium-4k-instruct",
+                                          "google/gemma-2-9b-it",
+                                          "tiiuae/falcon-rw-1b",
+                                          "google/flan-t5-small"
+                                       ])
+elif provider == "openai":
+    model_name = st.sidebar.selectbox("🌐 OpenAI Model", ["gpt-3.5-turbo", "gpt-4"])
+elif provider == "gemini":
+    model_name = st.sidebar.selectbox("🌐 OpenAI Model", ["gemini-1.5-pro"])
+elif provider == "anthropic":
+    model_name = st.sidebar.selectbox("🌐 OpenAI Model", ["claude-3-opus"])
+else:
+    model_name = None  # fallback
+
+language = st.sidebar.selectbox("Language", ["English", "Traditional Chinese", "Simplified Chinese"])
+
+# --- Detect change and clear cache ---
+if provider != st.session_state.last_provider or model_name != st.session_state.last_model:
+    st.cache_resource.clear()  # <-- YES, here is the correct place
+    st.session_state.last_provider = provider
+    st.session_state.last_model = model_name
+
+
+# ---------------- ✝️🪔🌿 Spiritual Prep start here ----------------
+with st.sidebar.expander("Spiritual Prep ✝️🌿", expanded=False):
+    st.markdown("🌿 *Prepare AbideVerse for a spiritually and technically ready experience.*")
+
+    st.markdown("✝️ **“Abide in me, and I in you.** As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me. *(John 15:4, ESV)*")
+    st.markdown("---")
+
+    if st.button("🔥 Warm Cache"):
+        _ = load_llm(provider, model_name)
+        _ = build_chat_chain(load_llm(provider, model_name))
+        _ = load_bible()
+        st.success("Cache warmed!")
+
+    if st.button("🧪 Test Response"):
+        try:
+            start = time.time()
+            llm_instance = load_llm(provider, model_name)
+            test_chain = build_chat_chain(llm_instance)
+            test_prompt = "Summarize John 1:1 in one sentence."
+            test_output = test_chain.invoke({"message": test_prompt})
+            duration = time.time() - start
+            st.markdown("**Test Output:**")
+            st.write(maybe_translate(test_output))
+            st.markdown(f"**⏱️ Response Time:** {duration:.2f} seconds")
+            st.markdown(f"**🔍 Model Used:** `{provider}` – `{model_name}`")
+        except Exception as e:
+            st.error(f"Test failed: {e}")
+
+    if st.button("📖 Preload Verse"):
+        try:
+            bible = load_bible()
+            preload_key = "John 1:1"
+            preload_verse = bible.get(preload_key, "In the beginning was the Word, and the Word was with God, and the Word was God.")
+            cloze = cloze_text(preload_verse)
+            add_memory_card(preload_verse, cloze)
+            st.cache_data.clear()
+            st.success(f"Preloaded verse: {preload_key}")
+            st.code(cloze)
+        except Exception as e:
+            st.error(f"Preload failed: {e}")
+
+    if st.button("🧹 Clear Cache"):
+        st.cache_data.clear()
+        st.cache_resource.clear()
+        st.session_state["last_cache_clear"] = f"🕒 Cleared at {time.strftime('%H:%M:%S')}"
+        st.session_state["first_load"] = True
+        st.success("Cache cleared!")
+
+    if "last_cache_clear" in st.session_state:
+        st.markdown(st.session_state["last_cache_clear"])
+
+
+# ------------------------------------------------------
+# ---------------- Main LLMs start here ----------------
+# ------------------------------------------------------
+
+# Display the selections
+st.markdown(f"**Provider:** {provider} | **Model:** {model_name} | **Language:** {language}")
+
+llm = load_llm(provider, model_name)
 
 # ---------------- Tab Handlers ----------------
 def chat_tab():

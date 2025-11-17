@@ -52,11 +52,12 @@ AbideVerse – Your Daily AI-Powered Bible Verse Companion.
 
 1. Install Streamlit packages
 - sqlite3 is already part of Python’s standard library.
-- `pip install streamlit chromadb`
+- `pip install streamlit`
 - `pip install sentence-transformers faiss-cpu pydantic fastapi`
 
 1. Install LangChain packages
 - `pip install langchain langchain-core langchain-community`
+- `pip install langchain-chroma`
 - `pip install langchain-google-genai langchain-anthropic langchain-ollama`
 - `pip install langchain-text-splitters`
 

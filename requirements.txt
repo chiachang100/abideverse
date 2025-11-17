@@ -1,13 +1,14 @@
 streamlit>=1.51
 langchain>=1.0
 langchain-anthropic
+langchain-chroma
 langchain-classic
 langchain-community
 langchain-core
 langchain-google-genai
+langchain-huggingface
 langchain-openai
 langchain-ollama
-langchain-huggingface
 langchain-text-splitters
 langgraph
 langgraph-checkpoint
