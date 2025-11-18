@@ -33,10 +33,8 @@ if "active_tab" not in st.session_state:
     st.session_state.active_tab = "💬 Chat"   # default
 
 if st.session_state.first_load:
-    st.markdown("### ✝️🌿 Welcome to AbideVerse")
-    #st.markdown("> *May this space be a place of abiding.*\n> *May wisdom flow, and light be kindled.*\n> *May every verse be a vine, and every word bear fruit.*")
+    st.markdown("#### ✝️🌿 Welcome to AbideVerse")
     st.markdown("> ✝️ *“Abide in me, and I in you. As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me.” (John 15:4, ESV)*")
-    st.markdown("---")
     st.session_state.first_load = False
 
 # -------- Helper: Translation wrapper --------
@@ -92,7 +90,7 @@ if provider != st.session_state.last_provider or model_name != st.session_state.
 # ======================================================
 
 # Display the selections
-st.markdown(f"**Provider:** {provider} | **Model:** {model_name} | **Language:** {language}")
+#st.markdown(f"**Provider:** {provider} | **Model:** {model_name} | **Language:** {language}")
 
 llm = load_llm(provider, model_name)
 
@@ -215,11 +213,11 @@ def spiritual_prep_tab():
 def settings_tab():
     st.subheader("App Settings")
     st.markdown("Global app configuration is managed in the sidebar.")
-    st.markdown("""
-    - 🧠 LLM Provider  
-    - 🪶 Model  
-    - 🌐 Language / translation  
-    - ⚙️ Theme & layout (future)
+    st.markdown(f"""
+    - 🧠 **LLM Provider:** {provider}
+    - 🪶 **Model:** {model_name}
+    - 🌐 **Language / translation:** {language}
+    - ⚙️ **Theme & layout**: (future)
     """)
 
 # ---------------- Tab Registry ----------------
