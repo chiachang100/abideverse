@@ -14,7 +14,7 @@ def build_chat_chain(_llm):
 
 
 @st.cache_resource
-def build_rag_chain(_llm, retriever):
+def build_rag_chain(_llm, _retriever):
     system_prompt = """
 You are AbideVerse RAG Assistant. Use ONLY the provided context to answer questions biblically.
 If the answer is not present, say so.
@@ -30,7 +30,7 @@ CONTEXT:
 
     rag_chain = (
         RunnableParallel({
-            "context": retriever,
+            "context": _retriever,
             "question": RunnablePassthrough()
         })
         | prompt

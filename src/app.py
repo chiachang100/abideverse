@@ -10,6 +10,10 @@ from vectorstore import get_retriever, add_document
 from utils import load_bible, cloze_text, translate_text
 from storage import init_db, add_memory_card, get_cards
 
+# App Title
+st.title("AbideVerse ✝️🌿")
+st.markdown("*Your Daily AI-Powered Bible Verse Companion*")
+
 st.set_page_config(page_title="AbideVerse – Your Daily AI-Powered Bible Verse Companion")
 
 # -------- Helper: Initialize the storage --------
@@ -24,6 +28,17 @@ if "last_provider" not in st.session_state:
 if "last_model" not in st.session_state:
     st.session_state.last_model = None
 
+# Track active tab in session state (default = first tab)
+if "active_tab" not in st.session_state:
+    st.session_state.active_tab = "💬 Chat"   # default
+
+if st.session_state.first_load:
+    st.markdown("### ✝️🌿 Welcome to AbideVerse")
+    #st.markdown("> *May this space be a place of abiding.*\n> *May wisdom flow, and light be kindled.*\n> *May every verse be a vine, and every word bear fruit.*")
+    st.markdown("> ✝️ *“Abide in me, and I in you. As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me.” (John 15:4, ESV)*")
+    st.markdown("---")
+    st.session_state.first_load = False
+
 # -------- Helper: Translation wrapper --------
 def maybe_translate(text):
     lang_map = {
@@ -32,17 +47,6 @@ def maybe_translate(text):
         "Simplified Chinese": "zh-CN"
     }
     return translate_text(text, lang_map.get(language)) if language != "English" else text
-
-# App Title
-st.title("AbideVerse ✝️🌿")
-st.markdown("*Your Daily AI-Powered Bible Verse Companion*")
-
-if st.session_state.first_load:
-    st.markdown("### ✝️🌿 Welcome to AbideVerse")
-    #st.markdown("> *May this space be a place of abiding.*\n> *May wisdom flow, and light be kindled.*\n> *May every verse be a vine, and every word bear fruit.*")
-    st.markdown("> ✝️ *“Abide in me, and I in you. As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me.” (John 15:4, ESV)*")
-    st.markdown("---")
-    st.session_state.first_load = False
 
 # ---------------- Sidebar Settings ----------------
 st.sidebar.header("⚙️ Settings")
@@ -78,16 +82,89 @@ language = st.sidebar.selectbox("Language", ["English", "Traditional Chinese", "
 
 # --- Detect change and clear cache ---
 if provider != st.session_state.last_provider or model_name != st.session_state.last_model:
-    st.cache_resource.clear()  # <-- YES, here is the correct place
+    st.cache_resource.clear()
     st.session_state.last_provider = provider
     st.session_state.last_model = model_name
 
 
-# ---------------- ✝️🪔🌿 Spiritual Prep start here ----------------
-with st.sidebar.expander("Spiritual Prep ✝️🌿", expanded=False):
+# ======================================================
+# ---------------- Main LLMs start here ----------------
+# ======================================================
+
+# Display the selections
+st.markdown(f"**Provider:** {provider} | **Model:** {model_name} | **Language:** {language}")
+
+llm = load_llm(provider, model_name)
+
+# ----------------------------------------------
+# ---------------- Tab Handlers ----------------
+# ----------------------------------------------
+
+# ---------------- Chat starts here ----------------
+def chat_tab():
+    st.subheader("Conversational Bible Chat")
+    user_msg = st.text_input("Ask AbideVerse anything:")
+
+    if st.button("Send") and user_msg:
+        chat_chain = build_chat_chain(llm)
+        response = chat_chain.invoke({"message": user_msg})
+        st.write(maybe_translate(response))
+
+# ---------------- RAG Bible Q&A starts here ----------------
+def rag_tab():
+    st.subheader("RAG Bible Q&A")
+    doc = st.text_area("Paste Bible notes or devotional text to index:")
+
+    if st.button("Add to RAG Store"):
+        add_document(doc)
+        st.success("Added to vectorstore!")
+
+    question = st.text_input("Ask a question from your documents:")
+    if st.button("RAG Search"):
+        retriever = get_retriever(provider)
+        rag_chain = build_rag_chain(llm, retriever)
+        answer = rag_chain.invoke(question)
+        st.write(maybe_translate(answer))
+
+# ---------------- Bible Memorization starts here ----------------
+def memorize_tab():
+    st.subheader("Bible Memorization")
+
+    bible = load_bible()
+    verse = st.selectbox("Choose a verse:", list(bible.values()))
+
+    if st.button("Generate Cloze Quiz"):
+        cloze = cloze_text(verse)
+        add_memory_card(verse, cloze)
+        st.cache_data.clear()  # Clear cache so new card shows up
+        st.code(cloze)
+
+    st.write("📘 Saved Memory Cards:")
+    for card in get_cards():
+        st.write(f"- {card[2]}")
+
+# ---------------- Daily Devotion (AI Generated) starts here ----------------
+def devotion_tab():
+    st.subheader("Daily Devotion (AI Generated)")
+    verse = st.text_input("Enter a verse to reflect on:")
+
+    if st.button("Generate Devotion"):
+        chain = build_chat_chain(llm)
+        prompt = f"Create a short devotion based on this verse: {verse}"
+        text = chain.invoke({"message": prompt})
+        st.write(maybe_translate(text))
+
+# ---------------- joyolord starts here ----------------
+def joyolord_tab():
+    st.subheader("主的喜樂 | 笑裡藏道")
+    st.markdown("[啟動「主的喜樂 | 笑裡藏道」App (Launch Joyolord App)](https://joyolordapp.web.app/)")
+
+# ---------------- ✝️🪔🌿 Spiritual Prep starts here ----------------
+def spiritual_prep_tab():
+    st.subheader("Spiritual Prep ✝️🌿")
     st.markdown("🌿 *Prepare AbideVerse for a spiritually and technically ready experience.*")
 
-    st.markdown("✝️ **“Abide in me, and I in you.** As the branch cannot bear fruit by itself, unless it abides in the vine, neither can you, unless you abide in me. *(John 15:4, ESV)*")
+    st.markdown("✝️ **“Abide in me, and I in you…” (John 15:4, ESV)**")
     st.markdown("---")
 
     if st.button("🔥 Warm Cache"):
@@ -115,7 +192,7 @@ with st.sidebar.expander("Spiritual Prep ✝️🌿", expanded=False):
         try:
             bible = load_bible()
             preload_key = "John 1:1"
-            preload_verse = bible.get(preload_key, "In the beginning was the Word, and the Word was with God, and the Word was God.")
+            preload_verse = bible.get(preload_key, "In the beginning was the Word...")
             cloze = cloze_text(preload_verse)
             add_memory_card(preload_verse, cloze)
             st.cache_data.clear()
@@ -134,74 +211,16 @@ with st.sidebar.expander("Spiritual Prep ✝️🌿", expanded=False):
     if "last_cache_clear" in st.session_state:
         st.markdown(st.session_state["last_cache_clear"])
 
-
-# ------------------------------------------------------
-# ---------------- Main LLMs start here ----------------
-# ------------------------------------------------------
-
-# Display the selections
-st.markdown(f"**Provider:** {provider} | **Model:** {model_name} | **Language:** {language}")
-
-llm = load_llm(provider, model_name)
-
-# ---------------- Tab Handlers ----------------
-def chat_tab():
-    st.subheader("Conversational Bible Chat")
-    user_msg = st.text_input("Ask AbideVerse anything:")
-
-    if st.button("Send") and user_msg:
-        chat_chain = build_chat_chain(llm)
-        response = chat_chain.invoke({"message": user_msg})
-        st.write(maybe_translate(response))
-
-def rag_tab():
-    st.subheader("RAG Bible Q&A")
-    doc = st.text_area("Paste Bible notes or devotional text to index:")
-
-    if st.button("Add to RAG Store"):
-        add_document(doc)
-        st.success("Added to vectorstore!")
-
-    question = st.text_input("Ask a question from your documents:")
-    if st.button("RAG Search"):
-        retriever = get_retriever(provider)
-        rag_chain = build_rag_chain(llm, retriever)
-        answer = rag_chain.invoke(question)
-        st.write(maybe_translate(answer))
-
-def memorize_tab():
-    st.subheader("Bible Memorization")
-
-    bible = load_bible()
-    verse = st.selectbox("Choose a verse:", list(bible.values()))
-
-    if st.button("Generate Cloze Quiz"):
-        cloze = cloze_text(verse)
-        add_memory_card(verse, cloze)
-        st.cache_data.clear()  # Clear cache so new card shows up
-        st.code(cloze)
-
-    st.write("📘 Saved Memory Cards:")
-    for card in get_cards():
-        st.write(f"- {card[2]}")
-
-def devotion_tab():
-    st.subheader("Daily Devotion (AI Generated)")
-    verse = st.text_input("Enter a verse to reflect on:")
-
-    if st.button("Generate Devotion"):
-        chain = build_chat_chain(llm)
-        prompt = f"Create a short devotion based on this verse: {verse}"
-        text = chain.invoke({"message": prompt})
-        st.write(maybe_translate(text))
-
-def joyolord_tab():
-    st.subheader("主的喜樂 | 笑裡藏道")
-    st.markdown("[啟動「主的喜樂 | 笑裡藏道」App (Launch Joyolord App)](https://joyolordapp.web.app/)")
-
+# ---------------- Settings starts here ----------------
 def settings_tab():
     st.subheader("App Settings")
-    st.write("Change provider, language, and model from the sidebar.")
+    st.markdown("Global app configuration is managed in the sidebar.")
+    st.markdown("""
+    - 🧠 LLM Provider  
+    - 🪶 Model  
+    - 🌐 Language / translation  
+    - ⚙️ Theme & layout (future)
+    """)
 
 # ---------------- Tab Registry ----------------
 tabs_config = [
@@ -210,14 +229,15 @@ tabs_config = [
     ("🧠 Memorize", memorize_tab),
     ("🌅 Devotions", devotion_tab),
     ("😊 主的喜樂", joyolord_tab),
-    ("🔧 Settings", settings_tab),
+    ("🕊️ Spiritual Prep", spiritual_prep_tab),   # NEW
+    ("🔧 App Setting", settings_tab),
 ]
 
-# Create tabs
+
+# ---------------- Tab Rendering ----------------
 tab_labels = [label for label, _ in tabs_config]
 tab_objects = st.tabs(tab_labels)
 
-# Render tabs via loop
-for tab, (_, handler) in zip(tab_objects, tabs_config):
-    with tab:
-        handler()
+for tab_obj, (label, handler) in zip(tab_objects, tabs_config):
+    with tab_obj:
+        handler()  # render each tab
