@@ -1,0 +1,68 @@
+// DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
+
+// ignore_for_file: constant_identifier_names
+
+abstract class  LocaleKeys {
+  static const appTitle = 'appTitle';
+  static const abideverse = 'abideverse';
+  static const joyolord = 'joyolord';
+  static const abideverseName = 'abideverseName';
+  static const xlcdappName = 'xlcdappName';
+  static const signIn = 'signIn';
+  static const signOut = 'signOut';
+  static const bibleVerse = 'bibleVerse';
+  static const xlcd = 'xlcd';
+  static const about = 'about';
+  static const settings = 'settings';
+  static const topList = 'topList';
+  static const newList = 'newList';
+  static const allList = 'allList';
+  static const login = 'login';
+  static const photos = 'photos';
+  static const firebaseExpo = 'firebaseExpo';
+  static const coreMenu = 'coreMenu';
+  static const infoMenu = 'infoMenu';
+  static const futureMenu = 'futureMenu';
+  static const localeZhTw = 'localeZhTw';
+  static const localeZhCn = 'localeZhCn';
+  static const localeEnUs = 'localeEnUs';
+  static const search = 'search';
+  static const qian = 'qian';
+  static const back = 'back';
+  static const bible = 'bible';
+  static const home = 'home';
+  static const qrCode = 'qrCode';
+  static const abideverseApp = 'abideverseApp';
+  static const xlcdappApp = 'xlcdappApp';
+  static const useQrCode = 'useQrCode';
+  static const youtubeVideo = 'youtubeVideo';
+  static const aboutTitle = 'aboutTitle';
+  static const abideverseQrCode = 'abideverseQrCode';
+  static const xlcdappQrCode = 'xlcdappQrCode';
+  static const bookIntro = 'bookIntro';
+  static const bookIntroSubtitle = 'bookIntroSubtitle';
+  static const bookIntroContent = 'bookIntroContent';
+  static const gracephBookStore = 'gracephBookStore';
+  static const riverbankBookStore = 'riverbankBookStore';
+  static const bookAuthor = 'bookAuthor';
+  static const bookAuthorSubtitle = 'bookAuthorSubtitle';
+  static const bookAuthorContent = 'bookAuthorContent';
+  static const bookAuthorYouTube = 'bookAuthorYouTube';
+  static const bookPraisesTitle = 'bookPraisesTitle';
+  static const bookPraisesSubtitle = 'bookPraisesSubtitle';
+  static const bookPraises1 = 'bookPraises1';
+  static const bookPraises2 = 'bookPraises2';
+  static const bookPraises3 = 'bookPraises3';
+  static const bookPraises4 = 'bookPraises4';
+  static const bookPraises5 = 'bookPraises5';
+  static const appDeveloper = 'appDeveloper';
+  static const appDeveloperSubtitle = 'appDeveloperSubtitle';
+  static const appDeveloperContent = 'appDeveloperContent';
+  static const onlineBible = 'onlineBible';
+  static const settingsLangSetting = 'settingsLangSetting';
+  static const settingsLangSettingsSubtitle = 'settingsLangSettingsSubtitle';
+  static const settingsSelectLanguage = 'settingsSelectLanguage';
+  static const detailedPrelude = 'detailedPrelude';
+  static const detailedLaugh = 'detailedLaugh';
+
+}

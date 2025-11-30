@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "552664318312",
+    "project_id": "abideverse",
+    "storage_bucket": "abideverse.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552664318312:android:c8555f647a6d2a436916dd",
+        "android_client_info": {
+          "package_name": "com.joyolord.AbideVerse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552664318312-e67d1ns7okouf42lldp111i4k9d4oifv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgryuKzManAyQNmoDaaYs63wjNWRJV3ak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552664318312-e67d1ns7okouf42lldp111i4k9d4oifv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "552664318312-bfdl52co476u4qrr35khfapj6u9vnah2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joyolord.abideverse"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552664318312:android:433d9edc7a9f427f6916dd",
+        "android_client_info": {
+          "package_name": "com.joyolord.abideverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552664318312-e67d1ns7okouf42lldp111i4k9d4oifv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgryuKzManAyQNmoDaaYs63wjNWRJV3ak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552664318312-e67d1ns7okouf42lldp111i4k9d4oifv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "552664318312-bfdl52co476u4qrr35khfapj6u9vnah2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joyolord.abideverse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
