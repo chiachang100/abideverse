@@ -46,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/xlcdapp-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
                 GoRouter.of(context).go('/joys/all');
               },
@@ -81,7 +81,7 @@ class _SettingsContentState extends State<SettingsContent> {
     return ListView(
       children: const <Widget>[
         LanguageSection(),
-        // CopyrightSection(),
+        CopyrightSection(),
         SizedBox(height: 10),
       ],
     );
@@ -148,9 +148,15 @@ class _LanguageSectionState extends State<LanguageSection> {
         children: <Widget>[
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            child: Image.asset(
-              "assets/logos/xlcd_splash_logo.png",
-              fit: BoxFit.cover,
+            child: Center(
+              child: SizedBox(
+                width: 200,
+                height: 200,
+                child: Image.asset(
+                  "assets/logos/abideverse_splash_logo.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
           Padding(

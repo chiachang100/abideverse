@@ -109,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
         appBar: AppBar(
-          leading: Image.asset('assets/photos/xlcdapp_photo_default.png'),
+          leading: Image.asset('assets/photos/abideverse_photo_default.png'),
           leadingWidth: 100,
           centerTitle: true,
           // title: Text('笑裡藏道'),

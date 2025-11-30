@@ -180,7 +180,7 @@ Firestore connected: true
 
 - Run on device/emulator
 
-  - `flutter run`
+  - `flutter run -d web-server --web-port=8080`
 
 - Build for production
   - `flutter build apk`
@@ -481,7 +481,7 @@ await Firebase.initializeApp(
 
 - Rebuild your Flutter application
   - `flutter pub get`
-  - Web: `flutter run -d chrome`
+  - Web: `flutter run -d web-server --web-port=8080`
   - Web: `flutter run -d chrome --web-hostname=192.168.1.100 --web-port=80`
   - Android Emulator: `flutter run -d emulator-5554`
   - iOS Simulator: `flutter run -d [TBS]`
@@ -496,7 +496,7 @@ await Firebase.initializeApp(
   - `flutterfire configure -i com.joyolord.app.abideverse -a com.joyolord.app.abideverse`
 - Rebuild your Flutter application
   - `flutter pub get`
-  - Web: `flutter run -d chrome`
+  - Web: `flutter run -d chrome --web-port=8080`
   - Android Emulator: `flutter run -d emulator-5554`
   - iOS Simulator: `flutter run -d [TBS]`
 

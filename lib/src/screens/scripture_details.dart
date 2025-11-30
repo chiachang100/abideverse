@@ -31,7 +31,7 @@ class ScriptureDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(LocaleKeys.bibleVerse.tr()),
-        // leading: Image.asset('assets/icons/xlcdapp-leading-icon.png'),
+        // leading: Image.asset('assets/icons/abideverse-leading-icon.png'),
       ),
       body: ListView(
         children: <Widget>[

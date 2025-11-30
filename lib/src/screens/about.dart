@@ -63,7 +63,7 @@ class _AboutScreenState extends State<AboutScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/xlcdapp-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
                 GoRouter.of(context).go('/joys/all');
               },
@@ -143,12 +143,14 @@ class _QRCodeSectionState extends State<QRCodeSection> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  'assets/icons/abideverse_qrcode.png',
-                  height: MediaQuery.of(context).size.width * (2 / 4),
-                  width: MediaQuery.of(context).size.width,
-                  //height: 120, width: 640,
-                  fit: BoxFit.scaleDown,
+                child: SizedBox(
+                  child: Image.asset(
+                    'assets/icons/abideverse_qrcode.png',
+                    height: MediaQuery.of(context).size.width * (2 / 4),
+                    width: MediaQuery.of(context).size.width,
+                    //height: 120, width: 640,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
               ),
               Text(
@@ -182,12 +184,14 @@ class _QRCodeSectionState extends State<QRCodeSection> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  'assets/icons/xlcdapp_qrcode.png',
-                  height: MediaQuery.of(context).size.width * (2 / 4),
-                  width: MediaQuery.of(context).size.width,
-                  //height: 120, width: 640,
-                  fit: BoxFit.scaleDown,
+                child: SizedBox(
+                  child: Image.asset(
+                    'assets/icons/xlcdapp_qrcode.png',
+                    height: MediaQuery.of(context).size.width * (2 / 4),
+                    width: MediaQuery.of(context).size.width,
+                    //height: 120, width: 640,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
               ),
               Text(
@@ -238,12 +242,14 @@ class _BookIntroSectionState extends State<BookIntroSection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/photos/xlcd_book_photo.png',
-              height: MediaQuery.of(context).size.width * (3 / 4),
-              width: MediaQuery.of(context).size.width,
-              //height: 120, width: 640,
-              fit: BoxFit.scaleDown,
+            child: SizedBox(
+              child: Image.asset(
+                'assets/photos/xlcd_book_photo.png',
+                height: MediaQuery.of(context).size.width * (3 / 4),
+                width: MediaQuery.of(context).size.width,
+                //height: 120, width: 640,
+                fit: BoxFit.scaleDown,
+              ),
             ),
           ),
           Text(
@@ -310,12 +316,14 @@ class _BookAuthorSectionState extends State<BookAuthorSection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/photos/pastor_cheng_photo.png',
-              height: MediaQuery.of(context).size.width * (3 / 4),
-              width: MediaQuery.of(context).size.width,
-              //height: 120, width: 640,
-              fit: BoxFit.scaleDown,
+            child: SizedBox(
+              child: Image.asset(
+                'assets/photos/pastor_cheng_photo.png',
+                height: MediaQuery.of(context).size.width * (3 / 4),
+                width: MediaQuery.of(context).size.width,
+                //height: 120, width: 640,
+                fit: BoxFit.scaleDown,
+              ),
             ),
           ),
           Text(
@@ -368,12 +376,18 @@ class _BookPraiseSectionState extends State<BookPraiseSection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/photos/xlcdapp_photo_default.png',
-              height: MediaQuery.of(context).size.width * (2 / 4),
-              width: MediaQuery.of(context).size.width,
-              //height: 120, width: 640,
-              fit: BoxFit.scaleDown,
+            child: Center(
+              child: SizedBox(
+                height: 400,
+                width: 400,
+                child: Image.asset(
+                  'assets/photos/xlcdapp_photo_default.png',
+                  height: MediaQuery.of(context).size.width * (2 / 4),
+                  width: MediaQuery.of(context).size.width,
+                  //height: 120, width: 640,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
           ),
           Text(
@@ -456,12 +470,18 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              'assets/photos/joy_pray_thanks.png',
-              height: MediaQuery.of(context).size.width * (3 / 4),
-              width: MediaQuery.of(context).size.width,
-              //height: 120, width: 640,
-              fit: BoxFit.scaleDown,
+            child: Center(
+              child: SizedBox(
+                height: 400,
+                width: 400,
+                child: Image.asset(
+                  'assets/photos/joy_pray_thanks.png',
+                  height: MediaQuery.of(context).size.width * (3 / 4),
+                  width: MediaQuery.of(context).size.width,
+                  //height: 120, width: 640,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
           ),
           Text(

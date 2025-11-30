@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../services/auth.dart';
 import '../data/data_index.dart';
+import '../widgets/copyright.dart';
 
 final abideverselogManageFirestore = Logger('manage-firestore');
 
@@ -39,7 +40,7 @@ class _ManageFirestoreScreenState extends State<ManageFirestoreScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/xlcdapp-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
                 GoRouter.of(context).go('/joys/all');
               },
@@ -173,7 +174,7 @@ class FirebaseDbSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(
-              'assets/photos/xlcdapp_photo_default.png',
+              'assets/photos/abideverse_photo_default.png',
               height: MediaQuery.of(context).size.width * (3 / 4),
               width: MediaQuery.of(context).size.width,
               //height: 120, width: 640,
@@ -209,29 +210,6 @@ class FirebaseDbSection extends StatelessWidget {
           const SizedBox(height: 10),
         ],
       ),
-    );
-  }
-}
-
-class CopyrightSection extends StatelessWidget {
-  const CopyrightSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    FirebaseAnalytics.instance.logEvent(
-      name: 'screen_view',
-      parameters: {
-        'abideverse_screen': 'CopyrightSection',
-        'abideverse_screen_class': 'SettingsScreenClass',
-      },
-    );
-
-    return const Row(
-      children: <Widget>[
-        Text('Copyright '),
-        Icon(Icons.copyright),
-        Text(' 2024 Chia Chang. All rights reserved.', softWrap: true),
-      ],
     );
   }
 }

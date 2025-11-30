@@ -37,7 +37,7 @@ class _ScripturesScreenState extends State<ScripturesScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/xlcdapp-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
                 GoRouter.of(context).go('/joys/all');
               },

@@ -3,11 +3,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import '../services/auth.dart';
-import '../services/locale_services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/l10n/codegen_loader.g.dart';
 import 'package:abideverse/l10n/locale_keys.g.dart';
+
+import 'package:abideverse/src/data/global_config.dart';
 
 final abideverselogJoysScreen = Logger('joyscreen');
 
@@ -63,7 +63,7 @@ class _JoysScreenState extends State<JoysScreen>
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/xlcdapp-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
                 GoRouter.of(context).go('/joys/all');
               },
@@ -96,23 +96,24 @@ class _JoysScreenState extends State<JoysScreen>
         ),
  */
         actions: <Widget>[
-          TextButton(
-            child: Text(LocaleKeys.signOut.tr()),
-            onPressed: () async {
-              await JoystoreAuth.of(context).signOut();
-              abideverselogJoysScreen.info(
-                '[JoysScreen] User just signed out!',
-              );
+          if (turnonSignIn)
+            TextButton(
+              child: Text(LocaleKeys.signOut.tr()),
+              onPressed: () async {
+                await JoystoreAuth.of(context).signOut();
+                abideverselogJoysScreen.info(
+                  '[JoysScreen] User just signed out!',
+                );
 
-              FirebaseAnalytics.instance.logEvent(
-                name: 'signin_view',
-                parameters: {
-                  'abideverse_screen': 'UserSignedOut',
-                  'abideverse_screen_class': 'SettingsScreenClass',
-                },
-              );
-            },
-          ),
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'signin_view',
+                  parameters: {
+                    'abideverse_screen': 'UserSignedOut',
+                    'abideverse_screen_class': 'SettingsScreenClass',
+                  },
+                );
+              },
+            ),
         ],
       ),
       body: widget.child,
