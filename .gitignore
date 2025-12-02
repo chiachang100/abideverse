@@ -48,3 +48,6 @@ app.*.map.json
 */flutter/generated_plugin_registrant.*
 */flutter/generated_plugins.cmake
 macos/Flutter/GeneratedPluginRegistrant.swift
+
+# Firebase generated files and cache
+.firebase/
