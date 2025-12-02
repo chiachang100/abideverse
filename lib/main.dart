@@ -12,15 +12,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'src/app.dart';
+import 'app/app.dart';
 import 'src/data/data_index.dart';
-import 'src/services/locale_services.dart';
-import 'src/services/data_services.dart';
-import 'src/models/locale_info_model.dart';
+import 'services/db/local_storage_service.dart';
+import 'models/locale_info_model.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/l10n/codegen_loader.g.dart';
-import 'package:abideverse/l10n/locale_keys.g.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -42,6 +40,8 @@ Future<void> main() async {
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
+
+  late LocalStorageService storage;
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // Preserve the splash screen during the initialization.
@@ -84,34 +84,27 @@ Future<void> main() async {
   );
 
   joystoreInstance = buildJoyStoreFromLocal();
+  storage = LocalStorageService.instance;
 
   // joysCurrentLocale = LOCALE_ZH_CN;
   // joystoreName = JOYSTORE_NAME_ZH_CN;
 
   // Load 'joysCurrentLocale' and 'joystoreName' from the local store.
-  abideverseDataServices
-      .loadDataStoreKeyValueDataOnDisk(
-        key: 'joysCurrentLocale',
-        defaultValue: joysCurrentLocale,
-      )
-      // .then((result) => joysCurrentLocale = result.toString());
-      .then((result) {
-        joysCurrentLocale = result.toString();
+  storage.getString(key: 'joysCurrentLocale', defaultValue: joysCurrentLocale)
+  // .then((result) => joysCurrentLocale = result.toString());
+  .then((result) {
+    joysCurrentLocale = result.toString();
 
-        abideverseDataServices
-            .loadDataStoreKeyValueDataOnDisk(
-              key: 'joystoreName',
-              defaultValue: joystoreName,
-            )
-            // .then((result) => joystoreName = result.toString());
-            .then((result) {
-              joystoreName = result.toString();
-              joystoreInstance = buildJoyStoreFromFirestoreOrLocal(prod: true);
-              abideverselogMain.info(
-                '[Main-loading] joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
-              );
-            });
-      });
+    storage.getString(key: 'joystoreName', defaultValue: joystoreName)
+    // .then((result) => joystoreName = result.toString());
+    .then((result) {
+      joystoreName = result.toString();
+      joystoreInstance = buildJoyStoreFromFirestoreOrLocal(prod: true);
+      abideverselogMain.info(
+        '[Main-loading] joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
+      );
+    });
+  });
 
   // if (kIsWeb) {
   //   // await FirebaseAuth.instance.setPersistence(Persistence.NONE);

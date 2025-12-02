@@ -15,7 +15,7 @@ This project is a starting point for the AbideVerse App (abideverse).
 - `flutter create abideverse --org com.joyolord`
 - `cd abideverse`
 
-## Add Dependencies
+### Add Dependencies
 
 - Add Dev Dependencies for Router and Riverpod code generation
 
@@ -149,7 +149,83 @@ Firestore connected: true
 
 ---
 
-## Deployment Instructions
+## Full Deployment Build
+
+1. Clean the workspace
+
+- `flutter clean`
+
+2. Get the packages
+
+- `flutter pub get`
+
+3. Localization Code Generation
+
+- `dart run easy_localization:generate -S assets\translations -O lib/shared/localization`
+- `dart run easy_localization:generate -S assets\translations -f keys -O lib/shared/localization -o locale_keys.g.dart`
+
+4. Generate Splash Screen
+
+- `dart run flutter_native_splash:create`
+
+```
+- pubspec.yaml
+flutter_native_splash:
+  color: "#E6EBEB" #light
+  #color: "#241E30" #dark
+  image: "assets/logos/abideverse_splash_logo.png"
+  web_image_mode: center
+  android_gravity: center
+  ios_content_mode: center
+```
+
+5. Run Tests
+
+- `flutter test`
+
+6. Run `AbideVerse` Web App Locally with Web Server or Browser
+
+- `flutter build web`
+- `flutter run -d web-server --web-port=5000`
+- OR `flutter run -d chrome --web-port=5000`
+
+  - Web: `flutter run -d web-server --web-hostname=192.168.1.100 --web-port=5000`
+
+7. Run `AbideVerse` Android App in Local Android Emulator
+
+- `flutter build apk`
+- `flutter run -d emulator-5554`
+
+8. Run `AbideVerse` iOS App in Local iOS Simulator
+
+- You have to use a macOS to ruilb iOS App.
+- `flutter build ios`
+- `flutter run -d [iOS Simulator]`
+
+9. Serve and test `AbideVerse` with Firebase Hosting locally
+
+- `flutter build web`
+- `firebase serve --only hosting`
+- `firebase deploy --only hosting`
+
+10. Check the Code into GitHub
+
+- `git status`
+- `git add .`
+- `git commit -m "New checkin"`
+- `git push`
+
+11. Check the Auto Deployment via GitHub Action
+
+- Please use your web browser to visit: `https://github.com/chiachang100/abideverse/actions`
+
+12. Final Check `AbideVerse`
+
+- Please use your web browser to visit: `https://abideverse.web.app`.
+
+---
+
+## Firebase Deployment Instructions
 
 1. Get Your Gemini API Key
 
@@ -180,7 +256,7 @@ Firestore connected: true
 
 - Run on device/emulator
 
-  - `flutter run -d web-server --web-port=8080`
+  - `flutter run -d web-server --web-port=5000`
 
 - Build for production
   - `flutter build apk`
@@ -410,7 +486,6 @@ Then push again — the file will stay local but not be tracked anymore.
 
   - After adding your settings to pubspec.yaml, run the following command in the terminal:
     - `dart run flutter_native_splash:create`
-    - OR: `flutter pub run flutter_native_splash:create`
 
 - IMPORTANT NOTES:
   - For Web: use `youtube_player_iframe`.
@@ -481,8 +556,8 @@ await Firebase.initializeApp(
 
 - Rebuild your Flutter application
   - `flutter pub get`
-  - Web: `flutter run -d web-server --web-port=8080`
-  - Web: `flutter run -d chrome --web-hostname=192.168.1.100 --web-port=80`
+  - Web: `flutter run -d web-server --web-port=5000`
+  - Web: `flutter run -d chrome --web-hostname=192.168.1.100 --web-port=5000`
   - Android Emulator: `flutter run -d emulator-5554`
   - iOS Simulator: `flutter run -d [TBS]`
 
@@ -496,7 +571,7 @@ await Firebase.initializeApp(
   - `flutterfire configure -i com.joyolord.app.abideverse -a com.joyolord.app.abideverse`
 - Rebuild your Flutter application
   - `flutter pub get`
-  - Web: `flutter run -d chrome --web-port=8080`
+  - Web: `flutter run -d chrome --web-port=5000`
   - Android Emulator: `flutter run -d emulator-5554`
   - iOS Simulator: `flutter run -d [TBS]`
 
@@ -752,13 +827,13 @@ import 'package:easy_localization/easy_localization.dart';
 
 - [easy_localization: Code generation](https://pub.dev/packages/easy_localization)
 - `dart run easy_localization:generate -h`
-- `dart run easy_localization:generate -S assets\translations -O lib/l10n`
+- `dart run easy_localization:generate -S assets\translations -O lib/shared/localization`
 
 ```
 import 'l10n/codegen_loader.g.dart';
 ```
 
-- `dart run easy_localization:generate -S assets\translations -f keys -O lib/l10n -o locale_keys.g.dart`
+- `dart run easy_localization:generate -S assets\translations -f keys -O lib/shared/localization -o locale_keys.g.dart`
 
 - Add supported locales to the `ios/Runner/Info.plist` file
 

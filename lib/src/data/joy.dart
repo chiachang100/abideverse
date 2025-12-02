@@ -1,4 +1,4 @@
-import 'scripture.dart';
+import '../../features/scriptures/data/scripture_repository.dart';
 
 //@immutable
 class Joy {
@@ -40,28 +40,30 @@ class Joy {
   });
 
   Joy.fromJson(Map<String, Object?> json)
-      : this(
-            id: json['id']! as int,
-            articleId: json['articleId']! as int,
-            title: json['title']! as String,
-            scriptureName: json['scriptureName']! as String,
-            scriptureVerse: json['scriptureVerse']! as String,
-            prelude: json['prelude']! as String,
-            laugh: json['laugh']! as String,
-            photoUrl: json['photoUrl']! as String,
-            videoId: json['videoId']! as String,
-            videoName: json['videoName']! as String,
-            talk: json['talk']! as String,
-            likes: json['likes']! as int,
-            type: json['type']! as int,
-            isNew: json['isNew']! as bool,
-            category: json['category']! as String,
-            scripture: Scripture(
-                (json['id']! as int),
-                (json['articleId']! as int),
-                (json['title']! as String),
-                (json['scriptureName']! as String),
-                (json['scriptureVerse']! as String)));
+    : this(
+        id: json['id']! as int,
+        articleId: json['articleId']! as int,
+        title: json['title']! as String,
+        scriptureName: json['scriptureName']! as String,
+        scriptureVerse: json['scriptureVerse']! as String,
+        prelude: json['prelude']! as String,
+        laugh: json['laugh']! as String,
+        photoUrl: json['photoUrl']! as String,
+        videoId: json['videoId']! as String,
+        videoName: json['videoName']! as String,
+        talk: json['talk']! as String,
+        likes: json['likes']! as int,
+        type: json['type']! as int,
+        isNew: json['isNew']! as bool,
+        category: json['category']! as String,
+        scripture: Scripture(
+          (json['id']! as int),
+          (json['articleId']! as int),
+          (json['title']! as String),
+          (json['scriptureName']! as String),
+          (json['scriptureVerse']! as String),
+        ),
+      );
 
   Map<String, Object?> toJson() {
     return {
