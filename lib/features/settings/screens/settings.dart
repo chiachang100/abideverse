@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
-import 'package:abideverse/features/auth/data/auth_repository.dart';
-import '../../../src/data/data_index.dart';
-import 'package:abideverse/services/locale_services.dart';
+import 'package:abideverse/widgets/copyright.dart';
+
+import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/services/db/local_storage_service.dart';
-import '../../../widgets/copyright.dart';
+import 'package:abideverse/services/db/joystore_service.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 final abideverselogSettings = Logger('settings');
@@ -194,20 +192,20 @@ class _LanguageSectionState extends State<LanguageSection> {
                       )
                     : null,
                 onPressed: () {
-                  joysCurrentLocale = LOCALE_ZH_TW;
-                  joystoreName = JOYSTORE_NAME_ZH_TW;
+                  LocaleConstants.currentLocale = LocaleConstants.zhTW;
+                  LocaleConstants.joystoreName = LocaleConstants.joystoreZhTW;
                   storage.saveString(
                     key: 'joysCurrentLocale',
-                    value: LOCALE_ZH_TW,
+                    value: LocaleConstants.zhTW,
                   );
                   storage.saveString(
                     key: 'joystoreName',
-                    value: JOYSTORE_NAME_ZH_TW,
+                    value: LocaleConstants.joystoreZhTW,
                   );
                   context.setLocale(const Locale('zh', 'TW'));
-                  joystoreInstance = buildJoyStoreFromFirestoreOrLocal(
-                    prod: true,
-                  );
+                  JoyStoreService.instance
+                      .loadFirestoreOrLocal(prod: true)
+                      .then((js) => JoyStoreService.instance.joystore = js);
                   setState(() {
                     isEnUs = false;
                     isZhCn = false;
@@ -223,7 +221,7 @@ class _LanguageSectionState extends State<LanguageSection> {
                   );
                   abideverselogSettings.info(
                     '[Settings] Notify listeners: Locale=${context.locale.toString()};'
-                    ' joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName.',
+                    ' joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}.',
                   );
                 },
                 child: Text(LocaleKeys.localeZhTw.tr()),
@@ -236,20 +234,20 @@ class _LanguageSectionState extends State<LanguageSection> {
                       )
                     : null,
                 onPressed: () {
-                  joysCurrentLocale = LOCALE_ZH_CN;
-                  joystoreName = JOYSTORE_NAME_ZH_CN;
+                  LocaleConstants.currentLocale = LocaleConstants.zhCN;
+                  LocaleConstants.joystoreName = LocaleConstants.joystoreZhCN;
                   storage.saveString(
                     key: 'joysCurrentLocale',
-                    value: LOCALE_ZH_CN,
+                    value: LocaleConstants.zhCN,
                   );
                   storage.saveString(
                     key: 'joystoreName',
-                    value: JOYSTORE_NAME_ZH_CN,
+                    value: LocaleConstants.joystoreZhCN,
                   );
                   context.setLocale(const Locale('zh', 'CN'));
-                  joystoreInstance = buildJoyStoreFromFirestoreOrLocal(
-                    prod: true,
-                  );
+                  JoyStoreService.instance
+                      .loadFirestoreOrLocal(prod: true)
+                      .then((js) => JoyStoreService.instance.joystore = js);
                   setState(() {
                     isEnUs = false;
                     isZhCn = true;
@@ -265,7 +263,7 @@ class _LanguageSectionState extends State<LanguageSection> {
                   );
                   abideverselogSettings.info(
                     '[Settings] Notify listeners: Locale=${context.locale.toString()};'
-                    ' joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName.',
+                    ' joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}.',
                   );
                 },
                 child: Text(LocaleKeys.localeZhCn.tr()),
@@ -278,20 +276,20 @@ class _LanguageSectionState extends State<LanguageSection> {
                       )
                     : null,
                 onPressed: () {
-                  joysCurrentLocale = LOCALE_EN_US;
-                  joystoreName = JOYSTORE_NAME_EN_US;
+                  LocaleConstants.currentLocale = LocaleConstants.enUS;
+                  LocaleConstants.joystoreName = LocaleConstants.joystoreEnUS;
                   storage.saveString(
                     key: 'joysCurrentLocale',
-                    value: LOCALE_EN_US,
+                    value: LocaleConstants.enUS,
                   );
                   storage.saveString(
                     key: 'joystoreName',
-                    value: JOYSTORE_NAME_EN_US,
+                    value: LocaleConstants.joystoreEnUS,
                   );
                   context.setLocale(const Locale('en', 'US'));
-                  joystoreInstance = buildJoyStoreFromFirestoreOrLocal(
-                    prod: true,
-                  );
+                  JoyStoreService.instance
+                      .loadFirestoreOrLocal(prod: true)
+                      .then((js) => JoyStoreService.instance.joystore = js);
                   setState(() {
                     isEnUs = true;
                     isZhCn = false;
@@ -307,7 +305,7 @@ class _LanguageSectionState extends State<LanguageSection> {
                   );
                   abideverselogSettings.info(
                     '[Settings] Notify listeners: Locale=${context.locale.toString()};'
-                    ' joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName.',
+                    ' joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}.',
                   );
                 },
                 child: Text(LocaleKeys.localeEnUs.tr()),

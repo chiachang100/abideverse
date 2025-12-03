@@ -1,12 +1,15 @@
 import 'package:logging/logging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../scriptures/data/scripture_repository.dart';
-import '../../../src/data/joy.dart';
-import '../../../src/data/global_config.dart';
+import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
+import 'package:abideverse/features/joys/models/joy.dart';
 import 'local_joystore.dart';
 import 'local_joystore_en_us.dart';
 import 'local_joystore_zh_cn.dart';
 import 'local_joystore_zh_tw.dart';
+//import '../../../src/data/global_config.dart';
+import 'package:abideverse/core/config/app_config.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/services/db/joystore_service.dart';
 
 final abideverselogJoyStore = Logger('joystore');
 
@@ -126,11 +129,12 @@ class JoyStore {
   List<Joy> get newJoys => [...allJoys.where((joy) => joy.isNew)];
 }
 
+/* 
 // Build JoyStore Instance from Remote Firestore JoyStore
 JoyStore buildJoyStoreFromFirestore(JoyStore joystore) {
   final joysRef = FirebaseFirestore.instance
       // .collection('joys')
-      .collection(joystoreName)
+      .collection(LocaleConstants.joystoreName)
       .orderBy("articleId", descending: false)
       .withConverter<Joy>(
         fromFirestore: (snapshots, _) => Joy.fromJson(snapshots.data()!),
@@ -144,10 +148,10 @@ JoyStore buildJoyStoreFromFirestore(JoyStore joystore) {
         var joy = doc.data();
         if (!isLogged) {
           abideverselogJoyStore.info(
-            "[JoyStore] $joystoreName: Firestore: ${doc.id} => id=${doc.data().id}:articleId=${doc.data().articleId}:likes=${doc.data().likes}:isNew=${doc.data().isNew}:category=${doc.data().category}",
+            "[JoyStore] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => id=${doc.data().id}:articleId=${doc.data().articleId}:likes=${doc.data().likes}:isNew=${doc.data().isNew}:category=${doc.data().category}",
           );
           abideverselogJoyStore.info(
-            "[JoyStore] $joystoreName: JoyStore:  ${doc.id} => id=${joy.id}:articleId=${doc.data().articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
+            "[JoyStore] ${LocaleConstants.joystoreName}: JoyStore:  ${doc.id} => id=${joy.id}:articleId=${doc.data().articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
           );
           isLogged = true;
         }
@@ -170,52 +174,26 @@ JoyStore buildJoyStoreFromFirestore(JoyStore joystore) {
           category: joy.category,
         );
       }
-      joystoreInstance = js;
+      JoyStoreService.instance.joystore = js;
       return js;
     }
   });
 
   return joystore;
 }
+ */
 
 /* 
 // Build JoyStore Instance from local JoyStore
 JoyStore buildJoyStoreFromLocal() {
   var js = JoyStore();
-  for (var joyMap in localJoyStore) {
-    var joy = Joy.fromJson(joyMap);
-    js.addJoy(
-      id: joy.id,
-      articleId: joy.articleId,
-      title: joy.title,
-      scriptureName: joy.scriptureName,
-      scriptureVerse: joy.scriptureVerse,
-      prelude: joy.prelude,
-      laugh: joy.laugh,
-      photoUrl: joy.photoUrl,
-      videoId: joy.videoId,
-      videoName: joy.videoName,
-      talk: joy.talk,
-      likes: joy.likes,
-      type: joy.type,
-      isNew: joy.isNew,
-      category: joy.category,
-    );
-  }
-  return js;
-}
- */
-
-// Build JoyStore Instance from local JoyStore
-JoyStore buildJoyStoreFromLocal() {
-  var js = JoyStore();
   var joystoreByLocale = localJoyStoreForZhTw;
-  switch (joysCurrentLocale) {
-    case LOCALE_EN_US:
+  switch (LocaleConstants.currentLocale) {
+    case LocaleConstants.enUS:
       joystoreByLocale = localJoyStoreForEnUs;
-    case LOCALE_ZH_CN:
+    case LocaleConstants.zhCN:
       joystoreByLocale = localJoyStoreForZhCn;
-    case LOCALE_ZH_TW:
+    case LocaleConstants.zhTW:
       joystoreByLocale = localJoyStoreForZhTw;
     default:
       joystoreByLocale = localJoyStoreForZhTw;
@@ -244,11 +222,13 @@ JoyStore buildJoyStoreFromLocal() {
   }
   return js;
 }
+ */
 
+/* 
 JoyStore buildJoyStoreFromFirestoreOrLocal({prod = true}) {
   // Build JoyStore Instance from local JoyStore
   var js = buildJoyStoreFromLocal();
-  if (useFilestore) {
+  if (AppConfig.useFilestore) {
     if (prod) {
       // Build JoyStore Instance from Firestore JoyStore
       js = buildJoyStoreFromFirestore(js);
@@ -256,3 +236,4 @@ JoyStore buildJoyStoreFromFirestoreOrLocal({prod = true}) {
   }
   return js;
 }
+ */

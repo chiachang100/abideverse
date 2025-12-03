@@ -134,10 +134,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
   - Click `+ Start collection`
     - Collection: `test`
-    - Document ID: `Auto ID`
-    - Field: `ping`
-    - Type: `string`
-    - String: `hello`
+    - Document ID: `ping`
+    - Field: `ok`
+    - Type: `boolean`
+    - String: `true`
 
 - You should see in your Flutter logs:
 

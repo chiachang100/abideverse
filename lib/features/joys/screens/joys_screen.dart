@@ -7,7 +7,8 @@ import '../../auth/data/auth_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
-import 'package:abideverse/src/data/global_config.dart';
+//import 'package:abideverse/src/data/global_config.dart';
+import 'package:abideverse/core/config/app_config.dart';
 
 final abideverselogJoysScreen = Logger('joyscreen');
 
@@ -96,7 +97,7 @@ class _JoysScreenState extends State<JoysScreen>
         ),
  */
         actions: <Widget>[
-          if (turnonSignIn)
+          if (AppConfig.enableSignIn)
             TextButton(
               child: Text(LocaleKeys.signOut.tr()),
               onPressed: () async {

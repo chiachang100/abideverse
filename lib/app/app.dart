@@ -4,22 +4,27 @@ import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:logging/logging.dart';
-import '../features/auth/data/auth_repository.dart';
-import '../src/data/data_index.dart';
-import '../features/joys/screens/joy_details_screen.dart';
-import '../features/joys/screens/joys_screen.dart';
-import '../features/admin/screens/manage_firestore_screen.dart';
-import '../features/joys/widgets/joy_scaffold.dart';
-import '../features/scriptures/screens/scripture_details_screen.dart';
-import '../features/scriptures/screens/scriptures_screen.dart';
-import '../features/settings/screens/settings.dart';
-import '../features/auth/screens/sign_in_screen.dart';
-import '../widgets/fade_transition_page.dart';
-import '../features/joys/widgets/joy_list.dart';
-import '../features/about/screens/about_screen.dart';
+import 'package:abideverse/features/auth/data/auth_repository.dart';
+import 'package:abideverse/core/config/app_config.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+
+import 'package:abideverse/features/about/screens/about_screen.dart';
+import 'package:abideverse/features/joys/data/joystore.dart';
+import 'package:abideverse/features/joys/screens/joy_details_screen.dart';
+import 'package:abideverse/features/joys/screens/joys_screen.dart';
+import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
+import 'package:abideverse/features/joys/widgets/joy_scaffold.dart';
+import 'package:abideverse/features/scriptures/screens/scripture_details_screen.dart';
+import 'package:abideverse/features/scriptures/screens/scriptures_screen.dart';
+import 'package:abideverse/features/settings/screens/settings.dart';
+import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
+import 'package:abideverse/features/joys/widgets/joy_list.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/services/firebase/firebase_service.dart';
+import 'package:abideverse/widgets/fade_transition_page.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 final joysNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'joys shell');
@@ -27,14 +32,19 @@ final joysNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'joys shell');
 final abideverselogAppJoystore = Logger('app_joystore');
 
 Future<void> _testFirestore() async {
-  final doc = await FirebaseFirestore.instance
-      .collection('test')
-      .doc('ping')
-      .get();
-  debugPrint('Firestore connected: ${doc.exists}');
-  abideverselogAppJoystore.info(
-    '[MainAppScreen] Firestore connected: ${doc.exists}',
-  );
+  try {
+    final doc = await FirebaseFirestore.instance
+        .collection('test')
+        .doc('ping')
+        .get();
+    debugPrint('Firestore connected: ${doc.exists}');
+    abideverselogAppJoystore.info(
+      '[MainAppScreen] Firestore connected: ${doc.exists}',
+    );
+  } catch (e, st) {
+    debugPrint('Firestore error: $e');
+    debugPrint(' Stack: $st');
+  }
 }
 
 class Joystore extends StatefulWidget {
@@ -65,7 +75,9 @@ class _JoystoreState extends State<Joystore> {
       },
     );
 
-    joystoreInstance = buildJoyStoreFromFirestore(joystoreInstance);
+    JoyStoreService.instance.loadFromFirestore().then(
+      (js) => JoyStoreService.instance.joystore = js,
+    );
   }
 
   @override
@@ -97,7 +109,7 @@ class _JoystoreState extends State<Joystore> {
           throw ('No child in .router constructor builder');
         }
         abideverselogAppJoystore.info(
-          '[MainAppScreen] Locale=${context.locale.toString()}; joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
+          '[MainAppScreen] Locale=${context.locale.toString()}; joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}',
         );
         return JoystoreAuthScope(notifier: joyAuth, child: child);
       },
@@ -107,8 +119,8 @@ class _JoystoreState extends State<Joystore> {
         debugLogDiagnostics: true,
         initialLocation: '/joys/all',
         redirect: (context, state) {
-          if (turnonSignIn) {
-            if (auth.currentUser == null) {
+          if (AppConfig.enableSignIn) {
+            if (FirebaseService.instance.auth.currentUser == null) {
               abideverselogAppJoystore.info(
                 '[MainAppScreen] Current User is signed out!',
               );
@@ -177,7 +189,7 @@ class _JoystoreState extends State<Joystore> {
                         child: Builder(
                           builder: (context) {
                             return JoyList(
-                              joys: joystoreInstance.likeJoys,
+                              joys: JoyStoreService.instance.joystore.likeJoys,
                               isRanked: true,
                               onTap: (joy) {
                                 GoRouter.of(
@@ -195,7 +207,7 @@ class _JoystoreState extends State<Joystore> {
                         parentNavigatorKey: appShellNavigatorKey,
                         builder: (context, state) {
                           return JoyDetailsScreen(
-                            joy: joystoreInstance.getJoy(
+                            joy: JoyStoreService.instance.joystore.getJoy(
                               state.pathParameters['joyId'] ?? '',
                             ),
                           );
@@ -211,7 +223,7 @@ class _JoystoreState extends State<Joystore> {
                         child: Builder(
                           builder: (context) {
                             return JoyList(
-                              joys: joystoreInstance.newJoys,
+                              joys: JoyStoreService.instance.joystore.newJoys,
                               onTap: (joy) {
                                 GoRouter.of(
                                   context,
@@ -227,11 +239,11 @@ class _JoystoreState extends State<Joystore> {
                         path: 'joy/:joyId',
                         parentNavigatorKey: appShellNavigatorKey,
                         builder: (context, state) {
-                          return JoyDetailsScreen(
-                            joy: joystoreInstance.getJoy(
-                              state.pathParameters['joyId'] ?? '',
-                            ),
+                          final joyIdStr = state.pathParameters['joyId'] ?? '';
+                          final joy = JoyStoreService.instance.joystore.getJoy(
+                            joyIdStr,
                           );
+                          return JoyDetailsScreen(joy: joy);
                         },
                       ),
                     ],
@@ -243,12 +255,12 @@ class _JoystoreState extends State<Joystore> {
                         key: state.pageKey,
                         child: Builder(
                           builder: (context) {
-                            joystoreInstance = buildJoyStoreFromFirestore(
-                              joystoreInstance,
+                            JoyStoreService.instance.loadFromFirestore().then(
+                              (js) => JoyStoreService.instance.joystore = js,
                             );
                             return JoyList(
-                              // joys: joystoreInstance.allJoys,
-                              joys: joystoreInstance.wholeJoys,
+                              // joys: JoyStoreService.instance.joystore.allJoys,
+                              joys: JoyStoreService.instance.joystore.wholeJoys,
                               onTap: (joy) {
                                 GoRouter.of(
                                   context,
@@ -265,7 +277,7 @@ class _JoystoreState extends State<Joystore> {
                         parentNavigatorKey: appShellNavigatorKey,
                         builder: (context, state) {
                           return JoyDetailsScreen(
-                            joy: joystoreInstance.getJoy(
+                            joy: JoyStoreService.instance.joystore.getJoy(
                               state.pathParameters['joyId'] ?? '',
                             ),
                           );
@@ -298,7 +310,10 @@ class _JoystoreState extends State<Joystore> {
                   GoRoute(
                     path: 'scripture/:scriptureId',
                     builder: (context, state) {
-                      final scripture = joystoreInstance.allScriptures
+                      final scripture = JoyStoreService
+                          .instance
+                          .joystore
+                          .allScriptures
                           .firstWhere(
                             (scripture) =>
                                 scripture.id ==

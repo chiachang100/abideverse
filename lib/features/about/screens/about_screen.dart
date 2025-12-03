@@ -4,11 +4,13 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
-import '../../../src/data/data_index.dart';
-import '../../../widgets/copyright.dart';
+
+import 'package:abideverse/core/config/app_config.dart';
+import 'package:abideverse/core/constants/ui_constants.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/widgets/copyright.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 final abideverselogAbout = Logger('about');
 
@@ -28,8 +30,8 @@ int circleAvatarBgColorIndex = 0;
 
 Color getNextCircleAvatarBgColor() {
   Color nextColor =
-      circleAvatarBgColor[circleAvatarBgColorIndex %
-          circleAvatarBgColor.length];
+      UIConstants.circleAvatarBgColors[circleAvatarBgColorIndex %
+          UIConstants.circleAvatarBgColors.length];
   circleAvatarBgColorIndex++;
   return nextColor;
 }
@@ -159,7 +161,9 @@ class _QRCodeSectionState extends State<QRCodeSection> {
                 style: const TextStyle(fontSize: 18.0),
               ),
               const SizedBox(height: 10),
-              Text('${LocaleKeys.abideverseQrCode.tr()} (v$appVersion)'),
+              Text(
+                '${LocaleKeys.abideverseQrCode.tr()} (v${AppConfig.appVersion})',
+              ),
               const SizedBox(height: 10),
               Text(
                 '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.abideverseApp.tr()}',
@@ -200,7 +204,9 @@ class _QRCodeSectionState extends State<QRCodeSection> {
                 style: const TextStyle(fontSize: 18.0),
               ),
               const SizedBox(height: 10),
-              Text('${LocaleKeys.xlcdappQrCode.tr()} (v$appVersion)'),
+              Text(
+                '${LocaleKeys.xlcdappQrCode.tr()} (v${AppConfig.appVersion})',
+              ),
               const SizedBox(height: 10),
               Text(
                 '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.xlcdappApp.tr()}',

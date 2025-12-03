@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-import '../../src/data/global_config.dart';
+//import '../../src/data/global_config.dart';
 
 class LocalStorageService {
   LocalStorageService._(); // Private constructor to prevent instantiation

@@ -1,4 +1,4 @@
-import '../../features/scriptures/data/scripture_repository.dart';
+import '../../scriptures/data/scripture_repository.dart';
 
 //@immutable
 class Joy {

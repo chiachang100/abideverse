@@ -4,13 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import "../../../src/data/data_index.dart";
 import 'package:logging/logging.dart';
-import 'package:abideverse/services/locale_services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/shared/localization/codegen_loader.g.dart';
+
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/services/firebase/firebase_service.dart';
 
 final abideverselogSignIn = Logger('sign_in');
 
@@ -351,7 +350,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (email != null) {
       try {
-        await auth.sendPasswordResetEmail(email: email!);
+        await FirebaseService.instance.auth.sendPasswordResetEmail(
+          email: email!,
+        );
         ScaffoldSnackbar.of(context).show('Password reset email is sent');
       } catch (e) {
         ScaffoldSnackbar.of(context).show('Error resetting');
@@ -364,7 +365,7 @@ class _SignInScreenState extends State<SignInScreen> {
     setIsLoading();
 
     try {
-      await auth.signInAnonymously();
+      await FirebaseService.instance.auth.signInAnonymously();
     } on FirebaseAuthException catch (e) {
       setState(() {
         error = '${e.message}';
@@ -411,7 +412,7 @@ class _SignInScreenState extends State<SignInScreen> {
       },
     );
 
-    await auth.signInAnonymously();
+    await FirebaseService.instance.auth.signInAnonymously();
     abideverselogSignIn.info(
       '[SignIn] SingInAnonymously uid: ${FirebaseAuth.instance.currentUser?.uid}',
     );
@@ -435,10 +436,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (formKey.currentState?.validate() ?? false) {
       if (mode == AuthMode.login) {
-        userCredential = await auth.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+        userCredential = await FirebaseService.instance.auth
+            .signInWithEmailAndPassword(
+              email: emailController.text,
+              password: passwordController.text,
+            );
         user = userCredential.user;
 
         FirebaseAnalytics.instance.logEvent(
@@ -449,10 +451,11 @@ class _SignInScreenState extends State<SignInScreen> {
           },
         );
       } else {
-        userCredential = await auth.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+        userCredential = await FirebaseService.instance.auth
+            .createUserWithEmailAndPassword(
+              email: emailController.text,
+              password: passwordController.text,
+            );
         user = userCredential.user;
 
         FirebaseAnalytics.instance.logEvent(
@@ -512,7 +515,9 @@ class _SignInScreenState extends State<SignInScreen> {
       );
 
       // Once signed in, return the UserCredential
-      userCredential = await auth.signInWithCredential(credential);
+      userCredential = await FirebaseService.instance.auth.signInWithCredential(
+        credential,
+      );
       user = userCredential.user;
       if (user != null) {
         abideverselogSignIn.info(
@@ -546,7 +551,7 @@ class _SignInScreenState extends State<SignInScreen> {
       },
     );
 
-    await auth.signOut();
+    await FirebaseService.instance.auth.signOut();
     await GoogleSignIn().signOut();
   }
 }

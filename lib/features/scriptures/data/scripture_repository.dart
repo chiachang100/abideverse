@@ -1,4 +1,4 @@
-import '../../../src/data/joy.dart';
+import 'package:abideverse/features/joys/models/joy.dart';
 
 class Scripture {
   final int id;

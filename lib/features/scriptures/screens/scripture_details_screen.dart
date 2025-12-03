@@ -5,8 +5,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
-import '../../../src/data/data_index.dart';
-import '../../joys/widgets/joy_list.dart';
+import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
+import 'package:abideverse/features/joys/widgets/joy_list.dart';
+import 'package:abideverse/features/joys/models/joy.dart';
+
+import 'package:abideverse/core/constants/ui_constants.dart';
 
 class ScriptureDetailsScreen extends StatelessWidget {
   final Scripture scripture;
@@ -63,7 +66,8 @@ class ScriptureSection extends StatelessWidget {
         isThreeLine: true,
         leading: CircleAvatar(
           backgroundColor:
-              circleAvatarBgColor[(scripture.id % circleAvatarBgColor.length)],
+              UIConstants.circleAvatarBgColors[(scripture.id %
+                  UIConstants.circleAvatarBgColors.length)],
           child: Text(
             scripture.name.substring(0, 1),
             style: const TextStyle(fontSize: 20),

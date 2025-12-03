@@ -13,12 +13,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'app/app.dart';
-import 'src/data/data_index.dart';
 import 'services/db/local_storage_service.dart';
 import 'models/locale_info_model.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/core/config/app_config.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/services/firebase/firebase_service.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -54,10 +57,12 @@ Future<void> main() async {
   //------------------------------------------
   // Setup Firebase
   //------------------------------------------
-  app = await Firebase.initializeApp(
+  FirebaseService.instance.app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  auth = FirebaseAuth.instanceFor(app: app);
+  FirebaseService.instance.auth = FirebaseAuth.instanceFor(
+    app: FirebaseService.instance.app,
+  );
 
   final firestore = FirebaseFirestore.instance;
 
@@ -73,38 +78,50 @@ Future<void> main() async {
   // joystoreName = JOYSTORE_NAME_DEFAULT;
 
   // Set the default values
-  joysCurrentLocale = LOCALE_ZH_TW;
-  joystoreName = JOYSTORE_NAME_ZH_TW;
+  LocaleConstants.currentLocale = LocaleConstants.zhTW;
+  LocaleConstants.joystoreName = LocaleConstants.joystoreZhTW;
 
   // Initialize easy_localization
   await EasyLocalization.ensureInitialized();
 
   abideverselogMain.info(
-    '[Main-default] joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
+    '[Main-default] joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}',
   );
 
-  joystoreInstance = buildJoyStoreFromLocal();
+  JoyStoreService.instance.joystore = JoyStoreService.instance
+      .loadLocalJoyStore();
   storage = LocalStorageService.instance;
 
   // joysCurrentLocale = LOCALE_ZH_CN;
   // joystoreName = JOYSTORE_NAME_ZH_CN;
 
   // Load 'joysCurrentLocale' and 'joystoreName' from the local store.
-  storage.getString(key: 'joysCurrentLocale', defaultValue: joysCurrentLocale)
-  // .then((result) => joysCurrentLocale = result.toString());
-  .then((result) {
-    joysCurrentLocale = result.toString();
+  storage
+      .getString(
+        key: 'joysCurrentLocale',
+        defaultValue: LocaleConstants.currentLocale,
+      )
+      // .then((result) => joysCurrentLocale = result.toString());
+      .then((result) {
+        LocaleConstants.currentLocale = result.toString();
 
-    storage.getString(key: 'joystoreName', defaultValue: joystoreName)
-    // .then((result) => joystoreName = result.toString());
-    .then((result) {
-      joystoreName = result.toString();
-      joystoreInstance = buildJoyStoreFromFirestoreOrLocal(prod: true);
-      abideverselogMain.info(
-        '[Main-loading] joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
-      );
-    });
-  });
+        storage
+            .getString(
+              key: 'joystoreName',
+              defaultValue: LocaleConstants.joystoreName,
+            )
+            // .then((result) => joystoreName = result.toString());
+            .then((result) {
+              LocaleConstants.joystoreName = result.toString();
+              JoyStoreService.instance
+                  .loadFirestoreOrLocal(prod: true)
+                  .then((js) => JoyStoreService.instance.joystore = js);
+
+              abideverselogMain.info(
+                '[Main-loading] joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}',
+              );
+            });
+      });
 
   // if (kIsWeb) {
   //   // await FirebaseAuth.instance.setPersistence(Persistence.NONE);
@@ -135,7 +152,7 @@ Future<void> main() async {
   FlutterNativeSplash.remove();
 
   abideverselogMain.info(
-    '[Main-calling-Joystore] joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
+    '[Main-calling-Joystore] joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}',
   );
 
   runApp(
@@ -156,18 +173,18 @@ Future<void> main() async {
   // Get pubspec.yaml info
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-  appName = packageInfo.appName;
-  appVersion = packageInfo.version.toString();
-  appPkgName = packageInfo.packageName;
+  AppConfig.appName = packageInfo.appName;
+  AppConfig.appVersion = packageInfo.version.toString();
+  AppConfig.appPackageName = packageInfo.packageName;
 
   // appName = 'abideverse';
   // appVersion = '1.9.0';
   // appPkgName = 'abideverse';
   abideverselogMain.info(
-    '[Main-loading] appName=$appName; appVersion=$appVersion; appPkgName=$appPkgName',
+    '[Main-loading] appName=${AppConfig.appName}; appVersion=${AppConfig.appVersion}; appPkgName=${AppConfig.appPackageName}',
   );
   abideverselogMain.info(
-    '[Main-loading] joysCurrentLocale=$joysCurrentLocale; joystoreName=$joystoreName',
+    '[Main-loading] joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}',
   );
 
   // SystemChrome.setPreferredOrientations(

@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import "../../../src/data/data_index.dart";
+
+import 'package:abideverse/services/firebase/firebase_service.dart';
 
 /// A mock authentication service
 class JoystoreAuth extends ChangeNotifier {
@@ -18,7 +19,7 @@ class JoystoreAuth extends ChangeNotifier {
       },
     );
 
-    await auth.signOut();
+    await FirebaseService.instance.auth.signOut();
     await GoogleSignIn().signOut();
 
     await Future<void>.delayed(const Duration(milliseconds: 200));

@@ -5,9 +5,14 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../auth/data/auth_repository.dart';
-import '../../../src/data/data_index.dart';
-import '../../../widgets/copyright.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/core/constants/ui_constants.dart';
+
+import 'package:abideverse/features/joys/models/joy.dart';
+import 'package:abideverse/features/joys/data/joystore.dart';
+import 'package:abideverse/services/db/joystore_service.dart';
+
+import 'package:abideverse/widgets/copyright.dart';
 
 final abideverselogManageFirestore = Logger('manage-firestore');
 
@@ -95,14 +100,14 @@ class FirebaseDbSection extends StatelessWidget {
     );
 
     // Build JoyStore Instance from local JoyStore
-    JoyStore firestoreDbInstance = buildJoyStoreFromLocal();
-    //JoyStore firestoreDbInstance = buildJoyStoreFromLocalWithLocale();
+    JoyStore firestoreDbInstance = JoyStoreService.instance.loadLocalJoyStore();
+    //JoyStore firestoreDbInstance = await JoyStoreService.instance.loadFirestoreOrLocal(prod: true);
 
     // Initialize the new documents
     for (var joy in firestoreDbInstance.allJoys) {
       // final docRef = firestore.collection('joys').doc(joy.articleId.toString());
       final docRef = firestore
-          .collection(joystoreName)
+          .collection(LocaleConstants.joystoreName)
           .doc(joy.articleId.toString());
       // Add document
       docRef
@@ -117,7 +122,7 @@ class FirebaseDbSection extends StatelessWidget {
         (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
           abideverselogManageFirestore.info(
-            '[ManageFirestore] $joystoreName: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
+            '[ManageFirestore] ${LocaleConstants.joystoreName}: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
           );
         },
         onError: (e) => abideverselogManageFirestore.info(
@@ -138,17 +143,17 @@ class FirebaseDbSection extends StatelessWidget {
 
     await firestore
         // .collection('joys')
-        .collection(joystoreName)
+        .collection(LocaleConstants.joystoreName)
         .orderBy('likes', descending: true)
         .get()
         .then((event) {
           for (var doc in event.docs) {
             abideverselogManageFirestore.info(
-              "[ManageFirestore] $joystoreName: Firestore: ${doc.id} => ${doc.data()}",
+              "[ManageFirestore] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => ${doc.data()}",
             );
             var joy = Joy.fromJson(doc.data());
             abideverselogManageFirestore.info(
-              "[ManageFirestore] $joystoreName: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
+              "[ManageFirestore] ${LocaleConstants.joystoreName}: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
             );
           }
         });
@@ -185,7 +190,7 @@ class FirebaseDbSection extends StatelessWidget {
             children: [
               CircleAvatar(
                 //backgroundColor: Colors.orange,
-                backgroundColor: circleAvatarBgColor[2],
+                backgroundColor: UIConstants.circleAvatarBgColors[2],
                 child: Text(xlcdFirestore.substring(0, 1)),
               ),
               const SizedBox(width: 5),

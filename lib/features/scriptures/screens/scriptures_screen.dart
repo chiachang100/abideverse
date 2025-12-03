@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
-import '../../../src/data/data_index.dart';
+import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
+
+import 'package:abideverse/services/db/joystore_service.dart';
 import '../widgets/scripture_list.dart';
 import 'package:abideverse/services/locale_services.dart';
 
@@ -9,7 +11,7 @@ class ScripturesScreen extends StatefulWidget {
   final String title;
   final ValueChanged<Scripture> onTap;
 
-  ScripturesScreen({
+  const ScripturesScreen({
     required this.onTap,
     // this.title = '聖經經文',
     required this.title,
@@ -46,7 +48,7 @@ class _ScripturesScreenState extends State<ScripturesScreen> {
         ),
       ),
       body: ScriptureList(
-        scriptures: joystoreInstance.allScriptures,
+        scriptures: JoyStoreService.instance.joystore.allScriptures,
         onTap: widget.onTap,
       ),
     );

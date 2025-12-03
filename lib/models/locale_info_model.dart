@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
-import '../src/data/global_config.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
 
 class LocaleInfoModel extends ChangeNotifier {
-  static String joysCurrentLocale = LOCALE_ZH_TW;
-  static String joystoreName = JOYSTORE_NAME_ZH_TW;
+  static String joysCurrentLocale = LocaleConstants.zhTW;
+  static String joystoreName = LocaleConstants.joystoreZhTW;
 
   var localeInfoRecords = <String, String>{
     // 'locale': 'zh_TW',

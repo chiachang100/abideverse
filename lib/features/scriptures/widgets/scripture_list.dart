@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import '../../../src/data/data_index.dart';
-
 import 'package:easy_localization/easy_localization.dart';
+
+import 'package:abideverse/core/constants/ui_constants.dart';
+import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
@@ -110,8 +111,8 @@ class _ScriptureListState extends State<ScriptureList> {
               ),
               leading: CircleAvatar(
                 backgroundColor:
-                    circleAvatarBgColor[(_filteredItems[index].id %
-                        circleAvatarBgColor.length)],
+                    UIConstants.circleAvatarBgColors[(_filteredItems[index].id %
+                        UIConstants.circleAvatarBgColors.length)],
                 child: Text(
                   _filteredItems[index].name.substring(0, 1),
                   style: const TextStyle(fontSize: 20),

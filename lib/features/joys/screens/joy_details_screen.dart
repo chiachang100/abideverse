@@ -1,3 +1,4 @@
+import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:logging/logging.dart';
 
 import 'package:flutter/material.dart';
@@ -11,8 +12,9 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart' as ypf;
 //import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart' as ypi;
 
-import '../../../src/data/data_index.dart';
-import '../../scriptures/screens/scripture_details_screen.dart';
+import 'package:abideverse/core/config/app_config.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/features/scriptures/screens/scripture_details_screen.dart';
 
 final abideverselogJoyDetails = Logger('joy_details');
 
@@ -31,7 +33,7 @@ class _JoyDetailsScreenState extends State<JoyDetailsScreen> {
   final joysRef =
       // FirebaseFirestore.instance.collection('joys').withConverter<Joy>(
       FirebaseFirestore.instance
-          .collection(joystoreName)
+          .collection(LocaleConstants.joystoreName)
           .withConverter<Joy>(
             fromFirestore: (snapshots, _) => Joy.fromJson(snapshots.data()!),
             toFirestore: (joy, _) => joy.toJson(),
@@ -227,7 +229,7 @@ class DisplayYouTubeVideo extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           //YoutubePlayerIFrameSection(videoId: 'Mez7DnMOlgc', videoName: '不要怕！你要得人了 | 曾興才牧師 | 20240225 | 生命河 ROLCCmedia'),
-          (useYoutubePlayerFlutterVersion && !kIsWeb)
+          (AppConfig.useYoutubePlayerFlutter && !kIsWeb)
               ? YoutubePlayerFlutterSection(
                   videoId: videoId,
                   videoName: videoName,

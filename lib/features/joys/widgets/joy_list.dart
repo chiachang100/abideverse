@@ -1,33 +1,29 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:abideverse/services/locale_services.dart';
-import '../../../src/data/data_index.dart';
-
+import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class JoyList extends StatefulWidget {
   final List<Joy> joys;
   final bool isRanked;
-  final ValueChanged<Joy>? onTap;
+  final void Function(Joy joy) onTap; // ⚡ Non-nullable
 
-  JoyList({required this.joys, this.isRanked = false, this.onTap, super.key});
+  const JoyList({
+    super.key,
+    required this.joys,
+    this.isRanked = false,
+    required this.onTap,
+  });
 
   @override
   State<JoyList> createState() => _JoyListState();
 }
 
 class _JoyListState extends State<JoyList> {
-  List<Joy> _filteredItems = [];
-  bool isInit = true;
-
-  TextEditingController _searchController = TextEditingController();
-
-  void _clearSearch() {
-    _searchController.clear();
-  }
+  late List<Joy> _filteredItems;
+  final TextEditingController _searchController = TextEditingController();
+  bool _isSearchActive = false;
 
   @override
   void initState() {
@@ -39,29 +35,36 @@ class _JoyListState extends State<JoyList> {
   @override
   void dispose() {
     _searchController.removeListener(_handleSearchChanged);
+    _searchController.dispose();
     super.dispose();
   }
 
-  void _searchItems(String query) {
-    final results = widget.joys
-        .where(
-          (m) =>
-              m.scriptureName.toLowerCase().contains(query.toLowerCase()) ||
-              m.scriptureVerse.toLowerCase().contains(query.toLowerCase()) ||
-              m.title.toLowerCase().contains(query.toLowerCase()) ||
-              m.prelude.toLowerCase().contains(query.toLowerCase()) ||
-              m.laugh.toLowerCase().contains(query.toLowerCase()) ||
-              m.videoName.toLowerCase().contains(query.toLowerCase()) ||
-              m.talk.toLowerCase().contains(query.toLowerCase()),
-        )
-        .toList();
+  void _handleSearchChanged() {
+    final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredItems = results;
+      _filteredItems = widget.joys.where((joy) {
+        return joy.title.toLowerCase().contains(query) ||
+            joy.prelude.toLowerCase().contains(query) ||
+            joy.laugh.toLowerCase().contains(query) ||
+            joy.scripture.name.toLowerCase().contains(query) ||
+            joy.scripture.verse.toLowerCase().contains(query) ||
+            joy.videoName.toLowerCase().contains(query) ||
+            joy.talk.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    setState(() {
+      _isSearchActive = false;
+      _filteredItems = widget.joys;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Analytics
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
@@ -77,22 +80,11 @@ class _JoyListState extends State<JoyList> {
           child: SearchBar(
             controller: _searchController,
             hintText: LocaleKeys.search.tr(),
-            onTap: () {
-              isInit = false;
-            },
-            onChanged: (query) {
-              _searchItems(query);
-            },
+            onTap: () => setState(() => _isSearchActive = true),
+            onChanged: (query) => _handleSearchChanged(),
             leading: IconButton(
-              icon: isInit
-                  ? const Icon(Icons.search)
-                  : const Icon(Icons.arrow_back),
-              onPressed: () {
-                // Handle back action, e.g., close the search or navigate back
-                // close(context, '');
-                _searchController.clear();
-                isInit = true;
-              },
+              icon: Icon(_isSearchActive ? Icons.arrow_back : Icons.search),
+              onPressed: _clearSearch,
             ),
             trailing: [
               IconButton(
@@ -106,26 +98,24 @@ class _JoyListState extends State<JoyList> {
           child: ListView.builder(
             itemCount: _filteredItems.length,
             itemBuilder: (context, index) {
+              final joy = _filteredItems[index]; // ⚡ Typed as Joy
               return ListTile(
-                // isThreeLine: true,
                 title: Text(
-                  '${(index + 1)}. ${_filteredItems[index].title} (${_filteredItems[index].articleId})',
+                  '${widget.isRanked ? '${index + 1}. ' : ''}${joy.title} (${joy.articleId})',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '✞ (${_filteredItems[index].scripture.name})${_filteredItems[index].scripture.verse}',
+                      '✞ (${joy.scripture.name})${joy.scripture.verse}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      softWrap: false,
                     ),
                     Text(
-                      '•ᴗ•${_filteredItems[index].laugh}',
+                      '•ᴗ•${joy.laugh}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      softWrap: false,
                     ),
                   ],
                 ),
@@ -136,22 +126,14 @@ class _JoyListState extends State<JoyList> {
                     maxWidth: 64,
                     maxHeight: 64,
                   ),
-                  child: Image.asset(_filteredItems[index].photoUrl),
+                  child: Image.asset(joy.photoUrl),
                 ),
-                //trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: widget.onTap != null
-                    ? () => widget.onTap!(_filteredItems[index])
-                    : null,
-                // onTap: onTap != null ? () => {} : null,
+                onTap: () => widget.onTap(joy), // ⚡ joy.id safe
               );
             },
           ),
         ),
       ],
     );
-  }
-
-  void _handleSearchChanged() {
-    _searchItems(_searchController.text);
   }
 }
