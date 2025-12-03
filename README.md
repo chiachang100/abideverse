@@ -186,10 +186,10 @@ flutter_native_splash:
 6. Run `AbideVerse` Web App Locally with Web Server or Browser
 
 - `flutter build web`
-- `flutter run -d web-server --web-port=5000`
-- OR `flutter run -d chrome --web-port=5000`
+- `flutter run -d web-server --web-port=5100`
+- OR `flutter run -d chrome --web-port=5100`
 
-  - Web: `flutter run -d web-server --web-hostname=192.168.1.100 --web-port=5000`
+  - Web: `flutter run -d web-server --web-hostname=192.168.1.100 --web-port=5100`
 
 7. Run `AbideVerse` Android App in Local Android Emulator
 
@@ -204,9 +204,12 @@ flutter_native_splash:
 
 9. Serve and test `AbideVerse` with Firebase Hosting locally
 
-- `flutter build web`
+- Build and test Firebase Hosting locally
+- `flutter build -v web --release`
 - `firebase serve --only hosting`
+- Deploy to Firebase manually
 - `firebase deploy --only hosting`
+  - Local server: `http://localhost:5000`
 
 10. Check the Code into GitHub
 
@@ -256,7 +259,7 @@ flutter_native_splash:
 
 - Run on device/emulator
 
-  - `flutter run -d web-server --web-port=5000`
+  - `flutter run -d web-server --web-port=5100`
 
 - Build for production
   - `flutter build apk`
@@ -556,8 +559,8 @@ await Firebase.initializeApp(
 
 - Rebuild your Flutter application
   - `flutter pub get`
-  - Web: `flutter run -d web-server --web-port=5000`
-  - Web: `flutter run -d chrome --web-hostname=192.168.1.100 --web-port=5000`
+  - Web: `flutter run -d web-server --web-port=5100`
+  - Web: `flutter run -d chrome --web-hostname=192.168.1.100 --web-port=5100`
   - Android Emulator: `flutter run -d emulator-5554`
   - iOS Simulator: `flutter run -d [TBS]`
 
@@ -571,7 +574,7 @@ await Firebase.initializeApp(
   - `flutterfire configure -i com.joyolord.app.abideverse -a com.joyolord.app.abideverse`
 - Rebuild your Flutter application
   - `flutter pub get`
-  - Web: `flutter run -d chrome --web-port=5000`
+  - Web: `flutter run -d chrome --web-port=5100`
   - Android Emulator: `flutter run -d emulator-5554`
   - iOS Simulator: `flutter run -d [TBS]`
 
