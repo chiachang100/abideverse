@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import '../models/scripture.dart';
 import 'package:collection/collection.dart'; // for firstWhereOrNull
+import 'package:abideverse/shared/models/sort_order.dart';
 
 class ScriptureRepository {
   final String locale;
@@ -11,7 +12,9 @@ class ScriptureRepository {
   ScriptureRepository({this.locale = 'zh-TW'});
 
   /// Load the JSON file based on locale
-  Future<List<Scripture>> getScriptures() async {
+  Future<List<Scripture>> getScriptures({
+    SortOrder order = SortOrder.asc,
+  }) async {
     final String path = _getJsonPath(locale);
     final String data = await rootBundle.loadString(path);
     final List<dynamic> jsonResult = json.decode(data);
@@ -20,8 +23,12 @@ class ScriptureRepository {
         .map((json) => Scripture.fromJson(json))
         .toList();
 
-    // Sort by articleId descending
-    scriptures.sort((a, b) => b.articleId.compareTo(a.articleId));
+    // Apply sorting based on order
+    if (order == SortOrder.asc) {
+      scriptures.sort((a, b) => a.articleId.compareTo(b.articleId));
+    } else {
+      scriptures.sort((a, b) => b.articleId.compareTo(a.articleId));
+    }
 
     return scriptures;
   }

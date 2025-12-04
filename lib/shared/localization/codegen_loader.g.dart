@@ -76,7 +76,9 @@ class CodegenLoader extends AssetLoader{
   "settingsLangSettingsSubtitle": "Please select the language you prefer to use.",
   "settingsSelectLanguage": "Choose a language",
   "detailedPrelude": "Prelude",
-  "detailedLaugh": "Laugh Heartily"
+  "detailedLaugh": "Laugh Heartily",
+  "sortAsc": "Sort ascending",
+  "sortDesc": "Sort descending"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse",
@@ -140,7 +142,9 @@ static const Map<String,dynamic> _zh_CN = {
   "settingsLangSettingsSubtitle": "请选择您想要使用的语言。",
   "settingsSelectLanguage": "选择语言",
   "detailedPrelude": "前奏曲",
-  "detailedLaugh": "开怀大笑"
+  "detailedLaugh": "开怀大笑",
+  "sortAsc": "升序排序",
+  "sortDesc": "降序排序"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse",
@@ -204,7 +208,9 @@ static const Map<String,dynamic> _zh_TW = {
   "settingsLangSettingsSubtitle": "請選擇您想要使用的語言。",
   "settingsSelectLanguage": "選擇語言",
   "detailedPrelude": "前奏曲",
-  "detailedLaugh": "開懷大笑"
+  "detailedLaugh": "開懷大笑",
+  "sortAsc": "升序排序",
+  "sortDesc": "降序排序"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

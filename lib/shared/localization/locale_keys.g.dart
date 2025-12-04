@@ -65,5 +65,7 @@ abstract class  LocaleKeys {
   static const settingsSelectLanguage = 'settingsSelectLanguage';
   static const detailedPrelude = 'detailedPrelude';
   static const detailedLaugh = 'detailedLaugh';
+  static const sortAsc = 'sortAsc';
+  static const sortDesc = 'sortDesc';
 
 }

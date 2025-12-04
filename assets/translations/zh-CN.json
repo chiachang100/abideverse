@@ -67,5 +67,8 @@
   "settingsSelectLanguage": "选择语言",
 
   "detailedPrelude": "前奏曲",
-  "detailedLaugh": "开怀大笑"
+  "detailedLaugh": "开怀大笑",
+
+  "sortAsc": "升序排序",
+  "sortDesc": "降序排序"
 }

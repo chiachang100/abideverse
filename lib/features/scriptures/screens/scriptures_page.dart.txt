@@ -27,15 +27,17 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  SortOrder sortOrder = SortOrder.asc; // default sort order
+  SortOrder sortOrder = SortOrder.asc; // default
+  late Future<List<Scripture>> futureScriptures;
 
   @override
   void initState() {
     super.initState();
     repository = ScriptureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
+    _loadScriptures();
 
-    _loadAndSortScriptures();
+    futureScriptures = _loadSortedScriptures();
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -46,48 +48,40 @@ class _ScripturesPageState extends State<ScripturesPage> {
     );
   }
 
-  /// Load and sort scriptures based on the current sortOrder
-  Future<void> _loadAndSortScriptures() async {
-    final data = await repository.getScriptures(order: sortOrder);
+  Future<List<Scripture>> _loadSortedScriptures() {
+    return repository.getScriptures(order: sortOrder);
+  }
 
+  void _toggleSortOrder() {
+    setState(() {
+      sortOrder = sortOrder == SortOrder.asc ? SortOrder.desc : SortOrder.asc;
+
+      futureScriptures = _loadSortedScriptures(); // reload with new order
+    });
+  }
+
+  Future<void> _loadScriptures() async {
+    final data = await repository.getScriptures();
     setState(() {
       scriptures = data;
-      filteredItems = _applyFilter(data, _searchController.text);
+      filteredItems = data;
       isLoading = false;
     });
   }
 
-  /// Toggle between ascending/descending sort order
-  Future<void> _toggleSortOrder() async {
-    setState(() {
-      sortOrder = sortOrder == SortOrder.asc ? SortOrder.desc : SortOrder.asc;
-    });
-
-    await _loadAndSortScriptures();
-  }
-
-  /// Applies search filtering
-  List<Scripture> _applyFilter(List<Scripture> items, String query) {
-    query = query.toLowerCase();
-    return items.where((s) {
-      return s.title.toLowerCase().contains(query) ||
-          s.scriptureName.toLowerCase().contains(query) ||
-          s.scriptureVerse.toLowerCase().contains(query);
-    }).toList();
-  }
-
   void _onSearchChanged() {
+    final query = _searchController.text.toLowerCase();
     setState(() {
-      filteredItems = _applyFilter(scriptures, _searchController.text);
+      filteredItems = scriptures.where((s) {
+        return s.title.toLowerCase().contains(query) ||
+            s.scriptureName.toLowerCase().contains(query) ||
+            s.scriptureVerse.toLowerCase().contains(query);
+      }).toList();
     });
   }
 
   void _clearSearch() {
     _searchController.clear();
-    setState(() {
-      filteredItems = scriptures;
-      isSearchInitial = true;
-    });
   }
 
   @override
@@ -104,36 +98,24 @@ class _ScripturesPageState extends State<ScripturesPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(LocaleKeys.bibleVerse.tr()),
-        actions: [
-          IconButton(
-            icon: Icon(
-              sortOrder == SortOrder.asc
-                  ? Icons.arrow_circle_up
-                  : Icons.arrow_circle_down,
-            ),
-            tooltip: sortOrder == SortOrder.asc
-                ? LocaleKeys.sortAsc.tr()
-                : LocaleKeys.sortDesc.tr(),
-            onPressed: _toggleSortOrder,
-          ),
-        ],
-      ),
+      appBar: AppBar(title: Text(LocaleKeys.bibleVerse.tr())),
       body: Column(
         children: [
-          // Search Bar
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SearchBar(
               controller: _searchController,
               hintText: LocaleKeys.search.tr(),
               onTap: () => setState(() => isSearchInitial = false),
+              onChanged: (_) => _onSearchChanged(),
               leading: IconButton(
                 icon: isSearchInitial
                     ? const Icon(Icons.search)
                     : const Icon(Icons.arrow_back),
-                onPressed: _clearSearch,
+                onPressed: () {
+                  _clearSearch();
+                  setState(() => isSearchInitial = true);
+                },
               ),
               trailing: [
                 IconButton(
@@ -143,8 +125,6 @@ class _ScripturesPageState extends State<ScripturesPage> {
               ],
             ),
           ),
-
-          // List of Scriptures
           Expanded(
             child: ListView.builder(
               itemCount: filteredItems.length,
@@ -152,6 +132,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
                 scripture: filteredItems[index],
                 index: index,
                 onTap: () {
+                  // Use GoRouter to navigate to detailed scripture page
                   context.push(
                     '/scriptures/scripture/${filteredItems[index].articleId}',
                   );

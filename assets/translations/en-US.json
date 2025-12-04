@@ -67,5 +67,8 @@
   "settingsSelectLanguage": "Choose a language",
 
   "detailedPrelude": "Prelude",
-  "detailedLaugh": "Laugh Heartily"
+  "detailedLaugh": "Laugh Heartily",
+
+  "sortAsc": "Sort ascending",
+  "sortDesc": "Sort descending"
 }
