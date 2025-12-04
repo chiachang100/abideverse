@@ -57,7 +57,7 @@ class JoystoreScaffold extends StatelessWidget {
                 selectedIndex: selectedIndex,
                 body: (_) => child,
                 onSelectedIndexChange: (idx) {
-                  if (idx == 0) goRouter.go('/joys/all');
+                  if (idx == 0) goRouter.go('/joys');
                   if (idx == 1) goRouter.go('/scriptures');
                   if (idx == 2) goRouter.go('/about');
                   if (idx == 3) goRouter.go('/settings');

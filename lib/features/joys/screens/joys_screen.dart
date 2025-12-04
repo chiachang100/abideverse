@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import '../../auth/data/auth_repository.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:abideverse/app/router.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 //import 'package:abideverse/src/data/global_config.dart';
@@ -66,7 +67,8 @@ class _JoysScreenState extends State<JoysScreen>
             return IconButton(
               icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
-                GoRouter.of(context).go('/joys/all');
+                // Navigate to the joys list
+                Routes(context).goJoys();
               },
             );
           },

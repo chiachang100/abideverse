@@ -5,6 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:abideverse/app/router.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/core/constants/ui_constants.dart';
 
@@ -47,7 +48,8 @@ class _ManageFirestoreScreenState extends State<ManageFirestoreScreen> {
             return IconButton(
               icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
-                GoRouter.of(context).go('/joys/all');
+                // Navigate to the joys list
+                Routes(context).goJoys();
               },
             );
           },

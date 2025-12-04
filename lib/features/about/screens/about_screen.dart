@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 
+import 'package:abideverse/app/router.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/ui_constants.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
@@ -67,7 +68,8 @@ class _AboutScreenState extends State<AboutScreen> {
             return IconButton(
               icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
-                GoRouter.of(context).go('/joys/all');
+                // Navigate to the joys list
+                Routes(context).goJoys();
               },
             );
           },

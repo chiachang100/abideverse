@@ -46,8 +46,8 @@ class _JoyListState extends State<JoyList> {
         return joy.title.toLowerCase().contains(query) ||
             joy.prelude.toLowerCase().contains(query) ||
             joy.laugh.toLowerCase().contains(query) ||
-            joy.scripture.name.toLowerCase().contains(query) ||
-            joy.scripture.verse.toLowerCase().contains(query) ||
+            joy.scriptureName.toLowerCase().contains(query) ||
+            joy.scriptureVerse.toLowerCase().contains(query) ||
             joy.videoName.toLowerCase().contains(query) ||
             joy.talk.toLowerCase().contains(query);
       }).toList();
@@ -108,7 +108,7 @@ class _JoyListState extends State<JoyList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '✞ (${joy.scripture.name})${joy.scripture.verse}',
+                      '✞ (${joy.scriptureName})${joy.scriptureVerse}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

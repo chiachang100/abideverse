@@ -14,7 +14,6 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart' as ypi;
 
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
-import 'package:abideverse/features/scriptures/screens/scripture_details_screen.dart';
 
 final abideverselogJoyDetails = Logger('joy_details');
 
@@ -101,8 +100,8 @@ class _JoyDetailsScreenState extends State<JoyDetailsScreen> {
               photoUrl: widget.joy!.photoUrl,
               title: widget.joy!.title,
               articleId: widget.joy!.articleId,
-              scriptureVerse: widget.joy!.scripture.verse,
-              scriptureName: widget.joy!.scripture.name,
+              scriptureVerse: widget.joy!.scriptureVerse,
+              scriptureName: widget.joy!.scriptureName,
             ),
             DisplayArticleContent(title: '前奏曲', content: widget.joy!.prelude),
             DisplayArticleContent(title: '開懷大笑', content: widget.joy!.laugh),

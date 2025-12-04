@@ -18,7 +18,7 @@ const int allList = 0;
 
 class JoyStore {
   List<Joy> allJoys = [];
-  List<Scripture> allScriptures = [];
+  //  List<Scripture> allScriptures = [];
 
   void addJoy({
     required int id,
@@ -37,20 +37,20 @@ class JoyStore {
     required bool isNew,
     required String category,
   }) {
-    var scripture = allScriptures.firstWhere(
-      (scripture) => scripture.name == scriptureName,
-      orElse: () {
-        final value = Scripture(
-          allScriptures.length,
-          articleId,
-          title,
-          scriptureName,
-          scriptureVerse,
-        );
-        allScriptures.add(value);
-        return value;
-      },
-    );
+    // var scripture = allScriptures.firstWhere(
+    //   (scripture) => scripture.name == scriptureName,
+    //   orElse: () {
+    //     final value = Scripture(
+    //       allScriptures.length,
+    //       articleId,
+    //       title,
+    //       scriptureName,
+    //       scriptureVerse,
+    //     );
+    //     allScriptures.add(value);
+    //     return value;
+    //   },
+    // );
     var joy = Joy(
       id: allJoys.length,
       articleId: articleId,
@@ -67,10 +67,10 @@ class JoyStore {
       type: type,
       isNew: isNew,
       category: category,
-      scripture: scripture,
+      // scripture: scripture,
     );
 
-    scripture.joys.add(joy);
+    // scripture.joys.add(joy);
     allJoys.add(joy);
   }
 

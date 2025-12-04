@@ -1,4 +1,4 @@
-import '../../scriptures/data/scripture_repository.dart';
+//import 'package:abideverse/features/scriptures/models/scripture.dart';
 
 //@immutable
 class Joy {
@@ -18,7 +18,7 @@ class Joy {
   final int type;
   final bool isNew;
   final String category;
-  final Scripture scripture;
+  //  final Scripture scripture;
 
   Joy({
     required this.id,
@@ -36,7 +36,7 @@ class Joy {
     required this.type,
     required this.isNew,
     required this.category,
-    required this.scripture,
+    //    required this.scripture,
   });
 
   Joy.fromJson(Map<String, Object?> json)
@@ -56,13 +56,13 @@ class Joy {
         type: json['type']! as int,
         isNew: json['isNew']! as bool,
         category: json['category']! as String,
-        scripture: Scripture(
-          (json['id']! as int),
-          (json['articleId']! as int),
-          (json['title']! as String),
-          (json['scriptureName']! as String),
-          (json['scriptureVerse']! as String),
-        ),
+        // scripture: Scripture(
+        //   (json['id']! as int),
+        //   (json['articleId']! as int),
+        //   (json['title']! as String),
+        //   (json['scriptureName']! as String),
+        //   (json['scriptureVerse']! as String),
+        // ),
       );
 
   Map<String, Object?> toJson() {

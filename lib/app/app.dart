@@ -1,51 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:logging/logging.dart';
-import 'package:abideverse/features/auth/data/auth_repository.dart';
-import 'package:abideverse/core/config/app_config.dart';
-import 'package:abideverse/core/constants/locale_constants.dart';
-
-import 'package:abideverse/features/about/screens/about_screen.dart';
-import 'package:abideverse/features/joys/data/joystore.dart';
-import 'package:abideverse/features/joys/screens/joy_details_screen.dart';
-import 'package:abideverse/features/joys/screens/joys_screen.dart';
-import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
-import 'package:abideverse/features/joys/widgets/joy_scaffold.dart';
-import 'package:abideverse/features/scriptures/screens/scripture_details_screen.dart';
-import 'package:abideverse/features/scriptures/screens/scriptures_screen.dart';
-import 'package:abideverse/features/settings/screens/settings.dart';
-import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
-import 'package:abideverse/features/joys/widgets/joy_list.dart';
-import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:abideverse/services/db/joystore_service.dart';
-import 'package:abideverse/services/firebase/firebase_service.dart';
-import 'package:abideverse/widgets/fade_transition_page.dart';
-
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:abideverse/features/auth/data/auth_repository.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/app/router.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 final joysNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'joys shell');
-
 final abideverselogAppJoystore = Logger('app_joystore');
-
-Future<void> _testFirestore() async {
-  try {
-    final doc = await FirebaseFirestore.instance
-        .collection('test')
-        .doc('ping')
-        .get();
-    debugPrint('Firestore connected: ${doc.exists}');
-    abideverselogAppJoystore.info(
-      '[MainAppScreen] Firestore connected: ${doc.exists}',
-    );
-  } catch (e, st) {
-    debugPrint('Firestore error: $e');
-    debugPrint(' Stack: $st');
-  }
-}
 
 class Joystore extends StatefulWidget {
   const Joystore({super.key, required this.firestore});
@@ -63,327 +30,102 @@ class Joystore extends StatefulWidget {
 
 class _JoystoreState extends State<Joystore> {
   final JoystoreAuth joyAuth = JoystoreAuth();
+  final JoyStoreService joyStoreService = JoyStoreService.instance;
+
+  late final GoRouter router;
 
   @override
   void initState() {
     super.initState();
+
+    // Initialize router safely
+    router = createRouter(
+      firestore: widget.firestore,
+      joyAuth: joyAuth,
+      joyStoreService: joyStoreService,
+    );
+
+    // Log analytics screen view
+    _logScreenView('MainAppScreen');
+
+    // Firestore test asynchronously
+    _initAsync();
+  }
+
+  // Helper: Async initialization
+  Future<void> _initAsync() async {
+    await _testFirestore();
+    await _loadJoyStore();
+  }
+
+  Future<void> _testFirestore() async {
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('test')
+          .doc('ping')
+          .get();
+      debugPrint('Firestore connected: ${doc.exists}');
+      abideverselogAppJoystore.info(
+        '[MainAppScreen] Firestore connected: ${doc.exists}',
+      );
+    } catch (e, st) {
+      debugPrint('Firestore error: $e');
+      debugPrint(' Stack: $st');
+      abideverselogAppJoystore.severe(
+        '[MainAppScreen] Firestore error: $e',
+        e,
+        st,
+      );
+    }
+  }
+
+  Future<void> _loadJoyStore() async {
+    final js = await joyStoreService.loadFromFirestore();
+    joyStoreService.joystore = js;
+    // If your UI depends on the joystore, uncomment next line
+    // setState(() {});
+  }
+
+  void _logScreenView(String screenName) {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
-        'abideverse_screen': 'MainAppScreen',
-        'abideverse_screen_class': 'JoystoreClass',
+        'abideverse_screen': screenName,
+        'abideverse_screen_class': runtimeType.toString(),
       },
-    );
-
-    JoyStoreService.instance.loadFromFirestore().then(
-      (js) => JoyStoreService.instance.joystore = js,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    _testFirestore(); // test connection
-
     return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
-      // easy_localization locale properties
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
-        textTheme: TextTheme(
-          //bodyLarge: Theme.of(context).textTheme.titleLarge,
+        textTheme: Theme.of(context).textTheme.copyWith(
           bodyMedium: Theme.of(context).textTheme.titleMedium,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green, // background (button) color
-            foregroundColor: Colors.white, // foreground (text) color
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
           ),
         ),
       ),
       darkTheme: ThemeData.dark(useMaterial3: true),
       themeMode: ThemeMode.system,
       builder: (context, child) {
-        if (child == null) {
-          throw ('No child in .router constructor builder');
-        }
+        if (child == null) throw 'No child in MaterialApp.router builder';
         abideverselogAppJoystore.info(
-          '[MainAppScreen] Locale=${context.locale.toString()}; joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}',
+          '[MainAppScreen] Locale=${context.locale.toString()}; '
+          'joysCurrentLocale=${LocaleConstants.currentLocale}; '
+          'joystoreName=${LocaleConstants.joystoreName}',
         );
         return JoystoreAuthScope(notifier: joyAuth, child: child);
       },
-      routerConfig: GoRouter(
-        observers: [Joystore.observer],
-        refreshListenable: joyAuth,
-        debugLogDiagnostics: true,
-        initialLocation: '/joys/all',
-        redirect: (context, state) {
-          if (AppConfig.enableSignIn) {
-            if (FirebaseService.instance.auth.currentUser == null) {
-              abideverselogAppJoystore.info(
-                '[MainAppScreen] Current User is signed out!',
-              );
-              final signedIn = JoystoreAuth.of(context).signedIn;
-              if (state.uri.toString() != '/sign-in' && !signedIn) {
-                abideverselogAppJoystore.info(
-                  '[MainAppScreen] Display sign-in screen!',
-                );
-                return '/sign-in';
-              }
-            }
-          }
-          return null;
-        },
-        routes: [
-          ShellRoute(
-            navigatorKey: appShellNavigatorKey,
-            builder: (context, state, child) {
-              return JoystoreScaffold(
-                selectedIndex: switch (state.uri.path) {
-                  var p when p.startsWith('/joys') => 0,
-                  var p when p.startsWith('/scriptures') => 1,
-                  var p when p.startsWith('/about') => 2,
-                  var p when p.startsWith('/settings') => 3,
-                  _ => 0,
-                },
-                child: child,
-              );
-            },
-            routes: [
-              ShellRoute(
-                pageBuilder: (context, state, child) {
-                  return FadeTransitionPage<dynamic>(
-                    key: state.pageKey,
-                    child: Builder(
-                      builder: (context) {
-                        return JoysScreen(
-                          onTap: (idx) {
-                            SchedulerBinding.instance.addPostFrameCallback((_) {
-                              GoRouter.of(context).go(switch (idx) {
-                                0 => '/joys/like',
-                                1 => '/joys/new',
-                                2 => '/joys/all',
-                                _ => '/joys/all',
-                              });
-                            });
-                          },
-                          selectedIndex: switch (state.uri.path) {
-                            var p when p.startsWith('/joys/like') => 0,
-                            var p when p.startsWith('/joys/new') => 1,
-                            var p when p.startsWith('/joys/all') => 2,
-                            _ => 0,
-                          },
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-                routes: [
-                  GoRoute(
-                    path: '/joys/like',
-                    pageBuilder: (context, state) {
-                      return FadeTransitionPage<dynamic>(
-                        key: state.pageKey,
-                        child: Builder(
-                          builder: (context) {
-                            return JoyList(
-                              joys: JoyStoreService.instance.joystore.likeJoys,
-                              isRanked: true,
-                              onTap: (joy) {
-                                GoRouter.of(
-                                  context,
-                                ).go('/joys/like/joy/${joy.id}');
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'joy/:joyId',
-                        parentNavigatorKey: appShellNavigatorKey,
-                        builder: (context, state) {
-                          return JoyDetailsScreen(
-                            joy: JoyStoreService.instance.joystore.getJoy(
-                              state.pathParameters['joyId'] ?? '',
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  GoRoute(
-                    path: '/joys/new',
-                    pageBuilder: (context, state) {
-                      return FadeTransitionPage<dynamic>(
-                        key: state.pageKey,
-                        child: Builder(
-                          builder: (context) {
-                            return JoyList(
-                              joys: JoyStoreService.instance.joystore.newJoys,
-                              onTap: (joy) {
-                                GoRouter.of(
-                                  context,
-                                ).go('/joys/new/joy/${joy.id}');
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'joy/:joyId',
-                        parentNavigatorKey: appShellNavigatorKey,
-                        builder: (context, state) {
-                          final joyIdStr = state.pathParameters['joyId'] ?? '';
-                          final joy = JoyStoreService.instance.joystore.getJoy(
-                            joyIdStr,
-                          );
-                          return JoyDetailsScreen(joy: joy);
-                        },
-                      ),
-                    ],
-                  ),
-                  GoRoute(
-                    path: '/joys/all',
-                    pageBuilder: (context, state) {
-                      return FadeTransitionPage<dynamic>(
-                        key: state.pageKey,
-                        child: Builder(
-                          builder: (context) {
-                            JoyStoreService.instance.loadFromFirestore().then(
-                              (js) => JoyStoreService.instance.joystore = js,
-                            );
-                            return JoyList(
-                              // joys: JoyStoreService.instance.joystore.allJoys,
-                              joys: JoyStoreService.instance.joystore.wholeJoys,
-                              onTap: (joy) {
-                                GoRouter.of(
-                                  context,
-                                ).go('/joys/all/joy/${joy.id}');
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'joy/:joyId',
-                        parentNavigatorKey: appShellNavigatorKey,
-                        builder: (context, state) {
-                          return JoyDetailsScreen(
-                            joy: JoyStoreService.instance.joystore.getJoy(
-                              state.pathParameters['joyId'] ?? '',
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: '/scriptures',
-                pageBuilder: (context, state) {
-                  return FadeTransitionPage<dynamic>(
-                    key: state.pageKey,
-                    child: Builder(
-                      builder: (context) {
-                        return ScripturesScreen(
-                          title: LocaleKeys.bibleVerse.tr(),
-                          onTap: (scripture) {
-                            GoRouter.of(
-                              context,
-                            ).go('/scriptures/scripture/${scripture.id}');
-                          },
-                        );
-                      },
-                    ),
-                  );
-                },
-                routes: [
-                  GoRoute(
-                    path: 'scripture/:scriptureId',
-                    builder: (context, state) {
-                      final scripture = JoyStoreService
-                          .instance
-                          .joystore
-                          .allScriptures
-                          .firstWhere(
-                            (scripture) =>
-                                scripture.id ==
-                                int.parse(state.pathParameters['scriptureId']!),
-                          );
-                      return Builder(
-                        builder: (context) {
-                          return ScriptureDetailsScreen(
-                            scripture: scripture,
-                            onJoyTapped: (joy) {
-                              GoRouter.of(
-                                context,
-                              ).go('/joys/all/joy/${joy.id}');
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: '/about',
-                pageBuilder: (context, state) {
-                  return FadeTransitionPage<dynamic>(
-                    key: state.pageKey,
-                    child: AboutScreen(firestore: widget.firestore),
-                  );
-                },
-              ),
-              GoRoute(
-                path: '/settings',
-                pageBuilder: (context, state) {
-                  return FadeTransitionPage<dynamic>(
-                    key: state.pageKey,
-                    child: SettingsScreen(firestore: widget.firestore),
-                  );
-                },
-              ),
-            ],
-          ),
-          GoRoute(
-            path: '/sign-in',
-            builder: (context, state) {
-              return Builder(
-                builder: (context) {
-                  return SignInScreen(
-                    onSignIn: (value) async {
-                      final router = GoRouter.of(context);
-                      await JoystoreAuth.of(
-                        context,
-                      ).signIn(value.email, value.password);
-                      router.go('/joys/all');
-                    },
-                  );
-                },
-              );
-            },
-          ),
-          GoRoute(
-            path: '/manage-firestore',
-            pageBuilder: (context, state) {
-              return FadeTransitionPage<dynamic>(
-                key: state.pageKey,
-                child: ManageFirestoreScreen(firestore: widget.firestore),
-              );
-            },
-          ),
-        ],
-      ),
     );
   }
 }

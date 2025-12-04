@@ -207,9 +207,9 @@ flutter_native_splash:
 - Build and test Firebase Hosting locally
 - `flutter build -v web --release`
 - `firebase serve --only hosting`
+  - Local server: `http://localhost:5000`
 - Deploy to Firebase manually
 - `firebase deploy --only hosting`
-  - Local server: `http://localhost:5000`
 
 10. Check the Code into GitHub
 

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:abideverse/widgets/copyright.dart';
 
+import 'package:abideverse/app/router.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/services/db/local_storage_service.dart';
 import 'package:abideverse/services/db/joystore_service.dart';
@@ -45,7 +46,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return IconButton(
               icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
-                GoRouter.of(context).go('/joys/all');
+                // Navigate to the joys list
+                Routes(context).goJoys();
               },
             );
           },

@@ -1,0 +1,129 @@
+import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:go_router/go_router.dart';
+
+import '../data/scripture_repository.dart';
+import '../models/scripture.dart';
+import '../widgets/scripture_list_item.dart';
+import '../../../shared/localization/locale_keys.g.dart';
+
+class ScripturesPage extends StatefulWidget {
+  final String locale;
+
+  const ScripturesPage({Key? key, this.locale = 'zh-TW'}) : super(key: key);
+
+  @override
+  State<ScripturesPage> createState() => _ScripturesPageState();
+}
+
+class _ScripturesPageState extends State<ScripturesPage> {
+  late ScriptureRepository repository;
+  List<Scripture> scriptures = [];
+  List<Scripture> filteredItems = [];
+  bool isLoading = true;
+  bool isSearchInitial = true;
+
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    repository = ScriptureRepository(locale: widget.locale);
+    _searchController.addListener(_onSearchChanged);
+    _loadScriptures();
+
+    FirebaseAnalytics.instance.logEvent(
+      name: 'screen_view',
+      parameters: {
+        'abideverse_screen': 'ScripturesPage',
+        'abideverse_screen_class': 'ScripturesPageClass',
+      },
+    );
+  }
+
+  Future<void> _loadScriptures() async {
+    final data = await repository.getScriptures();
+    setState(() {
+      scriptures = data;
+      filteredItems = data;
+      isLoading = false;
+    });
+  }
+
+  void _onSearchChanged() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      filteredItems = scriptures.where((s) {
+        return s.title.toLowerCase().contains(query) ||
+            s.scriptureName.toLowerCase().contains(query) ||
+            s.scriptureVerse.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: Text(LocaleKeys.bibleVerse.tr())),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SearchBar(
+              controller: _searchController,
+              hintText: LocaleKeys.search.tr(),
+              onTap: () => setState(() => isSearchInitial = false),
+              onChanged: (_) => _onSearchChanged(),
+              leading: IconButton(
+                icon: isSearchInitial
+                    ? const Icon(Icons.search)
+                    : const Icon(Icons.arrow_back),
+                onPressed: () {
+                  _clearSearch();
+                  setState(() => isSearchInitial = true);
+                },
+              ),
+              trailing: [
+                IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: _clearSearch,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredItems.length,
+              itemBuilder: (context, index) => ScriptureListItem(
+                scripture: filteredItems[index],
+                index: index,
+                onTap: () {
+                  // Use GoRouter to navigate to detailed scripture page
+                  context.push(
+                    '/scriptures/scripture/${filteredItems[index].articleId}',
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
