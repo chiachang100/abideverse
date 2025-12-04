@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../data/scripture_repository.dart';
-import '../models/scripture.dart';
+import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
+import 'package:abideverse/features/scriptures/models/scripture.dart';
+import 'package:abideverse/shared/widgets/display_youtube_video.dart';
 
 class DetailedScripturePage extends StatefulWidget {
   final int articleId;
@@ -103,17 +104,19 @@ class _DetailedScripturePageState extends State<DetailedScripturePage> {
 
             /// YouTube section
             if (s.videoId.isNotEmpty) ...[
-              Text(
-                'YouTube Video: ${s.videoName}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+              DisplayYouTubeVideo(videoId: s.videoId, videoName: s.videoName),
 
-              YoutubePlayer(
-                controller: _youtubeController!,
-                showVideoProgressIndicator: true,
-                progressIndicatorColor: Colors.red,
-              ),
+              // Text(
+              //   'YouTube Video: ${s.videoName}',
+              //   style: const TextStyle(fontWeight: FontWeight.bold),
+              // ),
+              // const SizedBox(height: 8),
+
+              // YoutubePlayer(
+              //   controller: _youtubeController!,
+              //   showVideoProgressIndicator: true,
+              //   progressIndicatorColor: Colors.red,
+              // ),
             ] else
               const Text("No video available."),
           ],

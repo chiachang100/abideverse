@@ -9,7 +9,7 @@ import 'package:abideverse/app/router.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/ui_constants.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:abideverse/widgets/copyright.dart';
+import 'package:abideverse/shared/widgets/copyright.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 

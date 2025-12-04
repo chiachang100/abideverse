@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-import 'package:abideverse/services/db/local_storage_service.dart';
+import 'package:abideverse/shared/services/db/local_storage_service.dart';
 
 void main() {
   late LocalStorageService storage;

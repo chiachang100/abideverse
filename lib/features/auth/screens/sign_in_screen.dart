@@ -9,7 +9,7 @@ import 'package:logging/logging.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:abideverse/services/firebase/firebase_service.dart';
+import 'package:abideverse/shared/services/firebase/firebase_service.dart';
 
 final abideverselogSignIn = Logger('sign_in');
 

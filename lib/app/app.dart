@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
-import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/shared/services/db/joystore_service.dart';
 import 'package:abideverse/app/router.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');

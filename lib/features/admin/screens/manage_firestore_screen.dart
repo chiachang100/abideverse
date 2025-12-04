@@ -11,9 +11,9 @@ import 'package:abideverse/core/constants/ui_constants.dart';
 
 import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/features/joys/data/joystore.dart';
-import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/shared/services/db/joystore_service.dart';
 
-import 'package:abideverse/widgets/copyright.dart';
+import 'package:abideverse/shared/widgets/copyright.dart';
 
 final abideverselogManageFirestore = Logger('manage-firestore');
 

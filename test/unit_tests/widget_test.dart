@@ -6,7 +6,7 @@ import 'package:abideverse/app/app.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 // Import your application files
-import 'package:abideverse/models/locale_info_model.dart';
+import 'package:abideverse/shared/models/locale_info_model.dart';
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 
 import 'package:mockito/mockito.dart';

@@ -13,8 +13,8 @@ import 'package:abideverse/features/about/screens/about_screen.dart';
 import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
 import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
-import 'package:abideverse/widgets/fade_transition_page.dart';
-import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/shared/widgets/fade_transition_page.dart';
+import 'package:abideverse/shared/services/db/joystore_service.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 
 class AppRoutes {

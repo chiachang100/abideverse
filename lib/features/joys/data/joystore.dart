@@ -9,7 +9,7 @@ import 'local_joystore_zh_tw.dart';
 //import '../../../src/data/global_config.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
-import 'package:abideverse/services/db/joystore_service.dart';
+import 'package:abideverse/shared/services/db/joystore_service.dart';
 
 final abideverselogJoyStore = Logger('joystore');
 

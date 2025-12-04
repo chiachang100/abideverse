@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:abideverse/services/locale_services.dart';
+import 'package:abideverse/shared/services/locale_services.dart';
 import 'package:logging/logging.dart';
 
 import 'package:easy_localization/easy_localization.dart';

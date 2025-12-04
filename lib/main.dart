@@ -13,15 +13,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'app/app.dart';
-import 'services/db/local_storage_service.dart';
-import 'models/locale_info_model.dart';
+import 'shared/services/db/local_storage_service.dart';
+import 'shared/models/locale_info_model.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
-import 'package:abideverse/services/db/joystore_service.dart';
-import 'package:abideverse/services/firebase/firebase_service.dart';
+import 'package:abideverse/shared/services/db/joystore_service.dart';
+import 'package:abideverse/shared/services/firebase/firebase_service.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 
