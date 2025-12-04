@@ -28,7 +28,7 @@ class ScriptureListItem extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        '(${scripture.scriptureName}) ${scripture.scriptureVerse}',
+        '(${scripture.scriptureName} ${scripture.scriptureChapter}) ${scripture.scriptureVerse}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

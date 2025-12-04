@@ -36,6 +36,7 @@ abstract class  LocaleKeys {
   static const xlcdappApp = 'xlcdappApp';
   static const useQrCode = 'useQrCode';
   static const youtubeVideo = 'youtubeVideo';
+  static const noVideoAvailable = 'noVideoAvailable';
   static const aboutTitle = 'aboutTitle';
   static const abideverseQrCode = 'abideverseQrCode';
   static const xlcdappQrCode = 'xlcdappQrCode';

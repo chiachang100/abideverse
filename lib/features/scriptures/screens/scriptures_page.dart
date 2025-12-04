@@ -3,15 +3,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 
-import '../data/scripture_repository.dart';
-import '../models/scripture.dart';
-import '../widgets/scripture_list_item.dart';
-import '../../../shared/localization/locale_keys.g.dart';
+import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
+import 'package:abideverse/features/scriptures/models/scripture.dart';
+import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class ScripturesPage extends StatefulWidget {
   final String locale;
 
-  const ScripturesPage({Key? key, this.locale = 'zh-TW'}) : super(key: key);
+  const ScripturesPage({super.key, this.locale = 'zh-TW'});
 
   @override
   State<ScripturesPage> createState() => _ScripturesPageState();

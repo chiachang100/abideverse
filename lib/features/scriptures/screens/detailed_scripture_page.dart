@@ -2,20 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/shared/widgets/display_youtube_video.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class DetailedScripturePage extends StatefulWidget {
   final int articleId;
   final String locale;
 
   const DetailedScripturePage({
-    Key? key,
+    super.key,
     required this.articleId,
     this.locale = 'zh-TW',
-  }) : super(key: key);
+  });
 
   @override
   State<DetailedScripturePage> createState() => _DetailedScripturePageState();
@@ -70,7 +72,7 @@ class _DetailedScripturePageState extends State<DetailedScripturePage> {
     final s = scripture!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Bible Verse')),
+      appBar: AppBar(title: Text(LocaleKeys.bibleVerse.tr())),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -105,20 +107,8 @@ class _DetailedScripturePageState extends State<DetailedScripturePage> {
             /// YouTube section
             if (s.videoId.isNotEmpty) ...[
               DisplayYouTubeVideo(videoId: s.videoId, videoName: s.videoName),
-
-              // Text(
-              //   'YouTube Video: ${s.videoName}',
-              //   style: const TextStyle(fontWeight: FontWeight.bold),
-              // ),
-              // const SizedBox(height: 8),
-
-              // YoutubePlayer(
-              //   controller: _youtubeController!,
-              //   showVideoProgressIndicator: true,
-              //   progressIndicatorColor: Colors.red,
-              // ),
             ] else
-              const Text("No video available."),
+              Text(LocaleKeys.noVideoAvailable.tr()),
           ],
         ),
       ),

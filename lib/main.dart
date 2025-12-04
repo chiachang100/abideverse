@@ -177,9 +177,6 @@ Future<void> main() async {
   AppConfig.appVersion = packageInfo.version.toString();
   AppConfig.appPackageName = packageInfo.packageName;
 
-  // appName = 'abideverse';
-  // appVersion = '1.9.0';
-  // appPkgName = 'abideverse';
   abideverselogMain.info(
     '[Main-loading] appName=${AppConfig.appName}; appVersion=${AppConfig.appVersion}; appPkgName=${AppConfig.appPackageName}',
   );
@@ -198,7 +195,6 @@ const double windowHeight = 854;
 void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     WidgetsFlutterBinding.ensureInitialized();
-    // setWindowTitle('笑裡藏道');
     setWindowTitle(LocaleKeys.appTitle.tr());
     setWindowMinSize(const Size(windowWidth, windowHeight));
     setWindowMaxSize(const Size(windowWidth, windowHeight));
