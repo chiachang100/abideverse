@@ -1,7 +1,7 @@
 name: abideverse
 description: "AbideVerse - Your Daily Bible Verse Companion."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 3.4.0
+version: 3.4.4
 
 environment:
   sdk: ^3.10.1
@@ -71,12 +71,8 @@ flutter:
   - assets/photos/
   - assets/logos/
   - assets/translations/
-  - assets/joys/joys_en-US.json
-  - assets/joys/joys_zh-CN.json
-  - assets/joys/joys_zh-TW.json
-  - assets/scriptures/scriptures_en-US.json
-  - assets/scriptures/scriptures_zh-CN.json
-  - assets/scriptures/scriptures_zh-TW.json
+  - assets/joys/
+  - assets/scriptures/
 
 dependency_overrides:
   win32: ^5.5.1
