@@ -29,14 +29,14 @@ class JoyListItem extends StatelessWidget {
         child: Image.asset(joy.photoUrl, fit: BoxFit.cover),
       ),
       title: Text(
-        '${isRanked ? '${index + 1}. ' : ''}${joy.title} (${joy.articleId})',
+        '${joy.title} (${joy.articleId})',
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '✞ (${joy.scriptureName})${joy.scriptureVerse}',
+            '✞ (${joy.scriptureName} ${joy.scriptureChapter})${joy.scriptureVerse}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

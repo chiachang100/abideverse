@@ -71,7 +71,10 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(j.title),
+        title: Text(
+          '${j.title} (${j.articleId})',
+          style: const TextStyle(fontSize: 20),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8),
@@ -93,15 +96,9 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Shared Title Section (image + title + scripture info)
-            DisplayTitleSection(
-              photoUrl: j.photoUrl,
-              title: j.title,
-              articleId: j.articleId,
-              scriptureVerse: j.scriptureVerse,
-              scriptureName: j.scriptureName,
-            ),
+            DisplayTitleSection(joy: j),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 1),
 
             /// Article sections
             DisplayArticleContent(title: '前奏曲', content: j.prelude),

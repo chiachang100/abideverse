@@ -71,20 +71,17 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
     final s = scripture!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(s.title)),
+      appBar: AppBar(
+        title: Text(
+          '${s.title} (${s.articleId})',
+          style: const TextStyle(fontSize: 20),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Title
-            Text(
-              '${s.title} (${s.articleId})',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 8),
-
             /// Scripture name + chapter
             Text(
               '${s.scriptureName} ${s.scriptureChapter}',
@@ -95,7 +92,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
 
             /// Verse text
             Text(
-              '${s.scriptureVerse} (${s.scriptureName} ${s.scriptureChapter})',
+              '✞ ${s.scriptureVerse} (${s.scriptureName} ${s.scriptureChapter})',
               style: const TextStyle(fontSize: 16),
             ),
 

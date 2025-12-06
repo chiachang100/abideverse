@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:abideverse/features/joys/models/joy.dart';
 
 class DisplayTitleSection extends StatelessWidget {
-  final String photoUrl;
-  final String title;
-  final int articleId;
-  final String scriptureVerse;
-  final String scriptureName;
+  final Joy joy;
 
-  const DisplayTitleSection({
-    super.key,
-    required this.photoUrl,
-    required this.title,
-    required this.articleId,
-    required this.scriptureVerse,
-    required this.scriptureName,
-  });
+  const DisplayTitleSection({super.key, required this.joy});
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +15,24 @@ class DisplayTitleSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            '${joy.scriptureName} ${joy.scriptureChapter}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+
+          const SizedBox(height: 8),
+
+          /// Verse text
+          Text(
+            '✞ ${joy.scriptureVerse} (${joy.scriptureName} ${joy.scriptureChapter})',
+            style: const TextStyle(fontSize: 16),
+          ),
+
           Image.asset(
-            photoUrl,
+            joy.photoUrl,
             height: MediaQuery.of(context).size.width * 3 / 4,
             width: double.infinity,
             fit: BoxFit.contain,
-          ),
-          Text(
-            '$title ($articleId)',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            '$scriptureVerse ($scriptureName)',
-            style: const TextStyle(fontSize: 16),
           ),
         ],
       ),

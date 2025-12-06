@@ -24,11 +24,11 @@ class ScriptureListItem extends StatelessWidget {
 
     return ListTile(
       title: Text(
-        '${scripture.articleId}. ${scripture.title}',
+        '${scripture.title} (${scripture.articleId})',
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        '(${scripture.scriptureName} ${scripture.scriptureChapter}) ${scripture.scriptureVerse}',
+        '✞ (${scripture.scriptureName} ${scripture.scriptureChapter}) ${scripture.scriptureVerse}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
