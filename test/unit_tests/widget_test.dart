@@ -55,7 +55,7 @@ void main() {
     final MockFirebaseFirestore mockFirestore = MockFirebaseFirestore();
 
     await tester.runAsync(() async {
-      await rootBundle.loadString('assets/translations/en_US.json');
+      await rootBundle.loadString('assets/translations/en-US.json');
     });
 
     final Widget testApp = EasyLocalization(

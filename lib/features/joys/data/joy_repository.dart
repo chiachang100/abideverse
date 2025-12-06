@@ -39,12 +39,12 @@ class JoyRepository {
   String _getJsonPath(String locale) {
     switch (locale) {
       case LocaleConstants.enUS:
-        return 'assets/joys/joys_en_US.json';
+        return 'assets/joys/joys_en-US.json';
       case LocaleConstants.zhCN:
-        return 'assets/joys/joys_zh_CN.json';
+        return 'assets/joys/joys_zh-CN.json';
       case LocaleConstants.zhTW:
       default:
-        return 'assets/joys/joys_zh_TW.json';
+        return 'assets/joys/joys_zh-TW.json';
     }
   }
 }

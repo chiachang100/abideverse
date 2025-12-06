@@ -815,10 +815,10 @@ dependencies:
   - assets
     - translations
       - en.json
-      - en_US.json
-      - zh.json # same as zh_TW.json
-      - zh_CN.json
-      - zh_TW.json
+      - en-US.json
+      - zh.json # same as zh-TW.json
+      - zh-CN.json
+      - zh-TW.json
 - Declare the assets localization directory in `pubsec.yaml`
   - flutter:
     assets: - assets/translations/
@@ -845,10 +845,10 @@ import 'l10n/codegen_loader.g.dart';
 		<key>CFBundleLocalizations</key>
 		<array>
 			<string>en</string>
-			<string>en_US</string>
+			<string>en-US</string>
 			<string>zh</string>
-			<string>zh_CN</string>
-			<string>zh_TW</string>
+			<string>zh-CN</string>
+			<string>zh-TW</string>
 		</array>
 ```
 

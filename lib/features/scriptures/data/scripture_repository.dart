@@ -42,12 +42,12 @@ class ScriptureRepository {
   String _getJsonPath(String locale) {
     switch (locale) {
       case LocaleConstants.enUS:
-        return 'assets/scriptures/scriptures_en_US.json';
+        return 'assets/scriptures/scriptures_en-US.json';
       case LocaleConstants.zhCN:
-        return 'assets/scriptures/scriptures_zh_CN.json';
+        return 'assets/scriptures/scriptures_zh-CN.json';
       case LocaleConstants.zhTW:
       default:
-        return 'assets/scriptures/scriptures_zh_TW.json';
+        return 'assets/scriptures/scriptures_zh-TW.json';
     }
   }
 }
