@@ -3,93 +3,88 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
-import 'package:abideverse/features/scriptures/models/scripture.dart';
-import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart';
+import 'package:abideverse/features/joys/data/joy_repository.dart';
+import 'package:abideverse/features/joys/models/joy.dart';
+import 'package:abideverse/features/joys/widgets/joy_list_item.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/models/sort_order.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 
-class ScripturesPage extends StatefulWidget {
+class JoysPage extends StatefulWidget {
   final String locale;
 
-  const ScripturesPage({
-    super.key,
-    this.locale = LocaleConstants.defaultLocale,
-  });
+  const JoysPage({super.key, this.locale = LocaleConstants.defaultLocale});
 
   @override
-  State<ScripturesPage> createState() => _ScripturesPageState();
+  State<JoysPage> createState() => _JoysPageState();
 }
 
-class _ScripturesPageState extends State<ScripturesPage> {
-  late ScriptureRepository repository;
-  List<Scripture> scriptures = [];
-  List<Scripture> filteredItems = [];
+class _JoysPageState extends State<JoysPage> {
+  late JoyRepository repository;
+  List<Joy> joys = [];
+  List<Joy> filteredItems = [];
   bool isLoading = true;
   bool isSearchInitial = true;
 
   final TextEditingController _searchController = TextEditingController();
 
-  SortOrder sortOrder = SortOrder.asc; // default sort order
+  SortOrder sortOrder = SortOrder.asc;
 
   @override
   void initState() {
     super.initState();
-    repository = ScriptureRepository(locale: widget.locale);
+    repository = JoyRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-
-    _loadAndSortScriptures();
+    _loadAndSortJoys();
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
-        'abideverse_screen': 'ScripturesPage',
-        'abideverse_screen_class': 'ScripturesPageClass',
+        'abideverse_screen': 'JoysPage',
+        'abideverse_screen_class': 'JoysPageClass',
       },
     );
   }
 
-  /// Load and sort scriptures based on the current sortOrder
-  Future<void> _loadAndSortScriptures() async {
-    final data = await repository.getScriptures(order: sortOrder);
-
+  Future<void> _loadAndSortJoys() async {
+    final data = await repository.getJoys(order: sortOrder);
     setState(() {
-      scriptures = data;
+      joys = data;
       filteredItems = _applyFilter(data, _searchController.text);
       isLoading = false;
     });
   }
 
-  /// Toggle between ascending/descending sort order
   Future<void> _toggleSortOrder() async {
     setState(() {
       sortOrder = sortOrder == SortOrder.asc ? SortOrder.desc : SortOrder.asc;
     });
-
-    await _loadAndSortScriptures();
+    await _loadAndSortJoys();
   }
 
-  /// Applies search filtering
-  List<Scripture> _applyFilter(List<Scripture> items, String query) {
+  List<Joy> _applyFilter(List<Joy> items, String query) {
     query = query.toLowerCase();
-    return items.where((s) {
-      return s.title.toLowerCase().contains(query) ||
-          s.scriptureName.toLowerCase().contains(query) ||
-          s.scriptureVerse.toLowerCase().contains(query);
+    return items.where((joy) {
+      return joy.title.toLowerCase().contains(query) ||
+          joy.prelude.toLowerCase().contains(query) ||
+          joy.laugh.toLowerCase().contains(query) ||
+          joy.scriptureName.toLowerCase().contains(query) ||
+          joy.scriptureVerse.toLowerCase().contains(query) ||
+          joy.videoName.toLowerCase().contains(query) ||
+          joy.talk.toLowerCase().contains(query);
     }).toList();
   }
 
   void _onSearchChanged() {
     setState(() {
-      filteredItems = _applyFilter(scriptures, _searchController.text);
+      filteredItems = _applyFilter(joys, _searchController.text);
     });
   }
 
   void _clearSearch() {
     _searchController.clear();
     setState(() {
-      filteredItems = scriptures;
+      filteredItems = joys;
       isSearchInitial = true;
     });
   }
@@ -109,7 +104,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.bibleVerse.tr()),
+        title: Text(LocaleKeys.joys.tr()),
         actions: [
           IconButton(
             icon: Icon(
@@ -148,17 +143,18 @@ class _ScripturesPageState extends State<ScripturesPage> {
             ),
           ),
 
-          // List of Scriptures
+          // List of Joys
           Expanded(
             child: ListView.builder(
               itemCount: filteredItems.length,
-              itemBuilder: (context, index) => ScriptureListItem(
-                scripture: filteredItems[index],
+              itemBuilder: (context, index) => JoyListItem(
+                joy: filteredItems[index],
                 index: index,
+                // onTap: (joy) {
+                //   context.push('/joys/joy/${joy.articleId}');
+                // },
                 onTap: () {
-                  context.push(
-                    '/scriptures/scripture/${filteredItems[index].articleId}',
-                  );
+                  context.push('/joys/joy/${filteredItems[index].articleId}');
                 },
               ),
             ),

@@ -4,24 +4,27 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:abideverse/features/joys/screens/joy_details_screen.dart';
-import 'package:abideverse/features/joys/widgets/joy_list.dart';
-import 'package:abideverse/features/joys/widgets/joy_scaffold.dart';
+import 'package:abideverse/features/joys/screens/joys_page.dart';
+import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
+import 'package:abideverse/app/abideverse_app_shell.dart';
 import 'package:abideverse/features/scriptures/screens/scriptures_page.dart';
-import 'package:abideverse/features/scriptures/screens/detailed_scripture_page.dart';
+import 'package:abideverse/features/scriptures/screens/scripture_detail_page.dart';
 import 'package:abideverse/features/about/screens/about_screen.dart';
 import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
 import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
+
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
-import 'package:abideverse/shared/services/db/joystore_service.dart';
+import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 
 class AppRoutes {
   static const joys = '/joys';
-  static const joysDetail = '/joys/joy/:joyId';
+  static const joysDetail = '/joys/joy/:articleId';
+
   static const scriptures = '/scriptures';
   static const scriptureDetail = '/scriptures/scripture/:articleId';
+
   static const about = '/about';
   static const settings = '/settings';
   static const signIn = '/sign-in';
@@ -29,36 +32,74 @@ class AppRoutes {
 }
 
 final GlobalKey<NavigatorState> appShellNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'app shell');
-
-String formattedLocale(BuildContext context) =>
-    context.locale.toString().replaceAll('_', '-');
+    GlobalKey<NavigatorState>(debugLabel: 'appShell');
 
 Page<void> fadePage(Widget child, LocalKey key) =>
     FadeTransitionPage(key: key, child: child);
 
+/// -------------------------------------------------------------------------
+/// SHARED CONTENT-GUARD FUNCTION
+/// -------------------------------------------------------------------------
+/// Validates any "content detail page" that depends on an integer articleId.
+/// You pass:
+///   - GoRouterState
+///   - The valid base route to redirect to if validation fails
+///   - A function that checks if the content exists (repository lookup)
+///
+/// This removes duplicated guard logic.
+/// -------------------------------------------------------------------------
+bool validateArticleRoute({
+  required GoRouterState state,
+  required String redirectTo,
+  required bool Function(int id) exists,
+}) {
+  final raw = state.pathParameters['articleId'];
+  final id = int.tryParse(raw ?? '');
+  if (id == null) return false;
+  return exists(id);
+}
+
+/// -------------------------------------------------------------------------
+/// ROUTER
+/// -------------------------------------------------------------------------
 GoRouter createRouter({
   required FirebaseFirestore firestore,
   required JoystoreAuth joyAuth,
-  required JoyStoreService joyStoreService,
+  required JoyRepository joyRepository,
 }) {
   String? guardRedirect(BuildContext context, GoRouterState state) {
     final path = state.uri.toString();
 
+    // -----------------------------
+    // AUTH GUARD
+    // -----------------------------
     if (!joyAuth.signedIn && path != AppRoutes.signIn) {
       return AppRoutes.signIn;
     }
 
+    // -----------------------------
+    // JOY DETAIL GUARD
+    // -----------------------------
     if (path.startsWith('/joys/joy/')) {
-      final joyId = state.pathParameters['joyId'];
-      final joyExists =
-          joyId != null && joyStoreService.joystore.getJoy(joyId) != null;
-      if (!joyExists) return AppRoutes.joys;
+      final ok = validateArticleRoute(
+        state: state,
+        redirectTo: AppRoutes.joys,
+        exists: (id) => joyRepository.getJoy(id) != null,
+      );
+      if (!ok) return AppRoutes.joys;
     }
 
+    // -----------------------------
+    // SCRIPTURE DETAIL GUARD
+    // (No repository yet; only ensures ID is valid)
+    // -----------------------------
     if (path.startsWith('/scriptures/scripture/')) {
-      final id = int.tryParse(state.pathParameters['articleId'] ?? '');
-      if (id == null) return AppRoutes.scriptures;
+      final ok = validateArticleRoute(
+        state: state,
+        redirectTo: AppRoutes.scriptures,
+        exists: (_) => true, // Always passes, until you add a repository
+      );
+      if (!ok) return AppRoutes.scriptures;
     }
 
     return null;
@@ -66,13 +107,16 @@ GoRouter createRouter({
 
   return GoRouter(
     debugLogDiagnostics: true,
-    observers: [
-      FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-    ],
     initialLocation: AppRoutes.joys,
     refreshListenable: joyAuth,
     redirect: guardRedirect,
+    observers: [
+      FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+    ],
     routes: [
+      // --------------------------
+      // MAIN SHELL
+      // --------------------------
       ShellRoute(
         navigatorKey: appShellNavigatorKey,
         builder: (context, state, child) {
@@ -82,68 +126,89 @@ GoRouter createRouter({
             '/about': 2,
             '/settings': 3,
           };
-          int selectedIndex = indexMap.entries
+
+          final selectedIndex = indexMap.entries
               .firstWhere(
                 (e) => state.uri.path.startsWith(e.key),
-                orElse: () => MapEntry('', 0),
+                orElse: () => const MapEntry('', 0),
               )
               .value;
-          return JoystoreScaffold(selectedIndex: selectedIndex, child: child);
+
+          return AbideVerseAppShell(selectedIndex: selectedIndex, child: child);
         },
         routes: [
-          // Joys
+          // --------------------------
+          // JOYS
+          // --------------------------
           GoRoute(
             path: AppRoutes.joys,
             pageBuilder: (context, state) => fadePage(
-              JoyList(
-                joys: joyStoreService.joystore.wholeJoys,
-                onTap: (joy) => Routes(context).pushJoyDetail(joy.id),
-              ),
+              JoysPage(locale: context.locale.toString()),
               state.pageKey,
             ),
           ),
+
           GoRoute(
             path: AppRoutes.joysDetail,
-            parentNavigatorKey: appShellNavigatorKey,
             builder: (context, state) {
-              final joyId = state.pathParameters['joyId']!;
-              final joy = joyStoreService.joystore.getJoy(joyId)!;
-              return JoyDetailsScreen(joy: joy);
-            },
-          ),
-          // Scriptures
-          GoRoute(
-            path: AppRoutes.scriptures,
-            pageBuilder: (context, state) => fadePage(
-              ScripturesPage(locale: formattedLocale(context)),
-              state.pageKey,
-            ),
-          ),
-          GoRoute(
-            path: AppRoutes.scriptureDetail,
-            builder: (context, state) {
-              final articleId = int.parse(state.pathParameters['articleId']!);
-              return DetailedScripturePage(
-                articleId: articleId,
-                locale: formattedLocale(context),
+              final id = int.parse(state.pathParameters['articleId']!);
+              return JoyDetailPage(
+                articleId: id,
+                locale: context.locale.toString(),
               );
             },
           ),
-          // About
+
+          // --------------------------
+          // SCRIPTURES
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.scriptures,
+            pageBuilder: (context, state) => fadePage(
+              ScripturesPage(locale: context.locale.toString()),
+              state.pageKey,
+            ),
+          ),
+
+          GoRoute(
+            path: AppRoutes.scriptureDetail,
+            builder: (context, state) {
+              final id = int.parse(state.pathParameters['articleId']!);
+              return ScriptureDetailPage(
+                articleId: id,
+                locale: context.locale.toString(),
+              );
+            },
+          ),
+
+          // --------------------------
+          // ABOUT
+          // --------------------------
           GoRoute(
             path: AppRoutes.about,
             pageBuilder: (context, state) =>
                 fadePage(AboutScreen(firestore: firestore), state.pageKey),
           ),
-          // Settings
+
+          // --------------------------
+          // SETTINGS
+          // --------------------------
           GoRoute(
             path: AppRoutes.settings,
-            pageBuilder: (context, state) =>
-                fadePage(SettingsScreen(firestore: firestore), state.pageKey),
+            pageBuilder: (context, state) => fadePage(
+              SettingsScreen(
+                firestore: firestore,
+                joyRepository: joyRepository,
+              ),
+              state.pageKey,
+            ),
           ),
         ],
       ),
-      // Sign In
+
+      // --------------------------
+      // SIGN-IN
+      // --------------------------
       GoRoute(
         path: AppRoutes.signIn,
         builder: (context, state) => SignInScreen(
@@ -153,7 +218,10 @@ GoRouter createRouter({
           },
         ),
       ),
-      // Manage Firestore
+
+      // --------------------------
+      // FIRESTORE ADMIN
+      // --------------------------
       GoRoute(
         path: AppRoutes.manageFirestore,
         pageBuilder: (context, state) => fadePage(
@@ -165,16 +233,18 @@ GoRouter createRouter({
   );
 }
 
-/// Type-safe navigation helper
+/// -------------------------------------------------------------------------
+/// NAVIGATION HELPERS
+/// -------------------------------------------------------------------------
 class Routes {
   final BuildContext context;
-
   Routes(this.context);
 
   void goJoys() => context.go(AppRoutes.joys);
 
-  void pushJoyDetail(int joyId) =>
-      context.push(AppRoutes.joysDetail.replaceFirst(':joyId', '$joyId'));
+  void pushJoyDetail(int articleId) => context.push(
+    AppRoutes.joysDetail.replaceFirst(':articleId', '$articleId'),
+  );
 
   void goScriptures() => context.go(AppRoutes.scriptures);
 
@@ -183,10 +253,7 @@ class Routes {
   );
 
   void goAbout() => context.go(AppRoutes.about);
-
   void goSettings() => context.go(AppRoutes.settings);
-
   void goSignIn() => context.go(AppRoutes.signIn);
-
   void goManageFirestore() => context.go(AppRoutes.manageFirestore);
 }

@@ -9,13 +9,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
-final abideverselogJoystoreScaffold = Logger('JoystoreScaffold');
+final abideverseLogAbideVerseAppShell = Logger('AbideVerseAppShell');
 
-class JoystoreScaffold extends StatelessWidget {
+class AbideVerseAppShell extends StatelessWidget {
   final Widget child;
   final int selectedIndex;
 
-  const JoystoreScaffold({
+  const AbideVerseAppShell({
     required this.child,
     required this.selectedIndex,
     super.key,
@@ -29,7 +29,7 @@ class JoystoreScaffold extends StatelessWidget {
       name: 'screen_view',
       parameters: {
         'abideverse_screen': 'AdaptiveScaffoldScreen',
-        'abideverse_screen_class': 'JoystoreScaffoldClass',
+        'abideverse_screen_class': 'AbideVerseAppShellClass',
       },
     );
 
@@ -40,8 +40,8 @@ class JoystoreScaffold extends StatelessWidget {
 
     // const maxWidth = 600.0;
     final maxWidth = (MediaQuery.of(context).size.width) * 1.0;
-    abideverselogJoystoreScaffold.info(
-      '[JoystoreScaffold] Scaffold max width: $maxWidth',
+    abideverseLogAbideVerseAppShell.info(
+      '[AbideVerseAppShell] Scaffold max width: $maxWidth',
     );
 
     return Scaffold(

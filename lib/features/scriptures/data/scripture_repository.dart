@@ -1,15 +1,14 @@
-// lib/features/scriptures/data/scripture_repository.dart
-
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import '../models/scripture.dart';
 import 'package:collection/collection.dart'; // for firstWhereOrNull
 import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/features/scriptures/models/scripture.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
 
 class ScriptureRepository {
   final String locale;
 
-  ScriptureRepository({this.locale = 'zh-TW'});
+  ScriptureRepository({this.locale = LocaleConstants.defaultLocale});
 
   /// Load the JSON file based on locale
   Future<List<Scripture>> getScriptures({
@@ -42,13 +41,13 @@ class ScriptureRepository {
   /// Map locale to JSON asset path
   String _getJsonPath(String locale) {
     switch (locale) {
-      case 'en-US':
-        return 'assets/scriptures/scriptures_en-US.json';
-      case 'zh-CN':
-        return 'assets/scriptures/scriptures_zh-CN.json';
-      case 'zh-TW':
+      case LocaleConstants.enUS:
+        return 'assets/scriptures/scriptures_en_US.json';
+      case LocaleConstants.zhCN:
+        return 'assets/scriptures/scriptures_zh_CN.json';
+      case LocaleConstants.zhTW:
       default:
-        return 'assets/scriptures/scriptures_zh-TW.json';
+        return 'assets/scriptures/scriptures_zh_TW.json';
     }
   }
 }

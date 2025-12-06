@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
-import 'package:abideverse/shared/widgets/copyright.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
-import 'package:abideverse/shared/services/db/local_storage_service.dart';
-import 'package:abideverse/shared/services/db/joystore_service.dart';
-
-import 'package:easy_localization/easy_localization.dart';
+import 'package:abideverse/features/joys/data/joy_repository.dart';
+import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/services/db/local_storage_service.dart';
+import 'package:abideverse/shared/models/sort_order.dart';
 
-final abideverselogSettings = Logger('settings');
+final abideverseLogSettings = Logger('settings');
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key, required this.firestore});
+  const SettingsScreen({
+    super.key,
+    required this.firestore,
+    required this.joyRepository,
+  });
+
   final FirebaseFirestore firestore;
+  final JoyRepository joyRepository;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -30,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
-        'abideverse_screen': '笑裡藏道簡介Screen',
+        'abideverse_screen': 'SettingsScreen',
         'abideverse_screen_class': 'SettingsScreenClass',
       },
     );
@@ -46,99 +51,90 @@ class _SettingsScreenState extends State<SettingsScreen> {
             return IconButton(
               icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
               onPressed: () {
-                // Navigate to the joys list
                 Routes(context).goJoys();
               },
             );
           },
         ),
       ),
-      body: SafeArea(child: SettingsContent(firestore: widget.firestore)),
-    );
-  }
-}
-
-class SettingsContent extends StatefulWidget {
-  const SettingsContent({super.key, required this.firestore});
-  final FirebaseFirestore firestore;
-
-  @override
-  State<SettingsContent> createState() => _SettingsContentState();
-}
-
-class _SettingsContentState extends State<SettingsContent> {
-  @override
-  Widget build(BuildContext context) {
-    FirebaseAnalytics.instance.logEvent(
-      name: 'screen_view',
-      parameters: {
-        'abideverse_screen': 'SettingsContent',
-        'abideverse_screen_class': 'SettingsScreenClass',
-      },
-    );
-
-    return ListView(
-      children: const <Widget>[
-        LanguageSection(),
-        CopyrightSection(),
-        SizedBox(height: 10),
-      ],
+      body: SafeArea(
+        child: ListView(
+          children: [
+            LanguageSection(joyRepository: widget.joyRepository),
+            const CopyrightSection(),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class LanguageSection extends StatefulWidget {
-  const LanguageSection({super.key});
+  const LanguageSection({super.key, required this.joyRepository});
+
+  final JoyRepository joyRepository;
 
   @override
   State<LanguageSection> createState() => _LanguageSectionState();
 }
 
 class _LanguageSectionState extends State<LanguageSection> {
-  String xlcdLanguageSelection = LocaleKeys.settingsLangSetting.tr();
-
   late bool isEnUs;
   late bool isZhCn;
   late bool isZhTw;
 
-  LocalStorageService storage = LocalStorageService.instance;
+  final LocalStorageService storage = LocalStorageService.instance;
 
   @override
-  void initState() {
-    super.initState();
-    // isEnUs = context.locale == const Locale('en', 'US') ? true : false;
-    // isZhCn = context.locale == const Locale('zh', 'CN') ? true : false;
-    // isZhTw = context.locale == const Locale('zh', 'TW') ? true : false;
-    isEnUs = false;
-    isZhCn = false;
-    isZhTw = false;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final locale = context.locale;
+    isEnUs = locale == const Locale('en', 'US');
+    isZhCn = locale == const Locale('zh', 'CN');
+    isZhTw = locale == const Locale('zh', 'TW');
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  Future<void> _setLocale(
+    String localeCode,
+    String joystoreName,
+    Locale locale,
+  ) async {
+    LocaleConstants.currentLocale = localeCode;
+    LocaleConstants.joystoreName = joystoreName;
 
-  @override
-  Widget build(BuildContext context) {
+    await storage.saveString(key: 'joysCurrentLocale', value: localeCode);
+    await storage.saveString(key: 'joystoreName', value: joystoreName);
+
+    await context.setLocale(locale);
+
+    await widget.joyRepository.getJoys(order: SortOrder.asc);
+
+    setState(() {
+      isEnUs = locale == const Locale('en', 'US');
+      isZhCn = locale == const Locale('zh', 'CN');
+      isZhTw = locale == const Locale('zh', 'TW');
+    });
+
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
         'abideverse_screen': 'LanguageSection',
-        'abideverse_screen_class': 'SettingsScreenClass',
+        'abideverse_screen_class':
+            'SetLocaleTo${localeCode.replaceAll('-', '')}',
       },
     );
 
-    switch (context.locale.toString()) {
-      case 'en_US':
-        isEnUs = true;
-      case 'zh_CN':
-        isZhCn = true;
-      case 'zh_TW':
-      default:
-        isZhTw = true;
-    }
+    abideverseLogSettings.info(
+      '[Settings] Locale set to ${locale.toString()}; '
+      'joysCurrentLocale=${LocaleConstants.currentLocale}; '
+      'joystoreName=${LocaleConstants.joystoreName}',
+    );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: 4.0,
       margin: const EdgeInsets.all(16.0),
@@ -193,39 +189,11 @@ class _LanguageSectionState extends State<LanguageSection> {
                         backgroundColor: Colors.blue,
                       )
                     : null,
-                onPressed: () {
-                  LocaleConstants.currentLocale = LocaleConstants.zhTW;
-                  LocaleConstants.joystoreName = LocaleConstants.joystoreZhTW;
-                  storage.saveString(
-                    key: 'joysCurrentLocale',
-                    value: LocaleConstants.zhTW,
-                  );
-                  storage.saveString(
-                    key: 'joystoreName',
-                    value: LocaleConstants.joystoreZhTW,
-                  );
-                  context.setLocale(const Locale('zh', 'TW'));
-                  JoyStoreService.instance
-                      .loadFirestoreOrLocal(prod: true)
-                      .then((js) => JoyStoreService.instance.joystore = js);
-                  setState(() {
-                    isEnUs = false;
-                    isZhCn = false;
-                    isZhTw = true;
-                  });
-
-                  FirebaseAnalytics.instance.logEvent(
-                    name: 'screen_view',
-                    parameters: {
-                      'abideverse_screen': 'LanguageSection',
-                      'abideverse_screen_class': 'SetLocaleToZhTW',
-                    },
-                  );
-                  abideverselogSettings.info(
-                    '[Settings] Notify listeners: Locale=${context.locale.toString()};'
-                    ' joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}.',
-                  );
-                },
+                onPressed: () => _setLocale(
+                  LocaleConstants.zhTW,
+                  LocaleConstants.joystoreZhTW,
+                  const Locale('zh', 'TW'),
+                ),
                 child: Text(LocaleKeys.localeZhTw.tr()),
               ),
               OutlinedButton(
@@ -235,39 +203,11 @@ class _LanguageSectionState extends State<LanguageSection> {
                         backgroundColor: Colors.blue,
                       )
                     : null,
-                onPressed: () {
-                  LocaleConstants.currentLocale = LocaleConstants.zhCN;
-                  LocaleConstants.joystoreName = LocaleConstants.joystoreZhCN;
-                  storage.saveString(
-                    key: 'joysCurrentLocale',
-                    value: LocaleConstants.zhCN,
-                  );
-                  storage.saveString(
-                    key: 'joystoreName',
-                    value: LocaleConstants.joystoreZhCN,
-                  );
-                  context.setLocale(const Locale('zh', 'CN'));
-                  JoyStoreService.instance
-                      .loadFirestoreOrLocal(prod: true)
-                      .then((js) => JoyStoreService.instance.joystore = js);
-                  setState(() {
-                    isEnUs = false;
-                    isZhCn = true;
-                    isZhTw = false;
-                  });
-
-                  FirebaseAnalytics.instance.logEvent(
-                    name: 'screen_view',
-                    parameters: {
-                      'abideverse_screen': 'LanguageSection',
-                      'abideverse_screen_class': 'SetLocaleToZhCN',
-                    },
-                  );
-                  abideverselogSettings.info(
-                    '[Settings] Notify listeners: Locale=${context.locale.toString()};'
-                    ' joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}.',
-                  );
-                },
+                onPressed: () => _setLocale(
+                  LocaleConstants.zhCN,
+                  LocaleConstants.joystoreZhCN,
+                  const Locale('zh', 'CN'),
+                ),
                 child: Text(LocaleKeys.localeZhCn.tr()),
               ),
               OutlinedButton(
@@ -277,39 +217,11 @@ class _LanguageSectionState extends State<LanguageSection> {
                         backgroundColor: Colors.blue,
                       )
                     : null,
-                onPressed: () {
-                  LocaleConstants.currentLocale = LocaleConstants.enUS;
-                  LocaleConstants.joystoreName = LocaleConstants.joystoreEnUS;
-                  storage.saveString(
-                    key: 'joysCurrentLocale',
-                    value: LocaleConstants.enUS,
-                  );
-                  storage.saveString(
-                    key: 'joystoreName',
-                    value: LocaleConstants.joystoreEnUS,
-                  );
-                  context.setLocale(const Locale('en', 'US'));
-                  JoyStoreService.instance
-                      .loadFirestoreOrLocal(prod: true)
-                      .then((js) => JoyStoreService.instance.joystore = js);
-                  setState(() {
-                    isEnUs = true;
-                    isZhCn = false;
-                    isZhTw = false;
-                  });
-
-                  FirebaseAnalytics.instance.logEvent(
-                    name: 'screen_view',
-                    parameters: {
-                      'abideverse_screen': 'LanguageSection',
-                      'abideverse_screen_class': 'SetLocaleToEnUs',
-                    },
-                  );
-                  abideverselogSettings.info(
-                    '[Settings] Notify listeners: Locale=${context.locale.toString()};'
-                    ' joysCurrentLocale=${LocaleConstants.currentLocale}; joystoreName=${LocaleConstants.joystoreName}.',
-                  );
-                },
+                onPressed: () => _setLocale(
+                  LocaleConstants.enUS,
+                  LocaleConstants.joystoreEnUS,
+                  const Locale('en', 'US'),
+                ),
                 child: Text(LocaleKeys.localeEnUs.tr()),
               ),
             ],

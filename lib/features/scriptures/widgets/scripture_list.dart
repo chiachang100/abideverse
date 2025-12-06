@@ -7,8 +7,7 @@ class ScriptureList extends StatefulWidget {
   final List<Scripture> scriptures;
   final ValueChanged<Scripture>? onTap;
 
-  const ScriptureList({Key? key, required this.scriptures, this.onTap})
-    : super(key: key);
+  const ScriptureList({super.key, required this.scriptures, this.onTap});
 
   @override
   State<ScriptureList> createState() => _ScriptureListState();

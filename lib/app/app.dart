@@ -7,12 +7,13 @@ import 'package:go_router/go_router.dart';
 
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
-import 'package:abideverse/shared/services/db/joystore_service.dart';
+import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/app/router.dart';
+import 'package:abideverse/shared/models/sort_order.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 final joysNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'joys shell');
-final abideverselogAppJoystore = Logger('app_joystore');
+final abideverseLogAppJoystore = Logger('app_joystore');
 
 class Joystore extends StatefulWidget {
   const Joystore({super.key, required this.firestore});
@@ -30,32 +31,36 @@ class Joystore extends StatefulWidget {
 
 class _JoystoreState extends State<Joystore> {
   final JoystoreAuth joyAuth = JoystoreAuth();
-  final JoyStoreService joyStoreService = JoyStoreService.instance;
 
   late final GoRouter router;
+  late final Future<void> _loadFuture;
+
+  final joyRepository = JoyRepository(locale: LocaleConstants.currentLocale);
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize router safely
+    // Start fetch without awaiting — allows router to build immediately
+    _loadFuture = joyRepository.getJoys();
+
+    // Initialize router
     router = createRouter(
       firestore: widget.firestore,
       joyAuth: joyAuth,
-      joyStoreService: joyStoreService,
+      joyRepository: joyRepository,
     );
 
-    // Log analytics screen view
+    // Log analytics
     _logScreenView('MainAppScreen');
 
-    // Firestore test asynchronously
+    // Firestore ping + JoyRepository preload
     _initAsync();
   }
 
-  // Helper: Async initialization
   Future<void> _initAsync() async {
     await _testFirestore();
-    await _loadJoyStore();
+    await _loadJoyRepository();
   }
 
   Future<void> _testFirestore() async {
@@ -64,14 +69,12 @@ class _JoystoreState extends State<Joystore> {
           .collection('test')
           .doc('ping')
           .get();
-      debugPrint('Firestore connected: ${doc.exists}');
-      abideverselogAppJoystore.info(
+
+      abideverseLogAppJoystore.info(
         '[MainAppScreen] Firestore connected: ${doc.exists}',
       );
     } catch (e, st) {
-      debugPrint('Firestore error: $e');
-      debugPrint(' Stack: $st');
-      abideverselogAppJoystore.severe(
+      abideverseLogAppJoystore.severe(
         '[MainAppScreen] Firestore error: $e',
         e,
         st,
@@ -79,11 +82,9 @@ class _JoystoreState extends State<Joystore> {
     }
   }
 
-  Future<void> _loadJoyStore() async {
-    final js = await joyStoreService.loadFromFirestore();
-    joyStoreService.joystore = js;
-    // If your UI depends on the joystore, uncomment next line
-    // setState(() {});
+  Future<void> _loadJoyRepository() async {
+    await joyRepository.getJoys(order: SortOrder.asc);
+    abideverseLogAppJoystore.info('[MainAppScreen] JoyRepository initialized.');
   }
 
   void _logScreenView(String screenName) {
@@ -119,11 +120,13 @@ class _JoystoreState extends State<Joystore> {
       themeMode: ThemeMode.system,
       builder: (context, child) {
         if (child == null) throw 'No child in MaterialApp.router builder';
-        abideverselogAppJoystore.info(
-          '[MainAppScreen] Locale=${context.locale.toString()}; '
+
+        abideverseLogAppJoystore.info(
+          '[MainAppScreen] Locale=${context.locale}; '
           'joysCurrentLocale=${LocaleConstants.currentLocale}; '
           'joystoreName=${LocaleConstants.joystoreName}',
         );
+
         return JoystoreAuthScope(notifier: joyAuth, child: child);
       },
     );

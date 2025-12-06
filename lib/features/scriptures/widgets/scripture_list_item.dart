@@ -24,7 +24,8 @@ class ScriptureListItem extends StatelessWidget {
 
     return ListTile(
       title: Text(
-        '${index + 1}. ${scripture.title}',
+        //'${index + 1}. ${scripture.title}',
+        '${scripture.articleId}. ${scripture.title}',
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(

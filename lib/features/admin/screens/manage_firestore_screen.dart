@@ -10,12 +10,12 @@ import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/core/constants/ui_constants.dart';
 
 import 'package:abideverse/features/joys/models/joy.dart';
-import 'package:abideverse/features/joys/data/joystore.dart';
-import 'package:abideverse/shared/services/db/joystore_service.dart';
+import 'package:abideverse/features/joys/data/joy_repository.dart';
 
 import 'package:abideverse/shared/widgets/copyright.dart';
+import 'package:abideverse/shared/models/sort_order.dart';
 
-final abideverselogManageFirestore = Logger('manage-firestore');
+final abideverseLogManageFirestore = Logger('manage-firestore');
 
 class ManageFirestoreScreen extends StatefulWidget {
   const ManageFirestoreScreen({super.key, required this.firestore});
@@ -100,37 +100,30 @@ class FirebaseDbSection extends StatelessWidget {
         'abideverse_screen_class': 'ManageFirestoreScreenClass',
       },
     );
-
-    // Build JoyStore Instance from local JoyStore
-    JoyStore firestoreDbInstance = JoyStoreService.instance.loadLocalJoyStore();
-    //JoyStore firestoreDbInstance = await JoyStoreService.instance.loadFirestoreOrLocal(prod: true);
-
-    // Initialize the new documents
-    for (var joy in firestoreDbInstance.allJoys) {
-      // final docRef = firestore.collection('joys').doc(joy.articleId.toString());
+    final repo = JoyRepository(locale: LocaleConstants.currentLocale);
+    final joys = await repo.getJoys(order: SortOrder.asc);
+    for (var joy in joys) {
       final docRef = firestore
           .collection(LocaleConstants.joystoreName)
           .doc(joy.articleId.toString());
-      // Add document
-      docRef
-          .set(joy.toJson())
-          .onError(
-            (e, _) => abideverselogManageFirestore.info(
-              "[ManageFirestore] Error writing documen(t: $e",
-            ),
-          );
-      // Read document
-      docRef.get().then(
-        (DocumentSnapshot doc) {
-          final data = doc.data() as Map<String, dynamic>;
-          abideverselogManageFirestore.info(
-            '[ManageFirestore] ${LocaleConstants.joystoreName}: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
-          );
-        },
-        onError: (e) => abideverselogManageFirestore.info(
-          "[ManageFirestore] Error getting document: $e",
-        ),
-      );
+      await docRef.set(joy.toJson()).catchError((e) {
+        abideverseLogManageFirestore.info(
+          "[ManageFirestore] Error writing document: $e",
+        );
+      });
+      await docRef
+          .get()
+          .then((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            abideverseLogManageFirestore.info(
+              '[ManageFirestore] ${LocaleConstants.joystoreName}: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
+            );
+          })
+          .catchError((e) {
+            abideverseLogManageFirestore.info(
+              "[ManageFirestore] Error getting document: $e",
+            );
+          });
     }
   }
 
@@ -142,23 +135,19 @@ class FirebaseDbSection extends StatelessWidget {
         'abideverse_screen_class': 'ManageFirestoreScreenClass',
       },
     );
-
-    await firestore
-        // .collection('joys')
+    final snapshot = await firestore
         .collection(LocaleConstants.joystoreName)
         .orderBy('likes', descending: true)
-        .get()
-        .then((event) {
-          for (var doc in event.docs) {
-            abideverselogManageFirestore.info(
-              "[ManageFirestore] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => ${doc.data()}",
-            );
-            var joy = Joy.fromJson(doc.data());
-            abideverselogManageFirestore.info(
-              "[ManageFirestore] ${LocaleConstants.joystoreName}: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
-            );
-          }
-        });
+        .get();
+    for (var doc in snapshot.docs) {
+      abideverseLogManageFirestore.info(
+        "[ManageFirestore] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => ${doc.data()}",
+      );
+      final joy = Joy.fromJson(doc.data());
+      abideverseLogManageFirestore.info(
+        "[ManageFirestore] ${LocaleConstants.joystoreName}: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
+      );
+    }
   }
 
   @override

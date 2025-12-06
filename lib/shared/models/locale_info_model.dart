@@ -6,8 +6,8 @@ class LocaleInfoModel extends ChangeNotifier {
   static String joystoreName = LocaleConstants.joystoreZhTW;
 
   var localeInfoRecords = <String, String>{
-    // 'locale': 'zh_TW',
-    // 'store': 'joys_zh_tw',
+    // 'locale': LocaleConstants.defaultLocale,
+    // 'store': LocaleConstants.joystoreZhTW,
     'locale': joysCurrentLocale,
     'store': joystoreName,
   };

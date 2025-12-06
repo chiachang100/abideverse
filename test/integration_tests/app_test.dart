@@ -14,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
@@ -38,7 +39,7 @@ void main() {
         ) async {
           if (methodCall.method == 'getPreferredLocales') {
             // Provide a fake, non-null response matching one of your supportedLocales
-            return <String>['en_US'];
+            return <String>[LocaleConstants.enUS];
           }
           return null;
         });
@@ -54,7 +55,7 @@ void main() {
     final MockFirebaseFirestore mockFirestore = MockFirebaseFirestore();
 
     await tester.runAsync(() async {
-      await rootBundle.loadString('assets/translations/en-US.json');
+      await rootBundle.loadString('assets/translations/en_US.json');
     });
 
     final Widget testApp = EasyLocalization(

@@ -1,0 +1,125 @@
+import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import 'package:abideverse/features/joys/data/joy_repository.dart';
+import 'package:abideverse/features/joys/models/joy.dart';
+
+import 'package:abideverse/shared/widgets/display_youtube_video.dart';
+import 'package:abideverse/features/joys/widgets/display_title_section.dart';
+import 'package:abideverse/features/joys/widgets/display_article_content.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+
+class JoyDetailPage extends StatefulWidget {
+  final int articleId;
+  final String locale;
+
+  const JoyDetailPage({
+    super.key,
+    required this.articleId,
+    this.locale = LocaleConstants.defaultLocale,
+  });
+
+  @override
+  State<JoyDetailPage> createState() => _JoyDetailPageState();
+}
+
+class _JoyDetailPageState extends State<JoyDetailPage> {
+  Joy? joy;
+  bool isLoading = true;
+  bool favorite = false;
+
+  late JoyRepository repository;
+
+  @override
+  void initState() {
+    super.initState();
+    repository = JoyRepository(locale: widget.locale);
+    loadJoy();
+  }
+
+  Future<void> loadJoy() async {
+    final data = await repository.getJoy(widget.articleId);
+
+    setState(() {
+      joy = data;
+      isLoading = false;
+    });
+  }
+
+  /// Local-only likes (not stored anywhere)
+  void _incrementLikes() {
+    if (favorite || joy == null) return;
+
+    setState(() {
+      favorite = true;
+      joy!.likes++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (joy == null) {
+      return const Scaffold(body: Center(child: Text('Joy not found')));
+    }
+
+    final j = joy!;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(j.title),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: ActionChip(
+              avatar: const Icon(Icons.thumb_up_outlined, color: Colors.white),
+              backgroundColor: Colors.green,
+              label: Text(
+                '${j.likes}',
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: _incrementLikes,
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Shared Title Section (image + title + scripture info)
+            DisplayTitleSection(
+              photoUrl: j.photoUrl,
+              title: j.title,
+              articleId: j.articleId,
+              scriptureVerse: j.scriptureVerse,
+              scriptureName: j.scriptureName,
+            ),
+
+            const SizedBox(height: 16),
+
+            /// Article sections
+            DisplayArticleContent(title: '前奏曲', content: j.prelude),
+            DisplayArticleContent(title: '開懷大笑', content: j.laugh),
+            DisplayArticleContent(title: '笑裡藏道', content: j.talk),
+
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+
+            /// YouTube video
+            if (j.videoId.isNotEmpty)
+              DisplayYouTubeVideo(videoId: j.videoId, videoName: j.videoName)
+            else
+              Text(LocaleKeys.noVideoAvailable.tr()),
+          ],
+        ),
+      ),
+    );
+  }
+}
