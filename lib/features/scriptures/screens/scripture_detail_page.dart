@@ -71,7 +71,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
     final s = scripture!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.bibleVerse.tr())),
+      appBar: AppBar(title: Text(s.title)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -79,7 +79,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
           children: [
             /// Title
             Text(
-              '${s.title} (${s.articleId})${s.isRicherDaily ? " *" : ""}',
+              '${s.title} (${s.articleId})',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
 
