@@ -1,8 +1,8 @@
 // lib/features/scriptures/widgets/scripture_list_item.dart
 
 import 'package:flutter/material.dart';
-import '../../../core/constants/ui_constants.dart';
-import '../models/scripture.dart';
+import 'package:abideverse/core/constants/ui_constants.dart';
+import 'package:abideverse/features/scriptures/models/scripture.dart';
 
 class ScriptureListItem extends StatelessWidget {
   final Scripture scripture;
