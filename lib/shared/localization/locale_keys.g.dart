@@ -35,12 +35,14 @@ abstract class  LocaleKeys {
   static const qrCode = 'qrCode';
   static const abideverseApp = 'abideverseApp';
   static const xlcdappApp = 'xlcdappApp';
+  static const joyolordCom = 'joyolordCom';
   static const useQrCode = 'useQrCode';
   static const youtubeVideo = 'youtubeVideo';
   static const noVideoAvailable = 'noVideoAvailable';
   static const aboutTitle = 'aboutTitle';
   static const abideverseQrCode = 'abideverseQrCode';
   static const xlcdappQrCode = 'xlcdappQrCode';
+  static const joyolordComQrCode = 'joyolordComQrCode';
   static const bookIntro = 'bookIntro';
   static const bookIntroSubtitle = 'bookIntroSubtitle';
   static const bookIntroContent = 'bookIntroContent';

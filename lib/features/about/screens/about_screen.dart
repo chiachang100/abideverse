@@ -62,7 +62,7 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.about.tr()),
+        title: Text('${LocaleKeys.about.tr()} (v${AppConfig.appVersion})'),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -121,7 +121,8 @@ class QRCodeSection extends StatefulWidget {
 }
 
 class _QRCodeSectionState extends State<QRCodeSection> {
-  final String abideverseWebsiteLink = 'https://abideverse.web.app';
+  final String abideverseAppLink = 'https://abideverse.web.app';
+  final String joyolordComLink = 'https://joyolord.com';
 
   @override
   Widget build(BuildContext context) {
@@ -145,17 +146,19 @@ class _QRCodeSectionState extends State<QRCodeSection> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width:
-                      MediaQuery.of(context).size.width *
-                      0.3, // adjust as needed
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Image.asset(
-                      'assets/icons/abideverse_qrcode.png',
-                      fit: BoxFit.cover,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width:
+                        MediaQuery.of(context).size.width *
+                        0.3, // adjust as needed
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.asset(
+                        'assets/icons/abideverse_qrcode.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -167,11 +170,15 @@ class _QRCodeSectionState extends State<QRCodeSection> {
               ),
               const SizedBox(height: 10),
               Text(
-                '${LocaleKeys.abideverseQrCode.tr()} (v${AppConfig.appVersion})',
+                '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.abideverseApp.tr()}',
               ),
               const SizedBox(height: 10),
-              Text(
-                '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.abideverseApp.tr()}',
+              Center(
+                child: OutlinedButton(
+                  //onPressed: visitYouTubePlaylist,
+                  onPressed: () => lauchTargetUrl(abideverseAppLink),
+                  child: Text(LocaleKeys.abideverseApp.tr()),
+                ),
               ),
               const SizedBox(height: 10),
             ],
@@ -191,33 +198,39 @@ class _QRCodeSectionState extends State<QRCodeSection> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width:
-                      MediaQuery.of(context).size.width *
-                      0.3, // adjust as needed
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Image.asset(
-                      'assets/icons/xlcdapp_qrcode.png',
-                      fit: BoxFit.cover,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width:
+                        MediaQuery.of(context).size.width *
+                        0.3, // adjust as needed
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.asset(
+                        'assets/icons/joyolord_com_qrcode.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
               Text(
-                // xlcdQRCodeIntro,
-                LocaleKeys.xlcdappQrCode.tr(),
+                // joyolordComQrCode,
+                LocaleKeys.joyolordComQrCode.tr(),
                 style: const TextStyle(fontSize: 18.0),
               ),
               const SizedBox(height: 10),
               Text(
-                '${LocaleKeys.xlcdappQrCode.tr()} (v${AppConfig.appVersion})',
+                '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.joyolordCom.tr()}',
               ),
               const SizedBox(height: 10),
-              Text(
-                '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.xlcdappApp.tr()}',
+              Center(
+                child: OutlinedButton(
+                  //onPressed: visitYouTubePlaylist,
+                  onPressed: () => lauchTargetUrl(joyolordComLink),
+                  child: Text(LocaleKeys.joyolordCom.tr()),
+                ),
               ),
               const SizedBox(height: 10),
             ],
