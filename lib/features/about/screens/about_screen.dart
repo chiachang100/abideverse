@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 
 import 'package:abideverse/app/router.dart';
@@ -143,45 +142,51 @@ class _QRCodeSectionState extends State<QRCodeSection> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width:
-                        MediaQuery.of(context).size.width *
-                        0.3, // adjust as needed
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.asset(
-                        'assets/icons/abideverse_qrcode.png',
-                        fit: BoxFit.cover,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width:
+                          MediaQuery.of(context).size.width *
+                          0.3, // adjust as needed
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Image.asset(
+                          'assets/icons/abideverse_qrcode.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Text(
-                // xabideverseQrCode Intro,
-                LocaleKeys.abideverseQrCode.tr(),
-                style: const TextStyle(fontSize: 18.0),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.abideverseApp.tr()}',
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: OutlinedButton(
-                  //onPressed: visitYouTubePlaylist,
-                  onPressed: () => lauchTargetUrl(abideverseAppLink),
-                  child: Text(LocaleKeys.abideverseApp.tr()),
+                Text(
+                  // xabideverseQrCode Intro,
+                  LocaleKeys.abideverseQrCode.tr(),
+                  style: const TextStyle(fontSize: 18.0),
                 ),
-              ),
-              const SizedBox(height: 10),
-            ],
+                const SizedBox(height: 10),
+                Text(
+                  '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.abideverseApp.tr()}',
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: OutlinedButton(
+                    //onPressed: visitYouTubePlaylist,
+                    onPressed: () => lauchTargetUrl(abideverseAppLink),
+                    child: Text(LocaleKeys.abideverseApp.tr()),
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
 
@@ -195,45 +200,51 @@ class _QRCodeSectionState extends State<QRCodeSection> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width:
-                        MediaQuery.of(context).size.width *
-                        0.3, // adjust as needed
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Image.asset(
-                        'assets/icons/joyolord_com_qrcode.png',
-                        fit: BoxFit.cover,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width:
+                          MediaQuery.of(context).size.width *
+                          0.3, // adjust as needed
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Image.asset(
+                          'assets/icons/joyolord_com_qrcode.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Text(
-                // joyolordComQrCode,
-                LocaleKeys.joyolordComQrCode.tr(),
-                style: const TextStyle(fontSize: 18.0),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.joyolordCom.tr()}',
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: OutlinedButton(
-                  //onPressed: visitYouTubePlaylist,
-                  onPressed: () => lauchTargetUrl(joyolordComLink),
-                  child: Text(LocaleKeys.joyolordCom.tr()),
+                Text(
+                  // joyolordComQrCode,
+                  LocaleKeys.joyolordComQrCode.tr(),
+                  style: const TextStyle(fontSize: 18.0),
                 ),
-              ),
-              const SizedBox(height: 10),
-            ],
+                const SizedBox(height: 10),
+                Text(
+                  '${LocaleKeys.useQrCode.tr()} ${LocaleKeys.joyolordCom.tr()}',
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: OutlinedButton(
+                    //onPressed: visitYouTubePlaylist,
+                    onPressed: () => lauchTargetUrl(joyolordComLink),
+                    child: Text(LocaleKeys.joyolordCom.tr()),
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ],
@@ -264,12 +275,12 @@ class _BookIntroSectionState extends State<BookIntroSection> {
       elevation: 8.0,
       margin: const EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
               child: SizedBox(
                 height: 400,
                 width: 400,
@@ -283,35 +294,35 @@ class _BookIntroSectionState extends State<BookIntroSection> {
                 ),
               ),
             ),
-          ),
-          Text(
-            // xlcdBookIntro,
-            LocaleKeys.bookIntro.tr(),
-            style: const TextStyle(fontSize: 18.0),
-          ),
-          const SizedBox(height: 10),
-          Text(LocaleKeys.bookIntroSubtitle.tr()),
-          const SizedBox(height: 10),
-          Text(LocaleKeys.bookIntroContent.tr()),
-          const SizedBox(height: 10),
-          OverflowBar(
-            spacing: 10,
-            overflowSpacing: 20,
-            alignment: MainAxisAlignment.center,
-            overflowAlignment: OverflowBarAlignment.center,
-            children: <Widget>[
-              OutlinedButton(
-                onPressed: () => lauchTargetUrl(gracephSite),
-                child: Text(LocaleKeys.gracephBookStore.tr()),
-              ),
-              OutlinedButton(
-                onPressed: () => lauchTargetUrl(riverbankSite),
-                child: Text(LocaleKeys.riverbankBookStore.tr()),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-        ],
+            Text(
+              // xlcdBookIntro,
+              LocaleKeys.bookIntro.tr(),
+              style: const TextStyle(fontSize: 18.0),
+            ),
+            const SizedBox(height: 10),
+            Text(LocaleKeys.bookIntroSubtitle.tr()),
+            const SizedBox(height: 10),
+            Text(LocaleKeys.bookIntroContent.tr()),
+            const SizedBox(height: 10),
+            OverflowBar(
+              spacing: 10,
+              overflowSpacing: 20,
+              alignment: MainAxisAlignment.center,
+              overflowAlignment: OverflowBarAlignment.center,
+              children: <Widget>[
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(gracephSite),
+                  child: Text(LocaleKeys.gracephBookStore.tr()),
+                ),
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(riverbankSite),
+                  child: Text(LocaleKeys.riverbankBookStore.tr()),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
@@ -343,42 +354,45 @@ class _BookAuthorSectionState extends State<BookAuthorSection> {
       elevation: 8.0,
       margin: const EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                child: AspectRatio(
-                  aspectRatio: 4 / 3,
-                  child: Image.asset(
-                    'assets/photos/pastor_cheng_photo.png',
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                  child: AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: Image.asset(
+                      'assets/photos/pastor_cheng_photo.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Text(
-            LocaleKeys.bookAuthor.tr(),
-            style: const TextStyle(fontSize: 18.0),
-          ),
-          const SizedBox(height: 10),
-          Text(LocaleKeys.bookAuthorSubtitle.tr()),
-          const SizedBox(height: 10),
-          Text(LocaleKeys.bookAuthorContent.tr()),
-          Center(
-            child: OutlinedButton(
-              //onPressed: visitYouTubePlaylist,
-              onPressed: () => lauchTargetUrl(youtubePlaylistLink),
-              child: Text(LocaleKeys.bookAuthorYouTube.tr()),
+            Text(
+              LocaleKeys.bookAuthor.tr(),
+              style: const TextStyle(fontSize: 18.0),
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+            Text(LocaleKeys.bookAuthorSubtitle.tr()),
+            const SizedBox(height: 10),
+            Text(LocaleKeys.bookAuthorContent.tr()),
+            Center(
+              child: OutlinedButton(
+                //onPressed: visitYouTubePlaylist,
+                onPressed: () => lauchTargetUrl(youtubePlaylistLink),
+                child: Text(LocaleKeys.bookAuthorYouTube.tr()),
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
@@ -407,70 +421,75 @@ class _BookPraiseSectionState extends State<BookPraiseSection> {
       elevation: 8.0,
       margin: const EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: SizedBox(
-                height: 400,
-                width: 400,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                  child: Image.asset(
-                    'assets/photos/xlcdapp_photo_default.png',
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: SizedBox(
+                  height: 400,
+                  width: 400,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(15),
+                    ),
+                    child: Image.asset(
+                      'assets/photos/xlcdapp_photo_default.png',
+                      fit: BoxFit.fitWidth,
+                      width: double.infinity,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Text(
-            LocaleKeys.bookPraisesTitle.tr(),
-            style: const TextStyle(fontSize: 18.0),
-          ),
-          const SizedBox(height: 10),
-          ListTile(
-            // tileColor: Colors.yellow[50],
-            title: Text(LocaleKeys.bookPraisesSubtitle.tr()),
-          ),
-          const Divider(height: 0),
-          ListTile(title: Text(LocaleKeys.bookPraises1.tr())),
-          const Divider(height: 0),
-          ListTile(
-            // tileColor: Colors.yellow[50],
-            title: Text(LocaleKeys.bookPraises2.tr()),
-          ),
-          const Divider(height: 0),
-          ListTile(title: Text(LocaleKeys.bookPraises3.tr())),
-          const Divider(height: 0),
-          ListTile(
-            // tileColor: Colors.yellow[50],
-            title: Text(LocaleKeys.bookPraises4.tr()),
-          ),
-          const Divider(height: 0),
-          ListTile(title: Text(LocaleKeys.bookPraises5.tr())),
-          const SizedBox(height: 10),
-          OverflowBar(
-            spacing: 10,
-            overflowSpacing: 20,
-            alignment: MainAxisAlignment.center,
-            overflowAlignment: OverflowBarAlignment.center,
-            children: <Widget>[
-              OutlinedButton(
-                onPressed: () => lauchTargetUrl(gracephSite),
-                child: Text(LocaleKeys.gracephBookStore.tr()),
-              ),
-              OutlinedButton(
-                onPressed: () => lauchTargetUrl(riverbankSite),
-                child: Text(LocaleKeys.riverbankBookStore.tr()),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-        ],
+            Text(
+              LocaleKeys.bookPraisesTitle.tr(),
+              style: const TextStyle(fontSize: 18.0),
+            ),
+            const SizedBox(height: 10),
+            ListTile(
+              // tileColor: Colors.yellow[50],
+              title: Text(LocaleKeys.bookPraisesSubtitle.tr()),
+            ),
+            const Divider(height: 0),
+            ListTile(title: Text(LocaleKeys.bookPraises1.tr())),
+            const Divider(height: 0),
+            ListTile(
+              // tileColor: Colors.yellow[50],
+              title: Text(LocaleKeys.bookPraises2.tr()),
+            ),
+            const Divider(height: 0),
+            ListTile(title: Text(LocaleKeys.bookPraises3.tr())),
+            const Divider(height: 0),
+            ListTile(
+              // tileColor: Colors.yellow[50],
+              title: Text(LocaleKeys.bookPraises4.tr()),
+            ),
+            const Divider(height: 0),
+            ListTile(title: Text(LocaleKeys.bookPraises5.tr())),
+            const SizedBox(height: 10),
+            OverflowBar(
+              spacing: 10,
+              overflowSpacing: 20,
+              alignment: MainAxisAlignment.center,
+              overflowAlignment: OverflowBarAlignment.center,
+              children: <Widget>[
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(gracephSite),
+                  child: Text(LocaleKeys.gracephBookStore.tr()),
+                ),
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(riverbankSite),
+                  child: Text(LocaleKeys.riverbankBookStore.tr()),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
@@ -502,42 +521,45 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
       elevation: 8.0,
       margin: const EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(15),
-                ),
-                child: Image.asset(
-                  'assets/photos/joy_pray_thanks.png',
-                  fit: BoxFit.contain,
-                  width: MediaQuery.of(context).size.width * 0.9,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(15),
+                  ),
+                  child: Image.asset(
+                    'assets/photos/joy_pray_thanks.png',
+                    fit: BoxFit.contain,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                  ),
                 ),
               ),
             ),
-          ),
-          Text(
-            LocaleKeys.appDeveloper.tr(),
-            style: const TextStyle(fontSize: 18.0),
-          ),
-          const SizedBox(height: 10),
-          Text(LocaleKeys.appDeveloperSubtitle.tr()),
-          const SizedBox(height: 10),
-          Text(LocaleKeys.appDeveloperContent.tr()),
-          const SizedBox(height: 10),
-          Center(
-            child: OutlinedButton(
-              //onPressed: visitBibleWebsite,
-              onPressed: () => lauchTargetUrl(bibleGatewayLink),
-              child: Text(LocaleKeys.onlineBible.tr()),
+            Text(
+              LocaleKeys.appDeveloper.tr(),
+              style: const TextStyle(fontSize: 18.0),
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+            Text(LocaleKeys.appDeveloperSubtitle.tr()),
+            const SizedBox(height: 10),
+            Text(LocaleKeys.appDeveloperContent.tr()),
+            const SizedBox(height: 10),
+            Center(
+              child: OutlinedButton(
+                //onPressed: visitBibleWebsite,
+                onPressed: () => lauchTargetUrl(bibleGatewayLink),
+                child: Text(LocaleKeys.onlineBible.tr()),
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
