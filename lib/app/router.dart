@@ -4,19 +4,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:abideverse/features/joys/screens/joys_page.dart';
-import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
 import 'package:abideverse/app/abideverse_app_shell.dart';
-import 'package:abideverse/features/scriptures/screens/scriptures_page.dart';
-import 'package:abideverse/features/scriptures/screens/scripture_detail_page.dart';
-import 'package:abideverse/features/about/screens/about_screen.dart';
-import 'package:abideverse/features/settings/screens/settings.dart';
-import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
-import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
+import 'package:abideverse/core/config/app_config.dart';
 
-import 'package:abideverse/shared/widgets/fade_transition_page.dart';
-import 'package:abideverse/features/joys/data/joy_repository.dart';
+import 'package:abideverse/features/about/screens/about_screen.dart';
+import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
+import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
+import 'package:abideverse/features/joys/data/joy_repository.dart';
+import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
+import 'package:abideverse/features/joys/screens/joys_page.dart';
+import 'package:abideverse/features/scriptures/screens/scripture_detail_page.dart';
+import 'package:abideverse/features/scriptures/screens/scriptures_page.dart';
+import 'package:abideverse/features/settings/screens/settings.dart';
+import 'package:abideverse/shared/widgets/fade_transition_page.dart';
 
 class AppRoutes {
   static const joys = '/joys';
@@ -73,8 +74,10 @@ GoRouter createRouter({
     // -----------------------------
     // AUTH GUARD
     // -----------------------------
-    if (!joyAuth.signedIn && path != AppRoutes.signIn) {
-      return AppRoutes.signIn;
+    if (AppConfig.enableSignIn) {
+      if (!joyAuth.signedIn && path != AppRoutes.signIn) {
+        return AppRoutes.signIn;
+      }
     }
 
     // -----------------------------
