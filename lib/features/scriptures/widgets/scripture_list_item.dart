@@ -41,7 +41,7 @@ class ScriptureListItem extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: avatarColor,
         child: Text(
-          scripture.scriptureName.substring(0, 1),
+          scripture.title.substring(0, 1),
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

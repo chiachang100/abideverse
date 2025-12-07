@@ -38,16 +38,29 @@ class ScriptureRepository {
     return scriptures.firstWhereOrNull((s) => s.articleId == articleId);
   }
 
+  // /// Map locale to JSON asset path
+  // String _getJsonPath(String locale) {
+  //   switch (locale) {
+  //     case LocaleConstants.enUS:
+  //       return 'assets/scriptures/scriptures_en-US.json';
+  //     case LocaleConstants.zhCN:
+  //       return 'assets/scriptures/scriptures_zh-CN.json';
+  //     case LocaleConstants.zhTW:
+  //     default:
+  //       return 'assets/scriptures/scriptures_zh-TW.json';
+  //   }
+  // }
+
   /// Map locale to JSON asset path
   String _getJsonPath(String locale) {
     switch (locale) {
       case LocaleConstants.enUS:
-        return 'assets/scriptures/scriptures_en-US.json';
+        return 'assets/scriptures/scriptures_master.json';
       case LocaleConstants.zhCN:
-        return 'assets/scriptures/scriptures_zh-CN.json';
+        return 'assets/scriptures/scriptures_master.json';
       case LocaleConstants.zhTW:
       default:
-        return 'assets/scriptures/scriptures_zh-TW.json';
+        return 'assets/scriptures/scriptures_master.json';
     }
   }
 }
