@@ -148,17 +148,20 @@ class _QRCodeSectionState extends State<QRCodeSection> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  child: Image.asset(
-                    'assets/icons/abideverse_qrcode.png',
-                    height: MediaQuery.of(context).size.width * (2 / 4),
-                    width: MediaQuery.of(context).size.width,
-                    //height: 120, width: 640,
-                    fit: BoxFit.scaleDown,
+                  width:
+                      MediaQuery.of(context).size.width *
+                      0.3, // adjust as needed
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.asset(
+                      'assets/icons/abideverse_qrcode.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
               Text(
-                // xlcdQRCodeIntro,
+                // xabideverseQrCode Intro,
                 LocaleKeys.abideverseQrCode.tr(),
                 style: const TextStyle(fontSize: 18.0),
               ),
@@ -191,12 +194,15 @@ class _QRCodeSectionState extends State<QRCodeSection> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  child: Image.asset(
-                    'assets/icons/xlcdapp_qrcode.png',
-                    height: MediaQuery.of(context).size.width * (2 / 4),
-                    width: MediaQuery.of(context).size.width,
-                    //height: 120, width: 640,
-                    fit: BoxFit.scaleDown,
+                  width:
+                      MediaQuery.of(context).size.width *
+                      0.3, // adjust as needed
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.asset(
+                      'assets/icons/xlcdapp_qrcode.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -250,13 +256,18 @@ class _BookIntroSectionState extends State<BookIntroSection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              child: Image.asset(
-                'assets/photos/xlcd_book_photo.png',
-                height: MediaQuery.of(context).size.width * (3 / 4),
-                width: MediaQuery.of(context).size.width,
-                //height: 120, width: 640,
-                fit: BoxFit.scaleDown,
+            child: Center(
+              child: SizedBox(
+                height: 400,
+                width: 400,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Image.asset(
+                    'assets/photos/xlcdapp_photo_default.png',
+                    fit: BoxFit.fitWidth,
+                    width: double.infinity,
+                  ),
+                ),
               ),
             ),
           ),
@@ -325,12 +336,16 @@ class _BookAuthorSectionState extends State<BookAuthorSection> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-              child: Image.asset(
-                'assets/photos/pastor_cheng_photo.png',
-                height: MediaQuery.of(context).size.width * (3 / 4),
-                width: MediaQuery.of(context).size.width,
-                //height: 120, width: 640,
-                fit: BoxFit.scaleDown,
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                child: AspectRatio(
+                  aspectRatio: 4 / 3,
+                  child: Image.asset(
+                    'assets/photos/pastor_cheng_photo.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
               ),
             ),
           ),
@@ -388,12 +403,13 @@ class _BookPraiseSectionState extends State<BookPraiseSection> {
               child: SizedBox(
                 height: 400,
                 width: 400,
-                child: Image.asset(
-                  'assets/photos/xlcdapp_photo_default.png',
-                  height: MediaQuery.of(context).size.width * (2 / 4),
-                  width: MediaQuery.of(context).size.width,
-                  //height: 120, width: 640,
-                  fit: BoxFit.scaleDown,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Image.asset(
+                    'assets/photos/xlcdapp_photo_default.png',
+                    fit: BoxFit.fitWidth,
+                    width: double.infinity,
+                  ),
                 ),
               ),
             ),

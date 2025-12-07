@@ -101,9 +101,15 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
             const SizedBox(height: 1),
 
             /// Article sections
-            DisplayArticleContent(title: '前奏曲', content: j.prelude),
-            DisplayArticleContent(title: '開懷大笑', content: j.laugh),
-            DisplayArticleContent(title: '笑裡藏道', content: j.talk),
+            DisplayArticleContent(
+              title: LocaleKeys.detailedPrelude.tr(),
+              content: j.prelude,
+            ),
+            DisplayArticleContent(
+              title: LocaleKeys.detailedLaugh.tr(),
+              content: j.laugh,
+            ),
+            DisplayArticleContent(title: LocaleKeys.xlcd.tr(), content: j.talk),
 
             const SizedBox(height: 16),
             const Divider(),

@@ -1,5 +1,8 @@
 import 'package:abideverse/shared/widgets/youtube_player.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class DisplayYouTubeVideo extends StatelessWidget {
   final String videoId;
@@ -22,8 +25,8 @@ class DisplayYouTubeVideo extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'YouTube 視頻',
+            Text(
+              LocaleKeys.youtubeVideo.tr(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),

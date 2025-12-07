@@ -28,11 +28,28 @@ class DisplayTitleSection extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
 
-          Image.asset(
-            joy.photoUrl,
-            height: MediaQuery.of(context).size.width * 3 / 4,
-            width: double.infinity,
-            fit: BoxFit.contain,
+          const SizedBox(height: 16),
+
+          // Image.asset(
+          //   joy.photoUrl,
+          //   height: MediaQuery.of(context).size.width * 3 / 4,
+          //   width: double.infinity,
+          //   fit: BoxFit.contain,
+          // ),
+
+          /// Image with nice clipping + aspect ratio
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(15),
+            ),
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Image.asset(
+                joy.photoUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+            ),
           ),
         ],
       ),
