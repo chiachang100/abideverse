@@ -495,15 +495,14 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: SizedBox(
-                height: 400,
-                width: 400,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(15),
+                ),
                 child: Image.asset(
                   'assets/photos/joy_pray_thanks.png',
-                  height: MediaQuery.of(context).size.width * (3 / 4),
-                  width: MediaQuery.of(context).size.width,
-                  //height: 120, width: 640,
-                  fit: BoxFit.scaleDown,
+                  fit: BoxFit.contain,
+                  width: MediaQuery.of(context).size.width * 0.9,
                 ),
               ),
             ),

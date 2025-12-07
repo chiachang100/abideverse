@@ -16,6 +16,12 @@ class ScriptureListItem extends StatelessWidget {
     this.onTap,
   });
 
+  // Auto-select black/white text for best contrast
+  Color readableTextColor(Color bg) {
+    final luminance = bg.computeLuminance();
+    return luminance > 0.5 ? Colors.black : Colors.white;
+  }
+
   @override
   Widget build(BuildContext context) {
     final avatarColor =
@@ -36,7 +42,11 @@ class ScriptureListItem extends StatelessWidget {
         backgroundColor: avatarColor,
         child: Text(
           scripture.scriptureName.substring(0, 1),
-          style: const TextStyle(fontSize: 20),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: readableTextColor(avatarColor), // dynamically readable
+          ),
         ),
       ),
       onTap: onTap,
