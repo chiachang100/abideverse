@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 class UIConstants {
   // Circle avatar background colors (7 entries)
   static const List<Color> circleAvatarBgColors = [
-    Colors.red,
-    Colors.orange,
-    Colors.green,
-    Colors.blue,
-    Colors.indigoAccent,
-    Colors.deepPurpleAccent,
+    Colors.red, // Red
+    Colors.orange, // Orange
+    Colors.yellow, // Yellow
+    Colors.green, // Green
+    Colors.blue, // Blue
+    Colors.indigo, // Indigo
+    Colors.purple, // Violet
   ];
 
   // Ranking emoji used across the app
