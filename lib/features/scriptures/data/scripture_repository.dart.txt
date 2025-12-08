@@ -1,0 +1,45 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:collection/collection.dart'; // for firstWhereOrNull
+import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/features/scriptures/models/scripture.dart';
+import 'package:abideverse/core/constants/locale_constants.dart';
+
+class ScriptureRepository {
+  final String locale;
+
+  ScriptureRepository({this.locale = LocaleConstants.defaultLocale});
+
+  /// Load the JSON file based on locale
+  Future<List<Scripture>> getScriptures({
+    SortOrder order = SortOrder.asc,
+  }) async {
+    final String path = _getJsonPath(locale);
+    final String data = await rootBundle.loadString(path);
+    final List<dynamic> jsonResult = json.decode(data);
+
+    List<Scripture> scriptures = jsonResult
+        .map((json) => Scripture.fromJson(json))
+        .toList();
+
+    // Apply sorting based on order
+    if (order == SortOrder.asc) {
+      scriptures.sort((a, b) => a.articleId.compareTo(b.articleId));
+    } else {
+      scriptures.sort((a, b) => b.articleId.compareTo(a.articleId));
+    }
+
+    return scriptures;
+  }
+
+  /// Get a single scripture by articleId
+  Future<Scripture?> getScripture(int articleId) async {
+    final scriptures = await getScriptures();
+    return scriptures.firstWhereOrNull((s) => s.articleId == articleId);
+  }
+
+  /// Always return scriptures_master.json
+  String _getJsonPath(String locale) {
+    return 'assets/scriptures/scriptures_master.json';
+  }
+}

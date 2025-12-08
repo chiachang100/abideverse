@@ -38,7 +38,6 @@ abstract class  LocaleKeys {
   static const joyolordCom = 'joyolordCom';
   static const useQrCode = 'useQrCode';
   static const youtubeVideo = 'youtubeVideo';
-  static const noVideoAvailable = 'noVideoAvailable';
   static const aboutTitle = 'aboutTitle';
   static const abideverseQrCode = 'abideverseQrCode';
   static const xlcdappQrCode = 'xlcdappQrCode';
@@ -70,5 +69,7 @@ abstract class  LocaleKeys {
   static const detailedLaugh = 'detailedLaugh';
   static const sortAsc = 'sortAsc';
   static const sortDesc = 'sortDesc';
+  static const noVideoAvailable = 'noVideoAvailable';
+  static const itemNotFound = 'itemNotFound';
 
 }

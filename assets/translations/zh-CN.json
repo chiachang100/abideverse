@@ -38,7 +38,6 @@
   "joyolordCom": "joyolord.com",
   "useQrCode": "扫描二维码即可快速访问: ",
   "youtubeVideo": "YouTube视频",
-  "noVideoAvailable": "暂无视频。",
 
   "aboutTitle": "资源简介",
   "abideverseQrCode": "AbideVerse (常在主里) App 二维码",
@@ -73,5 +72,8 @@
   "detailedLaugh": "开怀大笑",
 
   "sortAsc": "升序排序",
-  "sortDesc": "降序排序"
+  "sortDesc": "降序排序",
+
+  "noVideoAvailable": "暂无视频。",
+  "itemNotFound": "未找到该物品。"
 }

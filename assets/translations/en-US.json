@@ -38,7 +38,6 @@
   "joyolordCom": "joyolord.com",
   "useQrCode": "Scan the QR code for quick access: ",
   "youtubeVideo": "YouTube Video",
-  "noVideoAvailable": "No video available.",
 
   "aboutTitle": "About",
   "abideverseQrCode": "AbideVerse App QR Code",
@@ -73,5 +72,8 @@
   "detailedLaugh": "Laugh Heartily",
 
   "sortAsc": "Sort ascending",
-  "sortDesc": "Sort descending"
+  "sortDesc": "Sort descending",
+
+  "noVideoAvailable": "No video available.",
+  "itemNotFound": "Item not found."
 }

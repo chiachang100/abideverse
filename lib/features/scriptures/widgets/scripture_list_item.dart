@@ -16,38 +16,63 @@ class ScriptureListItem extends StatelessWidget {
     this.onTap,
   });
 
-  // Auto-select black/white text for best contrast
+  /// Auto-selects black or white text for the best contrast.
   Color readableTextColor(Color bg) {
-    final luminance = bg.computeLuminance();
-    return luminance > 0.5 ? Colors.black : Colors.white;
+    return bg.computeLuminance() > 0.5 ? Colors.black : Colors.white;
   }
 
   @override
   Widget build(BuildContext context) {
-    final avatarColor =
-        UIConstants.circleAvatarBgColors[scripture.articleId %
-            UIConstants.circleAvatarBgColors.length];
+    // Avoid repeated list lookups + modulo operations.
+    final bgColors = UIConstants.circleAvatarBgColors;
+    final avatarColor = bgColors.isNotEmpty
+        ? bgColors[scripture.articleId % bgColors.length]
+        : Colors.grey;
+
+    // Prevents crash if Scripture Name is empty (rare but safety first).
+    final safeTitle = (scripture.title.isNotEmpty)
+        ? scripture.title
+        : 'Untitled';
+
+    // Prevents crash if Scripture Name is empty (rare but safety first).
+    final safeScriptureName = (scripture.scriptureName.isNotEmpty)
+        ? scripture.scriptureName
+        : 'Untitled';
+
+    // Precompute subtitle efficiently (no string concatenation in Text widget).
+    final subtitleText =
+        '✞ (${scripture.scriptureName} ${scripture.scriptureChapter}) ${scripture.scriptureVerse}';
+
+    String extractLeadingChar(String text) {
+      // Enable Unicode mode
+      final regex = RegExp(r'\p{L}', unicode: true);
+
+      final match = regex.firstMatch(text);
+      return match != null ? match.group(0)! : '?';
+    }
+
+    final leadingChar = extractLeadingChar(safeScriptureName);
 
     return ListTile(
-      title: Text(
-        '${scripture.title} (${scripture.articleId})',
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        '✞ (${scripture.scriptureName} ${scripture.scriptureChapter}) ${scripture.scriptureVerse}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
       leading: CircleAvatar(
         backgroundColor: avatarColor,
         child: Text(
-          scripture.title.substring(0, 1),
+          leadingChar,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: readableTextColor(avatarColor), // dynamically readable
+            color: readableTextColor(avatarColor),
           ),
         ),
+      ),
+      title: Text(
+        '$safeTitle (${scripture.articleId})',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        subtitleText,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
       onTap: onTap,
     );

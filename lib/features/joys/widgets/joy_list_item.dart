@@ -17,24 +17,44 @@ class JoyListItem extends StatelessWidget {
     required this.onTap,
   });
 
-  // Auto-select black/white text for best contrast
+  /// Auto-selects black or white text for the best contrast.
   Color readableTextColor(Color bg) {
-    final luminance = bg.computeLuminance();
-    return luminance > 0.5 ? Colors.black : Colors.white;
+    return bg.computeLuminance() > 0.5 ? Colors.black : Colors.white;
   }
 
   @override
   Widget build(BuildContext context) {
-    @override
-    final avatarColor =
-        UIConstants.circleAvatarBgColors[joy.articleId %
-            UIConstants.circleAvatarBgColors.length];
+    // Avoid repeated list lookups + modulo operations.
+    final bgColors = UIConstants.circleAvatarBgColors;
+    final avatarColor = bgColors.isNotEmpty
+        ? bgColors[joy.articleId % bgColors.length]
+        : Colors.grey;
+
+    // Prevents crash if Scripture Name is empty (rare but safety first).
+    final safeTitle = (joy.title.isNotEmpty) ? joy.title : 'Untitled';
+
+    // Precompute subtitle efficiently (no string concatenation in Text widget).
+    final subtitleText =
+        '✞ (${joy.scriptureName} ${joy.scriptureChapter}) ${joy.scriptureVerse}';
+
+    // Precompute subtitle efficiently (no string concatenation in Text widget).
+    final laughText = '•ᴗ• ${joy.laugh}';
+
+    String extractLeadingChar(String text) {
+      // Enable Unicode mode
+      final regex = RegExp(r'\p{L}', unicode: true);
+
+      final match = regex.firstMatch(text);
+      return match != null ? match.group(0)! : '?';
+    }
+
+    final leadingChar = extractLeadingChar(safeTitle);
 
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: avatarColor,
         child: Text(
-          joy.title.substring(0, 1),
+          leadingChar,
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -43,22 +63,14 @@ class JoyListItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        '${joy.title} (${joy.articleId})',
+        '$safeTitle (${joy.articleId})',
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '✞ (${joy.scriptureName} ${joy.scriptureChapter})${joy.scriptureVerse}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            '•ᴗ• ${joy.laugh}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          Text(subtitleText, maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(laughText, maxLines: 1, overflow: TextOverflow.ellipsis),
         ],
       ),
       //onTap: () => onTap(joy),

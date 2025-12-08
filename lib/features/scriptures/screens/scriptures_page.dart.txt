@@ -1,4 +1,3 @@
-// lib/features/scriptures/screens/scriptures_page.dart
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -24,7 +23,7 @@ class ScripturesPage extends StatefulWidget {
 }
 
 class _ScripturesPageState extends State<ScripturesPage> {
-  late final ScriptureRepository repository;
+  late ScriptureRepository repository;
   List<Scripture> scriptures = [];
   List<Scripture> filteredItems = [];
   bool isLoading = true;
@@ -53,11 +52,10 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   /// Load and sort scriptures based on the current sortOrder
   Future<void> _loadAndSortScriptures() async {
-    setState(() => isLoading = true);
     final data = await repository.getScriptures(order: sortOrder);
+
     setState(() {
       scriptures = data;
-      // apply current search query if any
       filteredItems = _applyFilter(data, _searchController.text);
       isLoading = false;
     });
@@ -74,19 +72,17 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   /// Applies search filtering
   List<Scripture> _applyFilter(List<Scripture> items, String query) {
-    final q = query.trim().toLowerCase();
-    if (q.isEmpty) return items;
+    query = query.toLowerCase();
     return items.where((s) {
-      return s.title.toLowerCase().contains(q) ||
-          s.scriptureName.toLowerCase().contains(q) ||
-          s.scriptureVerse.toLowerCase().contains(q);
+      return s.title.toLowerCase().contains(query) ||
+          s.scriptureName.toLowerCase().contains(query) ||
+          s.scriptureVerse.toLowerCase().contains(query);
     }).toList();
   }
 
   void _onSearchChanged() {
     setState(() {
       filteredItems = _applyFilter(scriptures, _searchController.text);
-      isSearchInitial = _searchController.text.isEmpty;
     });
   }
 
@@ -130,7 +126,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
       ),
       body: Column(
         children: [
-          // Search Bar (assumes you have a SearchBar widget in your project)
+          // Search Bar
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SearchBar(

@@ -1,4 +1,3 @@
-// lib/features/scriptures/screens/scripture_detail_page.dart
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -66,18 +65,18 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
     }
 
     if (scripture == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(LocaleKeys.bibleVerse.tr())),
-        body: Center(
-          child: Text(LocaleKeys.itemNotFound.tr()),
-        ), // add translation key if available
-      );
+      return const Scaffold(body: Center(child: Text('Scripture not found')));
     }
 
     final s = scripture!;
 
     return Scaffold(
-      appBar: AppBar(title: Text('${s.title} (${s.articleId})')),
+      appBar: AppBar(
+        title: Text(
+          '${s.title} (${s.articleId})',
+          style: const TextStyle(fontSize: 20),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(

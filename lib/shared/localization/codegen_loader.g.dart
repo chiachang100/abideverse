@@ -50,7 +50,6 @@ class CodegenLoader extends AssetLoader{
   "joyolordCom": "joyolord.com",
   "useQrCode": "Scan the QR code for quick access: ",
   "youtubeVideo": "YouTube Video",
-  "noVideoAvailable": "No video available.",
   "aboutTitle": "About",
   "abideverseQrCode": "AbideVerse App QR Code",
   "xlcdappQrCode": "xlcdapp App QR Code",
@@ -81,7 +80,9 @@ class CodegenLoader extends AssetLoader{
   "detailedPrelude": "Prelude",
   "detailedLaugh": "Laugh Heartily",
   "sortAsc": "Sort ascending",
-  "sortDesc": "Sort descending"
+  "sortDesc": "Sort descending",
+  "noVideoAvailable": "No video available.",
+  "itemNotFound": "Item not found."
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse (常在主里)",
@@ -119,7 +120,6 @@ static const Map<String,dynamic> _zh_CN = {
   "joyolordCom": "joyolord.com",
   "useQrCode": "扫描二维码即可快速访问: ",
   "youtubeVideo": "YouTube视频",
-  "noVideoAvailable": "暂无视频。",
   "aboutTitle": "资源简介",
   "abideverseQrCode": "AbideVerse (常在主里) App 二维码",
   "xlcdappQrCode": "「笑里藏道」App 二维码",
@@ -150,7 +150,9 @@ static const Map<String,dynamic> _zh_CN = {
   "detailedPrelude": "前奏曲",
   "detailedLaugh": "开怀大笑",
   "sortAsc": "升序排序",
-  "sortDesc": "降序排序"
+  "sortDesc": "降序排序",
+  "noVideoAvailable": "暂无视频。",
+  "itemNotFound": "未找到该物品。"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse (常在主裡)",
@@ -188,7 +190,6 @@ static const Map<String,dynamic> _zh_TW = {
   "joyolordCom": "joyolord.com",
   "useQrCode": "掃描二維碼即可快速訪問: ",
   "youtubeVideo": "YouTube視頻",
-  "noVideoAvailable": "暫無視頻。",
   "aboutTitle": "資源簡介",
   "abideverseQrCode": "AbideVerse (常在主裡) App 二維碼",
   "xlcdappQrCode": "「笑裡藏道」App 二維碼",
@@ -219,7 +220,9 @@ static const Map<String,dynamic> _zh_TW = {
   "detailedPrelude": "前奏曲",
   "detailedLaugh": "開懷大笑",
   "sortAsc": "升序排序",
-  "sortDesc": "降序排序"
+  "sortDesc": "降序排序",
+  "noVideoAvailable": "暫無視頻。",
+  "itemNotFound": "未找到該物品。"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

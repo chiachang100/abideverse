@@ -1,4 +1,6 @@
+// lib/features/scriptures/data/scripture_repository.dart
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:collection/collection.dart'; // for firstWhereOrNull
 import 'package:abideverse/shared/models/sort_order.dart';
@@ -10,57 +12,64 @@ class ScriptureRepository {
 
   ScriptureRepository({this.locale = LocaleConstants.defaultLocale});
 
-  /// Load the JSON file based on locale
+  // In-memory cache - shared per repository instance (can be made static if desired)
+  static List<Scripture>? _cachedScriptures;
+
+  static const String _masterJsonPath =
+      'assets/scriptures/scriptures_master.json';
+
+  /// Public loader - returns cached list if loaded; parses using compute() once.
   Future<List<Scripture>> getScriptures({
     SortOrder order = SortOrder.asc,
+    bool forceReload = false,
   }) async {
-    final String path = _getJsonPath(locale);
-    final String data = await rootBundle.loadString(path);
-    final List<dynamic> jsonResult = json.decode(data);
+    if (_cachedScriptures == null || forceReload) {
+      final jsonString = await rootBundle.loadString(_masterJsonPath);
+      // parse on background isolate
+      final parsed = await compute(_parseScriptures, jsonString);
+      _cachedScriptures = parsed;
+    }
 
-    List<Scripture> scriptures = jsonResult
-        .map((json) => Scripture.fromJson(json))
-        .toList();
-
-    // Apply sorting based on order
+    // return a sorted copy if requested order differs
     if (order == SortOrder.asc) {
-      scriptures.sort((a, b) => a.articleId.compareTo(b.articleId));
+      // cached list is kept as-is (assume asc by articleId). Ensure it's sorted.
+      _cachedScriptures!.sort((a, b) => a.articleId.compareTo(b.articleId));
+      return _cachedScriptures!;
     } else {
-      scriptures.sort((a, b) => b.articleId.compareTo(a.articleId));
+      final List<Scripture> clone = List<Scripture>.from(_cachedScriptures!);
+      clone.sort((a, b) => b.articleId.compareTo(a.articleId));
+      return clone;
     }
-
-    return scriptures;
   }
 
-  /// Get a single scripture by articleId
+  /// Get a single scripture by articleId using cached list (loads first if needed)
   Future<Scripture?> getScripture(int articleId) async {
-    final scriptures = await getScriptures();
-    return scriptures.firstWhereOrNull((s) => s.articleId == articleId);
+    final list = await getScriptures();
+    return list.firstWhereOrNull((s) => s.articleId == articleId);
   }
 
-  // /// Map locale to JSON asset path
-  // String _getJsonPath(String locale) {
-  //   switch (locale) {
-  //     case LocaleConstants.enUS:
-  //       return 'assets/scriptures/scriptures_en-US.json';
-  //     case LocaleConstants.zhCN:
-  //       return 'assets/scriptures/scriptures_zh-CN.json';
-  //     case LocaleConstants.zhTW:
-  //     default:
-  //       return 'assets/scriptures/scriptures_zh-TW.json';
-  //   }
-  // }
-
-  /// Map locale to JSON asset path
-  String _getJsonPath(String locale) {
-    switch (locale) {
-      case LocaleConstants.enUS:
-        return 'assets/scriptures/scriptures_master.json';
-      case LocaleConstants.zhCN:
-        return 'assets/scriptures/scriptures_master.json';
-      case LocaleConstants.zhTW:
-      default:
-        return 'assets/scriptures/scriptures_master.json';
+  /// Simple search that uses cached list
+  Future<List<Scripture>> search(
+    String query, {
+    SortOrder order = SortOrder.asc,
+  }) async {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) {
+      return getScriptures(order: order);
     }
+    final list = await getScriptures(order: order);
+    return list.where((s) {
+      return s.title.toLowerCase().contains(q) ||
+          s.scriptureName.toLowerCase().contains(q) ||
+          s.scriptureVerse.toLowerCase().contains(q);
+    }).toList();
   }
+}
+
+/// Top-level parser function run in an isolate via compute()
+List<Scripture> _parseScriptures(String jsonString) {
+  final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+  return jsonList
+      .map((j) => Scripture.fromJson(j as Map<String, dynamic>))
+      .toList();
 }
