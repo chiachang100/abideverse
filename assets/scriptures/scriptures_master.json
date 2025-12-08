@@ -435,6 +435,21 @@
     "isRicherDaily": true
   },
   {
+    "id": 30,
+    "articleId": 30,
+    "title": "試探中神必開路",
+    "scriptureName": "哥林多前書",
+    "scriptureChapter": "10:13",
+    "scriptureVerse": "「你們所遇見的試探，無非是人所能受的。神是信實的，必不叫你們受試探過於所能受的，在受試探的時候，總要給你們開一條出路，叫你們能忍受得住。」",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "一年四季",
+    "videoId": "Mg1fz5Im6HU",
+    "videoName": "30. 試探中神必開路 (林前 10: 13)",
+    "isRicherDaily": false
+  },
+  {
     "id": 960,
     "articleId": 960,
     "title": "Are You Rooted in Love?",
@@ -552,6 +567,21 @@
     "category": "一年四季",
     "videoId": "kIUJ7vYN964",
     "videoName": "967. 你今天活出慷慨嗎? (箴 11:25)",
+    "isRicherDaily": false
+  },
+  {
+    "id": 968,
+    "articleId": 968,
+    "title": "Are You Living Generously Today?",
+    "scriptureName": "Proverbs",
+    "scriptureChapter": "11:25",
+    "scriptureVerse": "{ A generous person will prosper; whoever refreshes others will be refreshed. }",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "一年四季",
+    "videoId": "UWtMNfYNcgg",
+    "videoName": "968. Are You Living Generously Today? (Prov. 11:25)",
     "isRicherDaily": false
   },
   {
