@@ -67,6 +67,15 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
       return const Scaffold(body: Center(child: Text('Joy not found')));
     }
 
+    if (joy == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text(LocaleKeys.xlcd.tr())),
+        body: Center(
+          child: Text(LocaleKeys.itemNotFound.tr()),
+        ), // add translation key if available
+      );
+    }
+
     final j = joy!;
 
     return Scaffold(

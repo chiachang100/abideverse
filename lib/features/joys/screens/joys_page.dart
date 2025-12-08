@@ -47,9 +47,11 @@ class _JoysPageState extends State<JoysPage> {
   }
 
   Future<void> _loadAndSortJoys() async {
+    setState(() => isLoading = true);
     final data = await repository.getJoys(order: sortOrder);
     setState(() {
       joys = data;
+      // apply current search query if any
       filteredItems = _applyFilter(data, _searchController.text);
       isLoading = false;
     });
@@ -63,7 +65,8 @@ class _JoysPageState extends State<JoysPage> {
   }
 
   List<Joy> _applyFilter(List<Joy> items, String query) {
-    query = query.toLowerCase();
+    query = query.trim().toLowerCase();
+    if (query.isEmpty) return items;
     return items.where((joy) {
       return joy.title.toLowerCase().contains(query) ||
           joy.prelude.toLowerCase().contains(query) ||
@@ -78,6 +81,7 @@ class _JoysPageState extends State<JoysPage> {
   void _onSearchChanged() {
     setState(() {
       filteredItems = _applyFilter(joys, _searchController.text);
+      isSearchInitial = _searchController.text.isEmpty;
     });
   }
 
@@ -150,9 +154,6 @@ class _JoysPageState extends State<JoysPage> {
               itemBuilder: (context, index) => JoyListItem(
                 joy: filteredItems[index],
                 index: index,
-                // onTap: (joy) {
-                //   context.push('/joys/joy/${joy.articleId}');
-                // },
                 onTap: () {
                   context.push('/joys/joy/${filteredItems[index].articleId}');
                 },
