@@ -1,6 +1,6 @@
-# AbideVerse (常在主裡)
+# AbideVerse 常在主裡
 
-**AbideVerse (常在主裡) - Your Daily Bible Verse Companion**
+**AbideVerse 常在主裡 - Your Daily Bible Verse Companion**
 
 _"你們要常在我裡面，我也常在你們裡面。" (約翰福音 15:4) “Abide in me, and I in you.”(John 15:4)._
 
