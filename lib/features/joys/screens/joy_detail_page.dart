@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
 
@@ -8,7 +10,6 @@ import 'package:abideverse/shared/widgets/display_youtube_video.dart';
 import 'package:abideverse/features/joys/widgets/display_title_section.dart';
 import 'package:abideverse/features/joys/widgets/display_article_content.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:abideverse/core/constants/locale_constants.dart';
 
 class JoyDetailPage extends StatefulWidget {
   final int articleId;
@@ -49,6 +50,7 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
 
   /// Local-only likes (not stored anywhere)
   void _incrementLikes() {
+    if (!AppConfig.enableLikeButton) return;
     if (favorite || joy == null) return;
 
     setState(() {
@@ -85,18 +87,22 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
           style: const TextStyle(fontSize: 20),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: ActionChip(
-              avatar: const Icon(Icons.thumb_up_outlined, color: Colors.white),
-              backgroundColor: Colors.green,
-              label: Text(
-                '${j.likes}',
-                style: const TextStyle(color: Colors.white),
+          if (AppConfig.enableLikeButton)
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: ActionChip(
+                avatar: const Icon(
+                  Icons.thumb_up_outlined,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.green,
+                label: Text(
+                  '${j.likes}',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: _incrementLikes,
               ),
-              onPressed: _incrementLikes,
             ),
-          ),
         ],
       ),
       body: SingleChildScrollView(

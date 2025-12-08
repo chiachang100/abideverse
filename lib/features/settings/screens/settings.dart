@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/app/router.dart';
+import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/shared/widgets/copyright.dart';
@@ -210,20 +211,22 @@ class _LanguageSectionState extends State<LanguageSection> {
                 ),
                 child: Text(LocaleKeys.localeZhCn.tr()),
               ),
-              OutlinedButton(
-                style: isEnUs
-                    ? OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue,
-                      )
-                    : null,
-                onPressed: () => _setLocale(
-                  LocaleConstants.enUS,
-                  LocaleConstants.joystoreEnUS,
-                  const Locale('en', 'US'),
+              // EN-US — ENABLED ONLY WHEN FLAG IS TRUE
+              if (AppConfig.enableEnglishButton)
+                OutlinedButton(
+                  style: isEnUs
+                      ? OutlinedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                        )
+                      : null,
+                  onPressed: () => _setLocale(
+                    LocaleConstants.enUS,
+                    LocaleConstants.joystoreEnUS,
+                    const Locale('en', 'US'),
+                  ),
+                  child: Text(LocaleKeys.localeEnUs.tr()),
                 ),
-                child: Text(LocaleKeys.localeEnUs.tr()),
-              ),
             ],
           ),
           const SizedBox(height: 10),
