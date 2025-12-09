@@ -440,13 +440,13 @@
     "title": "試探中神必開路",
     "scriptureName": "哥林多前書",
     "scriptureChapter": "10:13",
-    "scriptureVerse": "「你們所遇見的試探，無非是人所能受的。神是信實的，必不叫你們受試探過於所能受的，在受試探的時候，總要給你們開一條出路，叫你們能忍受得住。」",
+    "scriptureVerse": "{你們所遇見的試探，無非是人所能受的。神是信實的，必不叫你們受試探過於所能受的，在受試探的時候，總要給你們開一條出路，叫你們能忍受得住。}",
     "likes": 1,
     "type": 1,
     "isNew": true,
     "category": "一年四季",
     "videoId": "Mg1fz5Im6HU",
-    "videoName": "30. 試探中神必開路 (林前 10: 13)",
+    "videoName": "30. 試探中神必開路 (林前 10:13)",
     "isRicherDaily": false
   },
   {
@@ -612,6 +612,21 @@
     "category": "一年四季",
     "videoId": "ZKn_TLlXqN4",
     "videoName": "970. Are You Expecting What God Prepared? (1 Cor. 2:9)",
+    "isRicherDaily": false
+  },
+  {
+    "id": 971,
+    "articleId": 971,
+    "title": "你的話語在造就人嗎?",
+    "scriptureName": "以弗所書",
+    "scriptureChapter": "4:29",
+    "scriptureVerse": "{ 汙穢的言語一句不可出口，只要隨事說造就人的好話，叫聽見的人得益處。}",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "一年四季",
+    "videoId": "lEj9A8PTL8A",
+    "videoName": "你的話語在造就人嗎? (弗 4:29)",
     "isRicherDaily": false
   }
 ]
