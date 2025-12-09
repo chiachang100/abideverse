@@ -901,6 +901,31 @@ final appVersion = pubspec.version.toString();
 
 ---
 
+## Startup Performance Improvement
+
+- The calling sequences
+
+```
+  main() - main.dart
+    v
+  runApp() - main.dart
+    v
+  EasyLocalization() - main.dart
+    v
+  ChangeNotifierProvider()
+    v
+  AbideVerseRoot() - abideverse_root.dart
+    v
+  StartupScreen - startup_screen.dart
+    v
+  AppInitializer - app_initializer.dart
+    v
+  StartupService - startup_service.dart
+
+```
+
+---
+
 ## Resources
 
 ### Flutter
