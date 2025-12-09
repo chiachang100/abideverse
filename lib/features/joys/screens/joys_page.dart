@@ -113,12 +113,12 @@ class _JoysPageState extends State<JoysPage> {
           IconButton(
             icon: Icon(
               sortOrder == SortOrder.asc
-                  ? Icons.arrow_circle_up
-                  : Icons.arrow_circle_down,
+                  ? Icons.arrow_circle_down
+                  : Icons.arrow_circle_up,
             ),
             tooltip: sortOrder == SortOrder.asc
-                ? LocaleKeys.sortAsc.tr()
-                : LocaleKeys.sortDesc.tr(),
+                ? LocaleKeys.sortDesc.tr()
+                : LocaleKeys.sortAsc.tr(),
             onPressed: _toggleSortOrder,
           ),
         ],
