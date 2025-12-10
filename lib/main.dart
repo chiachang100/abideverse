@@ -8,13 +8,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:window_size/window_size.dart';
+import 'package:abideverse/core/logging/logging_setup.dart';
 
 import 'package:abideverse/startup/abideverse_root.dart';
-import 'package:abideverse/startup/startup_screen.dart';
 import 'package:abideverse/shared/models/locale_info_model.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
-final abideverseLogMain = Logger('main');
+final logMain = Logger('main');
 final kDefaultLocale = const Locale('zh', 'TW');
 
 class L10n {
@@ -27,11 +27,9 @@ class L10n {
 
 Future<void> main() async {
   // Logging (non-blocking)
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-    // keep lightweight: print only essential
-    print('${record.level.name}: ${record.time}: ${record.message}');
-  });
+  setupLogging();
+
+  logMain.info('[Main] Logging initialized.');
 
   // Minimal required init
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +50,8 @@ Future<void> main() async {
 
   // Ensure easy_localization is ready
   await EasyLocalization.ensureInitialized();
+
+  logMain.info('[Main] calling runApp().');
 
   // Run the app as fast as possible
   runApp(

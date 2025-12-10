@@ -15,7 +15,7 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/shared/models/sort_order.dart';
 
-final abideverseLogManageFirestore = Logger('manage-firestore');
+final logManageFirestore = Logger('manage-firestore');
 
 class ManageFirestoreScreen extends StatefulWidget {
   const ManageFirestoreScreen({super.key, required this.firestore});
@@ -107,20 +107,18 @@ class FirebaseDbSection extends StatelessWidget {
           .collection(LocaleConstants.joystoreName)
           .doc(joy.articleId.toString());
       await docRef.set(joy.toJson()).catchError((e) {
-        abideverseLogManageFirestore.info(
-          "[ManageFirestore] Error writing document: $e",
-        );
+        logManageFirestore.info("[ManageFirestore] Error writing document: $e");
       });
       await docRef
           .get()
           .then((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            abideverseLogManageFirestore.info(
+            logManageFirestore.info(
               '[ManageFirestore] ${LocaleConstants.joystoreName}: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
             );
           })
           .catchError((e) {
-            abideverseLogManageFirestore.info(
+            logManageFirestore.info(
               "[ManageFirestore] Error getting document: $e",
             );
           });
@@ -140,11 +138,11 @@ class FirebaseDbSection extends StatelessWidget {
         .orderBy('likes', descending: true)
         .get();
     for (var doc in snapshot.docs) {
-      abideverseLogManageFirestore.info(
+      logManageFirestore.info(
         "[ManageFirestore] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => ${doc.data()}",
       );
       final joy = Joy.fromJson(doc.data());
-      abideverseLogManageFirestore.info(
+      logManageFirestore.info(
         "[ManageFirestore] ${LocaleConstants.joystoreName}: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
       );
     }

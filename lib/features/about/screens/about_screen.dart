@@ -12,7 +12,7 @@ import 'package:abideverse/shared/widgets/copyright.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
-final abideverseLogAbout = Logger('about');
+final logAbout = Logger('about');
 
 const String riverbankSite =
     'https://www.rolcc.net/opencart/index.php?route=product/product&product_id=358';

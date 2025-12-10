@@ -3,6 +3,10 @@
 ///
 /// Use only for lightweight flags and metadata. Do NOT put runtime-initialized
 /// services (Firebase, JoyStore) here — those belong in services/.
+library;
+
+enum AIProvider { genAI, firebaseAI }
+
 class AppConfig {
   // App metadata (set at runtime in main.dart if desired)
   static String appName = 'AbideVerse';
@@ -15,4 +19,7 @@ class AppConfig {
   static const bool useFilestore = false;
   static const bool enableLikeButton = false;
   static const bool enableEnglishButton = false;
+
+  //static AIProvider aiProvider = AIProvider.genAI;
+  static AIProvider aiProvider = AIProvider.firebaseAI;
 }

@@ -14,6 +14,7 @@ import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/firebase_options.dart';
 import 'package:abideverse/main.dart' show setupWindow;
 import 'package:window_size/window_size.dart';
+import 'package:abideverse/shared/services/ai/ai_factory.dart';
 
 class StartupService {
   StartupService._();
@@ -77,6 +78,16 @@ class StartupService {
 
     // 5) Desktop window setup (non-blocking)
     await setupWindow();
+
+    // Test Generative AI Service
+    final aiService = AIFactory.create();
+
+    Future<void> runAI() async {
+      final result = await aiService.generateText(
+        "Write a Psalm-like blessing",
+      );
+      print(result);
+    }
   }
 }
 

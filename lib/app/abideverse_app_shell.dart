@@ -9,7 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
-final abideverseLogAbideVerseAppShell = Logger('AbideVerseAppShell');
+final logAbideVerseAppShell = Logger('AbideVerseAppShell');
 
 class AbideVerseAppShell extends StatelessWidget {
   final Widget child;
@@ -40,7 +40,7 @@ class AbideVerseAppShell extends StatelessWidget {
 
     // const maxWidth = 600.0;
     final maxWidth = (MediaQuery.of(context).size.width) * 1.0;
-    abideverseLogAbideVerseAppShell.info(
+    logAbideVerseAppShell.info(
       '[AbideVerseAppShell] Scaffold max width: $maxWidth',
     );
 

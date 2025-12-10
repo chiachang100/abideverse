@@ -926,6 +926,125 @@ final appVersion = pubspec.version.toString();
 
 ---
 
+## AI Service
+
+- `flutter pub add google_generative_ai`
+- `flutter pub add firebase_ai`
+
+## Folder Structure
+
+- Run `scripts\gen_forder_tree.cmd` to generate the following folder list:
+
+```
+C:\SRC\GIT\APPS\ABIDEVERSE\LIB
+|   firebase_options.dart
+|   main.dart
+|
++---app
+|       abideverse_app_shell.dart
+|       app.dart
+|       router.dart
+|
++---core
+|   +---config
+|   |       app_config.dart
+|   |
+|   +---constants
+|   |       locale_constants.dart
+|   |       ui_constants.dart
+|   |
+|   \---logging
+|           logging_setup.dart
+|
++---features
+|   +---about
+|   |   \---screens
+|   |           about_screen.dart
+|   |
+|   +---admin
+|   |   \---screens
+|   |           manage_firestore_screen.dart
+|   |
+|   +---auth
+|   |   +---data
+|   |   |       auth_repository.dart
+|   |   |
+|   |   \---screens
+|   |           sign_in_screen.dart
+|   |
+|   +---joys
+|   |   +---data
+|   |   |       joy_repository.dart
+|   |   |
+|   |   +---models
+|   |   |       joy.dart
+|   |   |
+|   |   +---screens
+|   |   |       joys_page.dart
+|   |   |       joy_detail_page.dart
+|   |   |
+|   |   \---widgets
+|   |           display_article_content.dart
+|   |           display_title_section.dart
+|   |           joy_list.dart
+|   |           joy_list_item.dart
+|   |
+|   +---scriptures
+|   |   +---data
+|   |   |       scripture_repository.dart
+|   |   |
+|   |   +---models
+|   |   |       scripture.dart
+|   |   |
+|   |   +---screens
+|   |   |       scriptures_page.dart
+|   |   |       scripture_detail_page.dart
+|   |   |
+|   |   \---widgets
+|   |           scripture_list.dart
+|   |           scripture_list_item.dart
+|   |
+|   \---settings
+|       \---screens
+|               settings.dart
+|
++---shared
+|   +---localization
+|   |       codegen_loader.g.dart
+|   |       locale_keys.g.dart
+|   |
+|   +---models
+|   |       locale_info_model.dart
+|   |       sort_order.dart
+|   |
+|   +---services
+|   |   |   locale_services.dart
+|   |   |
+|   |   +---ai
+|   |   |       ai_factory.dart
+|   |   |       ai_service.dart
+|   |   |       firebase_ai_service.dart
+|   |   |       genai_service.dart
+|   |   |
+|   |   +---db
+|   |   |       local_storage_service.dart
+|   |   |
+|   |   \---firebase
+|   |           firebase_service.dart
+|   |
+|   \---widgets
+|           copyright.dart
+|           display_youtube_video.dart
+|           fade_transition_page.dart
+|           youtube_player.dart
+|
+\---startup
+        abideverse_root.dart
+        app_initializer.dart
+        startup_screen.dart
+        startup_service.dart
+```
+
 ## Resources
 
 ### Flutter

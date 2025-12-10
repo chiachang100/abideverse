@@ -11,7 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/firebase/firebase_service.dart';
 
-final abideverseLogSignIn = Logger('sign_in');
+final logSignIn = Logger('sign_in');
 
 typedef OAuthSignIn = void Function();
 
@@ -413,7 +413,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
 
     await FirebaseService.instance.auth.signInAnonymously();
-    abideverseLogSignIn.info(
+    logSignIn.info(
       '[SignIn] SingInAnonymously uid: ${FirebaseAuth.instance.currentUser?.uid}',
     );
 
@@ -467,7 +467,7 @@ class _SignInScreenState extends State<SignInScreen> {
         );
       }
       if (user != null) {
-        abideverseLogSignIn.info(
+        logSignIn.info(
           '[SignIn] SingInWithEmailAndPassword uid: ${FirebaseAuth.instance.currentUser?.uid}',
         );
 
@@ -520,7 +520,7 @@ class _SignInScreenState extends State<SignInScreen> {
       );
       user = userCredential.user;
       if (user != null) {
-        abideverseLogSignIn.info(
+        logSignIn.info(
           '[SignIn] SingInWithGoogle uid: ${FirebaseAuth.instance.currentUser?.uid}',
         );
 

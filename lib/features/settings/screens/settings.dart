@@ -13,7 +13,7 @@ import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/db/local_storage_service.dart';
 import 'package:abideverse/shared/models/sort_order.dart';
 
-final abideverseLogSettings = Logger('settings');
+final logSettings = Logger('settings');
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({
@@ -127,7 +127,7 @@ class _LanguageSectionState extends State<LanguageSection> {
       },
     );
 
-    abideverseLogSettings.info(
+    logSettings.info(
       '[Settings] Locale set to ${locale.toString()}; '
       'joysCurrentLocale=${LocaleConstants.currentLocale}; '
       'joystoreName=${LocaleConstants.joystoreName}',

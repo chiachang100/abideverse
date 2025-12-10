@@ -13,7 +13,7 @@ import 'package:abideverse/shared/models/sort_order.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 final joysNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'joys shell');
-final abideverseLogAppJoystore = Logger('app_joystore');
+final logAppJoystore = Logger('app_joystore');
 
 class Joystore extends StatefulWidget {
   const Joystore({super.key, required this.firestore});
@@ -52,7 +52,7 @@ class _JoystoreState extends State<Joystore> {
     );
 
     // Log analytics
-    _logScreenView('MainAppScreen');
+    _logScreenView('AppJoystore');
 
     // Firestore ping + JoyRepository preload
     _initAsync();
@@ -70,21 +70,15 @@ class _JoystoreState extends State<Joystore> {
           .doc('ping')
           .get();
 
-      abideverseLogAppJoystore.info(
-        '[MainAppScreen] Firestore connected: ${doc.exists}',
-      );
+      logAppJoystore.info('[AppJoystore] Firestore connected: ${doc.exists}');
     } catch (e, st) {
-      abideverseLogAppJoystore.severe(
-        '[MainAppScreen] Firestore error: $e',
-        e,
-        st,
-      );
+      logAppJoystore.severe('[AppJoystore] Firestore error: $e', e, st);
     }
   }
 
   Future<void> _loadJoyRepository() async {
     await joyRepository.getJoys(order: SortOrder.asc);
-    abideverseLogAppJoystore.info('[MainAppScreen] JoyRepository initialized.');
+    logAppJoystore.info('[AppJoystore] JoyRepository initialized.');
   }
 
   void _logScreenView(String screenName) {
@@ -121,8 +115,8 @@ class _JoystoreState extends State<Joystore> {
       builder: (context, child) {
         if (child == null) throw 'No child in MaterialApp.router builder';
 
-        abideverseLogAppJoystore.info(
-          '[MainAppScreen] Locale=${context.locale}; '
+        logAppJoystore.info(
+          '[AppJoystore] Locale=${context.locale}; '
           'joysCurrentLocale=${LocaleConstants.currentLocale}; '
           'joystoreName=${LocaleConstants.joystoreName}',
         );
