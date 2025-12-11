@@ -7,7 +7,7 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/features/joys/widgets/joy_list_item.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 
 class JoysPage extends StatefulWidget {

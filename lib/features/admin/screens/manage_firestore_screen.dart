@@ -13,7 +13,7 @@ import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 
 import 'package:abideverse/shared/widgets/copyright.dart';
-import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/core/config/app_config.dart';
 
 final logManageFirestore = Logger('manage-firestore');
 

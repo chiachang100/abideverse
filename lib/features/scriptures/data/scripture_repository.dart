@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:collection/collection.dart'; // for firstWhereOrNull
-import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 

@@ -8,7 +8,7 @@ import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 
 class ScripturesPage extends StatefulWidget {

@@ -5,6 +5,8 @@
 /// services (Firebase, JoyStore) here — those belong in services/.
 library;
 
+enum SortOrder { asc, desc }
+
 enum AIProvider { genAI, firebaseAI }
 
 class AppConfig {

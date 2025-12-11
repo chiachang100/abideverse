@@ -11,7 +11,7 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/db/local_storage_service.dart';
-import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/core/config/app_config.dart';
 
 final logSettings = Logger('settings');
 

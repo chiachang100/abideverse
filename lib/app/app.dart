@@ -9,7 +9,7 @@ import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/app/router.dart';
-import 'package:abideverse/shared/models/sort_order.dart';
+import 'package:abideverse/core/config/app_config.dart';
 
 final appShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'app shell');
 final joysNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'joys shell');

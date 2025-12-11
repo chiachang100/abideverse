@@ -15,8 +15,7 @@ class AIFactory {
       parameters: {'ai_service': 'AIFactory', 'ai_service_class': 'AIFactory'},
     );
 
-    logAIServices.info('[AIFactory] AI Provider: $AppConfig.aiProvider');
-    logAIServices.warning("This should show ✓");
+    logAIServices.info('[AIFactory] AI Provider: ${AppConfig.aiProvider}');
 
     switch (AppConfig.aiProvider) {
       case AIProvider.genAI:
