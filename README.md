@@ -200,9 +200,15 @@ flutter_native_splash:
 
 8. Run `AbideVerse` iOS App in Local iOS Simulator
 
-- You have to use a macOS to ruilb iOS App.
+- You have to use a macOS Xcode to build iOS App.
 - `flutter build ios`
 - `flutter run -d [iOS Simulator]`
+
+- To test on the real iPhone device
+- Setup the security on Mac OS via Xcode and iPhone Settings.
+- From CLI, you must use either one of the following command to build, install, and relaunch it:
+  - `flutter run --profile`
+  - `flutter run --release`
 
 9. Serve and test `AbideVerse` with Firebase Hosting locally
 
