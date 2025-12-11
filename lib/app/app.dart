@@ -78,7 +78,9 @@ class _JoystoreState extends State<Joystore> {
 
   Future<void> _loadJoyRepository() async {
     await joyRepository.getJoys(order: SortOrder.asc);
-    logAppJoystore.info('[AppJoystore] JoyRepository initialized.');
+    logAppJoystore.info(
+      '[AppJoystore] JoyRepository initialized. * locale: ${LocaleConstants.currentLocale}',
+    );
   }
 
   void _logScreenView(String screenName) {

@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'package:logging/logging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:collection/collection.dart'; // for firstWhereOrNull
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
+
+final logJoyRepository = Logger('joy_repository');
 
 class JoyRepository {
   final String locale;
@@ -19,8 +23,24 @@ class JoyRepository {
     SortOrder order = SortOrder.asc,
     bool forceReload = false,
   }) async {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'joy_repository',
+      parameters: {
+        'joy_repository': 'getJoys',
+        'joy_repository_class': 'JoyRepository',
+      },
+    );
+
+    logJoyRepository.info(
+      '[JoyRepository] getJoys: locale=$locale; forceReload=$forceReload; order=$order.',
+    );
+
     final String path = _getJsonPath(locale);
     if (_cachedJoys == null || forceReload) {
+      logJoyRepository.info(
+        '[JoyRepository] getJoys: reload joy repository: locale=$locale; forceReload=$forceReload; order=$order.',
+      );
+
       final jsonString = await rootBundle.loadString(path);
       // parse on background isolate
       final parsed = await compute(_parseJoys, jsonString);

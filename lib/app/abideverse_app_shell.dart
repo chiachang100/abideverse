@@ -28,7 +28,7 @@ class AbideVerseAppShell extends StatelessWidget {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
-        'abideverse_screen': 'AdaptiveScaffoldScreen',
+        'abideverse_screen': 'AbideVerseAppShell',
         'abideverse_screen_class': 'AbideVerseAppShellClass',
       },
     );

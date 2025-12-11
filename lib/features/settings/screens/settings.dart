@@ -104,13 +104,17 @@ class _LanguageSectionState extends State<LanguageSection> {
   ) async {
     LocaleConstants.currentLocale = localeCode;
     LocaleConstants.joystoreName = joystoreName;
+    bool forceReload = true;
 
     await storage.saveString(key: 'joysCurrentLocale', value: localeCode);
     await storage.saveString(key: 'joystoreName', value: joystoreName);
 
     await context.setLocale(locale);
 
-    await widget.joyRepository.getJoys(order: SortOrder.asc);
+    await widget.joyRepository.getJoys(
+      order: SortOrder.asc,
+      forceReload: forceReload,
+    );
 
     setState(() {
       isEnUs = locale == const Locale('en', 'US');
@@ -130,7 +134,8 @@ class _LanguageSectionState extends State<LanguageSection> {
     logSettings.info(
       '[Settings] Locale set to ${locale.toString()}; '
       'joysCurrentLocale=${LocaleConstants.currentLocale}; '
-      'joystoreName=${LocaleConstants.joystoreName}',
+      'joystoreName=${LocaleConstants.joystoreName} '
+      'forceReload=$forceReload.',
     );
   }
 
