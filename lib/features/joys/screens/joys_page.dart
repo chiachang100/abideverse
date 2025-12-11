@@ -48,7 +48,7 @@ class _JoysPageState extends State<JoysPage> {
 
   Future<void> _loadAndSortJoys() async {
     setState(() => isLoading = true);
-    final data = await repository.getJoys(order: sortOrder, forceReload: true);
+    final data = await repository.getJoys(order: sortOrder);
     setState(() {
       joys = data;
       // apply current search query if any

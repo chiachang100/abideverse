@@ -118,7 +118,7 @@ class _JoystoreState extends State<Joystore> {
         if (child == null) throw 'No child in MaterialApp.router builder';
 
         logAppJoystore.info(
-          '[AppJoystore] Locale=${context.locale}; '
+          '[AppJoystore] Locale=${context.locale.toLanguageTag()}; '
           'joysCurrentLocale=${LocaleConstants.currentLocale}; '
           'joystoreName=${LocaleConstants.joystoreName}',
         );

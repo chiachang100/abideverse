@@ -146,7 +146,7 @@ GoRouter createRouter({
           GoRoute(
             path: AppRoutes.joys,
             pageBuilder: (context, state) => fadePage(
-              JoysPage(locale: context.locale.toString()),
+              JoysPage(locale: context.locale.toLanguageTag()),
               state.pageKey,
             ),
           ),
@@ -157,7 +157,7 @@ GoRouter createRouter({
               final id = int.parse(state.pathParameters['articleId']!);
               return JoyDetailPage(
                 articleId: id,
-                locale: context.locale.toString(),
+                locale: context.locale.toLanguageTag(),
               );
             },
           ),
@@ -168,7 +168,7 @@ GoRouter createRouter({
           GoRoute(
             path: AppRoutes.scriptures,
             pageBuilder: (context, state) => fadePage(
-              ScripturesPage(locale: context.locale.toString()),
+              ScripturesPage(locale: context.locale.toLanguageTag()),
               state.pageKey,
             ),
           ),
@@ -179,7 +179,7 @@ GoRouter createRouter({
               final id = int.parse(state.pathParameters['articleId']!);
               return ScriptureDetailPage(
                 articleId: id,
-                locale: context.locale.toString(),
+                locale: context.locale.toLanguageTag(),
               );
             },
           ),

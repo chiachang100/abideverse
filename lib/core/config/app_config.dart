@@ -24,4 +24,7 @@ class AppConfig {
 
   //static AIProvider aiProvider = AIProvider.genAI;
   static AIProvider aiProvider = AIProvider.firebaseAI;
+
+  // Global forceReloadRepo flag
+  static bool forceReloadRepo = false;
 }

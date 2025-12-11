@@ -131,11 +131,14 @@ class _LanguageSectionState extends State<LanguageSection> {
       },
     );
 
+    // Turn on Global AppConfig.forceReloadRepo
+    AppConfig.forceReloadRepo = forceReload;
+
     logSettings.info(
-      '[Settings] Locale set to ${locale.toString()}; '
+      '[Settings] Locale set to ${locale.toLanguageTag()}; '
       'joysCurrentLocale=${LocaleConstants.currentLocale}; '
       'joystoreName=${LocaleConstants.joystoreName} '
-      'forceReload=$forceReload.',
+      'AppConfig.forceReloadRepo=${AppConfig.forceReloadRepo}.',
     );
   }
 

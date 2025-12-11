@@ -31,20 +31,28 @@ class JoyRepository {
       },
     );
 
+    final String path = _getJsonPath(locale);
+
     logJoyRepository.info(
-      '[JoyRepository] getJoys: locale=$locale; forceReload=$forceReload; order=$order.',
+      '[JoyRepository] getJoys: locale=$locale; forceReload=$forceReload; AppConfig.forceReloadRepo=${AppConfig.forceReloadRepo}; order=$order; path=$path.',
     );
 
-    final String path = _getJsonPath(locale);
-    if (_cachedJoys == null || forceReload) {
+    if (_cachedJoys == null || forceReload || AppConfig.forceReloadRepo) {
       logJoyRepository.info(
-        '[JoyRepository] getJoys: reload joy repository: locale=$locale; forceReload=$forceReload; order=$order.',
+        '[JoyRepository] getJoys: reload joy repository: locale=$locale; forceReload=$forceReload; AppConfig.forceReloadRepo=${AppConfig.forceReloadRepo}; order=$order; path=$path.',
       );
 
       final jsonString = await rootBundle.loadString(path);
       // parse on background isolate
       final parsed = await compute(_parseJoys, jsonString);
       _cachedJoys = parsed;
+
+      // Turn off Global forceReloadRepo flag
+      AppConfig.forceReloadRepo = false;
+
+      logJoyRepository.info(
+        '[JoyRepository] Turn off forceReloadRepo: AppConfig.forceReloadRepo=${AppConfig.forceReloadRepo}; order=$order; path=$path.',
+      );
     }
 
     // return a sorted copy if requested order differs
