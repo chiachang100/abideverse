@@ -154,15 +154,11 @@ class _QRCodeSectionState extends State<QRCodeSection> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      width:
-                          MediaQuery.of(context).size.width *
-                          0.3, // adjust as needed
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Image.asset(
-                          'assets/icons/abideverse_qrcode.png',
-                          fit: BoxFit.cover,
-                        ),
+                      height: 300,
+                      width: 300,
+                      child: Image.asset(
+                        'assets/icons/abideverse_qrcode.png',
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
@@ -212,15 +208,11 @@ class _QRCodeSectionState extends State<QRCodeSection> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      width:
-                          MediaQuery.of(context).size.width *
-                          0.3, // adjust as needed
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Image.asset(
-                          'assets/icons/joyolord_com_qrcode.png',
-                          fit: BoxFit.cover,
-                        ),
+                      height: 300,
+                      width: 300, // adjust as needed
+                      child: Image.asset(
+                        'assets/icons/joyolord_com_qrcode.png',
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),

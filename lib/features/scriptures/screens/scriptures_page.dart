@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:abideverse/app/router.dart';
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart';
@@ -117,6 +118,16 @@ class _ScripturesPageState extends State<ScripturesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(LocaleKeys.bibleVerse.tr()),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
+              onPressed: () {
+                Routes(context).goJoys();
+              },
+            );
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(

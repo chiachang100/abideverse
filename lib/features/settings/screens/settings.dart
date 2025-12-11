@@ -152,17 +152,22 @@ class _LanguageSectionState extends State<LanguageSection> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            child: Center(
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Image.asset(
-                  "assets/logos/abideverse_splash_logo.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
+          // ClipRRect(
+          //   borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+          //   child: Center(
+          //     child: SizedBox(
+          //       child: Image.asset(
+          //         "assets/logos/abideverse_splash_logo.png",
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Padding(
+            padding: const EdgeInsets.all(60.0),
+            child: Image.asset(
+              "assets/logos/abideverse_splash_logo.png",
+              fit: BoxFit.contain,
             ),
           ),
           Padding(
