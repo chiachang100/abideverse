@@ -168,6 +168,8 @@ Firestore connected: true
 
 4. Generate Splash Screen
 
+- Use [Figma](https://www.figma.com/) to generate the splash master screen png file.
+- run `flutter_native_splash` to generate the final splash images.
 - `dart run flutter_native_splash:create`
 
 ```
