@@ -77,9 +77,12 @@ class _ScripturesPageState extends State<ScripturesPage> {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return items;
     return items.where((s) {
-      return s.title.toLowerCase().contains(q) ||
+      return s.articleId.toString().contains(q) ||
+          s.title.toLowerCase().contains(q) ||
           s.scriptureName.toLowerCase().contains(q) ||
-          s.scriptureVerse.toLowerCase().contains(q);
+          s.scriptureChapter.toLowerCase().contains(q) ||
+          s.scriptureVerse.toLowerCase().contains(q) ||
+          s.zhCNScriptureVerse.toLowerCase().contains(q);
     }).toList();
   }
 

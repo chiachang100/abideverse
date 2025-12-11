@@ -7,6 +7,7 @@ class Scripture {
   final String scriptureName;
   final String scriptureChapter;
   final String scriptureVerse;
+  final String zhCNScriptureVerse;
   final int likes;
   final int type;
   final bool isNew;
@@ -22,6 +23,7 @@ class Scripture {
     required this.scriptureName,
     required this.scriptureChapter,
     required this.scriptureVerse,
+    required this.zhCNScriptureVerse,
     required this.likes,
     required this.type,
     required this.isNew,
@@ -39,6 +41,7 @@ class Scripture {
       scriptureName: json['scriptureName'] ?? '',
       scriptureChapter: json['scriptureChapter'] ?? '',
       scriptureVerse: json['scriptureVerse'] ?? '',
+      zhCNScriptureVerse: json['zhCNScriptureVerse'] ?? '',
       likes: json['likes'] ?? 0,
       type: json['type'] ?? 0,
       isNew: json['isNew'] ?? false,
@@ -57,6 +60,7 @@ class Scripture {
       'scriptureName': scriptureName,
       'scriptureChapter': scriptureChapter,
       'scriptureVerse': scriptureVerse,
+      'zhCNScriptureVerse': zhCNScriptureVerse,
       'likes': likes,
       'type': type,
       'isNew': isNew,

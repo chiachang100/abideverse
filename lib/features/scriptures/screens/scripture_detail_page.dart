@@ -98,6 +98,14 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
             ),
 
             const SizedBox(height: 16),
+
+            /// zh-CN Verse text
+            Text(
+              '✞ ${s.zhCNScriptureVerse}',
+              style: const TextStyle(fontSize: 16),
+            ),
+
+            const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 8),
 

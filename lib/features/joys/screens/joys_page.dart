@@ -68,11 +68,13 @@ class _JoysPageState extends State<JoysPage> {
     query = query.trim().toLowerCase();
     if (query.isEmpty) return items;
     return items.where((joy) {
-      return joy.title.toLowerCase().contains(query) ||
+      return joy.articleId.toString().contains(query) ||
+          joy.title.toLowerCase().contains(query) ||
           joy.prelude.toLowerCase().contains(query) ||
           joy.laugh.toLowerCase().contains(query) ||
           joy.scriptureName.toLowerCase().contains(query) ||
           joy.scriptureVerse.toLowerCase().contains(query) ||
+          joy.scriptureChapter.toLowerCase().contains(query) ||
           joy.videoName.toLowerCase().contains(query) ||
           joy.talk.toLowerCase().contains(query);
     }).toList();
