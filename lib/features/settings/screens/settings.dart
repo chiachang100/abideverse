@@ -164,10 +164,16 @@ class _LanguageSectionState extends State<LanguageSection> {
           //   ),
           // ),
           Padding(
-            padding: const EdgeInsets.all(60.0),
-            child: Image.asset(
-              "assets/logos/abideverse_splash_logo.png",
-              fit: BoxFit.contain,
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: SizedBox(
+                height: 300,
+                width: 200,
+                child: Image.asset(
+                  "assets/logos/abideverse_splash_logo.png",
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
           ),
           Padding(
