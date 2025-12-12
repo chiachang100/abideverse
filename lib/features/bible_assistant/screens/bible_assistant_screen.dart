@@ -50,7 +50,7 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
     _messages.add(
       ChatMessage(
         text:
-            "Hello! I am AbideVerse's AI assistant. How can I help you reflect on the Bible today?",
+            "Hello! I am AbideVerse's Bible Assistant. How can I help you reflect on the Bible today?",
         isUser: false,
         timestamp: DateTime.now(),
       ),
