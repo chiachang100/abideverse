@@ -203,6 +203,7 @@ flutter_native_splash:
 8. Run `AbideVerse` iOS App in Local iOS Simulator
 
 - You have to use a macOS Xcode to build iOS App.
+- `sudo softwareupdate --install-rosetta --agree-to-license`
 - `flutter build ios`
 - `flutter run -d [iOS Simulator]`
 
