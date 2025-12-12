@@ -1,7 +1,7 @@
 {
   "name": "AbideVerse 常在主裡 - Your Daily Bible Verse Companion.",
   "short_name": "AbideVerse 常在主裡",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0175C2",
   "theme_color": "#0175C2",

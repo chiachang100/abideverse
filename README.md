@@ -1054,6 +1054,25 @@ C:\SRC\GIT\APPS\ABIDEVERSE\LIB
         startup_service.dart
 ```
 
+---
+
+## Required Icons, Images Files
+
+### AppIcon.co to Generate All Icon Sizes
+
+- Generates for:
+  - iOS (all icon sizes)
+  - Android
+  - Web
+  - PWA
+  - favicon
+  - Windows tiles
+- Steps:
+  - Go to [AppIcon.co](https://www.appicon.co/)
+  - Upload your square PNG (1024×1024 recommended).
+  - Select the platforms you need.
+  - Download the zip → drop into your project.
+
 ## Resources
 
 ### Flutter
