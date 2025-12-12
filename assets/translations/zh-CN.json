@@ -75,5 +75,8 @@
   "sortDesc": "降序排序",
 
   "noVideoAvailable": "暂无视频。",
-  "itemNotFound": "未找到该物品。"
+  "itemNotFound": "未找到该物品。",
+
+  "bibleAssitant": "圣经助手",
+  "bibleAssitantTitle": "圣经助手伴侣"
 }

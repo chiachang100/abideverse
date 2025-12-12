@@ -6,7 +6,7 @@ import 'package:abideverse/shared/services/ai/genai_service.dart';
 import 'package:abideverse/shared/services/ai/firebase_ai_service.dart';
 import 'package:logging/logging.dart';
 
-final logAIServices = Logger('ai_services');
+final logAIServices = Logger('genai_services');
 
 class AIFactory {
   static AIService create() {

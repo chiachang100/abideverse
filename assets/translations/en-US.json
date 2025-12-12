@@ -75,5 +75,8 @@
   "sortDesc": "Sort descending",
 
   "noVideoAvailable": "No video available.",
-  "itemNotFound": "Item not found."
+  "itemNotFound": "Item not found.",
+
+  "bibleAssitant": "Bible Assistant",
+  "bibleAssitantTitle": "Bible Assistant Companion"
 }

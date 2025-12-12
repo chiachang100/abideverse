@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 import 'package:firebase_core/firebase_core.dart';
@@ -78,16 +79,6 @@ class StartupService {
 
     // 5) Desktop window setup (non-blocking)
     await setupWindow();
-
-    // Test Generative AI Service
-    final aiService = AIFactory.create();
-
-    Future<void> runAI() async {
-      final result = await aiService.generateText(
-        "Write a Psalm-like blessing",
-      );
-      print(result);
-    }
   }
 }
 

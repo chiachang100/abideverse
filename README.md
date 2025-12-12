@@ -935,10 +935,27 @@ final appVersion = pubspec.version.toString();
 
 ---
 
-## AI Service
+## Bible Assistant Service
 
 - `flutter pub add google_generative_ai`
 - `flutter pub add firebase_ai`
+- `flutter pub add flutter_markdown`
+
+- [Enable API Service](https://console.developers.google.com/apis/api/firebasevertexai.googleapis.com/overview?project=552664318312) then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+- [Learn more about Firebase AI Logic](https://firebase.google.com/docs/ai-logic/faq-and-troubleshooting#discontinued-models)
+
+  - [Learn about supported models](https://firebase.google.com/docs/ai-logic/models)
+  - [Available model names](https://firebase.google.com/docs/ai-logic/models#available-model-names)
+
+- Firebase AI Logic is missing a configured Gemini Developer API key. Set one up by visiting https://console.firebase.google.com/project/abideverse/ailogic/settings. See https://firebase.google.com/docs/ai-logic/faq-and-troubleshooting?api=dev#error-genai-config-not-found for more details. If you very recently went through the Firebase AI Logic setup workflow, wait a few minutes for the action to propagate to our systems and retry.
+
+  - [Get Started](https://console.firebase.google.com/project/abideverse/ailogic)
+
+  - [Fibase AI Logic Rate limits and quotas](https://firebase.google.com/docs/ai-logic/quotas?api=dev&_gl=1*anfb47*_ga*Nzg2MTczNjgxLjE3NTk3MTU0OTg.*_ga_CW55HF8NVT*czE3NjU1NjYzODckbzcxJGcxJHQxNzY1NTY2Mzk1JGo1MiRsMCRoMA..)
+  - [Get started with the Gemini API using the Firebase AI Logic SDKs](https://firebase.google.com/docs/ai-logic/get-started)
+  - A useful PROMT to try: `Write a Psalm-like blessing`.
+
+- Use `flutter_markdown` to display the markdown message returned from Fibease AI Logic
 
 ## Folder Structure
 

@@ -4,26 +4,29 @@ import 'package:firebase_ai/firebase_ai.dart'; // hypothetical import
 import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:logging/logging.dart';
 
-final logAIServices = Logger('ai_services');
+final logAIServices = Logger('genai_services');
 
 class FirebaseAIService implements AIService {
   final FirebaseAI _ai;
 
   FirebaseAIService(FirebaseApp app) : _ai = FirebaseAI.googleAI();
+  final String modelName = 'gemini-2.5-flash-lite';
 
   @override
   Future<String?> generateText(String prompt) async {
     FirebaseAnalytics.instance.logEvent(
-      name: 'firebase_ai_service',
+      name: 'genai_services',
       parameters: {
-        'firebase_ai_service': 'FirebaseAIService',
-        'firebase_ai_service_class': 'FirebaseAIService',
+        'genai_services': 'FirebaseAIService',
+        'ai_services_class': 'FirebaseAIService',
       },
     );
 
-    logAIServices.info('[FirebaseAIService] generateText: $prompt');
+    logAIServices.info(
+      '[FirebaseAIService] model: $modelName; generateText: $prompt',
+    );
 
-    final model = _ai.generativeModel(model: 'gemini-1.5-flash');
+    final model = _ai.generativeModel(model: modelName);
     final response = await model.generateContent([Content.text(prompt)]);
     return response.text;
   }

@@ -3,7 +3,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:logging/logging.dart';
 
-final logAIServices = Logger('ai_services');
+final logAIServices = Logger('genai_services');
 
 class GenAIService implements AIService {
   final GenerativeModel _model;
@@ -14,10 +14,10 @@ class GenAIService implements AIService {
   @override
   Future<String?> generateText(String prompt) async {
     FirebaseAnalytics.instance.logEvent(
-      name: 'genai_service',
+      name: 'genai_services',
       parameters: {
-        'genai_service': 'GenAIService',
-        'genai_service_class': 'GenAIService',
+        'genai_services': 'GenAIService',
+        'ai_services_class': 'GenAIService',
       },
     );
 

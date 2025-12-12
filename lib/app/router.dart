@@ -8,6 +8,7 @@ import 'package:abideverse/app/abideverse_app_shell.dart';
 import 'package:abideverse/core/config/app_config.dart';
 
 import 'package:abideverse/features/about/screens/about_screen.dart';
+import 'package:abideverse/features/bible_assistant/screens/bible_assistant_screen.dart';
 import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
@@ -16,6 +17,7 @@ import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
 import 'package:abideverse/features/joys/screens/joys_page.dart';
 import 'package:abideverse/features/scriptures/screens/scripture_detail_page.dart';
 import 'package:abideverse/features/scriptures/screens/scriptures_page.dart';
+import 'package:abideverse/shared/services/ai/ai_factory.dart';
 import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
 
@@ -26,8 +28,10 @@ class AppRoutes {
   static const scriptures = '/scriptures';
   static const scriptureDetail = '/scriptures/scripture/:articleId';
 
+  static const bibleAssitant = '/bible-assitant';
   static const about = '/about';
   static const settings = '/settings';
+
   static const signIn = '/sign-in';
   static const manageFirestore = '/manage-firestore';
 }
@@ -108,6 +112,9 @@ GoRouter createRouter({
     return null;
   }
 
+  // Instantiate the AI Service only once for the whole router config
+  final aiService = AIFactory.create();
+
   return GoRouter(
     debugLogDiagnostics: true,
     initialLocation: AppRoutes.joys,
@@ -126,8 +133,9 @@ GoRouter createRouter({
           final indexMap = {
             '/joys': 0,
             '/scriptures': 1,
-            '/about': 2,
-            '/settings': 3,
+            '/bible-assitant': 2,
+            '/about': 3,
+            '/settings': 4,
           };
 
           final selectedIndex = indexMap.entries
@@ -184,6 +192,18 @@ GoRouter createRouter({
             },
           ),
 
+          // --------------------------
+          // AI CHAT
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.bibleAssitant,
+            pageBuilder: (context, state) => fadePage(
+              BibleAssitantScreen(
+                aiService: aiService,
+              ), // <-- Use the factory instance
+              state.pageKey,
+            ),
+          ),
           // --------------------------
           // ABOUT
           // --------------------------
@@ -254,6 +274,8 @@ class Routes {
   void pushScriptureDetail(int articleId) => context.push(
     AppRoutes.scriptureDetail.replaceFirst(':articleId', '$articleId'),
   );
+
+  void goBibleAssitant() => context.go(AppRoutes.bibleAssitant);
 
   void goAbout() => context.go(AppRoutes.about);
   void goSettings() => context.go(AppRoutes.settings);
