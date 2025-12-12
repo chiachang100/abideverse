@@ -1278,5 +1278,53 @@
     "videoId": "JN5L24Dctjo",
     "videoName": "973. 你被聖靈充滿嗎? (弗 5:18)",
     "isRicherDaily": false
+  },
+  {
+    "id": 123,
+    "articleId": 123,
+    "title": "信心生忍耐",
+    "scriptureName": "雅各書",
+    "scriptureChapter": "1:3-4",
+    "scriptureVerse": "{ 因為知道，你們的信心經過試驗就生忍耐。 但忍耐也當成功，使你們成全、完備，毫無缺欠。}",
+    "zhCNScriptureVerse": "{ 因为知道，你们的信心经过试验就生忍耐。但忍耐也当成功，使你们成全、完备，毫无缺欠。} (雅各书 1:3-4)",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "一年四季",
+    "videoId": "lZz24lJCfws",
+    "videoName": "123. 信心生忍耐 (雅 1:3-4)",
+    "isRicherDaily": false
+  },
+  {
+    "id": 62,
+    "articleId": 62,
+    "title": "天國八福",
+    "scriptureName": "馬太福音",
+    "scriptureChapter": "5:3-10",
+    "scriptureVerse": "{ 虛心的人有福了！因為天國是他們的。 哀慟的人有福了！因為他們必得安慰。 溫柔的人有福了！因為他們必承受地土。 飢渴慕義的人有福了！因為他們必得飽足。 憐恤人的人有福了！因為他們必蒙憐恤。 清心的人有福了！因為他們必得見神。 使人和睦的人有福了！因為他們必稱為神的兒子。 為義受逼迫的人有福了！因為天國是他們的。}",
+    "zhCNScriptureVerse": "{ 虚心的人有福了！因为天国是他们的。哀恸的人有福了！因为他们必得安慰。温柔的人有福了！因为他们必承受地土。饥渴慕义的人有福了！因为他们必得饱足。怜恤人的人有福了！因为他们必蒙怜恤。清心的人有福了！因为他们必得见神。使人和睦的人有福了！因为他们必称为神的儿子。为义受逼迫的人有福了！因为天国是他们的。} (马太福音 5:3-10)",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "一年四季",
+    "videoId": "3HpPefl8IrQ",
+    "videoName": "62. 天國八福 (太 5:3-10)",
+    "isRicherDaily": false
+  },
+  {
+    "id": 974,
+    "articleId": 974,
+    "title": "Are You Filled with the Holy Spirit?",
+    "scriptureName": "Ephesians",
+    "scriptureChapter": "5:18",
+    "scriptureVerse": "{ Do not get drunk on wine, which leads to debauchery. Instead, be filled with the Spirit, }",
+    "zhCNScriptureVerse": "{ 不要醉酒，酒能使人放荡；乃要被圣灵充满。} (以弗所书 5:18)",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "一年四季",
+    "videoId": "wYxW1xHzkx8",
+    "videoName": "974. Are You Filled with the Holy Spirit? (Eph. 5:18)",
+    "isRicherDaily": false
   }
 ]
