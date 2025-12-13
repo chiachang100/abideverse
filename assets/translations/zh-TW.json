@@ -78,5 +78,8 @@
   "itemNotFound": "未找到該物品。",
 
   "bibleAssitant": "聖經助手",
-  "bibleAssitantTitle": "聖經助手伴侶"
+  "bibleAssitantTitle": "聖經助手伴侶",
+  "bibleAssistantChatWelcomeMsg": "您好!我是AbideVerse的聖經助手。今天我可以如何幫助您反思聖經呢?",
+  "bibleAssistantChatErrorMsg": "抱歉，我遇到了一個錯誤。請稍後再試。",
+  "bibleAssistantChatHintText": "詢問我有關聖經經文或主題的問題..."
 }

@@ -73,5 +73,8 @@ abstract class  LocaleKeys {
   static const itemNotFound = 'itemNotFound';
   static const bibleAssitant = 'bibleAssitant';
   static const bibleAssitantTitle = 'bibleAssitantTitle';
+  static const bibleAssistantChatWelcomeMsg = 'bibleAssistantChatWelcomeMsg';
+  static const bibleAssistantChatErrorMsg = 'bibleAssistantChatErrorMsg';
+  static const bibleAssistantChatHintText = 'bibleAssistantChatHintText';
 
 }

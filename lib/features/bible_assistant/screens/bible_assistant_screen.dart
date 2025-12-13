@@ -49,8 +49,7 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
     // Optional: Add a welcoming message from the AI on load
     _messages.add(
       ChatMessage(
-        text:
-            "Hello! I am AbideVerse's Bible Assistant. How can I help you reflect on the Bible today?",
+        text: LocaleKeys.bibleAssistantChatWelcomeMsg.tr(),
         isUser: false,
         timestamp: DateTime.now(),
       ),
@@ -88,7 +87,7 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
       }
     } catch (e) {
       final errorMessage = ChatMessage(
-        text: "Sorry, I ran into an error. Please try again later.",
+        text: LocaleKeys.bibleAssistantChatErrorMsg.tr(),
         isUser: false,
         timestamp: DateTime.now(),
       );
@@ -240,8 +239,8 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
               child: TextField(
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
-                decoration: const InputDecoration.collapsed(
-                  hintText: 'Ask about a Bible verse or topic...',
+                decoration: InputDecoration.collapsed(
+                  hintText: LocaleKeys.bibleAssistantChatHintText.tr(),
                 ),
                 enabled: !_isLoading,
               ),

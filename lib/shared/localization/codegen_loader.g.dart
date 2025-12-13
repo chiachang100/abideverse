@@ -84,7 +84,10 @@ class CodegenLoader extends AssetLoader{
   "noVideoAvailable": "No video available.",
   "itemNotFound": "Item not found.",
   "bibleAssitant": "Bible Assistant",
-  "bibleAssitantTitle": "Bible Assistant Companion"
+  "bibleAssitantTitle": "Bible Assistant Companion",
+  "bibleAssistantChatWelcomeMsg": "Hello! I am AbideVerse's Bible Assistant. How can I help you reflect on the Bible today?",
+  "bibleAssistantChatErrorMsg": "Sorry, I ran into an error. Please try again later.",
+  "bibleAssistantChatHintText": "Ask me about a Bible verse or topic..."
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -156,7 +159,10 @@ static const Map<String,dynamic> _zh_CN = {
   "noVideoAvailable": "暂无视频。",
   "itemNotFound": "未找到该物品。",
   "bibleAssitant": "圣经助手",
-  "bibleAssitantTitle": "圣经助手伴侣"
+  "bibleAssitantTitle": "圣经助手伴侣",
+  "bibleAssistantChatWelcomeMsg": "您好!我是AbideVerse的圣经助手。今天我能如何帮助您反思圣经呢?",
+  "bibleAssistantChatErrorMsg": "抱歉，我遇到了一个错误。请稍后再试。",
+  "bibleAssistantChatHintText": "询问我有关圣经经文或主题的问题..."
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -228,7 +234,10 @@ static const Map<String,dynamic> _zh_TW = {
   "noVideoAvailable": "暫無視頻。",
   "itemNotFound": "未找到該物品。",
   "bibleAssitant": "聖經助手",
-  "bibleAssitantTitle": "聖經助手伴侶"
+  "bibleAssitantTitle": "聖經助手伴侶",
+  "bibleAssistantChatWelcomeMsg": "您好!我是AbideVerse的聖經助手。今天我可以如何幫助您反思聖經呢?",
+  "bibleAssistantChatErrorMsg": "抱歉，我遇到了一個錯誤。請稍後再試。",
+  "bibleAssistantChatHintText": "詢問我有關聖經經文或主題的問題..."
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

@@ -78,5 +78,8 @@
   "itemNotFound": "Item not found.",
 
   "bibleAssitant": "Bible Assistant",
-  "bibleAssitantTitle": "Bible Assistant Companion"
+  "bibleAssitantTitle": "Bible Assistant Companion",
+  "bibleAssistantChatWelcomeMsg": "Hello! I am AbideVerse's Bible Assistant. How can I help you reflect on the Bible today?",
+  "bibleAssistantChatErrorMsg": "Sorry, I ran into an error. Please try again later.",
+  "bibleAssistantChatHintText": "Ask me about a Bible verse or topic..."
 }
