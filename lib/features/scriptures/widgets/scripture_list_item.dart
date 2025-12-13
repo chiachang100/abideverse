@@ -41,7 +41,7 @@ class ScriptureListItem extends StatelessWidget {
 
     // Precompute subtitle efficiently (no string concatenation in Text widget).
     final subtitleText =
-        '✞ (${scripture.scriptureName} ${scripture.scriptureChapter}) ${scripture.scriptureVerse}';
+        '✞ ${scripture.scriptureVerse} (${scripture.scriptureName} ${scripture.scriptureChapter})';
 
     String extractLeadingChar(String text) {
       // Enable Unicode mode

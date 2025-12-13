@@ -35,7 +35,7 @@ class JoyListItem extends StatelessWidget {
 
     // Precompute subtitle efficiently (no string concatenation in Text widget).
     final subtitleText =
-        '✞ (${joy.scriptureName} ${joy.scriptureChapter}) ${joy.scriptureVerse}';
+        '✞ ${joy.scriptureVerse} (${joy.scriptureName} ${joy.scriptureChapter})';
 
     // Precompute subtitle efficiently (no string concatenation in Text widget).
     final laughText = '•ᴗ• ${joy.laugh}';
