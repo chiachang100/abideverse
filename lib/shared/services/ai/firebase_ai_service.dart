@@ -12,8 +12,10 @@ class FirebaseAIService implements AIService {
 
   FirebaseAIService(FirebaseApp app)
     : _ai = FirebaseAI.googleAI(
-        appCheck: FirebaseAppCheck.instance,
-        useLimitedUseAppCheckTokens: true,
+        // TO-DO: It seems that AppCheck needs more time to set it up correctly.
+        // Will come back to it asap.
+        //appCheck: FirebaseAppCheck.instance,
+        //useLimitedUseAppCheckTokens: true,
       );
 
   final String modelName = 'gemini-2.5-flash-lite';

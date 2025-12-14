@@ -76,5 +76,10 @@ abstract class  LocaleKeys {
   static const bibleChatWelcomeMsg = 'bibleChatWelcomeMsg';
   static const bibleChatErrorMsg = 'bibleChatErrorMsg';
   static const bibleChatHintText = 'bibleChatHintText';
+  static const enterAccessCode = 'enterAccessCode';
+  static const passcode = 'passcode';
+  static const cancel = 'cancel';
+  static const verify = 'verify';
+  static const incorrectCode = 'incorrectCode';
 
 }

@@ -27,4 +27,8 @@ class AppConfig {
 
   // Global forceReloadRepo flag
   static bool forceReloadRepo = false;
+
+  // Set to true/false to hide/include the 'bible-chat' navigation/feature.
+  static const bool isBibleChatEnabled = false;
+  static const String bibleChatAccessCode = '12856%';
 }

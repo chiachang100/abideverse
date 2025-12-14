@@ -81,5 +81,11 @@
   "bibleChatTitle": "AI Bible Chat",
   "bibleChatWelcomeMsg": "Welcome to AI Bible Chat. Let's explore Scripture. What chapter, verse, or topic are you exploring today?",
   "bibleChatErrorMsg": "Sorry, I encountered an error. Please try again later.",
-  "bibleChatHintText": "Chapter, verse, or topic?"
+  "bibleChatHintText": "Chapter, verse, or topic?",
+  "enterAccessCode": "Access Code",
+
+  "passcode": "Passcode",
+  "cancel": "Cancel",
+  "verify": "Verify",
+  "incorrectCode": "IncorrectCode"
 }

@@ -4,8 +4,8 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:abideverse/shared/services/locale_services.dart';
 import 'package:logging/logging.dart';
-
 import 'package:easy_localization/easy_localization.dart';
+
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
@@ -33,7 +33,7 @@ class AbideVerseAppShell extends StatelessWidget {
       },
     );
 
-    String abideverseTitle = LocaleKeys.xlcd.tr();
+    String abideverseXlcdTitle = LocaleKeys.xlcd.tr();
     String abideverseScriptLabel = LocaleKeys.bibleVerse.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
@@ -68,7 +68,7 @@ class AbideVerseAppShell extends StatelessWidget {
                   // Index 0: JOYS
                   // label: '笑裡藏道',
                   NavigationDestination(
-                    label: abideverseTitle,
+                    label: abideverseXlcdTitle,
                     icon: const Icon(Icons.home_outlined),
                     selectedIcon: const Icon(Icons.home),
                   ),

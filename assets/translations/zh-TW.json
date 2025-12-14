@@ -81,5 +81,11 @@
   "bibleChatTitle": "AI 聖經聊天",
   "bibleChatWelcomeMsg": "歡迎來到 AI 聖經聊天。讓我們一起探索聖經。您今天想探索哪個章節、經文或主題?",
   "bibleChatErrorMsg": "抱歉，我遇到了一個錯誤。請稍後再試。",
-  "bibleChatHintText": "章節、經文或主題?"
+  "bibleChatHintText": "章節、經文或主題?",
+  "enterAccessCode": "訪問碼",
+
+  "passcode": "密碼",
+  "cancel": "取消",
+  "verify": "驗證",
+  "incorrectCode": "錯誤代碼"
 }

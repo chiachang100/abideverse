@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:abideverse/app/router.dart';
+import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:abideverse/shared/services/ai/ai_factory.dart';
@@ -40,6 +41,7 @@ class _BibleChatScreenState extends State<BibleChatScreen> {
   final List<ChatMessage> _messages = [];
   final TextEditingController _textController = TextEditingController();
   bool _isLoading = false;
+  bool _isCodeVerified = false;
 
   @override
   void initState() {
@@ -54,9 +56,112 @@ class _BibleChatScreenState extends State<BibleChatScreen> {
     );
   }
 
+  Future<bool> _showCodeDialog() async {
+    String? enteredCode;
+
+    // Use a StateSetter for local dialog UI updates (like error messages)
+    return (await showDialog<bool>(
+          context: context,
+          barrierDismissible: false, // User must enter code or cancel
+          builder: (BuildContext context) {
+            String errorMessage = '';
+
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                  title: Text(LocaleKeys.enterAccessCode.tr()),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        onChanged: (value) {
+                          enteredCode = value;
+                          // Clear error message on new input
+                          if (errorMessage.isNotEmpty) {
+                            setState(() {
+                              errorMessage = '';
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                          labelText: LocaleKeys.passcode.tr(),
+                          errorText: errorMessage.isNotEmpty
+                              ? errorMessage
+                              : null,
+                        ),
+                      ),
+                      if (errorMessage.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            errorMessage,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text(LocaleKeys.cancel.tr()),
+                      onPressed: () {
+                        // Returns false: code not entered, cancel the chat request.
+                        Navigator.of(context).pop(false);
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text(LocaleKeys.verify.tr()),
+                      onPressed: () {
+                        // --- Validation Logic ---
+                        if (enteredCode == AppConfig.bibleChatAccessCode) {
+                          // Success! Returns true.
+                          Navigator.of(context).pop(true);
+                        } else {
+                          // Failure: Update the local dialog state to show an error
+                          setState(() {
+                            errorMessage = LocaleKeys.incorrectCode.tr();
+                            // We could also clear the input field here
+                            // _textController.clear();
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        )) ??
+        false; // Default to false if dialog is dismissed unexpectedly
+  }
+
   // --- Core Function to Send and Receive Messages (UPDATED to use widget.aiService) ---
   Future<void> _handleSubmitted(String text) async {
     _textController.clear();
+    if (text.trim().isEmpty) return;
+
+    if (!_isCodeVerified) {
+      // 1. Show the code dialog.
+      final bool success = await _showCodeDialog();
+
+      if (success) {
+        setState(() {
+          _isCodeVerified = true;
+        });
+        // 2. If successful, immediately proceed to the actual request.
+        await _executeChatRequest(text);
+      }
+    } else {
+      // 3. Code already verified, proceed directly to the request.
+      await _executeChatRequest(text);
+    }
+  }
+
+  // --- Core Function to Send and Receive Messages (UPDATED to use widget.aiService) ---
+  Future<void> _executeChatRequest(String text) async {
     if (text.trim().isEmpty) return;
 
     final userMessage = ChatMessage(
@@ -81,7 +186,9 @@ class _BibleChatScreenState extends State<BibleChatScreen> {
 
       // Combine the instruction and the user query
       final textWithInstruction = "$instruction\n\nUser Query: $userQuery";
-      final aiResponseText = await widget.aiService.generateText(text);
+      final aiResponseText = await widget.aiService.generateText(
+        textWithInstruction,
+      );
 
       if (aiResponseText != null && aiResponseText.isNotEmpty) {
         final aiMessage = ChatMessage(

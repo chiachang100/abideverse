@@ -33,7 +33,7 @@ class AppRoutes {
   static const settings = '/settings';
 
   static const signIn = '/sign-in';
-  static const manageFirestore = '/manage-firestore';
+  static const firestoreAdmin = '/firestore-admin';
 }
 
 final GlobalKey<NavigatorState> appShellNavigatorKey =
@@ -246,11 +246,9 @@ GoRouter createRouter({
       // FIRESTORE ADMIN
       // --------------------------
       GoRoute(
-        path: AppRoutes.manageFirestore,
-        pageBuilder: (context, state) => fadePage(
-          ManageFirestoreScreen(firestore: firestore),
-          state.pageKey,
-        ),
+        path: AppRoutes.firestoreAdmin,
+        pageBuilder: (context, state) =>
+            fadePage(FirestoreAdminScreen(firestore: firestore), state.pageKey),
       ),
     ],
   );
@@ -280,5 +278,5 @@ class Routes {
   void goAbout() => context.go(AppRoutes.about);
   void goSettings() => context.go(AppRoutes.settings);
   void goSignIn() => context.go(AppRoutes.signIn);
-  void goManageFirestore() => context.go(AppRoutes.manageFirestore);
+  void goFirestoreAdmin() => context.go(AppRoutes.firestoreAdmin);
 }

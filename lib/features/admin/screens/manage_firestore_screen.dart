@@ -15,25 +15,25 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/core/config/app_config.dart';
 
-final logManageFirestore = Logger('manage-firestore');
+final logFirestoreAdmin = Logger('manage-firestore');
 
-class ManageFirestoreScreen extends StatefulWidget {
-  const ManageFirestoreScreen({super.key, required this.firestore});
+class FirestoreAdminScreen extends StatefulWidget {
+  const FirestoreAdminScreen({super.key, required this.firestore});
   final FirebaseFirestore firestore;
 
   @override
-  State<ManageFirestoreScreen> createState() => _ManageFirestoreScreenState();
+  State<FirestoreAdminScreen> createState() => _FirestoreAdminScreenState();
 }
 
-class _ManageFirestoreScreenState extends State<ManageFirestoreScreen> {
+class _FirestoreAdminScreenState extends State<FirestoreAdminScreen> {
   @override
   void initState() {
     super.initState();
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
-        'abideverse_screen': 'ManageFirestoreScreen',
-        'abideverse_screen_class': 'ManageFirestoreScreenClass',
+        'abideverse_screen': 'FirestoreAdminScreen',
+        'abideverse_screen_class': 'FirestoreAdminScreenClass',
       },
     );
   }
@@ -71,8 +71,8 @@ class FirestoreSettingsContent extends StatelessWidget {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {
-        'abideverse_screen': 'ManageFirestoreScreen',
-        'abideverse_screen_class': 'ManageFirestoreScreenClass',
+        'abideverse_screen': 'FirestoreAdminScreen',
+        'abideverse_screen_class': 'FirestoreAdminScreenClass',
       },
     );
 
@@ -97,7 +97,7 @@ class FirebaseDbSection extends StatelessWidget {
       name: 'screen_view',
       parameters: {
         'abideverse_screen': 'initializeJoystoreData',
-        'abideverse_screen_class': 'ManageFirestoreScreenClass',
+        'abideverse_screen_class': 'FirestoreAdminScreenClass',
       },
     );
     final repo = JoyRepository(locale: LocaleConstants.currentLocale);
@@ -107,19 +107,19 @@ class FirebaseDbSection extends StatelessWidget {
           .collection(LocaleConstants.joystoreName)
           .doc(joy.articleId.toString());
       await docRef.set(joy.toJson()).catchError((e) {
-        logManageFirestore.info("[ManageFirestore] Error writing document: $e");
+        logFirestoreAdmin.info("[FirestoreAdmin] Error writing document: $e");
       });
       await docRef
           .get()
           .then((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            logManageFirestore.info(
-              '[ManageFirestore] ${LocaleConstants.joystoreName}: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
+            logFirestoreAdmin.info(
+              '[FirestoreAdmin] ${LocaleConstants.joystoreName}: DocumentSnapshot added with ID: ${doc.id}:${data['id']}',
             );
           })
           .catchError((e) {
-            logManageFirestore.info(
-              "[ManageFirestore] Error getting document: $e",
+            logFirestoreAdmin.info(
+              "[FirestoreAdmin] Error getting document: $e",
             );
           });
     }
@@ -130,7 +130,7 @@ class FirebaseDbSection extends StatelessWidget {
       name: 'screen_view',
       parameters: {
         'abideverse_screen': 'readJoystoreData',
-        'abideverse_screen_class': 'ManageFirestoreScreenClass',
+        'abideverse_screen_class': 'FirestoreAdminScreenClass',
       },
     );
     final snapshot = await firestore
@@ -138,12 +138,12 @@ class FirebaseDbSection extends StatelessWidget {
         .orderBy('likes', descending: true)
         .get();
     for (var doc in snapshot.docs) {
-      logManageFirestore.info(
-        "[ManageFirestore] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => ${doc.data()}",
+      logFirestoreAdmin.info(
+        "[FirestoreAdmin] ${LocaleConstants.joystoreName}: Firestore: ${doc.id} => ${doc.data()}",
       );
       final joy = Joy.fromJson(doc.data());
-      logManageFirestore.info(
-        "[ManageFirestore] ${LocaleConstants.joystoreName}: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
+      logFirestoreAdmin.info(
+        "[FirestoreAdmin] ${LocaleConstants.joystoreName}: Joy: ${doc.id} => id=${joy.id}:articleId=${joy.articleId}:likes=${joy.likes}:isNew=${joy.isNew}:category=${joy.category}",
       );
     }
   }
@@ -154,7 +154,7 @@ class FirebaseDbSection extends StatelessWidget {
       name: 'screen_view',
       parameters: {
         'abideverse_screen': 'FirebaseDbSection',
-        'abideverse_screen_class': 'ManageFirestoreScreenClass',
+        'abideverse_screen_class': 'FirestoreAdminScreenClass',
       },
     );
 

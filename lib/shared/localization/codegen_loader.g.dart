@@ -87,7 +87,12 @@ class CodegenLoader extends AssetLoader{
   "bibleChatTitle": "AI Bible Chat",
   "bibleChatWelcomeMsg": "Welcome to AI Bible Chat. Let's explore Scripture. What chapter, verse, or topic are you exploring today?",
   "bibleChatErrorMsg": "Sorry, I encountered an error. Please try again later.",
-  "bibleChatHintText": "Chapter, verse, or topic?"
+  "bibleChatHintText": "Chapter, verse, or topic?",
+  "enterAccessCode": "Access Code",
+  "passcode": "Passcode",
+  "cancel": "Cancel",
+  "verify": "Verify",
+  "incorrectCode": "IncorrectCode"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -162,7 +167,12 @@ static const Map<String,dynamic> _zh_CN = {
   "bibleChatTitle": "AI 圣经聊天",
   "bibleChatWelcomeMsg": "欢迎来到 AI 圣经聊天。让我们一起探索圣经。您今天想探索哪个章节、经文或主题?",
   "bibleChatErrorMsg": "抱歉，我遇到了一个错误。请稍后再试。",
-  "bibleChatHintText": "章节、经文或主题?"
+  "bibleChatHintText": "章节、经文或主题?",
+  "enterAccessCode": "访问代码",
+  "passcode": "密码",
+  "cancel": "取消",
+  "verify": "验证",
+  "incorrectCode": "密码错误"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -237,7 +247,12 @@ static const Map<String,dynamic> _zh_TW = {
   "bibleChatTitle": "AI 聖經聊天",
   "bibleChatWelcomeMsg": "歡迎來到 AI 聖經聊天。讓我們一起探索聖經。您今天想探索哪個章節、經文或主題?",
   "bibleChatErrorMsg": "抱歉，我遇到了一個錯誤。請稍後再試。",
-  "bibleChatHintText": "章節、經文或主題?"
+  "bibleChatHintText": "章節、經文或主題?",
+  "enterAccessCode": "訪問碼",
+  "passcode": "密碼",
+  "cancel": "取消",
+  "verify": "驗證",
+  "incorrectCode": "錯誤代碼"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }
