@@ -8,7 +8,7 @@ import 'package:abideverse/app/abideverse_app_shell.dart';
 import 'package:abideverse/core/config/app_config.dart';
 
 import 'package:abideverse/features/about/screens/about_screen.dart';
-import 'package:abideverse/features/bible_assistant/screens/bible_assistant_screen.dart';
+import 'package:abideverse/features/bible_chat/screens/bible_chat_screen.dart';
 import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
@@ -28,7 +28,7 @@ class AppRoutes {
   static const scriptures = '/scriptures';
   static const scriptureDetail = '/scriptures/scripture/:articleId';
 
-  static const bibleAssitant = '/bible-assitant';
+  static const bibleChat = '/bible-chat';
   static const about = '/about';
   static const settings = '/settings';
 
@@ -133,7 +133,7 @@ GoRouter createRouter({
           final indexMap = {
             '/joys': 0,
             '/scriptures': 1,
-            '/bible-assitant': 2,
+            '/bible-chat': 2,
             '/about': 3,
             '/settings': 4,
           };
@@ -196,9 +196,9 @@ GoRouter createRouter({
           // AI CHAT
           // --------------------------
           GoRoute(
-            path: AppRoutes.bibleAssitant,
+            path: AppRoutes.bibleChat,
             pageBuilder: (context, state) => fadePage(
-              BibleAssitantScreen(
+              BibleChatScreen(
                 aiService: aiService,
               ), // <-- Use the factory instance
               state.pageKey,
@@ -275,7 +275,7 @@ class Routes {
     AppRoutes.scriptureDetail.replaceFirst(':articleId', '$articleId'),
   );
 
-  void goBibleAssitant() => context.go(AppRoutes.bibleAssitant);
+  void goBibleChat() => context.go(AppRoutes.bibleChat);
 
   void goAbout() => context.go(AppRoutes.about);
   void goSettings() => context.go(AppRoutes.settings);

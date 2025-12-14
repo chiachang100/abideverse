@@ -77,9 +77,9 @@
   "noVideoAvailable": "暫無視頻。",
   "itemNotFound": "未找到該物品。",
 
-  "bibleAssitant": "聖經助手",
-  "bibleAssitantTitle": "聖經助手伴侶",
-  "bibleAssistantChatWelcomeMsg": "您好!我是AbideVerse的聖經助手。今天我可以如何幫助您反思聖經呢?",
-  "bibleAssistantChatErrorMsg": "抱歉，我遇到了一個錯誤。請稍後再試。",
-  "bibleAssistantChatHintText": "詢問我有關聖經經文或主題的問題..."
+  "bibleChat": "AI 聖經聊天",
+  "bibleChatTitle": "AI 聖經聊天",
+  "bibleChatWelcomeMsg": "歡迎來到 AI 聖經聊天。讓我們一起探索聖經。您今天想探索哪個章節、經文或主題?",
+  "bibleChatErrorMsg": "抱歉，我遇到了一個錯誤。請稍後再試。",
+  "bibleChatHintText": "章節、經文或主題?"
 }

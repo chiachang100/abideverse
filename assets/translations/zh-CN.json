@@ -77,9 +77,9 @@
   "noVideoAvailable": "暂无视频。",
   "itemNotFound": "未找到该物品。",
 
-  "bibleAssitant": "圣经助手",
-  "bibleAssitantTitle": "圣经助手伴侣",
-  "bibleAssistantChatWelcomeMsg": "您好!我是AbideVerse的圣经助手。今天我能如何帮助您反思圣经呢?",
-  "bibleAssistantChatErrorMsg": "抱歉，我遇到了一个错误。请稍后再试。",
-  "bibleAssistantChatHintText": "询问我有关圣经经文或主题的问题..."
+  "bibleChat": "AI 圣经聊天",
+  "bibleChatTitle": "AI 圣经聊天",
+  "bibleChatWelcomeMsg": "欢迎来到 AI 圣经聊天。让我们一起探索圣经。您今天想探索哪个章节、经文或主题?",
+  "bibleChatErrorMsg": "抱歉，我遇到了一个错误。请稍后再试。",
+  "bibleChatHintText": "章节、经文或主题?"
 }

@@ -77,9 +77,9 @@
   "noVideoAvailable": "No video available.",
   "itemNotFound": "Item not found.",
 
-  "bibleAssitant": "Bible Assistant",
-  "bibleAssitantTitle": "Bible Assistant Companion",
-  "bibleAssistantChatWelcomeMsg": "Hello! I am AbideVerse's Bible Assistant. How can I help you reflect on the Bible today?",
-  "bibleAssistantChatErrorMsg": "Sorry, I ran into an error. Please try again later.",
-  "bibleAssistantChatHintText": "Ask me about a Bible verse or topic..."
+  "bibleChat": "AI Bible Chat",
+  "bibleChatTitle": "AI Bible Chat",
+  "bibleChatWelcomeMsg": "Welcome to AI Bible Chat. Let's explore Scripture. What chapter, verse, or topic are you exploring today?",
+  "bibleChatErrorMsg": "Sorry, I encountered an error. Please try again later.",
+  "bibleChatHintText": "Chapter, verse, or topic?"
 }

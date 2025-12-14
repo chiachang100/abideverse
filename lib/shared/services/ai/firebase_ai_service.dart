@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_ai/firebase_ai.dart'; // hypothetical import
 import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:logging/logging.dart';
@@ -9,7 +10,12 @@ final logAIServices = Logger('genai_services');
 class FirebaseAIService implements AIService {
   final FirebaseAI _ai;
 
-  FirebaseAIService(FirebaseApp app) : _ai = FirebaseAI.googleAI();
+  FirebaseAIService(FirebaseApp app)
+    : _ai = FirebaseAI.googleAI(
+        appCheck: FirebaseAppCheck.instance,
+        useLimitedUseAppCheckTokens: true,
+      );
+
   final String modelName = 'gemini-2.5-flash-lite';
 
   @override

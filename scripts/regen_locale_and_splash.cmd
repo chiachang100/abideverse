@@ -4,4 +4,4 @@ cmd/c dart run easy_localization:generate -S assets\translations -O lib/shared/l
 cmd/c dart run easy_localization:generate -S assets\translations -f keys -O lib/shared/localization -o locale_keys.g.dart
 
 REM 4. Generate Splash Screen
-cmd/c dart run flutter_native_splash:create
+REM cmd/c dart run flutter_native_splash:create

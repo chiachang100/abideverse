@@ -1,5 +1,3 @@
-// lib/features/ai_chat/screens/ai_chat_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -22,19 +20,19 @@ class ChatMessage {
   });
 }
 
-class BibleAssitantScreen extends StatefulWidget {
+class BibleChatScreen extends StatefulWidget {
   // We can directly instantiate the service here, or pass it in.
   // Let's rely on the Factory for simplicity in the GoRouter setup.
   final AIService aiService;
 
   // The key is required by GoRouter's pageBuilder (fadePage)
-  const BibleAssitantScreen({super.key, required this.aiService});
+  const BibleChatScreen({super.key, required this.aiService});
 
   @override
-  State<BibleAssitantScreen> createState() => _BibleAssitantScreenState();
+  State<BibleChatScreen> createState() => _BibleChatScreenState();
 }
 
-class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
+class _BibleChatScreenState extends State<BibleChatScreen> {
   // ... (Keep the rest of the implementation from the previous response,
   //      including _messages, _textController, _isLoading,
   //      _handleSubmitted, _buildMessage, and _buildTextComposer) ...
@@ -49,7 +47,7 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
     // Optional: Add a welcoming message from the AI on load
     _messages.add(
       ChatMessage(
-        text: LocaleKeys.bibleAssistantChatWelcomeMsg.tr(),
+        text: LocaleKeys.bibleChatWelcomeMsg.tr(),
         isUser: false,
         timestamp: DateTime.now(),
       ),
@@ -73,6 +71,16 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
 
     try {
       // 2. Call the Firebase AI Service using the injected dependency
+
+      // Original user text
+      String userQuery = text;
+
+      // The instruction to the model
+      final instruction =
+          "You are an AI biblical expert. For every statement, include at least one corresponding Scripture reference (e.g., John 3:16).";
+
+      // Combine the instruction and the user query
+      final textWithInstruction = "$instruction\n\nUser Query: $userQuery";
       final aiResponseText = await widget.aiService.generateText(text);
 
       if (aiResponseText != null && aiResponseText.isNotEmpty) {
@@ -87,7 +95,8 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
       }
     } catch (e) {
       final errorMessage = ChatMessage(
-        text: LocaleKeys.bibleAssistantChatErrorMsg.tr(),
+        text:
+            '${LocaleKeys.bibleChatErrorMsg.tr()}. AI Error: ${e.toString()}}',
         isUser: false,
         timestamp: DateTime.now(),
       );
@@ -106,7 +115,7 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.bibleAssitantTitle.tr()),
+        title: Text(LocaleKeys.bibleChatTitle.tr()),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -172,7 +181,9 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
                   ? Theme.of(context)
                         .colorScheme
                         .primaryContainer // User color
-                  : Theme.of(context).colorScheme.surfaceVariant, // AI color
+                  : Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHigh, // AI color
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(16.0),
                 topRight: const Radius.circular(16.0),
@@ -240,7 +251,7 @@ class _BibleAssitantScreenState extends State<BibleAssitantScreen> {
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
                 decoration: InputDecoration.collapsed(
-                  hintText: LocaleKeys.bibleAssistantChatHintText.tr(),
+                  hintText: LocaleKeys.bibleChatHintText.tr(),
                 ),
                 enabled: !_isLoading,
               ),

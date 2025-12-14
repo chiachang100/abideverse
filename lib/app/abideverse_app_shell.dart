@@ -36,7 +36,7 @@ class AbideVerseAppShell extends StatelessWidget {
     String abideverseTitle = LocaleKeys.xlcd.tr();
     String abideverseScriptLabel = LocaleKeys.bibleVerse.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
-    String abideversebibleAssitantLabel = LocaleKeys.bibleAssitant.tr();
+    String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
 
     // const maxWidth = 600.0;
@@ -60,7 +60,7 @@ class AbideVerseAppShell extends StatelessWidget {
                 onSelectedIndexChange: (idx) {
                   if (idx == 0) goRouter.go('/joys');
                   if (idx == 1) goRouter.go('/scriptures');
-                  if (idx == 2) goRouter.go('/bible-assitant');
+                  if (idx == 2) goRouter.go('/bible-chat');
                   if (idx == 3) goRouter.go('/about');
                   if (idx == 4) goRouter.go('/settings');
                 },
@@ -82,7 +82,7 @@ class AbideVerseAppShell extends StatelessWidget {
                   // Index 2: AI CHAT
                   // label: 'AI聊天',
                   NavigationDestination(
-                    label: abideversebibleAssitantLabel,
+                    label: abideverseBibleChatLabel,
                     icon: const Icon(Icons.chat_bubble_outline),
                     selectedIcon: const Icon(Icons.chat_bubble),
                   ),

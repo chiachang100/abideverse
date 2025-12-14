@@ -20,7 +20,7 @@ class AppConfig {
   static const bool useYoutubePlayerFlutter = true;
   static const bool useFilestore = false;
   static const bool enableLikeButton = false;
-  static const bool enableEnglishButton = false;
+  static const bool enableEnglishButton = true;
 
   //static AIProvider aiProvider = AIProvider.genAI;
   static AIProvider aiProvider = AIProvider.firebaseAI;

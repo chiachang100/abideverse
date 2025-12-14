@@ -71,10 +71,10 @@ abstract class  LocaleKeys {
   static const sortDesc = 'sortDesc';
   static const noVideoAvailable = 'noVideoAvailable';
   static const itemNotFound = 'itemNotFound';
-  static const bibleAssitant = 'bibleAssitant';
-  static const bibleAssitantTitle = 'bibleAssitantTitle';
-  static const bibleAssistantChatWelcomeMsg = 'bibleAssistantChatWelcomeMsg';
-  static const bibleAssistantChatErrorMsg = 'bibleAssistantChatErrorMsg';
-  static const bibleAssistantChatHintText = 'bibleAssistantChatHintText';
+  static const bibleChat = 'bibleChat';
+  static const bibleChatTitle = 'bibleChatTitle';
+  static const bibleChatWelcomeMsg = 'bibleChatWelcomeMsg';
+  static const bibleChatErrorMsg = 'bibleChatErrorMsg';
+  static const bibleChatHintText = 'bibleChatHintText';
 
 }
