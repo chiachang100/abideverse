@@ -6,7 +6,7 @@ REM Switch to project directory
 cd /d C:\src\git\apps\abideverse
 
 REM Print current directory
-cd
+owd
 
 @echo 1. Run Flutter clean
 flutter clean || echo flutter clean failed, continuing...
