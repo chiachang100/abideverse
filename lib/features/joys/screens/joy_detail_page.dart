@@ -124,7 +124,7 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
               title: LocaleKeys.detailedLaugh.tr(),
               content: j.laugh,
             ),
-            DisplayArticleContent(title: LocaleKeys.xlcd.tr(), content: j.talk),
+            DisplayArticleContent(title: LocaleKeys.joys.tr(), content: j.talk),
 
             const SizedBox(height: 16),
             const Divider(),

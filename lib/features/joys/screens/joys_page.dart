@@ -111,7 +111,7 @@ class _JoysPageState extends State<JoysPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.joys.tr()),
+        title: Text(LocaleKeys.xlcd.tr()),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
