@@ -63,7 +63,7 @@ class JoyListItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        '$safeTitle (${joy.articleId})',
+        '${joy.articleId}. $safeTitle',
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Column(

@@ -83,7 +83,7 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${j.title} (${j.articleId})',
+          '${j.articleId}. ${j.title}',
           style: const TextStyle(fontSize: 20),
         ),
         actions: [
