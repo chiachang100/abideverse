@@ -30,5 +30,5 @@ class AppConfig {
 
   // Set to true/false to hide/include the 'bible-chat' navigation/feature.
   static const bool isBibleChatEnabled = false;
-  static const String bibleChatAccessCode = '12856%';
+  static const String bibleChatAccessCode = '12856';
 }

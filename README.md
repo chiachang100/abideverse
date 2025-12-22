@@ -163,8 +163,8 @@ Firestore connected: true
 3. Localization Code Generation
 
 - `rm -rf lib/shared/localization/*`
-- `dart run easy_localization:generate -S assets\translations -O lib/shared/localization`
-- `dart run easy_localization:generate -S assets\translations -f keys -O lib/shared/localization -o locale_keys.g.dart`
+- `dart run easy_localization:generate -S assets/translations -O lib/shared/localization`
+- `dart run easy_localization:generate -S assets/translations -f keys -O lib/shared/localization -o locale_keys.g.dart`
 
 4. Generate Splash Screen
 
