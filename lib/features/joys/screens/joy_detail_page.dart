@@ -123,6 +123,7 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
             DisplayArticleContent(
               title: LocaleKeys.detailedLaugh.tr(),
               content: j.laugh,
+              addEmoji: true,
             ),
             DisplayArticleContent(title: LocaleKeys.joys.tr(), content: j.talk),
 

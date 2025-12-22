@@ -711,6 +711,11 @@ Make sure GitHub doesn’t add --- or dashes at the start.
 - Use `youtube_player_iframe`
 - `flutter pub add youtube_player_iframe`
 
+## Audio Player
+
+- `flutter pub add audioplayers`
+  - [Sound files @Pixabay](https://pixabay.com/sound-effects/search/laugh/?pagi=1)
+
 ---
 
 ## Local Firebase Emulator

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:abideverse/shared/utils/sound_player.dart';
 
 class DisplayArticleContent extends StatelessWidget {
   final String title;
   final String content;
+  final bool addEmoji;
 
   const DisplayArticleContent({
     super.key,
     required this.title,
     required this.content,
+    this.addEmoji = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final soundPlayer = RandomSoundPlayer();
+
     return Card(
       elevation: 1,
       margin: const EdgeInsets.all(12),
@@ -27,6 +32,15 @@ class DisplayArticleContent extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(content, style: const TextStyle(fontSize: 16)),
+            if (addEmoji)
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    soundPlayer.playRandomSound();
+                  },
+                  child: const Text('🤣🤣🤣'),
+                ),
+              ),
           ],
         ),
       ),
