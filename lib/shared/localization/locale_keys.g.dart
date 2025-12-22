@@ -47,6 +47,7 @@ abstract class  LocaleKeys {
   static const bookIntroContent = 'bookIntroContent';
   static const gracephBookStore = 'gracephBookStore';
   static const riverbankBookStore = 'riverbankBookStore';
+  static const tiendaoBookStore = 'tiendaoBookStore';
   static const bookAuthor = 'bookAuthor';
   static const bookAuthorSubtitle = 'bookAuthorSubtitle';
   static const bookAuthorContent = 'bookAuthorContent';

@@ -14,8 +14,10 @@ import 'package:easy_localization/easy_localization.dart';
 
 final logAbout = Logger('about');
 
-const String riverbankSite =
-    'https://www.rolcc.net/opencart/index.php?route=product/product&product_id=358';
+const String riverbankSite = 'https://bookstore.rolcc.net/';
+
+const String tiendaoSite =
+    'https://www.ustiendao.com/22795917.html?srsltid=AfmBOoo3pbaTJvSOFuh10wbAeeggZpmTDq-yJ6kM7_sRCPWmP6Rho36i';
 
 const String gracephSite = 'https://graceph.com/product/01i072/';
 
@@ -310,6 +312,10 @@ class _BookIntroSectionState extends State<BookIntroSection> {
                   onPressed: () => lauchTargetUrl(riverbankSite),
                   child: Text(LocaleKeys.riverbankBookStore.tr()),
                 ),
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(tiendaoSite),
+                  child: Text(LocaleKeys.tiendaoBookStore.tr()),
+                ),
               ],
             ),
             const SizedBox(height: 10),
@@ -329,7 +335,7 @@ class BookAuthorSection extends StatefulWidget {
 
 class _BookAuthorSectionState extends State<BookAuthorSection> {
   final String youtubePlaylistLink =
-      'https://www.youtube.com/playlist?list=PLKdEkGc8_SfGcg2T5VPTzKAgfQVc0IPdR';
+      'https://www.youtube.com/playlist?list=PLFyg5v4HpNhVEKQd7IGhXmz_a4dEbQgme';
 
   @override
   Widget build(BuildContext context) {
@@ -476,6 +482,10 @@ class _BookPraiseSectionState extends State<BookPraiseSection> {
                 OutlinedButton(
                   onPressed: () => lauchTargetUrl(riverbankSite),
                   child: Text(LocaleKeys.riverbankBookStore.tr()),
+                ),
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(tiendaoSite),
+                  child: Text(LocaleKeys.tiendaoBookStore.tr()),
                 ),
               ],
             ),
