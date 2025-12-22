@@ -469,27 +469,6 @@ class _BookPraiseSectionState extends State<BookPraiseSection> {
             const Divider(height: 0),
             ListTile(title: Text(LocaleKeys.bookPraises5.tr())),
             const SizedBox(height: 10),
-            OverflowBar(
-              spacing: 10,
-              overflowSpacing: 20,
-              alignment: MainAxisAlignment.center,
-              overflowAlignment: OverflowBarAlignment.center,
-              children: <Widget>[
-                OutlinedButton(
-                  onPressed: () => lauchTargetUrl(gracephSite),
-                  child: Text(LocaleKeys.gracephBookStore.tr()),
-                ),
-                OutlinedButton(
-                  onPressed: () => lauchTargetUrl(riverbankSite),
-                  child: Text(LocaleKeys.riverbankBookStore.tr()),
-                ),
-                OutlinedButton(
-                  onPressed: () => lauchTargetUrl(tiendaoSite),
-                  child: Text(LocaleKeys.tiendaoBookStore.tr()),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
