@@ -77,7 +77,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
     final s = scripture!;
 
     return Scaffold(
-      appBar: AppBar(title: Text('${s.title} (${s.articleId})')),
+      appBar: AppBar(title: Text('${s.articleId}. ${s.title}')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(

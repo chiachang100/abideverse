@@ -66,7 +66,7 @@ class ScriptureListItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        '$safeTitle (${scripture.articleId})',
+        '${scripture.articleId}. $safeTitle',
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
