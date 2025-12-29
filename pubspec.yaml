@@ -1,7 +1,7 @@
 name: abideverse
 description: "AbideVerse 常在主裡 - Your Daily Bible Verse Companion."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 5.6.12
+version: 5.6.14
 
 environment:
   sdk: ^3.10.1
