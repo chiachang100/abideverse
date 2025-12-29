@@ -26,6 +26,9 @@ class ScripturesPage extends StatefulWidget {
 
 class _ScripturesPageState extends State<ScripturesPage> {
   late final ScriptureRepository repository;
+
+  final ScrollController _scrollController = ScrollController();
+
   List<Scripture> scriptures = [];
   List<Scripture> filteredItems = [];
   bool isLoading = true;
@@ -71,6 +74,18 @@ class _ScripturesPageState extends State<ScripturesPage> {
     });
 
     await _loadAndSortScriptures();
+
+    // FORCE scroll to top AFTER rebuild
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        //_scrollController.jumpTo(0.0);
+        _scrollController.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   /// Applies search filtering
@@ -104,6 +119,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
@@ -169,6 +185,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
           // List of Scriptures
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               itemCount: filteredItems.length,
               itemBuilder: (context, index) => ScriptureListItem(
                 scripture: filteredItems[index],

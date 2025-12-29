@@ -22,6 +22,9 @@ class JoysPage extends StatefulWidget {
 
 class _JoysPageState extends State<JoysPage> {
   late JoyRepository repository;
+
+  final ScrollController _scrollController = ScrollController();
+
   List<Joy> joys = [];
   List<Joy> filteredItems = [];
   bool isLoading = true;
@@ -63,6 +66,18 @@ class _JoysPageState extends State<JoysPage> {
       sortOrder = sortOrder == SortOrder.asc ? SortOrder.desc : SortOrder.asc;
     });
     await _loadAndSortJoys();
+
+    // FORCE scroll to top AFTER rebuild
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        //_scrollController.jumpTo(0.0);
+        _scrollController.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   List<Joy> _applyFilter(List<Joy> items, String query) {
@@ -98,6 +113,7 @@ class _JoysPageState extends State<JoysPage> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
@@ -163,6 +179,7 @@ class _JoysPageState extends State<JoysPage> {
           // List of Joys
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               itemCount: filteredItems.length,
               itemBuilder: (context, index) => JoyListItem(
                 joy: filteredItems[index],
