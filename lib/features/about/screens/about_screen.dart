@@ -487,6 +487,10 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
   final String bibleGatewayLink =
       'https://www.biblegateway.com/passage/?search=%E5%B8%96%E6%92%92%E7%BE%85%E5%B0%BC%E8%BF%A6%E5%89%8D%E6%9B%B8+5%3A16-18&version=CUVMPT';
 
+  final String abideVerseAppLink = 'https://abideverse.web.app/';
+
+  final String joyolordComLink = 'https://www.joyolord.com/';
+
   @override
   Widget build(BuildContext context) {
     FirebaseAnalytics.instance.logEvent(
@@ -531,12 +535,33 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
             const SizedBox(height: 10),
             Text(LocaleKeys.appDeveloperContent.tr()),
             const SizedBox(height: 10),
-            Center(
-              child: OutlinedButton(
-                //onPressed: visitBibleWebsite,
-                onPressed: () => lauchTargetUrl(bibleGatewayLink),
-                child: Text(LocaleKeys.onlineBible.tr()),
-              ),
+            // Center(
+            //   child: OutlinedButton(
+            //     //onPressed: visitBibleWebsite,
+            //     onPressed: () => lauchTargetUrl(bibleGatewayLink),
+            //     child: Text(LocaleKeys.onlineBible.tr()),
+            //   ),
+            // ),
+            // const SizedBox(height: 10),
+            OverflowBar(
+              spacing: 10,
+              overflowSpacing: 20,
+              alignment: MainAxisAlignment.center,
+              overflowAlignment: OverflowBarAlignment.center,
+              children: <Widget>[
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(bibleGatewayLink),
+                  child: Text(LocaleKeys.onlineBible.tr()),
+                ),
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(abideVerseAppLink),
+                  child: Text(LocaleKeys.abideverseApp.tr()),
+                ),
+                OutlinedButton(
+                  onPressed: () => lauchTargetUrl(joyolordComLink),
+                  child: Text(LocaleKeys.joyolordCom.tr()),
+                ),
+              ],
             ),
             const SizedBox(height: 10),
           ],
