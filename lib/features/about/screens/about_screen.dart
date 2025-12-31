@@ -535,14 +535,6 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
             const SizedBox(height: 10),
             Text(LocaleKeys.appDeveloperContent.tr()),
             const SizedBox(height: 10),
-            // Center(
-            //   child: OutlinedButton(
-            //     //onPressed: visitBibleWebsite,
-            //     onPressed: () => lauchTargetUrl(bibleGatewayLink),
-            //     child: Text(LocaleKeys.onlineBible.tr()),
-            //   ),
-            // ),
-            // const SizedBox(height: 10),
             OverflowBar(
               spacing: 10,
               overflowSpacing: 20,

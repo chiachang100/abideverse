@@ -23,6 +23,8 @@ class AbideVerseAppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentLocale = context.locale;
+
     final goRouter = GoRouter.of(context);
 
     FirebaseAnalytics.instance.logEvent(
