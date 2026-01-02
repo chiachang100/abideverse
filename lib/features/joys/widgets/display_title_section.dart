@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class DisplayTitleSection extends StatelessWidget {
   final Joy joy;
@@ -16,7 +18,7 @@ class DisplayTitleSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${joy.scriptureName} ${joy.scriptureChapter}',
+            LocaleKeys.bibleVerseHeader.tr(),
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
 

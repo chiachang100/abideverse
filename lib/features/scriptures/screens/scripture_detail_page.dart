@@ -85,7 +85,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
           children: [
             /// Scripture name + chapter
             Text(
-              '${s.scriptureName} ${s.scriptureChapter}',
+              LocaleKeys.bibleVerseHeader.tr(),
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
 

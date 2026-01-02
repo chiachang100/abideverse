@@ -11,6 +11,7 @@ abstract class  LocaleKeys {
   static const signIn = 'signIn';
   static const signOut = 'signOut';
   static const bibleVerse = 'bibleVerse';
+  static const bibleVerseHeader = 'bibleVerseHeader';
   static const xlcd = 'xlcd';
   static const joys = 'joys';
   static const about = 'about';
