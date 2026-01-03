@@ -29,6 +29,9 @@ This project is a starting point for the AbideVerse App (abideverse).
 - Add more Dev Dependencies
 - `flutter pub add --dev build_runner custom_lint`
 
+- Add Dependencies for "Like", etc.
+  - `flutter pub add shared_preferences`
+
 ### Useful Tools
 
 - `flutter clean`

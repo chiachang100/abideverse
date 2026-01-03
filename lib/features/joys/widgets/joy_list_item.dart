@@ -6,6 +6,8 @@ class JoyListItem extends StatelessWidget {
   final Joy joy;
   final int index;
   final bool isRanked;
+  final bool isLiked;
+  final VoidCallback onLikeToggle;
   //final void Function(Joy joy) onTap;
   final VoidCallback? onTap;
 
@@ -14,6 +16,8 @@ class JoyListItem extends StatelessWidget {
     required this.joy,
     required this.index,
     this.isRanked = false,
+    required this.isLiked,
+    required this.onLikeToggle,
     required this.onTap,
   });
 
@@ -75,6 +79,13 @@ class JoyListItem extends StatelessWidget {
       ),
       //onTap: () => onTap(joy),
       onTap: onTap,
+      trailing: IconButton(
+        icon: Icon(
+          isLiked ? Icons.favorite : Icons.favorite_border,
+          color: isLiked ? Colors.red : null,
+        ),
+        onPressed: onLikeToggle,
+      ),
     );
   }
 }

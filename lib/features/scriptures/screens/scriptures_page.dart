@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
@@ -37,6 +38,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
   final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.asc; // default sort order
+  Set<String> likedScriptureIds = {}; // Stores articleIds of liked items
 
   @override
   void initState() {
@@ -45,6 +47,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
     _searchController.addListener(_onSearchChanged);
 
     _loadAndSortScriptures(shuffle: true);
+    _loadLikes(); // Load saved likes from disk
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -128,6 +131,33 @@ class _ScripturesPageState extends State<ScripturesPage> {
     super.dispose();
   }
 
+  // Load from Local Storage
+  Future<void> _loadLikes() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // SharedPreferences returns a List, we convert to Set for performance
+      likedScriptureIds = (prefs.getStringList('liked_scriptures') ?? [])
+          .toSet();
+    });
+  }
+
+  // Toggle and Save to Local Storage
+  Future<void> _toggleLike(String scriptureId) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (likedScriptureIds.contains(scriptureId)) {
+        likedScriptureIds.remove(scriptureId);
+      } else {
+        likedScriptureIds.add(scriptureId);
+      }
+    });
+    // Persist the updated list
+    await prefs.setStringList('liked_scriptures', likedScriptureIds.toList());
+
+    // Future Firebase hook:
+    // if (userIsLoggedIn) { await updateFirebase(scriptureId, isLiked); }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -187,15 +217,28 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
           // List of Scriptures
           Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) => ScriptureListItem(
-                scripture: filteredItems[index],
-                index: index,
-                onTap: () {
-                  context.push(
-                    '/scriptures/scripture/${filteredItems[index].articleId}',
+            child: RefreshIndicator(
+              onRefresh: () => _loadAndSortScriptures(shuffle: true),
+              color: Colors.white,
+              backgroundColor: Theme.of(context).primaryColor,
+              child: ListView.builder(
+                // The physics must allow scrolling for RefreshIndicator to work properly
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: _scrollController,
+                itemCount: filteredItems.length,
+                itemBuilder: (context, index) {
+                  final scripture = filteredItems[index];
+                  final String scriptureId = scripture.articleId.toString();
+
+                  return ScriptureListItem(
+                    scripture: scripture,
+                    index: index,
+                    isLiked: likedScriptureIds.contains(scriptureId),
+                    onLikeToggle: () => _toggleLike(scriptureId),
+                    //onShare: () => _shareScripture(scripture),
+                    onTap: () => context.push(
+                      '/scriptures/scripture/${scripture.articleId}',
+                    ),
                   );
                 },
               ),

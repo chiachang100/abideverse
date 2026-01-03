@@ -7,12 +7,16 @@ import 'package:abideverse/features/scriptures/models/scripture.dart';
 class ScriptureListItem extends StatelessWidget {
   final Scripture scripture;
   final int index;
+  final bool isLiked;
+  final VoidCallback onLikeToggle;
   final VoidCallback? onTap;
 
   const ScriptureListItem({
     super.key,
     required this.scripture,
     required this.index,
+    required this.isLiked,
+    required this.onLikeToggle,
     this.onTap,
   });
 
@@ -75,6 +79,13 @@ class ScriptureListItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       onTap: onTap,
+      trailing: IconButton(
+        icon: Icon(
+          isLiked ? Icons.favorite : Icons.favorite_border,
+          color: isLiked ? Colors.red : null,
+        ),
+        onPressed: onLikeToggle,
+      ),
     );
   }
 }

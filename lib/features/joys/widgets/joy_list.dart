@@ -7,14 +7,18 @@ import 'package:abideverse/features/joys/widgets/joy_list_item.dart';
 
 class JoyList extends StatelessWidget {
   final List<Joy> joys;
-  final ValueChanged<Joy>? onTap;
   final bool isRanked;
+  final bool isLiked;
+  final VoidCallback onLikeToggle;
+  final ValueChanged<Joy>? onTap;
 
   const JoyList({
     super.key,
     required this.joys,
-    this.onTap,
     this.isRanked = false,
+    required this.isLiked,
+    required this.onLikeToggle,
+    this.onTap,
   });
 
   @override
@@ -35,6 +39,8 @@ class JoyList extends StatelessWidget {
           joy: j,
           index: index,
           isRanked: isRanked,
+          isLiked: isLiked,
+          onLikeToggle: onLikeToggle,
           onTap: onTap != null ? () => onTap!(j) : null,
         );
       },

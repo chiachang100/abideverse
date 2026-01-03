@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
@@ -33,6 +34,7 @@ class _JoysPageState extends State<JoysPage> {
   final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.asc;
+  Set<String> likedJoyIds = {}; // Stores articleIds of liked items
 
   @override
   void initState() {
@@ -40,6 +42,7 @@ class _JoysPageState extends State<JoysPage> {
     repository = JoyRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
     _loadAndSortJoys(shuffle: true);
+    _loadLikes(); // Load saved likes from disk
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -119,6 +122,32 @@ class _JoysPageState extends State<JoysPage> {
     super.dispose();
   }
 
+  // Load from Local Storage
+  Future<void> _loadLikes() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // SharedPreferences returns a List, we convert to Set for performance
+      likedJoyIds = (prefs.getStringList('liked_joys') ?? []).toSet();
+    });
+  }
+
+  // Toggle and Save to Local Storage
+  Future<void> _toggleLike(String joyId) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (likedJoyIds.contains(joyId)) {
+        likedJoyIds.remove(joyId);
+      } else {
+        likedJoyIds.add(joyId);
+      }
+    });
+    // Persist the updated list
+    await prefs.setStringList('liked_joys', likedJoyIds.toList());
+
+    // Future Firebase hook:
+    // if (userIsLoggedIn) { await updateFirebase(joyId, isLiked); }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -178,14 +207,27 @@ class _JoysPageState extends State<JoysPage> {
 
           // List of Joys
           Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) => JoyListItem(
-                joy: filteredItems[index],
-                index: index,
-                onTap: () {
-                  context.push('/joys/joy/${filteredItems[index].articleId}');
+            child: RefreshIndicator(
+              onRefresh: () => _loadAndSortJoys(shuffle: true),
+              color: Colors.white,
+              backgroundColor: Theme.of(context).primaryColor,
+              child: ListView.builder(
+                // The physics must allow scrolling for RefreshIndicator to work properly
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: _scrollController,
+                itemCount: filteredItems.length,
+                itemBuilder: (context, index) {
+                  final joy = filteredItems[index];
+                  final String joyId = joy.articleId.toString();
+
+                  return JoyListItem(
+                    joy: joy,
+                    index: index,
+                    isLiked: likedJoyIds.contains(joyId),
+                    onLikeToggle: () => _toggleLike(joyId),
+                    //onShare: () => _shareJoy(joy),
+                    onTap: () => context.push('/joys/joy/${joy.articleId}'),
+                  );
                 },
               ),
             ),
