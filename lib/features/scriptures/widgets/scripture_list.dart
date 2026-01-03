@@ -6,9 +6,17 @@ import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart'
 
 class ScriptureList extends StatelessWidget {
   final List<Scripture> scriptures;
+  final bool isLiked;
+  final VoidCallback onLikeToggle;
   final ValueChanged<Scripture>? onTap;
 
-  const ScriptureList({super.key, required this.scriptures, this.onTap});
+  const ScriptureList({
+    super.key,
+    required this.scriptures,
+    required this.isLiked,
+    required this.onLikeToggle,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +36,8 @@ class ScriptureList extends StatelessWidget {
         return ScriptureListItem(
           scripture: s,
           index: index,
+          isLiked: isLiked,
+          onLikeToggle: onLikeToggle,
           onTap: onTap != null ? () => onTap!(s) : null,
         );
       },

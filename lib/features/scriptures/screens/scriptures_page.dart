@@ -39,6 +39,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   SortOrder sortOrder = SortOrder.asc; // default sort order
   Set<String> likedScriptureIds = {}; // Stores articleIds of liked items
+  bool showOnlyFavorites = false;
 
   @override
   void initState() {
@@ -97,14 +98,22 @@ class _ScripturesPageState extends State<ScripturesPage> {
   /// Applies search filtering
   List<Scripture> _applyFilter(List<Scripture> items, String query) {
     final q = query.trim().toLowerCase();
-    if (q.isEmpty) return items;
-    return items.where((s) {
-      return s.articleId.toString().contains(q) ||
-          s.title.toLowerCase().contains(q) ||
-          s.scriptureName.toLowerCase().contains(q) ||
-          s.scriptureChapter.toLowerCase().contains(q) ||
-          s.scriptureVerse.toLowerCase().contains(q) ||
-          s.zhCNScriptureVerse.toLowerCase().contains(q);
+    return items.where((scripture) {
+      // 1. Check Favorites Filter
+      if (showOnlyFavorites &&
+          !likedScriptureIds.contains(scripture.articleId.toString())) {
+        return false;
+      }
+
+      // 2. Check Search Query
+      if (query.isEmpty) return true;
+
+      return scripture.articleId.toString().contains(q) ||
+          scripture.title.toLowerCase().contains(q) ||
+          scripture.scriptureName.toLowerCase().contains(q) ||
+          scripture.scriptureChapter.toLowerCase().contains(q) ||
+          scripture.scriptureVerse.toLowerCase().contains(q) ||
+          scripture.zhCNScriptureVerse.toLowerCase().contains(q);
     }).toList();
   }
 
@@ -150,7 +159,12 @@ class _ScripturesPageState extends State<ScripturesPage> {
       } else {
         likedScriptureIds.add(scriptureId);
       }
+
+      // Refresh the list immediately so un-liked items disappear
+      // if showOnlyFavorites is true
+      filteredItems = _applyFilter(scriptures, _searchController.text);
     });
+
     // Persist the updated list
     await prefs.setStringList('liked_scriptures', likedScriptureIds.toList());
 
@@ -178,6 +192,25 @@ class _ScripturesPageState extends State<ScripturesPage> {
           },
         ),
         actions: [
+          // Favorites Filter Toggle
+          IconButton(
+            icon: Icon(
+              showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
+              color: showOnlyFavorites ? Colors.red : null,
+            ),
+            tooltip: LocaleKeys.showFavorites.tr(),
+            onPressed: () {
+              setState(() {
+                showOnlyFavorites = !showOnlyFavorites;
+                // Re-run the filter with the new state
+                filteredItems = _applyFilter(
+                  scriptures,
+                  _searchController.text,
+                );
+              });
+            },
+          ),
+          // Sort Toggle
           IconButton(
             icon: Icon(
               sortOrder == SortOrder.asc

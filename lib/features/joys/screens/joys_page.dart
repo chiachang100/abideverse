@@ -35,6 +35,7 @@ class _JoysPageState extends State<JoysPage> {
 
   SortOrder sortOrder = SortOrder.asc;
   Set<String> likedJoyIds = {}; // Stores articleIds of liked items
+  bool showOnlyFavorites = false;
 
   @override
   void initState() {
@@ -85,8 +86,17 @@ class _JoysPageState extends State<JoysPage> {
 
   List<Joy> _applyFilter(List<Joy> items, String query) {
     query = query.trim().toLowerCase();
-    if (query.isEmpty) return items;
+
     return items.where((joy) {
+      // 1. Check Favorites Filter
+      if (showOnlyFavorites &&
+          !likedJoyIds.contains(joy.articleId.toString())) {
+        return false;
+      }
+
+      // 2. Check Search Query
+      if (query.isEmpty) return true;
+
       return joy.articleId.toString().contains(query) ||
           joy.title.toLowerCase().contains(query) ||
           joy.prelude.toLowerCase().contains(query) ||
@@ -140,7 +150,12 @@ class _JoysPageState extends State<JoysPage> {
       } else {
         likedJoyIds.add(joyId);
       }
+
+      // Refresh the list immediately so un-liked items disappear
+      // if showOnlyFavorites is true
+      filteredItems = _applyFilter(joys, _searchController.text);
     });
+
     // Persist the updated list
     await prefs.setStringList('liked_joys', likedJoyIds.toList());
 
@@ -168,6 +183,22 @@ class _JoysPageState extends State<JoysPage> {
           },
         ),
         actions: [
+          // Favorites Filter Toggle
+          IconButton(
+            icon: Icon(
+              showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
+              color: showOnlyFavorites ? Colors.red : null,
+            ),
+            tooltip: LocaleKeys.showFavorites.tr(),
+            onPressed: () {
+              setState(() {
+                showOnlyFavorites = !showOnlyFavorites;
+                // Re-run the filter with the new state
+                filteredItems = _applyFilter(joys, _searchController.text);
+              });
+            },
+          ),
+          // Sort Toggle
           IconButton(
             icon: Icon(
               sortOrder == SortOrder.asc
