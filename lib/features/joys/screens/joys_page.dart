@@ -39,7 +39,7 @@ class _JoysPageState extends State<JoysPage> {
     super.initState();
     repository = JoyRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-    _loadAndSortJoys();
+    _loadAndSortJoys(shuffle: true);
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -50,9 +50,9 @@ class _JoysPageState extends State<JoysPage> {
     );
   }
 
-  Future<void> _loadAndSortJoys() async {
+  Future<void> _loadAndSortJoys({bool shuffle = false}) async {
     setState(() => isLoading = true);
-    final data = await repository.getJoys(order: sortOrder);
+    final data = await repository.getJoys(order: sortOrder, shuffle: shuffle);
     setState(() {
       joys = data;
       // apply current search query if any

@@ -22,6 +22,7 @@ class JoyRepository {
   Future<List<Joy>> getJoys({
     SortOrder order = SortOrder.asc,
     bool forceReload = false,
+    bool shuffle = false,
   }) async {
     FirebaseAnalytics.instance.logEvent(
       name: 'joy_repository',
@@ -53,6 +54,14 @@ class JoyRepository {
       logJoyRepository.info(
         '[JoyRepository] Turn off forceReloadRepo: AppConfig.forceReloadRepo=${AppConfig.forceReloadRepo}; order=$order; path=$path.',
       );
+    }
+
+    // Handle the return logic with the new shuffle parameter
+    if (shuffle) {
+      // Create a copy so we don't permanently mess up the order of the cached list
+      final List<Joy> randomList = List<Joy>.from(_cachedJoys!);
+      randomList.shuffle();
+      return randomList;
     }
 
     // return a sorted copy if requested order differs

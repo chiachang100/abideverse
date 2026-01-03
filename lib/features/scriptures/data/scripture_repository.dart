@@ -22,12 +22,23 @@ class ScriptureRepository {
   Future<List<Scripture>> getScriptures({
     SortOrder order = SortOrder.asc,
     bool forceReload = false,
+    bool shuffle = false,
   }) async {
     if (_cachedScriptures == null || forceReload) {
       final jsonString = await rootBundle.loadString(_masterJsonPath);
       // parse on background isolate
       final parsed = await compute(_parseScriptures, jsonString);
       _cachedScriptures = parsed;
+    }
+
+    // Handle the return logic with the new shuffle parameter
+    if (shuffle) {
+      // Create a copy so we don't permanently mess up the order of the cached list
+      final List<Scripture> randomList = List<Scripture>.from(
+        _cachedScriptures!,
+      );
+      randomList.shuffle();
+      return randomList;
     }
 
     // return a sorted copy if requested order differs

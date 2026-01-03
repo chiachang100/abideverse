@@ -44,7 +44,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
     repository = ScriptureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
 
-    _loadAndSortScriptures();
+    _loadAndSortScriptures(shuffle: true);
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -56,9 +56,12 @@ class _ScripturesPageState extends State<ScripturesPage> {
   }
 
   /// Load and sort scriptures based on the current sortOrder
-  Future<void> _loadAndSortScriptures() async {
+  Future<void> _loadAndSortScriptures({bool shuffle = false}) async {
     setState(() => isLoading = true);
-    final data = await repository.getScriptures(order: sortOrder);
+    final data = await repository.getScriptures(
+      order: sortOrder,
+      shuffle: shuffle,
+    );
     setState(() {
       scriptures = data;
       // apply current search query if any
