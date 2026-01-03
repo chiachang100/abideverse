@@ -22,7 +22,7 @@ class CopyrightSection extends StatelessWidget {
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text('©️ 2025 Chia Chang. Apache License, Version 2.0.'),
+          Text('©️ 2026 Chia Chang. Apache License, Version 2.0.'),
         ],
       ),
     );
