@@ -30,7 +30,11 @@ This project is a starting point for the AbideVerse App (abideverse).
 - `flutter pub add --dev build_runner custom_lint`
 
 - Add Dependencies for "Share", etc.
+
   - Share: `flutter pub add share_plus`
+
+- Add QR Code
+  - `flutter pub add qr_flutter`
 
 ### Useful Tools
 

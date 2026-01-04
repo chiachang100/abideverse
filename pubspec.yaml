@@ -1,7 +1,7 @@
 name: abideverse
 description: "AbideVerse 常在主裡 - Your Daily Bible Verse Companion."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 5.12.0
+version: 5.12.2
 
 environment:
   sdk: ^3.10.1
@@ -53,6 +53,7 @@ dependencies:
   firebase_app_check: ^0.4.1+2
   audioplayers: ^6.5.1
   share_plus: ^12.0.1
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:

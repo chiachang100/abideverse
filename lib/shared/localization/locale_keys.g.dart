@@ -72,6 +72,7 @@ abstract class  LocaleKeys {
   static const sortAsc = 'sortAsc';
   static const sortDesc = 'sortDesc';
   static const showFavorites = 'showFavorites';
+  static const scanToRead = 'scanToRead';
   static const noVideoAvailable = 'noVideoAvailable';
   static const itemNotFound = 'itemNotFound';
   static const bibleChat = 'bibleChat';
