@@ -1,3 +1,7 @@
 {
+  "cmake.configureOnOpen": false,
+  "files.exclude": {
+    "**/linux/flutter/ephemeral": true
+  },
   "cmake.sourceDirectory": "C:/src/git/apps/abideverse/linux"
 }
