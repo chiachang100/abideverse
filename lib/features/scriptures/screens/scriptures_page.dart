@@ -205,7 +205,18 @@ YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.bibleVerse.tr()),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(LocaleKeys.bibleVerse.tr()),
+            Text(
+              '${filteredItems.length} ✝️📖',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.7),
+              ),
+            ),
+          ],
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(

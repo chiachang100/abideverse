@@ -196,7 +196,18 @@ ${joy.articleId}. ${joy.title}
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.xlcd.tr()),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(LocaleKeys.xlcd.tr()),
+            Text(
+              '${filteredItems.length} ✨😊',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.7),
+              ),
+            ),
+          ],
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
