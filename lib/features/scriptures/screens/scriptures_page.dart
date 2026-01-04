@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:logging/logging.dart';
 
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
@@ -12,6 +14,8 @@ import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart'
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
+
+final logger = Logger('ScripturesPage');
 
 class ScripturesPage extends StatefulWidget {
   final String locale;
@@ -172,6 +176,27 @@ class _ScripturesPageState extends State<ScripturesPage> {
     // if (userIsLoggedIn) { await updateFirebase(scriptureId, isLiked); }
   }
 
+  void _shareScripture(Scripture scripture) async {
+    final String shareText =
+        '''
+${scripture.articleId}. ${scripture.title}
+  
+YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
+  
+— ${scripture.scriptureName} ${scripture.scriptureChapter}:${scripture.scriptureVerse}
+''';
+
+    final result = await SharePlus.instance.share(
+      ShareParams(text: shareText, subject: 'Look at this from AbideVerse!'),
+    );
+
+    logger.info('[ScripturesPage] Share Status: ${result.status}');
+
+    if (result.status == ShareResultStatus.success) {
+      logger.info('[ScripturesPage] Thank you for sharing the info!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -268,7 +293,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
                     index: index,
                     isLiked: likedScriptureIds.contains(scriptureId),
                     onLikeToggle: () => _toggleLike(scriptureId),
-                    //onShare: () => _shareScripture(scripture),
+                    onShare: () => _shareScripture(scripture),
                     onTap: () => context.push(
                       '/scriptures/scripture/${scripture.articleId}',
                     ),

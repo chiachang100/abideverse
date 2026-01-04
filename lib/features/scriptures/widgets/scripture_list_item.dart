@@ -9,6 +9,7 @@ class ScriptureListItem extends StatelessWidget {
   final int index;
   final bool isLiked;
   final VoidCallback onLikeToggle;
+  final VoidCallback onShare;
   final VoidCallback? onTap;
 
   const ScriptureListItem({
@@ -17,6 +18,7 @@ class ScriptureListItem extends StatelessWidget {
     required this.index,
     required this.isLiked,
     required this.onLikeToggle,
+    required this.onShare,
     this.onTap,
   });
 
@@ -79,12 +81,24 @@ class ScriptureListItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       onTap: onTap,
-      trailing: IconButton(
-        icon: Icon(
-          isLiked ? Icons.favorite : Icons.favorite_border,
-          color: isLiked ? Colors.red : null,
-        ),
-        onPressed: onLikeToggle,
+      trailing: Row(
+        mainAxisSize:
+            MainAxisSize.min, // Critical: keeps the row from taking full width
+        children: [
+          // Share Button
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            onPressed: onShare,
+          ),
+          // Favorite Button
+          IconButton(
+            icon: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border,
+              color: isLiked ? Colors.red : null,
+            ),
+            onPressed: onLikeToggle,
+          ),
+        ],
       ),
     );
   }

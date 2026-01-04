@@ -10,6 +10,7 @@ class JoyList extends StatelessWidget {
   final bool isRanked;
   final bool isLiked;
   final VoidCallback onLikeToggle;
+  final VoidCallback onShare;
   final ValueChanged<Joy>? onTap;
 
   const JoyList({
@@ -18,6 +19,7 @@ class JoyList extends StatelessWidget {
     this.isRanked = false,
     required this.isLiked,
     required this.onLikeToggle,
+    required this.onShare,
     this.onTap,
   });
 
@@ -41,6 +43,7 @@ class JoyList extends StatelessWidget {
           isRanked: isRanked,
           isLiked: isLiked,
           onLikeToggle: onLikeToggle,
+          onShare: onShare,
           onTap: onTap != null ? () => onTap!(j) : null,
         );
       },

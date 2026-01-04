@@ -8,6 +8,7 @@ class ScriptureList extends StatelessWidget {
   final List<Scripture> scriptures;
   final bool isLiked;
   final VoidCallback onLikeToggle;
+  final VoidCallback onShare;
   final ValueChanged<Scripture>? onTap;
 
   const ScriptureList({
@@ -15,6 +16,7 @@ class ScriptureList extends StatelessWidget {
     required this.scriptures,
     required this.isLiked,
     required this.onLikeToggle,
+    required this.onShare,
     this.onTap,
   });
 
@@ -38,6 +40,7 @@ class ScriptureList extends StatelessWidget {
           index: index,
           isLiked: isLiked,
           onLikeToggle: onLikeToggle,
+          onShare: onShare,
           onTap: onTap != null ? () => onTap!(s) : null,
         );
       },

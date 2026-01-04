@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:logging/logging.dart';
 
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
@@ -11,6 +13,8 @@ import 'package:abideverse/features/joys/widgets/joy_list_item.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
+
+final logger = Logger('JoysPage');
 
 class JoysPage extends StatefulWidget {
   final String locale;
@@ -163,6 +167,27 @@ class _JoysPageState extends State<JoysPage> {
     // if (userIsLoggedIn) { await updateFirebase(joyId, isLiked); }
   }
 
+  void _shareJoy(Joy joy) async {
+    final String shareText =
+        '''
+${joy.articleId}. ${joy.title}
+  
+"${joy.talk}"
+  
+— ${joy.scriptureName} ${joy.scriptureChapter}:${joy.scriptureVerse}
+''';
+
+    final result = await SharePlus.instance.share(
+      ShareParams(text: shareText, subject: 'Look at this from AbideVerse!'),
+    );
+
+    logger.info('[JoysPage] Share Status: ${result.status}');
+
+    if (result.status == ShareResultStatus.success) {
+      logger.info('[JoysPage] Thank you for sharing the info!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -256,7 +281,7 @@ class _JoysPageState extends State<JoysPage> {
                     index: index,
                     isLiked: likedJoyIds.contains(joyId),
                     onLikeToggle: () => _toggleLike(joyId),
-                    //onShare: () => _shareJoy(joy),
+                    onShare: () => _shareJoy(joy),
                     onTap: () => context.push('/joys/joy/${joy.articleId}'),
                   );
                 },

@@ -29,8 +29,8 @@ This project is a starting point for the AbideVerse App (abideverse).
 - Add more Dev Dependencies
 - `flutter pub add --dev build_runner custom_lint`
 
-- Add Dependencies for "Like", etc.
-  - `flutter pub add shared_preferences`
+- Add Dependencies for "Share", etc.
+  - Share: `flutter pub add share_plus`
 
 ### Useful Tools
 
@@ -648,6 +648,7 @@ await Firebase.initializeApp(
 ## Store key-value data on disk
 
 - [Store key-value data on disk](https://docs.flutter.dev/cookbook/persistence/key-value)
+  - Use it to store **Like** locally.
 - `flutter pub add shared_preferences`
 
 ## Setup firebaseServiceAccount on GitHub
