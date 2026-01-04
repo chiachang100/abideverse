@@ -645,14 +645,14 @@ class _ResourceCopyrightNoticeSectionState
             const Divider(height: 0),
             ListTile(
               title: Text(
-                "5. Chinese Union Version Modern Revised Versions (RCUV/和合本修訂版)\n\nIf you are using the Revised Chinese Union Version (RCUV), which was completed around 2010, it is copyrighted. Copyright Holder: Hong Kong Bible Society.",
+                "5. Chinese Union Version New Punctuation Versions (CUVNP/新標點和合本)\n\nThe version most people use today is the 'New Punctuation' version (新標點和合本), which updated the archaic punctuation and names of the 1919 original. Copyright Status: This is a grey area. While the text is public domain, the layout and specific punctuation are often claimed by the United Bible Societies (UBS). Safe Practice: If you are using a digital version from a site like BibleGateway or a physical Bible from a specific publisher, it is polite and legally safer to credit the source.",
               ),
             ),
             const SizedBox(height: 10),
             const Divider(height: 0),
             ListTile(
               title: Text(
-                "6. Chinese Union Version New Punctuation Versions (CUVNP/新標點和合本)\n\nThe version most people use today is the 'New Punctuation' version (新標點和合本), which updated the archaic punctuation and names of the 1919 original. Copyright Status: This is a grey area. While the text is public domain, the layout and specific punctuation are often claimed by the United Bible Societies (UBS). Safe Practice: If you are using a digital version from a site like BibleGateway or a physical Bible from a specific publisher, it is polite and legally safer to credit the source.",
+                "6. BibleGateway.com\n\nScripture quotations are from The Holy Bible, [NIV, ESV, WEB, CUVNP]. Provided courtesy of BibleGateway.com. For more information, visit https://www.biblegateway.com/.",
               ),
             ),
             const SizedBox(height: 10),
