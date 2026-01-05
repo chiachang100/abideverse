@@ -203,6 +203,8 @@ YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    final textColor = Theme.of(context).colorScheme.onSurface;
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -212,7 +214,7 @@ YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
             Text(
               '${filteredItems.length} ✝️📖',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.white.withValues(alpha: 0.7),
+                color: textColor.withValues(alpha: 0.7),
               ),
             ),
           ],
