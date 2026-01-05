@@ -194,8 +194,6 @@ ${joy.articleId}. ${joy.title}
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final textColor = Theme.of(context).colorScheme.onSurface;
-
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -204,8 +202,8 @@ ${joy.articleId}. ${joy.title}
             Text(LocaleKeys.xlcd.tr()),
             Text(
               '${filteredItems.length} ✨😊',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: textColor.withValues(alpha: 0.7),
+              style: Theme.of(context).textTheme.bodySmall?.apply(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           ],

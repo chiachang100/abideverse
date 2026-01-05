@@ -213,8 +213,8 @@ YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
             Text(LocaleKeys.bibleVerse.tr()),
             Text(
               '${filteredItems.length} ✝️📖',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: textColor.withValues(alpha: 0.7),
+              style: Theme.of(context).textTheme.bodySmall?.apply(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           ],
