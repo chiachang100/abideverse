@@ -203,8 +203,6 @@ YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final textColor = Theme.of(context).colorScheme.onSurface;
-
     return Scaffold(
       appBar: AppBar(
         title: Column(

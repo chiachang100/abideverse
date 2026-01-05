@@ -82,9 +82,9 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '${j.articleId}. ${j.title}',
-          style: const TextStyle(fontSize: 20),
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Text('${j.articleId}. ${j.title}'),
         ),
         actions: [
           if (AppConfig.enableLikeButton)

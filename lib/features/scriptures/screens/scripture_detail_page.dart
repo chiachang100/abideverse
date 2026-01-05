@@ -77,7 +77,12 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
     final s = scripture!;
 
     return Scaffold(
-      appBar: AppBar(title: Text('${s.articleId}. ${s.title}')),
+      appBar: AppBar(
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Text('${s.articleId}. ${s.title}'),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(
