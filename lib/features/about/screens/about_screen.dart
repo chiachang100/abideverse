@@ -584,81 +584,121 @@ class _ResourceCopyrightNoticeSectionState
       },
     );
 
-    return Card(
-      // color: Colors.yellow[50],
-      elevation: 8.0,
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: SizedBox(
-                  height: 400,
-                  width: 400,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(15),
-                    ),
-                    child: Image.asset(
-                      'assets/icons/copyright_300.png',
-                      fit: BoxFit.fitWidth,
-                      width: double.infinity,
-                    ),
+    // Public Domain - No Copyright Notices
+    return Column(
+      children: [
+        Card(
+          // color: Colors.yellow[50],
+          elevation: 8.0,
+          margin: const EdgeInsets.all(8.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Public Domain - No Copyright Notices",
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                ListTile(
+                  title: Text(
+                    "1. Berean Standard Bible (BSB). \n\nThe Holy Bible, Berean Standard Bible, BSB is produced in cooperation with Bible Hub, Discovery Bible, OpenBible.com, and the Berean Bible Translation Committee. This text of God's Word has been dedicated to the public domain. The Berean Bible and Majority Bible texts are officially dedicated to the public domain as of April 30, 2023. All uses are freely permitted. (https://berean.bible/terms.htm).",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 0),
+                ListTile(
+                  title: Text(
+                    "2. The World English Bible (WEB). \n\nBible text used in this application: World English Bible Update (WEBU). (c) Public Domain — dedicated to the public domain by the editors and translators. The name “World English Bible” is a trademark of eBible.org. (https://worldenglish.bible/) (https://ebible.org/)\n\nThe World English Bible (WEB) is a Public Domain (no copyright) Modern English translation of the Holy Bible. That means that you may freely copy it in any form, including electronic and print formats. The World English Bible is based on the American Standard Version (ASV) of the Holy Bible first published in 1901.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 0),
+                ListTile(
+                  title: Text(
+                    "3. The Original 'Chinese Union Version (和合本)' (1919). \n\nThe original CUV (和合本), first published in 1919, is in the Public Domain worldwide. Copyright Status: Expired. Usage: You can freely copy, distribute, and quote from the 1919 text (both Traditional and Simplified) without asking for permission or paying royalties.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 0),
+                ListTile(
+                  title: Text(
+                    "4. Chinese Union Version New Punctuation Versions (CUVNP/新標點和合本). \n\nThe version most people use today is the 'New Punctuation' version (新標點和合本), which updated the archaic punctuation and names of the 1919 original. Copyright Status: This is a grey area. While the text is public domain, the layout and specific punctuation are often claimed by the United Bible Societies (UBS). Safe Practice: If you are using a digital version from a site like BibleGateway or a physical Bible from a specific publisher, it is polite and legally safer to credit the source.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 0),
+                ListTile(
+                  title: Text(
+                    "5. YouVersion of Bible.com. \n\nScripture quotations are from The Holy Bible, [NIV, ESV, WEB, CUVNP] of YouVersion. Provided courtesy of Bible.com. For more information, visit https://help.youversion.com/l/en/article/o8t2xmy9q2-copyright.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 0),
+                ListTile(
+                  title: Text(
+                    "6. BibleGateway.com. \n\nScripture quotations are from The Holy Bible, [NIV, ESV, WEB, CUVNP]. Provided courtesy of BibleGateway.com. For more information, visit https://www.biblegateway.com/.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
-            Text("Copyright Notices", style: const TextStyle(fontSize: 18.0)),
-            const SizedBox(height: 10),
-            ListTile(
-              title: Text(
-                "1. The New International Version (NIV) Copyright Notice\n\nScripture quotations taken from The Holy Bible, New International Version®, NIV®. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.® Used by permission. All rights reserved worldwide.",
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(height: 0),
-            ListTile(
-              title: Text(
-                "2. The English Standard Version (ESV) Copyright Notice\n\nScripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.",
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(height: 0),
-            ListTile(
-              title: Text(
-                "3. The World English Bible (WEB) Copyright Notice\n\nBible text used in this application: World English Bible Update (WEBU). (c) Public Domain — dedicated to the public domain by the editors and translators. The name “World English Bible” is a trademark of eBible.org. (https://worldenglish.bible/) (https://ebible.org/)\n\nThe World English Bible (WEB) is a Public Domain (no copyright) Modern English translation of the Holy Bible. That means that you may freely copy it in any form, including electronic and print formats. The World English Bible is based on the American Standard Version (ASV) of the Holy Bible first published in 1901.",
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(height: 0),
-            ListTile(
-              title: Text(
-                "4. The Original 'Chinese Union Version (和合本)' (1919)\n\nThe original CUV (和合本), first published in 1919, is in the Public Domain worldwide. Copyright Status: Expired. Usage: You can freely copy, distribute, and quote from the 1919 text (both Traditional and Simplified) without asking for permission or paying royalties.",
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(height: 0),
-            ListTile(
-              title: Text(
-                "5. Chinese Union Version New Punctuation Versions (CUVNP/新標點和合本)\n\nThe version most people use today is the 'New Punctuation' version (新標點和合本), which updated the archaic punctuation and names of the 1919 original. Copyright Status: This is a grey area. While the text is public domain, the layout and specific punctuation are often claimed by the United Bible Societies (UBS). Safe Practice: If you are using a digital version from a site like BibleGateway or a physical Bible from a specific publisher, it is polite and legally safer to credit the source.",
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(height: 0),
-            ListTile(
-              title: Text(
-                "6. BibleGateway.com\n\nScripture quotations are from The Holy Bible, [NIV, ESV, WEB, CUVNP]. Provided courtesy of BibleGateway.com. For more information, visit https://www.biblegateway.com/.",
-              ),
-            ),
-            const SizedBox(height: 10),
-          ],
+          ),
         ),
-      ),
+
+        const SizedBox(height: 16), // Spacing between cards
+        // Copyright Notices
+        Card(
+          // color: Colors.yellow[50],
+          elevation: 8.0,
+          margin: const EdgeInsets.all(8.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Copyright Notices",
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ListTile(
+                  title: Text(
+                    "1. The New International Version (NIV) Copyright Notice. \n\nScripture quotations taken from The Holy Bible, New International Version®, NIV®. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.® Used by permission. All rights reserved worldwide.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(height: 0),
+                ListTile(
+                  title: Text(
+                    "2. The English Standard Version (ESV) Copyright Notice. \n\nScripture quotations are from The ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.",
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
