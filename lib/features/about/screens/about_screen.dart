@@ -584,7 +584,7 @@ class _ResourceCopyrightNoticeSectionState
       },
     );
 
-    // Public Domain - No Copyright Notices
+    // No Copyright - Public Domain
     return Column(
       children: [
         Card(
@@ -603,7 +603,7 @@ class _ResourceCopyrightNoticeSectionState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Public Domain - No Copyright Notices",
+                  "No Copyright - Public Domain",
                   style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
