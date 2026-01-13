@@ -167,27 +167,6 @@ class _JoysPageState extends State<JoysPage> {
     // if (userIsLoggedIn) { await updateFirebase(joyId, isLiked); }
   }
 
-  void _shareJoy(Joy joy) async {
-    final String shareText =
-        '''
-${joy.articleId}. ${joy.title}
-  
-"${joy.talk}"
-  
-— ${joy.scriptureName} ${joy.scriptureChapter}:${joy.scriptureVerse}
-''';
-
-    final result = await SharePlus.instance.share(
-      ShareParams(text: shareText, subject: 'Look at this from AbideVerse!'),
-    );
-
-    logger.info('[JoysPage] Share Status: ${result.status}');
-
-    if (result.status == ShareResultStatus.success) {
-      logger.info('[JoysPage] Thank you for sharing the info!');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -292,7 +271,6 @@ ${joy.articleId}. ${joy.title}
                     index: index,
                     isLiked: likedJoyIds.contains(joyId),
                     onLikeToggle: () => _toggleLike(joyId),
-                    onShare: () => _shareJoy(joy),
                     onTap: () => context.push('/joys/joy/${joy.articleId}'),
                   );
                 },

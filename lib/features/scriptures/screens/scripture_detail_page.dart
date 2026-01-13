@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
+import 'package:abideverse/features/scriptures/utils/scripture_share_utils.dart';
 import 'package:abideverse/shared/widgets/display_youtube_video.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
@@ -82,6 +83,17 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
           scrollDirection: Axis.horizontal,
           child: Text('${s.articleId}. ${s.title}'),
         ),
+        actions: [
+          // Share Button
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: IconButton(
+              icon: const Icon(Icons.share_outlined),
+              tooltip: 'Share',
+              onPressed: () => shareScripture(s),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),

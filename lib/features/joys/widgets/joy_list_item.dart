@@ -12,7 +12,6 @@ class JoyListItem extends StatelessWidget {
   final bool isRanked;
   final bool isLiked;
   final VoidCallback onLikeToggle;
-  final VoidCallback onShare;
   final VoidCallback? onTap;
 
   const JoyListItem({
@@ -22,7 +21,6 @@ class JoyListItem extends StatelessWidget {
     this.isRanked = false,
     required this.isLiked,
     required this.onLikeToggle,
-    required this.onShare,
     required this.onTap,
   });
 
@@ -165,24 +163,13 @@ class JoyListItem extends StatelessWidget {
       //onTap: () => onTap(joy),
       onTap: onTap,
       onLongPress: () => _showQR(context, joy),
-      trailing: Row(
-        mainAxisSize:
-            MainAxisSize.min, // Critical: keeps the row from taking full width
-        children: [
-          // Share Button
-          IconButton(
-            icon: const Icon(Icons.share_outlined),
-            onPressed: onShare,
-          ),
-          // Favorite Button
-          IconButton(
-            icon: Icon(
-              isLiked ? Icons.favorite : Icons.favorite_border,
-              color: isLiked ? Colors.red : null,
-            ),
-            onPressed: onLikeToggle,
-          ),
-        ],
+      trailing: // Favorite Button
+      IconButton(
+        icon: Icon(
+          isLiked ? Icons.favorite : Icons.favorite_border,
+          color: isLiked ? Colors.red : null,
+        ),
+        onPressed: onLikeToggle,
       ),
     );
   }

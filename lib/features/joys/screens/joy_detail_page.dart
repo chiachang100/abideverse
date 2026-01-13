@@ -5,6 +5,7 @@ import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
+import 'package:abideverse/features/joys/utils/joy_share_utils.dart';
 
 import 'package:abideverse/shared/widgets/display_youtube_video.dart';
 import 'package:abideverse/features/joys/widgets/display_title_section.dart';
@@ -87,6 +88,7 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
           child: Text('${j.articleId}. ${j.title}'),
         ),
         actions: [
+          // Like Button
           if (AppConfig.enableLikeButton)
             Padding(
               padding: const EdgeInsets.all(8),
@@ -103,6 +105,16 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
                 onPressed: _incrementLikes,
               ),
             ),
+
+          // Share Button
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: IconButton(
+              icon: const Icon(Icons.share_outlined),
+              tooltip: 'Share',
+              onPressed: () => shareJoy(j),
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(

@@ -176,27 +176,6 @@ class _ScripturesPageState extends State<ScripturesPage> {
     // if (userIsLoggedIn) { await updateFirebase(scriptureId, isLiked); }
   }
 
-  void _shareScripture(Scripture scripture) async {
-    final String shareText =
-        '''
-${scripture.articleId}. ${scripture.title}
-  
-YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
-  
-— ${scripture.scriptureName} ${scripture.scriptureChapter}:${scripture.scriptureVerse}
-''';
-
-    final result = await SharePlus.instance.share(
-      ShareParams(text: shareText, subject: 'Look at this from AbideVerse!'),
-    );
-
-    logger.info('[ScripturesPage] Share Status: ${result.status}');
-
-    if (result.status == ShareResultStatus.success) {
-      logger.info('[ScripturesPage] Thank you for sharing the info!');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -304,7 +283,6 @@ YouTube Video: https://www.youtube.com/watch?v=${scripture.videoId}
                     index: index,
                     isLiked: likedScriptureIds.contains(scriptureId),
                     onLikeToggle: () => _toggleLike(scriptureId),
-                    onShare: () => _shareScripture(scripture),
                     onTap: () => context.push(
                       '/scriptures/scripture/${scripture.articleId}',
                     ),
