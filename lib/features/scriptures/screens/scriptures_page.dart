@@ -117,7 +117,8 @@ class _ScripturesPageState extends State<ScripturesPage> {
           scripture.scriptureName.toLowerCase().contains(q) ||
           scripture.scriptureChapter.toLowerCase().contains(q) ||
           scripture.scriptureVerse.toLowerCase().contains(q) ||
-          scripture.zhCNScriptureVerse.toLowerCase().contains(q);
+          scripture.zhCNScriptureVerse.toLowerCase().contains(q) ||
+          scripture.category.toLowerCase().contains(q);
     }).toList();
   }
 

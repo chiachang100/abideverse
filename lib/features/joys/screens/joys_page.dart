@@ -109,7 +109,8 @@ class _JoysPageState extends State<JoysPage> {
           joy.scriptureVerse.toLowerCase().contains(query) ||
           joy.scriptureChapter.toLowerCase().contains(query) ||
           joy.videoName.toLowerCase().contains(query) ||
-          joy.talk.toLowerCase().contains(query);
+          joy.talk.toLowerCase().contains(query) ||
+          joy.category.toLowerCase().contains(query);
     }).toList();
   }
 
