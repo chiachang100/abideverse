@@ -18,7 +18,6 @@ This project is a starting point for the AbideVerse App (abideverse).
 ### Add Dependencies
 
 - Add Dev Dependencies for Router and Riverpod code generation
-
   - `flutter pub add go_router`
 
   - `flutter pub add flutter_riverpod riverpod_annotation`
@@ -30,7 +29,6 @@ This project is a starting point for the AbideVerse App (abideverse).
 - `flutter pub add --dev build_runner custom_lint`
 
 - Add Dependencies for "Share", etc.
-
   - Share: `flutter pub add share_plus`
 
 - Add QR Code
@@ -114,7 +112,6 @@ This file safely stores your config (apiKey, projectId, etc.) and is automatical
 - Serve and test your Firebase project locally
   - `firebase serve --only hosting`
 - To deploy to your site to firebase hosting:
-
   - `firebase deploy --only hosting`
 
 - Edit your `lib/app/app.dart` and add a small test call:
@@ -138,7 +135,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 - Then in the Firebase Console → Firestore Database → Start in test mode
   → Create a collection test, add a doc ping.
-
   - Click `+ Start collection`
     - Collection: `test`
     - Document ID: `ping`
@@ -199,7 +195,6 @@ flutter_native_splash:
 - `flutter build web`
 - `flutter run -d web-server --web-port=5100`
 - OR `flutter run -d chrome --web-port=5100`
-
   - Web: `flutter run -d web-server --web-hostname=192.168.1.100 --web-port=5100`
 
 7. Run `AbideVerse` Android App in Local Android Emulator
@@ -275,11 +270,9 @@ flutter_native_splash:
 ### Run the App
 
 - Install dependencies
-
   - `flutter pub get`
 
 - Run on device/emulator
-
   - `flutter run -d web-server --web-port=5100`
 
 - Build for production
@@ -418,7 +411,6 @@ FirebaseFirestore.instance.collection(AppConfig.usersCollection);
 ### Why You Shouldn’t Commit .env
 
 - Your `.env` file often contains:
-
   - API keys (e.g., Gemini, Firebase, OpenAI)
   - Database URLs
   - Secrets, tokens, and other private credentials
@@ -507,7 +499,6 @@ Then push again — the file will stay local but not be tracked anymore.
   - [Depends on webview_flutter (Android & iOS)](https://pub.dev/packages/webview_flutter)
 - [Material Icons](https://fonts.google.com/icons)
 - [flutter_native_splash](https://pub.dev/packages/flutter_native_splash)
-
   - After adding your settings to pubspec.yaml, run the following command in the terminal:
     - `dart run flutter_native_splash:create`
 
@@ -671,7 +662,6 @@ await Firebase.initializeApp(
     - Generate new private key > Generate Key
     - A new JSON key file will be downloaded.
 - GitHub
-
   - Go to `Settings` tab of your repository.
   - Select `Secrets and variables > Actions` from the left menu.
   - From Actions secrets and variables, select `Secrets > Repository secrets` tab, click `New repository secret`.
@@ -764,7 +754,6 @@ module FirebaseCoreOnly {
 ## Add Change Notification
 
 - [Simple app state management](https://docs.flutter.dev/data-and-backend/state-mgmt/simple)
-
   - With provider, you need to understand 3 concepts:
     - ChangeNotifier
     - ChangeNotifierProvider
@@ -778,7 +767,6 @@ module FirebaseCoreOnly {
 ## Internationalizing (I18N) Flutter apps
 
 - [Internationalizing Flutter apps](https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization)
-
   - [flutter_localizations]()
   - [intl](https://pub.dev/packages/intl)
   - [intl_translation](https://pub.dev/packages/intl_translation)
@@ -789,7 +777,7 @@ module FirebaseCoreOnly {
 
 ---
 
-Copyright 2024 Chia Chang. Apache License, Version 2.0 (the "License").
+Copyright ©️ 2024 joyolord.com Public Domain. MIT/Apache License, Version 2.0. (the "License").
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -826,7 +814,6 @@ BSD-style license that can be found in the LICENSE file.
 - [easy_localization](https://pub.dev/packages/easy_localization)
   - [easy_localization](https://github.com/aissat/easy_localization)
 - [easy_localization_loader](https://pub.dev/packages/easy_localization_loader)
-
   - [easy_localization_loader](https://github.com/aissat/easy_localization_loader)
 
 - `flutter pub add easy_localization`
@@ -906,7 +893,6 @@ defaultConfig {
 
 - Access `pubspec.yaml`
 - [package_info_plus](https://pub.dev/packages/package_info_plus/install)
-
   - `flutter pub add package_info_plus`
 
 - [pubspec_parse](https://pub.dev/packages/pubspec_parse)
@@ -960,14 +946,12 @@ final appVersion = pubspec.version.toString();
 
 - [Enable API Service](https://console.developers.google.com/apis/api/firebasevertexai.googleapis.com/overview?project=552664318312) then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
 - [Learn more about Firebase AI Logic](https://firebase.google.com/docs/ai-logic/faq-and-troubleshooting#discontinued-models)
-
   - [Learn about supported models](https://firebase.google.com/docs/ai-logic/models)
   - [Available model names](https://firebase.google.com/docs/ai-logic/models#available-model-names)
 
   - [Implement Firebase App Check to protect APIs from unauthorized clients](https://firebase.google.com/docs/ai-logic/app-check?authuser=0&_gl=1*f5zke*_ga*Nzg2MTczNjgxLjE3NTk3MTU0OTg.*_ga_CW55HF8NVT*czE3NjU2OTI1NDAkbzczJGcxJHQxNzY1NjkzMjY3JGo0MyRsMCRoMA..&api=dev)
 
 - Firebase AI Logic is missing a configured Gemini Developer API key. Set one up by visiting https://console.firebase.google.com/project/abideverse/ailogic/settings. See https://firebase.google.com/docs/ai-logic/faq-and-troubleshooting?api=dev#error-genai-config-not-found for more details. If you very recently went through the Firebase AI Logic setup workflow, wait a few minutes for the action to propagate to our systems and retry.
-
   - [Get Started](https://console.firebase.google.com/project/abideverse/ailogic)
 
   - [Fibase AI Logic Rate limits and quotas](https://firebase.google.com/docs/ai-logic/quotas?api=dev&_gl=1*anfb47*_ga*Nzg2MTczNjgxLjE3NTk3MTU0OTg.*_ga_CW55HF8NVT*czE3NjU1NjYzODckbzcxJGcxJHQxNzY1NTY2Mzk1JGo1MiRsMCRoMA..)

@@ -44,6 +44,9 @@ class _ScripturesPageState extends State<ScripturesPage> {
   SortOrder sortOrder = SortOrder.asc; // default sort order
   Set<String> likedScriptureIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
+  bool showOnlyRolcc = false;
+
+  final rolccTag = 'ROLCC';
 
   @override
   void initState() {
@@ -109,7 +112,13 @@ class _ScripturesPageState extends State<ScripturesPage> {
         return false;
       }
 
-      // 2. Check Search Query
+      // 2. Check ROLCC Filter (New)
+      if (showOnlyRolcc &&
+          !scripture.category.toLowerCase().contains(rolccTag.toLowerCase())) {
+        return false;
+      }
+
+      // 3. Check Search Query
       if (query.isEmpty) return true;
 
       return scripture.articleId.toString().contains(q) ||
@@ -135,6 +144,14 @@ class _ScripturesPageState extends State<ScripturesPage> {
       filteredItems = scriptures;
       isSearchInitial = true;
     });
+  }
+
+  /// ROLCC filtering
+  List<Scripture> _showRolcc(List<Scripture> items) {
+    //final q = query.trim().toLowerCase();
+    return items.where((scripture) {
+      return scripture.category.toLowerCase().contains('rolcc');
+    }).toList();
   }
 
   @override
@@ -208,7 +225,28 @@ class _ScripturesPageState extends State<ScripturesPage> {
           },
         ),
         actions: [
-          // Favorites Filter Toggle
+          // ROLCC Filter
+          IconButton(
+            icon: Icon(
+              showOnlyRolcc
+                  ? Icons
+                        .auto_awesome // Filled when active
+                  : Icons.auto_awesome_outlined, // Outlined when inactive
+              color: showOnlyRolcc ? Colors.amber : null,
+            ),
+            tooltip: rolccTag,
+            onPressed: () {
+              setState(() {
+                // Re-run the filter with the new state
+                showOnlyRolcc = !showOnlyRolcc;
+                filteredItems = _applyFilter(
+                  scriptures,
+                  _searchController.text,
+                );
+              });
+            },
+          ),
+          // Sort Toggle
           IconButton(
             icon: Icon(
               showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
