@@ -207,7 +207,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
           children: [
             Text(LocaleKeys.bibleVerse.tr()),
             Text(
-              '${filteredItems.length} ✝️📖',
+              '${filteredItems.length} ✝️',
               style: Theme.of(context).textTheme.bodySmall?.apply(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -230,9 +230,9 @@ class _ScripturesPageState extends State<ScripturesPage> {
             icon: Icon(
               showOnlyRolcc
                   ? Icons
-                        .auto_awesome // Filled when active
-                  : Icons.auto_awesome_outlined, // Outlined when inactive
-              color: showOnlyRolcc ? Colors.amber : null,
+                        .waves // Filled when active
+                  : Icons.waves_outlined, // Outlined when inactive
+              color: showOnlyRolcc ? Colors.blue : null,
             ),
             tooltip: rolccTag,
             onPressed: () {
