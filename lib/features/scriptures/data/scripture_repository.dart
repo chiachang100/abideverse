@@ -20,7 +20,7 @@ class ScriptureRepository {
 
   /// Public loader - returns cached list if loaded; parses using compute() once.
   Future<List<Scripture>> getScriptures({
-    SortOrder order = SortOrder.asc,
+    SortOrder order = SortOrder.none,
     bool forceReload = false,
     bool shuffle = false,
   }) async {
@@ -42,14 +42,17 @@ class ScriptureRepository {
     }
 
     // return a sorted copy if requested order differs
-    if (order == SortOrder.asc) {
-      // cached list is kept as-is (assume asc by articleId). Ensure it's sorted.
-      _cachedScriptures!.sort((a, b) => a.articleId.compareTo(b.articleId));
-      return _cachedScriptures!;
-    } else {
-      final List<Scripture> clone = List<Scripture>.from(_cachedScriptures!);
-      clone.sort((a, b) => b.articleId.compareTo(a.articleId));
-      return clone;
+    switch (order) {
+      case SortOrder.asc:
+        // cached list is kept as-is (assume asc by articleId). Ensure it's sorted.
+        _cachedScriptures!.sort((a, b) => a.articleId.compareTo(b.articleId));
+        return _cachedScriptures!;
+      case SortOrder.desc:
+        final List<Scripture> clone = List<Scripture>.from(_cachedScriptures!);
+        clone.sort((a, b) => b.articleId.compareTo(a.articleId));
+        return clone;
+      default:
+        return _cachedScriptures!;
     }
   }
 

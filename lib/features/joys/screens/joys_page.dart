@@ -37,7 +37,7 @@ class _JoysPageState extends State<JoysPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  SortOrder sortOrder = SortOrder.asc;
+  SortOrder sortOrder = SortOrder.none; // Initial state
   Set<String> likedJoyIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
 
@@ -71,8 +71,16 @@ class _JoysPageState extends State<JoysPage> {
 
   Future<void> _toggleSortOrder() async {
     setState(() {
-      sortOrder = sortOrder == SortOrder.asc ? SortOrder.desc : SortOrder.asc;
+      // Cycle through: none → asc → desc → none
+      if (sortOrder == SortOrder.none) {
+        sortOrder = SortOrder.asc;
+      } else if (sortOrder == SortOrder.asc) {
+        sortOrder = SortOrder.desc;
+      } else {
+        sortOrder = SortOrder.none;
+      }
     });
+
     await _loadAndSortJoys();
 
     // FORCE scroll to top AFTER rebuild
@@ -219,7 +227,14 @@ class _JoysPageState extends State<JoysPage> {
             icon: Icon(
               sortOrder == SortOrder.asc
                   ? Icons.arrow_circle_down
-                  : Icons.arrow_circle_up,
+                  : sortOrder == SortOrder.desc
+                  ? Icons.arrow_circle_up
+                  : Icons.swap_vert, // Neutral icon for initial state
+              color: sortOrder == SortOrder.asc
+                  ? Colors.green[600] // Use 600-800 for better visibility
+                  : sortOrder == SortOrder.desc
+                  ? Colors.orange[700]
+                  : Colors.grey[500], // Grey for initial state
             ),
             tooltip: sortOrder == SortOrder.asc
                 ? LocaleKeys.sortDesc.tr()

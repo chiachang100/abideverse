@@ -20,7 +20,7 @@ class JoyRepository {
 
   /// Public loader - returns cached list if loaded; parses using compute() once.
   Future<List<Joy>> getJoys({
-    SortOrder order = SortOrder.asc,
+    SortOrder order = SortOrder.none,
     bool forceReload = false,
     bool shuffle = false,
   }) async {
@@ -65,14 +65,17 @@ class JoyRepository {
     }
 
     // return a sorted copy if requested order differs
-    if (order == SortOrder.asc) {
-      // cached list is kept as-is (assume asc by articleId). Ensure it's sorted.
-      _cachedJoys!.sort((a, b) => a.articleId.compareTo(b.articleId));
-      return _cachedJoys!;
-    } else {
-      final List<Joy> clone = List<Joy>.from(_cachedJoys!);
-      clone.sort((a, b) => b.articleId.compareTo(a.articleId));
-      return clone;
+    switch (order) {
+      case SortOrder.asc:
+        // cached list is kept as-is (assume asc by articleId). Ensure it's sorted.
+        _cachedJoys!.sort((a, b) => a.articleId.compareTo(b.articleId));
+        return _cachedJoys!;
+      case SortOrder.desc:
+        final List<Joy> clone = List<Joy>.from(_cachedJoys!);
+        clone.sort((a, b) => b.articleId.compareTo(a.articleId));
+        return clone;
+      default:
+        return _cachedJoys!;
     }
   }
 
