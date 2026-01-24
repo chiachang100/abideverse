@@ -10,7 +10,7 @@ class Scripture {
   final String zhCNScriptureVerse;
   final int likes;
   final int type;
-  final bool isNew;
+  final String scriptureReader;
   final String category;
   final String videoId;
   final String videoName;
@@ -26,7 +26,7 @@ class Scripture {
     required this.zhCNScriptureVerse,
     required this.likes,
     required this.type,
-    required this.isNew,
+    required this.scriptureReader,
     required this.category,
     required this.videoId,
     required this.videoName,
@@ -44,7 +44,7 @@ class Scripture {
       zhCNScriptureVerse: json['zhCNScriptureVerse'] ?? '',
       likes: json['likes'] ?? 0,
       type: json['type'] ?? 0,
-      isNew: json['isNew'] ?? false,
+      scriptureReader: json['scriptureReader'] ?? '',
       category: json['category'] ?? '',
       videoId: json['videoId'] ?? '',
       videoName: json['videoName'] ?? '',
@@ -63,7 +63,7 @@ class Scripture {
       'zhCNScriptureVerse': zhCNScriptureVerse,
       'likes': likes,
       'type': type,
-      'isNew': isNew,
+      'scriptureReader': scriptureReader,
       'category': category,
       'videoId': videoId,
       'videoName': videoName,
