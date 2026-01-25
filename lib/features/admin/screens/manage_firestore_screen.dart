@@ -189,7 +189,7 @@ class FirebaseDbSection extends StatelessWidget {
               ),
             ],
           ),
-          const Text('「笑裡藏道」: 儲藏庫初始設定和搜尋'),
+          const Text('《笑裡藏道》: 儲藏庫初始設定和搜尋'),
           Center(
             child: ElevatedButton(
               onPressed: readJoystoreData,

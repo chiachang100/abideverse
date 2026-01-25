@@ -697,7 +697,7 @@ class _ResourceCopyrightNoticeSectionState
                 const Divider(height: 0),
                 ListTile(
                   title: Text(
-                    "3. 「笑裡藏道」書籍版權聲明。 \n\n© 2016, 天恩出版社, 版權所有, 請勿翻印。 (網址: http://www.graceph.com)",
+                    "3. 《笑裡藏道》書籍版權聲明。 \n\n© 2016, 天恩出版社, 版權所有, 請勿翻印。 (網址: http://www.graceph.com)",
                   ),
                 ),
                 const SizedBox(height: 10),

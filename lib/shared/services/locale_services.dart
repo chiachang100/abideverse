@@ -185,10 +185,10 @@ class LocaleServices {
 
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
-        str = '「笑里藏道」简介';
+        str = '《笑里藏道》简介';
       case LocaleConstants.zhTW:
       default:
-        str = '「笑裡藏道」簡介';
+        str = '《笑裡藏道》簡介';
     }
     return str;
   }
@@ -211,10 +211,10 @@ class LocaleServices {
 
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
-        str = '请扫描二维码(QR Code)便于使用abideverse(「笑里藏道」App)。';
+        str = '请扫描二维码(QR Code)便于使用abideverse(《笑里藏道》App)。';
       case LocaleConstants.zhTW:
       default:
-        str = '請掃描二維碼(QR Code)便於使用abideverse(「笑裡藏道」App)。';
+        str = '請掃描二維碼(QR Code)便於使用abideverse(《笑裡藏道》App)。';
     }
     return str;
   }
@@ -289,10 +289,10 @@ class LocaleServices {
 
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
-        str = '「笑里藏道」书籍介绍';
+        str = '《笑里藏道》书籍介绍';
       case LocaleConstants.zhTW:
       default:
-        str = '「笑裡藏道」書籍介紹';
+        str = '《笑裡藏道》書籍介紹';
     }
     return str;
   }
@@ -303,14 +303,14 @@ class LocaleServices {
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
         str =
-            '「笑里藏道」，曾兴才着，天恩出版社，2016年11月初版，2022第七版。 '
-            '「笑里藏道」是曾兴才牧师首本著作，收集了五十二篇他这些年于矽谷生命河灵粮堂主日证道中分享的精彩笑话及其中引申的经文应用。 '
+            '《笑里藏道》，曾兴才着，天恩出版社，2016年11月初版，2022第七版。 '
+            '《笑里藏道》是曾兴才牧师首本著作，收集了五十二篇他这些年于矽谷生命河灵粮堂主日证道中分享的精彩笑话及其中引申的经文应用。 '
             '喜乐的心乃是良药，这本让人开怀大笑的好书，能使大家从幽默文字中领悟属灵的道理，也为您打开与人分享真理的机会之门！ ';
       case LocaleConstants.zhTW:
       default:
         str =
-            '「笑裡藏道」，曾興才著，天恩出版社，2016年11月初版，2022第七版。'
-            '「笑裡藏道」是曾興才牧師首本著作，收集了五十二篇他這些年於矽谷生命河靈糧堂主日證道中分享的精彩笑話及其中引申的經文應用。'
+            '《笑裡藏道》，曾興才著，天恩出版社，2016年11月初版，2022第七版。'
+            '《笑裡藏道》是曾興才牧師首本著作，收集了五十二篇他這些年於矽谷生命河靈糧堂主日證道中分享的精彩笑話及其中引申的經文應用。'
             '喜樂的心乃是良藥，這本讓人開懷大笑的好書，能使大家從幽默文字中領悟屬靈的道理，也為您打開與人分享真理的機會之門！';
     }
     return str;
@@ -347,10 +347,10 @@ class LocaleServices {
 
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
-        str = '曾兴才牧师: 「笑里藏道」书籍作者';
+        str = '曾兴才牧师: 《笑里藏道》书籍作者';
       case LocaleConstants.zhTW:
       default:
-        str = '曾興才牧師: 「笑裡藏道」書籍作者';
+        str = '曾興才牧師: 《笑裡藏道》書籍作者';
     }
     return str;
   }
@@ -396,10 +396,10 @@ class LocaleServices {
 
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
-        str = '赞扬「笑里藏道」书籍';
+        str = '赞扬《笑里藏道》书籍';
       case LocaleConstants.zhTW:
       default:
-        str = '讚揚「笑裡藏道」書籍';
+        str = '讚揚《笑裡藏道》書籍';
     }
     return str;
   }
@@ -545,10 +545,10 @@ class LocaleServices {
 
     switch (LocaleConstants.currentLocale) {
       case LocaleConstants.zhCN:
-        str = '张嘉: 「笑里藏道」软件(App)设计者';
+        str = '张嘉: 《笑里藏道》软件(App)设计者';
       case LocaleConstants.zhTW:
       default:
-        str = '張嘉: 「笑裡藏道」軟件(App)設計者';
+        str = '張嘉: 《笑裡藏道》軟件(App)設計者';
     }
     return str;
   }
@@ -563,7 +563,7 @@ class LocaleServices {
             '1981年起即在矽谷电脑公司，从事多种电脑软体工程开发。 2023年从Microsoft退休。 '
             '业余时领受主的呼召及恩典，在教会里担任过多种事奉，传主福音，跟随耶稣，荣神益人。 '
             '与妻子Judy目前领受主赐儿孙满堂。 '
-            '祈求借着「笑里藏道」书籍+App为主多传喜乐的福音，领人归主。 颂赞、荣耀归于我们的神，直到永永远远！ 阿们。 ';
+            '祈求借着《笑里藏道》书籍+App为主多传喜乐的福音，领人归主。 颂赞、荣耀归于我们的神，直到永永远远！ 阿们。 ';
       case LocaleConstants.zhTW:
       default:
         str =
@@ -571,7 +571,7 @@ class LocaleServices {
             '1981年起即在矽谷電腦公司，從事多種電腦軟體工程開發。2023年從Microsoft退休。'
             '業餘時領受主的呼召及恩典，在教會裡擔任過多種事奉，傳主福音，跟隨耶穌，榮神益人。'
             '與妻子Judy目前領受主賜兒孫滿堂。'
-            '祈求藉著「笑裡藏道」書籍+App為主多傳喜樂的福音，領人歸主。頌讚、榮耀歸於我們的神，直到永永遠遠！阿們。';
+            '祈求藉著《笑裡藏道》書籍+App為主多傳喜樂的福音，領人歸主。頌讚、榮耀歸於我們的神，直到永永遠遠！阿們。';
     }
     return str;
   }
