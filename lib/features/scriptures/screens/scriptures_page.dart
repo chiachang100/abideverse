@@ -238,8 +238,8 @@ class _ScripturesPageState extends State<ScripturesPage> {
             icon: Icon(
               showOnlyRolcc
                   ? Icons
-                        .waves // Filled when active
-                  : Icons.waves_outlined, // Outlined when inactive
+                        .water // Filled when active
+                  : Icons.water_outlined, // Outlined when inactive
               color: showOnlyRolcc ? Colors.blue : null,
             ),
             tooltip: rolccTag,
