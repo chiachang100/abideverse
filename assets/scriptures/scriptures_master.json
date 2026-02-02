@@ -16352,6 +16352,38 @@
     "isRicherDaily": false
   },
   {
+    "id": 1041,
+    "articleId": 1041,
+    "title": "Why Are You Still Pressing On?",
+    "scriptureName": "Philippians",
+    "scriptureChapter": "3:12",
+    "scriptureVerse": "{ Not that I have already obtained this or am already perfect, but I press on to make it my own, because Christ Jesus has made me his own. }",
+    "zhCNScriptureVerse": "{ 这不是说我已经得着了，已经完全了，我乃是竭力追求，或者可以得着基督耶稣所以得着我的。} (腓立比书 3:12)",
+    "likes": 1,
+    "type": 1,
+    "scriptureReader": "Chia Chang",
+    "category": "一年四季",
+    "videoId": "A5g7UT12zR4",
+    "videoName": "1041. Why Are You Still Pressing On? (Philippians 3:12)",
+    "isRicherDaily": false
+  },
+  {
+    "id": 1042,
+    "articleId": 1042,
+    "title": "你想得獎賞嗎?",
+    "scriptureName": "腓立比書",
+    "scriptureChapter": "3:13",
+    "scriptureVerse": "{ 弟兄們，我不是以為自己已經得著了；我只有一件事，就是忘記背後，努力面前的。}",
+    "zhCNScriptureVerse": "{ 弟兄们，我不是以为自己已经得着了；我只有一件事，就是忘记背后，努力面前的。} ( 3:13)",
+    "likes": 1,
+    "type": 1,
+    "scriptureReader": "Chia Chang",
+    "category": "一年四季",
+    "videoId": "-i4atp83X9U",
+    "videoName": "1042. 你想得獎賞嗎? (腓立比書 3:13)",
+    "isRicherDaily": false
+  },
+  {
     "id": 1124,
     "articleId": 1124,
     "title": "你為復活而活嗎?",
@@ -16381,6 +16413,22 @@
     "category": "ROLCC-2026-02",
     "videoId": "ADeO8ZbEfgA",
     "videoName": "1125. Are You Living for Resurrection? (Philippians 3:11)",
+    "isRicherDaily": false
+  },
+  {
+    "id": 1128,
+    "articleId": 1128,
+    "title": "Do You Sleep in the Peace of God?",
+    "scriptureName": "Psalm",
+    "scriptureChapter": "4:8",
+    "scriptureVerse": "{ I will lie down and sleep in peace, for You alone, O LORD, make me dwell in safety. }",
+    "zhCNScriptureVerse": "{ 我必安然躺下睡觉，因为独有你耶和华使我安然居住。} (诗篇 4:8)",
+    "likes": 1,
+    "type": 1,
+    "scriptureReader": "Chia Chang",
+    "category": "一年四季",
+    "videoId": "F4KLy2BJZtU",
+    "videoName": "1128. Do You Sleep in the Peace of God? (Psalm 4:8)",
     "isRicherDaily": false
   }
 ]
