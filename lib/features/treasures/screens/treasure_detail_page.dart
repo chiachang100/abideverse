@@ -74,9 +74,7 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
       appBar: AppBar(
         title: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Text(
-            '${LocaleKeys.treasuresHeader.tr()}: ${s.articleId}. ${s.title}',
-          ),
+          child: Text('${s.articleId}. ${s.title}'),
         ),
         actions: [
           // Share Button
