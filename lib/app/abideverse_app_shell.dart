@@ -37,6 +37,7 @@ class AbideVerseAppShell extends StatelessWidget {
 
     String abideverseXlcdTitle = LocaleKeys.xlcd.tr();
     String abideverseScriptLabel = LocaleKeys.bibleVerse.tr();
+    String abideverseTreasureLabel = LocaleKeys.treasures.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
@@ -62,9 +63,10 @@ class AbideVerseAppShell extends StatelessWidget {
                 onSelectedIndexChange: (idx) {
                   if (idx == 0) goRouter.go('/joys');
                   if (idx == 1) goRouter.go('/scriptures');
-                  if (idx == 2) goRouter.go('/bible-chat');
-                  if (idx == 3) goRouter.go('/about');
-                  if (idx == 4) goRouter.go('/settings');
+                  if (idx == 2) goRouter.go('/treasures');
+                  if (idx == 3) goRouter.go('/bible-chat');
+                  if (idx == 4) goRouter.go('/about');
+                  if (idx == 5) goRouter.go('/settings');
                 },
                 destinations: <NavigationDestination>[
                   // Index 0: JOYS
@@ -81,21 +83,28 @@ class AbideVerseAppShell extends StatelessWidget {
                     icon: const Icon(Icons.list_outlined),
                     selectedIcon: Icon(Icons.list),
                   ),
-                  // Index 2: AI CHAT
+                  // Index 2: TREASURES
+                  // label: '金玉良言',
+                  NavigationDestination(
+                    label: abideverseTreasureLabel,
+                    icon: const Icon(Icons.list_outlined),
+                    selectedIcon: Icon(Icons.list),
+                  ),
+                  // Index 3: AI CHAT
                   // label: 'AI聊天',
                   NavigationDestination(
                     label: abideverseBibleChatLabel,
                     icon: const Icon(Icons.chat_bubble_outline),
                     selectedIcon: const Icon(Icons.chat_bubble),
                   ),
-                  // Index 3: ABOUT (MOVED)
+                  // Index 4: ABOUT (MOVED)
                   // label: '資源簡介',
                   NavigationDestination(
                     label: abideverseAboutLabel,
                     icon: const Icon(Icons.group_outlined),
                     selectedIcon: const Icon(Icons.group),
                   ),
-                  // Index 4: SETTINGS
+                  // Index 5: SETTINGS
                   // label: '我的設定',
                   NavigationDestination(
                     label: abideverseSettingsLabel,

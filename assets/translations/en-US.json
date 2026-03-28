@@ -9,6 +9,8 @@
 
   "bibleVerse": "Abide Daily",
   "bibleVerseHeader": "Bible Verse",
+  "treasures": "Treasures",
+  "treasuresHeader": "Treasures",
   "xlcd": "XLCD",
   "joys": "The Word Hidden in a Smile",
   "about": "About",
@@ -72,6 +74,10 @@
 
   "detailedPrelude": "Prelude",
   "detailedLaugh": "Laugh Heartily",
+
+  "detailedMeaning": "Meaning",
+  "detailedStory": "One-Minute Stories",
+  "detailedRealLife": "Real-Life & Beyond",
 
   "sortAsc": "Sort ascending",
   "sortDesc": "Sort descending",

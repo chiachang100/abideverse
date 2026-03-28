@@ -12,6 +12,8 @@ abstract class  LocaleKeys {
   static const signOut = 'signOut';
   static const bibleVerse = 'bibleVerse';
   static const bibleVerseHeader = 'bibleVerseHeader';
+  static const treasures = 'treasures';
+  static const treasuresHeader = 'treasuresHeader';
   static const xlcd = 'xlcd';
   static const joys = 'joys';
   static const about = 'about';
@@ -69,6 +71,9 @@ abstract class  LocaleKeys {
   static const settingsSelectLanguage = 'settingsSelectLanguage';
   static const detailedPrelude = 'detailedPrelude';
   static const detailedLaugh = 'detailedLaugh';
+  static const detailedMeaning = 'detailedMeaning';
+  static const detailedStory = 'detailedStory';
+  static const detailedRealLife = 'detailedRealLife';
   static const sortAsc = 'sortAsc';
   static const sortDesc = 'sortDesc';
   static const showFavorites = 'showFavorites';

@@ -102,6 +102,19 @@ class LocaleServices {
     return str;
   }
 
+  static String getAbideverseTreasureLabel() {
+    String str = '';
+
+    switch (LocaleConstants.currentLocale) {
+      case LocaleConstants.zhCN:
+        str = '金玉良言';
+      case LocaleConstants.zhTW:
+      default:
+        str = '金玉良言';
+    }
+    return str;
+  }
+
   static String getAbideverseSettingsLabel() {
     String str = '';
 

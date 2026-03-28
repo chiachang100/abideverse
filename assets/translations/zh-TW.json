@@ -9,6 +9,8 @@
 
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "聖經經文",
+  "treasures": "金玉良言",
+  "treasuresHeader": "金玉良言",
   "xlcd": "笑裡藏道",
   "joys": "笑裡藏道",
   "about": "資源簡介",
@@ -72,6 +74,10 @@
 
   "detailedPrelude": "前奏曲",
   "detailedLaugh": "開懷大笑",
+
+  "detailedMeaning": "意思解析",
+  "detailedStory": "一分鐘故事",
+  "detailedRealLife": "生活與延伸",
 
   "sortAsc": "升序排序",
   "sortDesc": "降序排序",

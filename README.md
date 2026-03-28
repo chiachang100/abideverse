@@ -1033,6 +1033,21 @@ C:\SRC\GIT\APPS\ABIDEVERSE\LIB
 |   |           scripture_list.dart
 |   |           scripture_list_item.dart
 |   |
+|   +---treasures
+|   |   +---data
+|   |   |       treasure_repository.dart
+|   |   |
+|   |   +---models
+|   |   |       treasure.dart
+|   |   |
+|   |   +---screens
+|   |   |       treasures_page.dart
+|   |   |       treasure_detail_page.dart
+|   |   |
+|   |   \---widgets
+|   |           treasure_list.dart
+|   |           treasure_list_item.dart
+|   |
 |   \---settings
 |       \---screens
 |               settings.dart

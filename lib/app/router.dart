@@ -17,6 +17,8 @@ import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
 import 'package:abideverse/features/joys/screens/joys_page.dart';
 import 'package:abideverse/features/scriptures/screens/scripture_detail_page.dart';
 import 'package:abideverse/features/scriptures/screens/scriptures_page.dart';
+import 'package:abideverse/features/treasures/screens/treasure_detail_page.dart';
+import 'package:abideverse/features/treasures/screens/treasures_page.dart';
 import 'package:abideverse/shared/services/ai/ai_factory.dart';
 import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
@@ -27,6 +29,9 @@ class AppRoutes {
 
   static const scriptures = '/scriptures';
   static const scriptureDetail = '/scriptures/scripture/:articleId';
+
+  static const treasures = '/treasures';
+  static const treasureDetail = '/treasures/treasure/:articleId';
 
   static const bibleChat = '/bible-chat';
   static const about = '/about';
@@ -109,6 +114,19 @@ GoRouter createRouter({
       if (!ok) return AppRoutes.scriptures;
     }
 
+    // -----------------------------
+    // TREASURE DETAIL GUARD
+    // (No repository yet; only ensures ID is valid)
+    // -----------------------------
+    if (path.startsWith('/treasures/treasure/')) {
+      final ok = validateArticleRoute(
+        state: state,
+        redirectTo: AppRoutes.treasures,
+        exists: (_) => true, // Always passes, until you add a repository
+      );
+      if (!ok) return AppRoutes.treasures;
+    }
+
     return null;
   }
 
@@ -133,9 +151,10 @@ GoRouter createRouter({
           final indexMap = {
             '/joys': 0,
             '/scriptures': 1,
-            '/bible-chat': 2,
-            '/about': 3,
-            '/settings': 4,
+            '/treasures': 2,
+            '/bible-chat': 3,
+            '/about': 4,
+            '/settings': 5,
           };
 
           final selectedIndex = indexMap.entries
@@ -186,6 +205,28 @@ GoRouter createRouter({
             builder: (context, state) {
               final id = int.parse(state.pathParameters['articleId']!);
               return ScriptureDetailPage(
+                articleId: id,
+                locale: context.locale.toLanguageTag(),
+              );
+            },
+          ),
+
+          // --------------------------
+          // TREASURES
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.treasures,
+            pageBuilder: (context, state) => fadePage(
+              TreasuresPage(locale: context.locale.toLanguageTag()),
+              state.pageKey,
+            ),
+          ),
+
+          GoRoute(
+            path: AppRoutes.treasureDetail,
+            builder: (context, state) {
+              final id = int.parse(state.pathParameters['articleId']!);
+              return TreasureDetailPage(
                 articleId: id,
                 locale: context.locale.toLanguageTag(),
               );
@@ -271,6 +312,12 @@ class Routes {
 
   void pushScriptureDetail(int articleId) => context.push(
     AppRoutes.scriptureDetail.replaceFirst(':articleId', '$articleId'),
+  );
+
+  void goTreasures() => context.go(AppRoutes.treasures);
+
+  void pushTreasureDetail(int articleId) => context.push(
+    AppRoutes.treasureDetail.replaceFirst(':articleId', '$articleId'),
   );
 
   void goBibleChat() => context.go(AppRoutes.bibleChat);
