@@ -80,15 +80,15 @@ class AbideVerseAppShell extends StatelessWidget {
                   // label: '聖經經文',
                   NavigationDestination(
                     label: abideverseScriptLabel,
-                    icon: const Icon(Icons.list_outlined),
-                    selectedIcon: Icon(Icons.list),
+                    icon: const Icon(Icons.record_voice_over_outlined),
+                    selectedIcon: Icon(Icons.record_voice_over),
                   ),
                   // Index 2: TREASURES
                   // label: '金玉良言',
                   NavigationDestination(
                     label: abideverseTreasureLabel,
-                    icon: const Icon(Icons.menu_book_outlined),
-                    selectedIcon: Icon(Icons.menu_book),
+                    icon: const Icon(Icons.my_library_books_outlined),
+                    selectedIcon: Icon(Icons.my_library_books),
                   ),
                   // Index 3: AI CHAT
                   // label: 'AI聊天',
