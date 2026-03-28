@@ -211,7 +211,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
           children: [
             Text(LocaleKeys.treasures.tr()),
             Text(
-              '${filteredItems.length} ✝️',
+              '${filteredItems.length} 📖',
               style: Theme.of(context).textTheme.bodySmall?.apply(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

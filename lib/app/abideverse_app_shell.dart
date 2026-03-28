@@ -87,8 +87,8 @@ class AbideVerseAppShell extends StatelessWidget {
                   // label: '金玉良言',
                   NavigationDestination(
                     label: abideverseTreasureLabel,
-                    icon: const Icon(Icons.list_outlined),
-                    selectedIcon: Icon(Icons.list),
+                    icon: const Icon(Icons.menu_book_outlined),
+                    selectedIcon: Icon(Icons.menu_book),
                   ),
                   // Index 3: AI CHAT
                   // label: 'AI聊天',
