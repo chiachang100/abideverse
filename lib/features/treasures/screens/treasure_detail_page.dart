@@ -7,6 +7,7 @@ import 'package:abideverse/features/treasures/data/treasure_repository.dart';
 import 'package:abideverse/features/treasures/models/treasure.dart';
 import 'package:abideverse/features/treasures/utils/treasure_share_utils.dart';
 import 'package:abideverse/shared/widgets/display_article_content.dart';
+import 'package:abideverse/shared/widgets/display_title_section.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 
@@ -93,27 +94,32 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Treasure Image section
-            Center(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(15),
-                ),
-                child: Image.asset(
-                  s.treasureImage,
-                  fit: BoxFit.contain,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                ),
-              ),
-            ),
+            /// Treasure Meaning & Image section
+            // Center(
+            //   child: ClipRRect(
+            //     borderRadius: const BorderRadius.vertical(
+            //       bottom: Radius.circular(15),
+            //     ),
+            //     child: Image.asset(
+            //       s.treasureImage,
+            //       fit: BoxFit.contain,
+            //       width: MediaQuery.of(context).size.width * 0.9,
+            //     ),
+            //   ),
+            // ),
 
-            const SizedBox(height: 16),
-            const Divider(),
+            // const SizedBox(height: 16),
+            // const Divider(),
 
-            /// Treasure Meaning
-            DisplayArticleContent(
+            // /// Treasure Meaning
+            // DisplayArticleContent(
+            //   title: LocaleKeys.detailedMeaning.tr(),
+            //   content: s.treasureMeaning,
+            // ),
+            DisplayTitleSection(
               title: LocaleKeys.detailedMeaning.tr(),
               content: s.treasureMeaning,
+              imageUrl: s.treasureImage,
             ),
 
             /// Treasure Story
