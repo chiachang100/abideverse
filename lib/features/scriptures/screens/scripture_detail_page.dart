@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/features/scriptures/utils/scripture_share_utils.dart';
+import 'package:abideverse/shared/widgets/display_article_content.dart';
 import 'package:abideverse/shared/widgets/display_youtube_video.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
@@ -100,31 +101,15 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Scripture name + chapter
-            Text(
-              LocaleKeys.bibleVerseHeader.tr(),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            /// Scripture verse + name + chapter + zhCNScriptureVerse
+            DisplayArticleContent(
+              title: LocaleKeys.bibleVerseHeader.tr(),
+              content:
+                  '''
+✞ ${s.scriptureVerse} (${s.scriptureName} ${s.scriptureChapter})
+
+✞ ${s.zhCNScriptureVerse}''',
             ),
-
-            const SizedBox(height: 8),
-
-            /// Verse text
-            Text(
-              '✞ ${s.scriptureVerse} (${s.scriptureName} ${s.scriptureChapter})',
-              style: const TextStyle(fontSize: 16),
-            ),
-
-            const SizedBox(height: 16),
-
-            /// zh-CN Verse text
-            Text(
-              '✞ ${s.zhCNScriptureVerse}',
-              style: const TextStyle(fontSize: 16),
-            ),
-
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 8),
 
             /// YouTube section
             if (s.videoId.isNotEmpty) ...[
