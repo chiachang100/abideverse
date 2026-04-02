@@ -1,115 +1,5 @@
 [
   {
-    "articleId": 91,
-    "title": "再接再厲",
-    "treasureImage": "assets/images/treasures/I38_再接再厲.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 92,
-    "title": "望梅止渴",
-    "treasureImage": "assets/images/treasures/I39_望梅止渴.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 93,
-    "title": "空城計",
-    "treasureImage": "assets/images/treasures/I40_空城計.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 94,
-    "title": "一諾千金",
-    "treasureImage": "assets/images/treasures/I41_一諾千金.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 95,
-    "title": "管鮑之交",
-    "treasureImage": "assets/images/treasures/I42_管鮑之交.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 96,
-    "title": "毛遂自薦",
-    "treasureImage": "assets/images/treasures/I43_毛遂自薦.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 97,
-    "title": "鶴立雞群",
-    "treasureImage": "assets/images/treasures/I44_鶴立雞群.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 98,
-    "title": "鷸蚌相爭",
-    "treasureImage": "assets/images/treasures/I45_鷸蚌相爭.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 99,
-    "title": "狼狽為奸",
-    "treasureImage": "assets/images/treasures/I46_狼狽為奸.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
-    "articleId": 100,
-    "title": "破鏡重圓",
-    "treasureImage": "assets/images/treasures/I47_破鏡重圓.png",
-    "treasureMeaning": "",
-    "treasureStory": "",
-    "treasureRealLife": "",
-    "likes": 1,
-    "type": 1,
-    "category": "成語故事"
-  },
-  {
     "articleId": 101,
     "title": "樑上君子",
     "treasureImage": "assets/images/treasures/I48_樑上君子.png",
@@ -156,7 +46,7 @@
   {
     "articleId": 105,
     "title": "只許州官放火, 不許百姓點燈",
-    "treasureImage": "assets/images/treasures/I52_只許州官放火, 不許百姓點燈.png",
+    "treasureImage": "assets/images/treasures/I52_只許州官放火_不許百姓點燈.png",
     "treasureMeaning": "",
     "treasureStory": "",
     "treasureRealLife": "",
