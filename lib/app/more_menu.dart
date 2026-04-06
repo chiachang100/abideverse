@@ -5,12 +5,25 @@ import 'package:abideverse/app/router.dart';
 import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
-class MoreMenuScreen extends StatelessWidget {
+class MoreMenuScreen extends StatefulWidget {
   const MoreMenuScreen({super.key});
 
-  static String abideverseMoreLabel = LocaleKeys.more.tr();
-  static String abideverseAboutLabel = LocaleKeys.about.tr();
-  static String abideverseSettingsLabel = LocaleKeys.settings.tr();
+  @override
+  State<MoreMenuScreen> createState() => _MoreMenuScreenState();
+}
+
+class _MoreMenuScreenState extends State<MoreMenuScreen> {
+  late String abideverseMoreLabel;
+  late String abideverseAboutLabel;
+  late String abideverseSettingsLabel;
+
+  @override
+  void initState() {
+    super.initState();
+    abideverseMoreLabel = LocaleKeys.more.tr();
+    abideverseAboutLabel = LocaleKeys.about.tr();
+    abideverseSettingsLabel = LocaleKeys.settings.tr();
+  }
 
   @override
   Widget build(BuildContext context) {
