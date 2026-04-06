@@ -16,8 +16,10 @@ abstract class  LocaleKeys {
   static const treasuresHeader = 'treasuresHeader';
   static const xlcd = 'xlcd';
   static const joys = 'joys';
+  static const more = 'more';
   static const about = 'about';
   static const settings = 'settings';
+  static const admin = 'admin';
   static const topList = 'topList';
   static const newList = 'newList';
   static const allList = 'allList';

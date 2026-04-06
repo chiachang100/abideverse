@@ -5,6 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:abideverse/app/abideverse_app_shell.dart';
+import 'package:abideverse/app/more_menu.dart';
 import 'package:abideverse/core/config/app_config.dart';
 
 import 'package:abideverse/features/about/screens/about_screen.dart';
@@ -39,6 +40,8 @@ class AppRoutes {
 
   static const signIn = '/sign-in';
   static const firestoreAdmin = '/firestore-admin';
+
+  static const more = '/more';
 }
 
 final GlobalKey<NavigatorState> appShellNavigatorKey =
@@ -153,7 +156,8 @@ GoRouter createRouter({
             '/scriptures': 1,
             '/treasures': 2,
             '/bible-chat': 3,
-            '/about': 4,
+            '/more': 4,
+            '/about': 4, // Map to 4 so the 'More' tab stays lit
             '/settings': 5,
           };
 
@@ -245,6 +249,16 @@ GoRouter createRouter({
               state.pageKey,
             ),
           ),
+
+          // --------------------------
+          // MORE MENU
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.more,
+            pageBuilder: (context, state) =>
+                fadePage(const MoreMenuScreen(), state.pageKey),
+          ),
+
           // --------------------------
           // ABOUT
           // --------------------------
@@ -322,6 +336,7 @@ class Routes {
 
   void goBibleChat() => context.go(AppRoutes.bibleChat);
 
+  void goMore() => context.go(AppRoutes.more);
   void goAbout() => context.go(AppRoutes.about);
   void goSettings() => context.go(AppRoutes.settings);
   void goSignIn() => context.go(AppRoutes.signIn);
