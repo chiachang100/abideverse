@@ -27,7 +27,7 @@ jobs:
           flutter --disable-analytics
           flutter pub get
           flutter test
-          flutter build web --release
+          flutter build web --release --wasm
         #- run: flutter build -v web --release
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
