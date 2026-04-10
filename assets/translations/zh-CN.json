@@ -102,5 +102,7 @@
   "passcode": "密码",
   "cancel": "取消",
   "verify": "验证",
-  "incorrectCode": "密码错误"
+  "incorrectCode": "密码错误",
+  "done": "完成",
+  "markDone": "标记为完成"
 }

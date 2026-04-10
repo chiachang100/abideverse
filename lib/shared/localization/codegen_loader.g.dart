@@ -105,7 +105,9 @@ class CodegenLoader extends AssetLoader{
   "passcode": "Passcode",
   "cancel": "Cancel",
   "verify": "Verify",
-  "incorrectCode": "IncorrectCode"
+  "incorrectCode": "IncorrectCode",
+  "done": "Done",
+  "markDone": "Mark Done"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -198,7 +200,9 @@ static const Map<String,dynamic> _zh_CN = {
   "passcode": "密码",
   "cancel": "取消",
   "verify": "验证",
-  "incorrectCode": "密码错误"
+  "incorrectCode": "密码错误",
+  "done": "完成",
+  "markDone": "标记为完成"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -210,6 +214,8 @@ static const Map<String,dynamic> _zh_TW = {
   "signOut": "↪登出",
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "聖經經文",
+  "bibleStories": "聖經故事",
+  "idiomStories": "成語故事",
   "treasures": "金玉良言",
   "treasuresHeader": "金玉良言",
   "xlcd": "笑裡藏道",
@@ -289,7 +295,9 @@ static const Map<String,dynamic> _zh_TW = {
   "passcode": "密碼",
   "cancel": "取消",
   "verify": "驗證",
-  "incorrectCode": "錯誤代碼"
+  "incorrectCode": "錯誤代碼",
+  "done": "完成",
+  "markDone": "標記為完成"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

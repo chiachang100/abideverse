@@ -102,5 +102,7 @@
   "passcode": "Passcode",
   "cancel": "Cancel",
   "verify": "Verify",
-  "incorrectCode": "IncorrectCode"
+  "incorrectCode": "IncorrectCode",
+  "done": "Done",
+  "markDone": "Mark Done"
 }

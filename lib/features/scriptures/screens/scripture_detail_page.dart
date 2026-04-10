@@ -118,7 +118,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
               ),
               backgroundColor: isDone ? Colors.green : Colors.grey,
               label: Text(
-                isDone ? "Done" : "Mark Done",
+                isDone ? LocaleKeys.done.tr() : LocaleKeys.markDone.tr(),
                 style: const TextStyle(color: Colors.white),
               ),
               onPressed: _toggleStatus,

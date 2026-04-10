@@ -94,5 +94,7 @@ abstract class  LocaleKeys {
   static const cancel = 'cancel';
   static const verify = 'verify';
   static const incorrectCode = 'incorrectCode';
+  static const done = 'done';
+  static const markDone = 'markDone';
 
 }
