@@ -10,6 +10,7 @@ import 'package:abideverse/app/router.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/features/joys/widgets/joy_list_item.dart';
+import 'package:abideverse/shared/utils/task_status.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
@@ -29,13 +30,14 @@ class _JoysPageState extends State<JoysPage> {
   late JoyRepository repository;
 
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
 
-  List<Joy> joys = [];
+  List<Joy> allJoys = [];
   List<Joy> filteredItems = [];
+  Set<String> doneIds = {};
+  TaskStatus filterStatus = TaskStatus.all;
   bool isLoading = true;
   bool isSearchInitial = true;
-
-  final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.none; // Initial state
   Set<String> likedJoyIds = {}; // Stores articleIds of liked items
@@ -62,7 +64,7 @@ class _JoysPageState extends State<JoysPage> {
     setState(() => isLoading = true);
     final data = await repository.getJoys(order: sortOrder, shuffle: shuffle);
     setState(() {
-      joys = data;
+      allJoys = data;
       // apply current search query if any
       filteredItems = _applyFilter(data, _searchController.text);
       isLoading = false;
@@ -124,7 +126,7 @@ class _JoysPageState extends State<JoysPage> {
 
   void _onSearchChanged() {
     setState(() {
-      filteredItems = _applyFilter(joys, _searchController.text);
+      filteredItems = _applyFilter(allJoys, _searchController.text);
       isSearchInitial = _searchController.text.isEmpty;
     });
   }
@@ -132,7 +134,7 @@ class _JoysPageState extends State<JoysPage> {
   void _clearSearch() {
     _searchController.clear();
     setState(() {
-      filteredItems = joys;
+      filteredItems = allJoys;
       isSearchInitial = true;
     });
   }
@@ -166,7 +168,7 @@ class _JoysPageState extends State<JoysPage> {
 
       // Refresh the list immediately so un-liked items disappear
       // if showOnlyFavorites is true
-      filteredItems = _applyFilter(joys, _searchController.text);
+      filteredItems = _applyFilter(allJoys, _searchController.text);
     });
 
     // Persist the updated list
@@ -218,7 +220,7 @@ class _JoysPageState extends State<JoysPage> {
               setState(() {
                 showOnlyFavorites = !showOnlyFavorites;
                 // Re-run the filter with the new state
-                filteredItems = _applyFilter(joys, _searchController.text);
+                filteredItems = _applyFilter(allJoys, _searchController.text);
               });
             },
           ),

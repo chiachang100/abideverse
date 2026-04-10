@@ -12,6 +12,7 @@ import 'package:abideverse/features/treasures/data/treasure_repository.dart';
 import 'package:abideverse/features/treasures/models/treasure.dart';
 import 'package:abideverse/features/treasures/widgets/treasure_list_item.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/utils/task_status.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 
@@ -39,8 +40,9 @@ class _TreasuresPageState extends State<TreasuresPage> {
   final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.none; // Initial state
-  Set<String> likedTreasureIds = {}; // Stores articleIds of liked items
+  Set<String> doneTreasureIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
+  TaskStatus filterStatus = TaskStatus.all;
   bool showOnlyBibleStories = false;
 
   final bibleStoriesTag = '聖經故事';
@@ -50,9 +52,10 @@ class _TreasuresPageState extends State<TreasuresPage> {
     super.initState();
     repository = TreasureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
+    _loadInitialData(); // Combined loader
 
-    _loadAndSortTreasures(shuffle: true);
-    _loadLikes(); // Load saved likes from disk
+    // _loadAndSortTreasures(shuffle: true);
+    // _loadLikes(); // Load saved likes from disk
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -61,6 +64,30 @@ class _TreasuresPageState extends State<TreasuresPage> {
         'abideverse_screen_class': 'TreasuresPageClass',
       },
     );
+  }
+
+  Future<void> _loadInitialData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      doneTreasureIds = (prefs.getStringList('treasures_done_status') ?? [])
+          .toSet();
+    });
+    await _loadAndSortTreasures(shuffle: true);
+  }
+
+  // Generic toggle for the tri-state filter
+  void _cycleTaskFilter() {
+    setState(() {
+      if (filterStatus == TaskStatus.all) {
+        filterStatus = TaskStatus.done;
+      } else if (filterStatus == TaskStatus.done) {
+        filterStatus = TaskStatus.pending;
+      } else {
+        filterStatus = TaskStatus.all;
+      }
+
+      filteredItems = _applyFilter(treasures, _searchController.text);
+    });
   }
 
   /// Load and sort treasures based on the current sortOrder
@@ -111,12 +138,19 @@ class _TreasuresPageState extends State<TreasuresPage> {
     final q = query.trim().toLowerCase();
     return items.where((treasure) {
       // 1. Check Favorites Filter
-      if (showOnlyFavorites &&
-          !likedTreasureIds.contains(treasure.articleId.toString())) {
-        return false;
-      }
+      // if (showOnlyFavorites &&
+      //     !doneTreasureIds.contains(treasure.articleId.toString())) {
+      //   return false;
+      // }
 
-      // 2. Check ROLCC Filter (New)
+      final String id = treasure.articleId.toString();
+      final bool isDone = doneTreasureIds.contains(id);
+
+      // 1. Tri-State Logic (Task Status)
+      if (filterStatus == TaskStatus.done && !isDone) return false;
+      if (filterStatus == TaskStatus.pending && isDone) return false;
+
+      // 2. Check Bible Stories Filter (New)
       if (showOnlyBibleStories &&
           !treasure.category.toLowerCase().contains(
             bibleStoriesTag.toLowerCase(),
@@ -136,6 +170,22 @@ class _TreasuresPageState extends State<TreasuresPage> {
     }).toList();
   }
 
+  Future<void> _toggleTaskDone(String treasureId) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (doneTreasureIds.contains(treasureId)) {
+        doneTreasureIds.remove(treasureId);
+      } else {
+        doneTreasureIds.add(treasureId);
+      }
+      filteredItems = _applyFilter(treasures, _searchController.text);
+    });
+    await prefs.setStringList(
+      'treasures_done_status',
+      doneTreasureIds.toList(),
+    );
+  }
+
   void _onSearchChanged() {
     setState(() {
       filteredItems = _applyFilter(treasures, _searchController.text);
@@ -151,7 +201,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
     });
   }
 
-  /// ROLCC filtering
+  /// Bible Stories filtering
   List<Treasure> _showBibleStories(List<Treasure> items) {
     //final q = query.trim().toLowerCase();
     return items.where((treasure) {
@@ -167,23 +217,24 @@ class _TreasuresPageState extends State<TreasuresPage> {
     super.dispose();
   }
 
-  // Load from Local Storage
-  Future<void> _loadLikes() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      // SharedPreferences returns a List, we convert to Set for performance
-      likedTreasureIds = (prefs.getStringList('liked_treasures') ?? []).toSet();
-    });
-  }
+  // // Load from Local Storage
+  // Future<void> _loadLikes() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     // SharedPreferences returns a List, we convert to Set for performance
+  //     doneTreasureIds = (prefs.getStringList('treasures_done_status') ?? [])
+  //         .toSet();
+  //   });
+  // }
 
   // Toggle and Save to Local Storage
   Future<void> _toggleLike(String treasureId) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      if (likedTreasureIds.contains(treasureId)) {
-        likedTreasureIds.remove(treasureId);
+      if (doneTreasureIds.contains(treasureId)) {
+        doneTreasureIds.remove(treasureId);
       } else {
-        likedTreasureIds.add(treasureId);
+        doneTreasureIds.add(treasureId);
       }
 
       // Refresh the list immediately so un-liked items disappear
@@ -192,7 +243,10 @@ class _TreasuresPageState extends State<TreasuresPage> {
     });
 
     // Persist the updated list
-    await prefs.setStringList('liked_treasures', likedTreasureIds.toList());
+    await prefs.setStringList(
+      'treasures_done_status',
+      doneTreasureIds.toList(),
+    );
 
     // Future Firebase hook:
     // if (userIsLoggedIn) { await updateFirebase(treasureId, isLiked); }
@@ -229,7 +283,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
           },
         ),
         actions: [
-          // ROLCC Filter
+          // Bible Stories Filter
           IconButton(
             icon: Icon(
               showOnlyBibleStories
@@ -238,7 +292,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
                   : Icons.church_outlined, // Outlined when inactive
               color: showOnlyBibleStories ? Colors.blue : null,
             ),
-            tooltip: bibleStoriesTag,
+            tooltip: LocaleKeys.bibleStories.tr(),
             onPressed: () {
               setState(() {
                 // Re-run the filter with the new state
@@ -247,21 +301,23 @@ class _TreasuresPageState extends State<TreasuresPage> {
               });
             },
           ),
-          // Sort Toggle
-          IconButton(
-            icon: Icon(
-              showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
-              color: showOnlyFavorites ? Colors.red : null,
-            ),
-            tooltip: LocaleKeys.showFavorites.tr(),
-            onPressed: () {
-              setState(() {
-                showOnlyFavorites = !showOnlyFavorites;
-                // Re-run the filter with the new state
-                filteredItems = _applyFilter(treasures, _searchController.text);
-              });
-            },
-          ),
+          // NEW Tri-State Task Filter
+          TaskStatusFilterIcon(status: filterStatus, onTap: _cycleTaskFilter),
+          // // Sort Toggle
+          // IconButton(
+          //   icon: Icon(
+          //     showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
+          //     color: showOnlyFavorites ? Colors.red : null,
+          //   ),
+          //   tooltip: LocaleKeys.showFavorites.tr(),
+          //   onPressed: () {
+          //     setState(() {
+          //       showOnlyFavorites = !showOnlyFavorites;
+          //       // Re-run the filter with the new state
+          //       filteredItems = _applyFilter(treasures, _searchController.text);
+          //     });
+          //   },
+          // ),
           // Sort Toggle
           IconButton(
             icon: Icon(
@@ -325,7 +381,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
                   return TreasureListItem(
                     treasure: treasure,
                     index: index,
-                    isLiked: likedTreasureIds.contains(treasureId),
+                    isLiked: doneTreasureIds.contains(treasureId),
                     onLikeToggle: () => _toggleLike(treasureId),
                     onTap: () => context.push(
                       '/treasures/treasure/${treasure.articleId}',

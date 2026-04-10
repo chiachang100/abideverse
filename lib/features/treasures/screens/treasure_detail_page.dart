@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:abideverse/features/treasures/data/treasure_repository.dart';
 import 'package:abideverse/features/treasures/models/treasure.dart';
@@ -29,6 +30,7 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
   Treasure? treasure;
   YoutubePlayerController? _youtubeController;
 
+  bool isDone = false; // Task state
   bool isLoading = true;
   late TreasureRepository repository;
 
@@ -36,16 +38,36 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
   void initState() {
     super.initState();
     repository = TreasureRepository(locale: widget.locale);
-    loadTreasure();
+    _loadData();
   }
 
-  Future<void> loadTreasure() async {
+  Future<void> _loadData() async {
     final data = await repository.getTreasure(widget.articleId);
+    final prefs = await SharedPreferences.getInstance();
+    final doneList = prefs.getStringList('treasures_done_status') ?? [];
 
     setState(() {
       treasure = data;
+      isDone = doneList.contains(widget.articleId.toString());
       isLoading = false;
     });
+  }
+
+  Future<void> _toggleStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final doneList = (prefs.getStringList('treasures_done_status') ?? [])
+        .toSet();
+    final id = widget.articleId.toString();
+
+    setState(() {
+      isDone = !isDone;
+      if (isDone) {
+        doneList.add(id);
+      } else {
+        doneList.remove(id);
+      }
+    });
+    await prefs.setStringList('treasures_done_status', doneList.toList());
   }
 
   @override
@@ -80,12 +102,25 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
         actions: [
           // Share Button
           Padding(
-            padding: const EdgeInsets.all(8),
-            child: IconButton(
-              icon: const Icon(Icons.share_outlined),
-              tooltip: 'Share',
-              onPressed: () => shareTreasure(s),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: ActionChip(
+              avatar: Icon(
+                isDone ? Icons.check_circle : Icons.radio_button_unchecked,
+                color: Colors.white,
+                size: 18,
+              ),
+              backgroundColor: isDone ? Colors.green : Colors.grey,
+              label: Text(
+                isDone ? "Done" : "Mark Done",
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: _toggleStatus,
             ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            tooltip: 'Share',
+            onPressed: () => shareTreasure(s),
           ),
         ],
       ),
@@ -94,28 +129,6 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Treasure Meaning & Image section
-            // Center(
-            //   child: ClipRRect(
-            //     borderRadius: const BorderRadius.vertical(
-            //       bottom: Radius.circular(15),
-            //     ),
-            //     child: Image.asset(
-            //       s.treasureImage,
-            //       fit: BoxFit.contain,
-            //       width: MediaQuery.of(context).size.width * 0.9,
-            //     ),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 16),
-            // const Divider(),
-
-            // /// Treasure Meaning
-            // DisplayArticleContent(
-            //   title: LocaleKeys.detailedMeaning.tr(),
-            //   content: s.treasureMeaning,
-            // ),
             DisplayTitleSection(
               title: LocaleKeys.detailedMeaning.tr(),
               content: s.treasureMeaning,
