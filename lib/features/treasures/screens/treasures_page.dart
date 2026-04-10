@@ -51,7 +51,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
     super.initState();
     repository = TreasureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-    _loadInitialData(); // Combined loader
+    _loadInitialData(shuffle: true); // Combined loader
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -62,13 +62,13 @@ class _TreasuresPageState extends State<TreasuresPage> {
     );
   }
 
-  Future<void> _loadInitialData() async {
+  Future<void> _loadInitialData({bool shuffle = false}) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       doneTreasureIds = (prefs.getStringList('treasures_done_status') ?? [])
           .toSet();
     });
-    await _loadAndSortTreasures(shuffle: true);
+    await _loadAndSortTreasures(shuffle: shuffle);
   }
 
   // Generic toggle for the tri-state filter
@@ -323,9 +323,13 @@ class _TreasuresPageState extends State<TreasuresPage> {
                     index: index,
                     isLiked: doneTreasureIds.contains(treasureId),
                     onLikeToggle: () => _toggleTaskDone(treasureId),
-                    onTap: () => context.push(
-                      '/treasures/treasure/${treasure.articleId}',
-                    ),
+                    onTap: () async {
+                      await context.push(
+                        '/treasures/treasure/${treasure.articleId}',
+                      );
+                      // This line runs AFTER you come back from the detail page
+                      _loadInitialData(shuffle: false);
+                    },
                   );
                 },
               ),

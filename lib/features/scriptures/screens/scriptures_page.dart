@@ -55,7 +55,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
     super.initState();
     repository = ScriptureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-    _loadInitialData(); // Combined loader
+    _loadInitialData(shuffle: true); // Combined loader
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -66,13 +66,13 @@ class _ScripturesPageState extends State<ScripturesPage> {
     );
   }
 
-  Future<void> _loadInitialData() async {
+  Future<void> _loadInitialData({bool shuffle = false}) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       doneScriptureIds = (prefs.getStringList('scriptures_done_status') ?? [])
           .toSet();
     });
-    await _loadAndSortScriptures(shuffle: true);
+    await _loadAndSortScriptures(shuffle: shuffle);
   }
 
   // Generic toggle for the tri-state filter
@@ -330,9 +330,13 @@ class _ScripturesPageState extends State<ScripturesPage> {
                     index: index,
                     isLiked: doneScriptureIds.contains(scriptureId),
                     onLikeToggle: () => _toggleTaskDone(scriptureId),
-                    onTap: () => context.push(
-                      '/scriptures/scripture/${scripture.articleId}',
-                    ),
+                    onTap: () async {
+                      await context.push(
+                        '/scriptures/scripture/${scripture.articleId}',
+                      );
+                      // This line runs AFTER you come back from the detail page
+                      _loadInitialData(shuffle: false);
+                    },
                   );
                 },
               ),
