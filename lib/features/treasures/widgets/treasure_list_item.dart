@@ -161,7 +161,7 @@ class TreasureListItem extends StatelessWidget {
       ),
       onTap: onTap,
       onLongPress: () => _showQR(context, treasure),
-      trailing: // Favorite Button
+      trailing: // Chek Button
       IconButton(
         icon: Icon(
           isLiked ? Icons.check_circle : Icons.radio_button_unchecked,

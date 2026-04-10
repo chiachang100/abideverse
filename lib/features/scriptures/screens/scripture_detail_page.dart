@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
@@ -29,6 +30,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
   Scripture? scripture;
   YoutubePlayerController? _youtubeController;
 
+  bool isDone = false; // Task state
   bool isLoading = true;
   late ScriptureRepository repository;
 
@@ -36,11 +38,13 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
   void initState() {
     super.initState();
     repository = ScriptureRepository(locale: widget.locale);
-    loadScripture();
+    _loadData();
   }
 
-  Future<void> loadScripture() async {
+  Future<void> _loadData() async {
     final data = await repository.getScripture(widget.articleId);
+    final prefs = await SharedPreferences.getInstance();
+    final doneList = prefs.getStringList('scriptures_done_status') ?? [];
 
     if (data != null && data.videoId.isNotEmpty) {
       _youtubeController = YoutubePlayerController(
@@ -51,8 +55,26 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
 
     setState(() {
       scripture = data;
+      isDone = doneList.contains(widget.articleId.toString());
       isLoading = false;
     });
+  }
+
+  Future<void> _toggleStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final doneList = (prefs.getStringList('scriptures_done_status') ?? [])
+        .toSet();
+    final id = widget.articleId.toString();
+
+    setState(() {
+      isDone = !isDone;
+      if (isDone) {
+        doneList.add(id);
+      } else {
+        doneList.remove(id);
+      }
+    });
+    await prefs.setStringList('scriptures_done_status', doneList.toList());
   }
 
   @override
@@ -87,12 +109,25 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
         actions: [
           // Share Button
           Padding(
-            padding: const EdgeInsets.all(8),
-            child: IconButton(
-              icon: const Icon(Icons.share_outlined),
-              tooltip: 'Share',
-              onPressed: () => shareScripture(s),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: ActionChip(
+              avatar: Icon(
+                isDone ? Icons.check_circle : Icons.radio_button_unchecked,
+                color: Colors.white,
+                size: 18,
+              ),
+              backgroundColor: isDone ? Colors.green : Colors.grey,
+              label: Text(
+                isDone ? "Done" : "Mark Done",
+                style: const TextStyle(color: Colors.white),
+              ),
+              onPressed: _toggleStatus,
             ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            tooltip: 'Share',
+            onPressed: () => shareScripture(s),
           ),
         ],
       ),

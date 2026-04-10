@@ -12,6 +12,7 @@ import 'package:abideverse/features/scriptures/data/scripture_repository.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/features/scriptures/widgets/scripture_list_item.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/utils/task_status.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 
@@ -42,8 +43,9 @@ class _ScripturesPageState extends State<ScripturesPage> {
   final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.none; // Initial state
-  Set<String> likedScriptureIds = {}; // Stores articleIds of liked items
+  Set<String> doneScriptureIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
+  TaskStatus filterStatus = TaskStatus.all;
   bool showOnlyRolcc = false;
 
   final rolccTag = 'ROLCC';
@@ -53,9 +55,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
     super.initState();
     repository = ScriptureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-
-    _loadAndSortScriptures(shuffle: true);
-    _loadLikes(); // Load saved likes from disk
+    _loadInitialData(); // Combined loader
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -64,6 +64,30 @@ class _ScripturesPageState extends State<ScripturesPage> {
         'abideverse_screen_class': 'ScripturesPageClass',
       },
     );
+  }
+
+  Future<void> _loadInitialData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      doneScriptureIds = (prefs.getStringList('scriptures_done_status') ?? [])
+          .toSet();
+    });
+    await _loadAndSortScriptures(shuffle: true);
+  }
+
+  // Generic toggle for the tri-state filter
+  void _cycleTaskFilter() {
+    setState(() {
+      if (filterStatus == TaskStatus.all) {
+        filterStatus = TaskStatus.done;
+      } else if (filterStatus == TaskStatus.done) {
+        filterStatus = TaskStatus.pending;
+      } else {
+        filterStatus = TaskStatus.all;
+      }
+
+      filteredItems = _applyFilter(scriptures, _searchController.text);
+    });
   }
 
   /// Load and sort scriptures based on the current sortOrder
@@ -113,11 +137,12 @@ class _ScripturesPageState extends State<ScripturesPage> {
   List<Scripture> _applyFilter(List<Scripture> items, String query) {
     final q = query.trim().toLowerCase();
     return items.where((scripture) {
-      // 1. Check Favorites Filter
-      if (showOnlyFavorites &&
-          !likedScriptureIds.contains(scripture.articleId.toString())) {
-        return false;
-      }
+      final String id = scripture.articleId.toString();
+      final bool isDone = doneScriptureIds.contains(id);
+
+      // 1. Tri-State Logic
+      if (filterStatus == TaskStatus.done && !isDone) return false;
+      if (filterStatus == TaskStatus.pending && isDone) return false;
 
       // 2. Check ROLCC Filter (New)
       if (showOnlyRolcc &&
@@ -137,6 +162,22 @@ class _ScripturesPageState extends State<ScripturesPage> {
           scripture.zhCNScriptureVerse.toLowerCase().contains(q) ||
           scripture.category.toLowerCase().contains(q);
     }).toList();
+  }
+
+  Future<void> _toggleTaskDone(String scriptureId) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (doneScriptureIds.contains(scriptureId)) {
+        doneScriptureIds.remove(scriptureId);
+      } else {
+        doneScriptureIds.add(scriptureId);
+      }
+      filteredItems = _applyFilter(scriptures, _searchController.text);
+    });
+    await prefs.setStringList(
+      'scriptures_done_status',
+      doneScriptureIds.toList(),
+    );
   }
 
   void _onSearchChanged() {
@@ -168,38 +209,6 @@ class _ScripturesPageState extends State<ScripturesPage> {
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
-  }
-
-  // Load from Local Storage
-  Future<void> _loadLikes() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      // SharedPreferences returns a List, we convert to Set for performance
-      likedScriptureIds = (prefs.getStringList('liked_scriptures') ?? [])
-          .toSet();
-    });
-  }
-
-  // Toggle and Save to Local Storage
-  Future<void> _toggleLike(String scriptureId) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (likedScriptureIds.contains(scriptureId)) {
-        likedScriptureIds.remove(scriptureId);
-      } else {
-        likedScriptureIds.add(scriptureId);
-      }
-
-      // Refresh the list immediately so un-liked items disappear
-      // if showOnlyFavorites is true
-      filteredItems = _applyFilter(scriptures, _searchController.text);
-    });
-
-    // Persist the updated list
-    await prefs.setStringList('liked_scriptures', likedScriptureIds.toList());
-
-    // Future Firebase hook:
-    // if (userIsLoggedIn) { await updateFirebase(scriptureId, isLiked); }
   }
 
   @override
@@ -254,24 +263,8 @@ class _ScripturesPageState extends State<ScripturesPage> {
               });
             },
           ),
-          // Sort Toggle
-          IconButton(
-            icon: Icon(
-              showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
-              color: showOnlyFavorites ? Colors.red : null,
-            ),
-            tooltip: LocaleKeys.showFavorites.tr(),
-            onPressed: () {
-              setState(() {
-                showOnlyFavorites = !showOnlyFavorites;
-                // Re-run the filter with the new state
-                filteredItems = _applyFilter(
-                  scriptures,
-                  _searchController.text,
-                );
-              });
-            },
-          ),
+          // Generic Tri-State Filter
+          TaskStatusFilterIcon(status: filterStatus, onTap: _cycleTaskFilter),
           // Sort Toggle
           IconButton(
             icon: Icon(
@@ -335,8 +328,8 @@ class _ScripturesPageState extends State<ScripturesPage> {
                   return ScriptureListItem(
                     scripture: scripture,
                     index: index,
-                    isLiked: likedScriptureIds.contains(scriptureId),
-                    onLikeToggle: () => _toggleLike(scriptureId),
+                    isLiked: doneScriptureIds.contains(scriptureId),
+                    onLikeToggle: () => _toggleTaskDone(scriptureId),
                     onTap: () => context.push(
                       '/scriptures/scripture/${scripture.articleId}',
                     ),

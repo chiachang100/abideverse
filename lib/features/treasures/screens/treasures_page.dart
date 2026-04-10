@@ -41,7 +41,6 @@ class _TreasuresPageState extends State<TreasuresPage> {
 
   SortOrder sortOrder = SortOrder.none; // Initial state
   Set<String> doneTreasureIds = {}; // Stores articleIds of liked items
-  bool showOnlyFavorites = false;
   TaskStatus filterStatus = TaskStatus.all;
   bool showOnlyBibleStories = false;
 
@@ -53,9 +52,6 @@ class _TreasuresPageState extends State<TreasuresPage> {
     repository = TreasureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
     _loadInitialData(); // Combined loader
-
-    // _loadAndSortTreasures(shuffle: true);
-    // _loadLikes(); // Load saved likes from disk
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -137,12 +133,6 @@ class _TreasuresPageState extends State<TreasuresPage> {
   List<Treasure> _applyFilter(List<Treasure> items, String query) {
     final q = query.trim().toLowerCase();
     return items.where((treasure) {
-      // 1. Check Favorites Filter
-      // if (showOnlyFavorites &&
-      //     !doneTreasureIds.contains(treasure.articleId.toString())) {
-      //   return false;
-      // }
-
       final String id = treasure.articleId.toString();
       final bool isDone = doneTreasureIds.contains(id);
 
@@ -217,41 +207,6 @@ class _TreasuresPageState extends State<TreasuresPage> {
     super.dispose();
   }
 
-  // // Load from Local Storage
-  // Future<void> _loadLikes() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     // SharedPreferences returns a List, we convert to Set for performance
-  //     doneTreasureIds = (prefs.getStringList('treasures_done_status') ?? [])
-  //         .toSet();
-  //   });
-  // }
-
-  // Toggle and Save to Local Storage
-  Future<void> _toggleLike(String treasureId) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (doneTreasureIds.contains(treasureId)) {
-        doneTreasureIds.remove(treasureId);
-      } else {
-        doneTreasureIds.add(treasureId);
-      }
-
-      // Refresh the list immediately so un-liked items disappear
-      // if showOnlyFavorites is true
-      filteredItems = _applyFilter(treasures, _searchController.text);
-    });
-
-    // Persist the updated list
-    await prefs.setStringList(
-      'treasures_done_status',
-      doneTreasureIds.toList(),
-    );
-
-    // Future Firebase hook:
-    // if (userIsLoggedIn) { await updateFirebase(treasureId, isLiked); }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -301,23 +256,8 @@ class _TreasuresPageState extends State<TreasuresPage> {
               });
             },
           ),
-          // NEW Tri-State Task Filter
+          // Generic Tri-State Task Filter
           TaskStatusFilterIcon(status: filterStatus, onTap: _cycleTaskFilter),
-          // // Sort Toggle
-          // IconButton(
-          //   icon: Icon(
-          //     showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
-          //     color: showOnlyFavorites ? Colors.red : null,
-          //   ),
-          //   tooltip: LocaleKeys.showFavorites.tr(),
-          //   onPressed: () {
-          //     setState(() {
-          //       showOnlyFavorites = !showOnlyFavorites;
-          //       // Re-run the filter with the new state
-          //       filteredItems = _applyFilter(treasures, _searchController.text);
-          //     });
-          //   },
-          // ),
           // Sort Toggle
           IconButton(
             icon: Icon(
@@ -382,7 +322,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
                     treasure: treasure,
                     index: index,
                     isLiked: doneTreasureIds.contains(treasureId),
-                    onLikeToggle: () => _toggleLike(treasureId),
+                    onLikeToggle: () => _toggleTaskDone(treasureId),
                     onTap: () => context.push(
                       '/treasures/treasure/${treasure.articleId}',
                     ),

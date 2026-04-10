@@ -164,11 +164,11 @@ class ScriptureListItem extends StatelessWidget {
       ),
       onTap: onTap,
       onLongPress: () => _showQR(context, scripture),
-      trailing: // Favorite Button
+      trailing: // Check Button
       IconButton(
         icon: Icon(
-          isLiked ? Icons.favorite : Icons.favorite_border,
-          color: isLiked ? Colors.red : null,
+          isLiked ? Icons.check_circle : Icons.radio_button_unchecked,
+          color: isLiked ? Colors.green : Colors.grey[400],
         ),
         onPressed: onLikeToggle,
       ),
