@@ -30,14 +30,7 @@
   <title>AbideVerse 常在主裡</title>
   <link rel="manifest" href="manifest.json">
 
-<!--
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
--->
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-
-  <meta name="theme-color" content="#E6EBEB">
-
 
 
 
@@ -93,19 +86,6 @@
       min-height: 100%;
       background-color: #E6EBEB;
           background-size: 100% 100%;
-    }
-    
-    html, body {
-      height: 100dvh; /* Dynamic Viewport Height - the 2026 standard */
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #E6EBEB;
-    }
-
-    #flutter_host {
-      height: 100dvh;
-      width: 100vw;
     }
 
     .center {
