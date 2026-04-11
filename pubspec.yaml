@@ -1,7 +1,7 @@
 name: abideverse
 description: "AbideVerse 常在主裡 - Your Daily Bible Verse Companion."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 6.8.10
+version: 6.8.12
 
 environment:
   sdk: ^3.10.1
@@ -38,7 +38,7 @@ dependencies:
 
   # DELETE: flutter_adaptive_scaffold: ^0.3.3+3
   # REPLACE WITH:
-  custom_adaptive_scaffold: ^2.0.2 
+  custom_adaptive_scaffold: ^2.0.2
 
   # ENSURE Markdown is correct too:
   flutter_markdown_plus: ^1.0.7
