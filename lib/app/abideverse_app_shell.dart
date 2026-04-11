@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart';
@@ -127,43 +128,56 @@ class AbideVerseAppShell extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       // Mobile Bottom Bar
       bottomNavigationBar: isSmall
-          ? Theme(
-              data: Theme.of(context).copyWith(
-                navigationBarTheme: NavigationBarThemeData(
-                  // 1. ICON LOGIC: Green when selected, Black54 when not
-                  iconTheme: WidgetStateProperty.resolveWith((states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return const IconThemeData(color: Colors.green, size: 28);
-                    }
-                    return const IconThemeData(color: Colors.black54, size: 24);
-                  }),
-                  // 2. TEXT LOGIC: Bold Black when selected, Black54 when not
-                  labelTextStyle: WidgetStateProperty.resolveWith((states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      );
-                    }
-                    return const TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
+          ? ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: NavigationBar(
+                  selectedIndex: displayIndex,
+                  onDestinationSelected: handleNavigation,
+                  // FORCE TRANSPARENCY HERE
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black.withValues(alpha: 0.7)
+                      : Colors.white.withValues(alpha: 0.7),
+                  surfaceTintColor: Colors.transparent,
+                  elevation: 0,
+                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                  indicatorColor: Colors.green.withValues(alpha: 0.15),
+
+                  // MAP DESTINATIONS MANUALLY TO FORCE COLOR
+                  destinations: currentDestinations.map((destination) {
+                    final int index = currentDestinations.indexOf(destination);
+                    final bool isSelected = displayIndex == index;
+
+                    // Get the default text/icon color for the current theme
+                    // (White in Dark Mode, Black in Light Mode)
+                    final Color adaptiveColor = Theme.of(
+                      context,
+                    ).colorScheme.onSurface;
+
+                    // 1. Extract the icon data from your list
+                    final IconData iconData = (destination.icon as Icon).icon!;
+                    final IconData selectedIconData =
+                        (destination.selectedIcon as Icon).icon ?? iconData;
+
+                    return NavigationDestination(
+                      label: destination.label,
+                      icon: Icon(
+                        iconData,
+                        // FIX: Use adaptiveColor instead of hardcoded Black
+                        color: isSelected
+                            ? Colors.green
+                            : adaptiveColor.withValues(alpha: 0.7),
+                        size: 24,
+                      ),
+                      selectedIcon: Icon(
+                        selectedIconData,
+                        color: Colors.green,
+                        size: 28,
+                      ),
                     );
-                  }),
+                  }).toList(),
                 ),
-              ),
-              child: NavigationBar(
-                selectedIndex: displayIndex,
-                onDestinationSelected: handleNavigation,
-                destinations: currentDestinations,
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.transparent,
-                elevation: 10,
-                height: 70,
-                indicatorColor: Colors.green.withValues(alpha: 0.15),
-                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
               ),
             )
           : null,
@@ -178,22 +192,35 @@ class AbideVerseAppShell extends StatelessWidget {
               extended: width > 1100, // Only extend on very large screens
               selectedIndex: selectedIndex,
               onDestinationSelected: (idx) => context.go(allPaths[idx]),
-              backgroundColor: Colors.white,
+
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black.withValues(alpha: 0.8)
+                  : Colors.white.withValues(alpha: 0.8),
+
               // Standard 2026 color syntax
               indicatorColor: Colors.green.withValues(alpha: 0.2),
               labelType: width > 1100
                   ? NavigationRailLabelType.none
                   : NavigationRailLabelType.all,
-              unselectedLabelTextStyle: const TextStyle(
-                color: Colors.black54,
+
+              unselectedLabelTextStyle: TextStyle(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.7),
                 fontWeight: FontWeight.w500,
               ),
-              selectedLabelTextStyle: const TextStyle(
-                color: Colors.black,
+              selectedLabelTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),
-              unselectedIconTheme: const IconThemeData(color: Colors.black54),
+
+              unselectedIconTheme: IconThemeData(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.7),
+              ),
               selectedIconTheme: const IconThemeData(color: Colors.green),
+
               destinations: fullDestinations
                   .map(
                     (d) => NavigationRailDestination(
@@ -206,7 +233,12 @@ class AbideVerseAppShell extends StatelessWidget {
             ),
 
           // THE FIX: Vertical Divider to create a visual "wall" between menu and content
-          if (!isSmall) const VerticalDivider(thickness: 1, width: 1),
+          if (!isSmall)
+            VerticalDivider(
+              thickness: 1,
+              width: 1,
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+            ),
 
           // THE FIX: Expanded forces the content to stay inside the remaining screen space
           Expanded(

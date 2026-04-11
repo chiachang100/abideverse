@@ -38,7 +38,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  SortOrder sortOrder = SortOrder.none; // Initial state
+  SortOrder sortOrder = SortOrder.desc; // Initial state
   Set<String> doneTreasureIds = {}; // Stores articleIds of liked items
   TaskStatus filterStatus = TaskStatus.all;
   bool showOnlyBibleStories = false;

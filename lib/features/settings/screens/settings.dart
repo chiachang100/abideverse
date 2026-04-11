@@ -111,7 +111,7 @@ class _LanguageSectionState extends State<LanguageSection> {
     await context.setLocale(locale);
 
     await widget.joyRepository.getJoys(
-      order: SortOrder.asc,
+      order: SortOrder.desc,
       forceReload: forceReload,
     );
 

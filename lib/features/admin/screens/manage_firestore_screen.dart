@@ -100,7 +100,7 @@ class FirebaseDbSection extends StatelessWidget {
       },
     );
     final repo = JoyRepository(locale: LocaleConstants.currentLocale);
-    final joys = await repo.getJoys(order: SortOrder.asc);
+    final joys = await repo.getJoys(order: SortOrder.desc);
     for (var joy in joys) {
       final docRef = firestore
           .collection(LocaleConstants.joystoreName)

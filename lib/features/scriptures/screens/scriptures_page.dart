@@ -41,7 +41,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  SortOrder sortOrder = SortOrder.none; // Initial state
+  SortOrder sortOrder = SortOrder.desc; // Initial state
   Set<String> doneScriptureIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
   TaskStatus filterStatus = TaskStatus.all;
