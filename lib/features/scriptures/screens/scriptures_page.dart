@@ -55,7 +55,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
     super.initState();
     repository = ScriptureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-    _loadInitialData(shuffle: true); // Combined loader
+    _loadInitialData(shuffle: false); // Combined loader
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',

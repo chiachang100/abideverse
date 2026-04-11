@@ -51,7 +51,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
     super.initState();
     repository = TreasureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
-    _loadInitialData(shuffle: true); // Combined loader
+    _loadInitialData(shuffle: false); // Combined loader
 
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -306,7 +306,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
           // List of Treasures
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () => _loadAndSortTreasures(shuffle: true),
+              onRefresh: () => _loadAndSortTreasures(),
               color: Colors.white,
               backgroundColor: Theme.of(context).primaryColor,
               child: ListView.builder(
