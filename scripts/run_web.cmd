@@ -1,0 +1,1 @@
+flutter run -d web-server --web-port=5100 --wasm

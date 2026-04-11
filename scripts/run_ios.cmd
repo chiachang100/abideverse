@@ -1,0 +1,1 @@
+flutter run -d 00008130 --release
