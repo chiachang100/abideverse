@@ -13,6 +13,7 @@ class MoreMenuScreen extends StatefulWidget {
 
 class _MoreMenuScreenState extends State<MoreMenuScreen> {
   late String abideverseMoreLabel;
+  late String abideverseBibleChatLabel;
   late String abideverseAboutLabel;
   late String abideverseSettingsLabel;
 
@@ -20,6 +21,7 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
   void initState() {
     super.initState();
     abideverseMoreLabel = LocaleKeys.more.tr();
+    abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     abideverseAboutLabel = LocaleKeys.about.tr();
     abideverseSettingsLabel = LocaleKeys.settings.tr();
   }
@@ -30,6 +32,14 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
       appBar: AppBar(title: Text(abideverseMoreLabel)), // Optional
       body: ListView(
         children: [
+          ListTile(
+            leading: const Icon(Icons.chat_bubble_outline),
+            title: Text(
+              abideverseBibleChatLabel,
+            ), // Use your localization keys here
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.go(AppRoutes.bibleChat),
+          ),
           ListTile(
             leading: const Icon(Icons.group_outlined),
             title: Text(

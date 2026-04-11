@@ -155,9 +155,9 @@ GoRouter createRouter({
             '/joys': 0,
             '/scriptures': 1,
             '/treasures': 2,
-            '/bible-chat': 3,
-            '/more': 4,
-            '/about': 4, // Map to 4 so the 'More' tab stays lit
+            '/more': 3,
+            '/bible-chat': 3, // Map to 3 so the 'More' tab stays lit
+            '/about': 4,
             '/settings': 5,
           };
 
@@ -238,7 +238,16 @@ GoRouter createRouter({
           ),
 
           // --------------------------
-          // AI CHAT
+          // MORE MENU
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.more,
+            pageBuilder: (context, state) =>
+                fadePage(const MoreMenuScreen(), state.pageKey),
+          ),
+
+          // --------------------------
+          // BIBLE CHAT
           // --------------------------
           GoRoute(
             path: AppRoutes.bibleChat,
@@ -248,15 +257,6 @@ GoRouter createRouter({
               ), // <-- Use the factory instance
               state.pageKey,
             ),
-          ),
-
-          // --------------------------
-          // MORE MENU
-          // --------------------------
-          GoRoute(
-            path: AppRoutes.more,
-            pageBuilder: (context, state) =>
-                fadePage(const MoreMenuScreen(), state.pageKey),
           ),
 
           // --------------------------

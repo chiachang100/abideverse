@@ -101,7 +101,10 @@ class _JoystoreState extends State<Joystore> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
+
+      // --- LIGHT THEME FIX ---
       theme: ThemeData(
+        useMaterial3: true,
         textTheme: Theme.of(context).textTheme.copyWith(
           bodyMedium: Theme.of(context).textTheme.titleMedium,
         ),
