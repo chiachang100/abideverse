@@ -305,7 +305,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
           // List of Treasures
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () => _loadAndSortTreasures(),
+              onRefresh: () => _loadAndSortTreasures(shuffle: true),
               color: Colors.white,
               backgroundColor: Theme.of(context).primaryColor,
               child: ListView.builder(
