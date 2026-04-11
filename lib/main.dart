@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:url_strategy/url_strategy.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:window_size/window_size.dart';
 import 'package:abideverse/core/logging/logging_setup.dart';
 
@@ -43,7 +43,7 @@ Future<void> main() async {
   );
 
   // Setup url strategy for web (no blocking)
-  setPathUrlStrategy();
+  usePathUrlStrategy();
 
   // Setup window (non-blocking call)
   _maybeSetupWindow();
