@@ -51,7 +51,7 @@ class _StartupScreenState extends State<StartupScreen> {
           builder: (context) => Joystore(firestore: FirebaseFirestore.instance),
         ),
       );
-    } catch (e, st) {
+    } catch (e) {
       // If initialization fails, remove splash and show a simple error screen.
       FlutterNativeSplash.remove();
       if (!mounted) return;

@@ -1,5 +1,4 @@
 import 'dart:io' show Platform;
-import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 import 'package:firebase_core/firebase_core.dart';
@@ -13,9 +12,7 @@ import 'package:abideverse/shared/services/firebase/firebase_service.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/firebase_options.dart';
-import 'package:abideverse/main.dart' show setupWindow;
 import 'package:window_size/window_size.dart';
-import 'package:abideverse/shared/services/ai/ai_factory.dart';
 
 class StartupService {
   StartupService._();

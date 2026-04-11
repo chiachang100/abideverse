@@ -1,7 +1,7 @@
 name: abideverse
 description: "AbideVerse 常在主裡 - Your Daily Bible Verse Companion."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 6.7.10
+version: 6.8.0
 
 environment:
   sdk: ^3.10.1
@@ -29,32 +29,42 @@ dependencies:
   path_to_regexp: ^0.4.0
   quiver: ^3.1.0
   #url_launcher: ^6.1.1
-  url_strategy: ^0.3.0
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git
       path: plugins/window_size
   youtube_player_iframe: ^5.0.0
   logging: ^1.2.0
-  flutter_adaptive_scaffold: ^0.3.3+1
-  flutter_signin_button: ^2.0.0
+
+  # DELETE: flutter_adaptive_scaffold: ^0.3.3+3
+  # REPLACE WITH:
+  custom_adaptive_scaffold: ^2.0.2 
+
+  # ENSURE Markdown is correct too:
+  flutter_markdown_plus: ^1.0.7
+
+  # REMOVE: flutter_signin_button: ^2.0.0
+  # REPLACE WITH:
+  sign_in_button: ^3.2.0
   flutter_native_splash: ^2.4.0
   youtube_player_flutter: ^9.0.0
   flutter_inappwebview: ^6.0.0
   shared_preferences: ^2.5.4
   provider: ^6.1.2
   easy_localization: ^3.0.7
-  package_info_plus: ^9.0.0
+  package_info_plus: ^10.0.0
   mockito: ^5.6.1
   equatable: ^2.0.7
   google_generative_ai: ^0.4.7
   firebase_ai: ^3.6.0
-  flutter_markdown: ^0.7.7+1
   firebase_app_check: ^0.4.1+2
   audioplayers: ^6.5.1
-  share_plus: ^12.0.1
+  share_plus: ^13.0.0
   qr_flutter: ^4.1.0
 
+  flutter_adaptive_scaffold: any
+  flutter_markdown: any
+  url_strategy: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,6 +96,3 @@ flutter:
   - assets/sounds/laughs/
   - assets/translations/
   - assets/treasures/
-
-dependency_overrides:
-  win32: ^5.5.1

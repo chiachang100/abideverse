@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_ai/firebase_ai.dart'; // hypothetical import
 import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:logging/logging.dart';

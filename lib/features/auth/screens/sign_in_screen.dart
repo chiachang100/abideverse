@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+
+// Old: import 'package:flutter_signin_button/flutter_signin_button.dart';
+// New:
+import 'package:sign_in_button/sign_in_button.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logging/logging.dart';
 
@@ -98,7 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
     // }
 
     authButtons = {
-      Buttons.Google: () => _handleMultiFactorException(_signInWithGoogle),
+      Buttons.google: () => _handleMultiFactorException(_signInWithGoogle),
     };
   }
 
@@ -244,7 +248,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       ),
                                     ),
                                   )
-                                  .toList(),
+                                  ,
                               const SizedBox(height: 20),
                               RichText(
                                 text: TextSpan(

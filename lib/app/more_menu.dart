@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/app/router.dart';
-import 'package:abideverse/shared/localization/codegen_loader.g.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class MoreMenuScreen extends StatefulWidget {

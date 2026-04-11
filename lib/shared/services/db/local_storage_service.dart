@@ -62,7 +62,7 @@ class LocalStorageService {
   Future<Map<String, dynamic>?> getJson({required String key}) async {
     final jsonStr = await getString(key: key, defaultValue: "");
 
-    if (jsonStr == null || jsonStr.isEmpty) {
+    if (jsonStr.isEmpty) {
       return null;
     }
 
