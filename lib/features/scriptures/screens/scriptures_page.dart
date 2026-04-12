@@ -312,7 +312,12 @@ class _ScripturesPageState extends State<ScripturesPage> {
           // List of Scriptures
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () => _loadAndSortScriptures(shuffle: true),
+              onRefresh: () async {
+                await _loadAndSortScriptures(shuffle: true);
+                setState(() {
+                  sortOrder = SortOrder.none;
+                });
+              },
               color: Colors.white,
               backgroundColor: Theme.of(context).primaryColor,
               child: ListView.builder(

@@ -271,7 +271,12 @@ class _JoysPageState extends State<JoysPage> {
           // List of Joys
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () => _loadAndSortJoys(shuffle: true),
+              onRefresh: () async {
+                await _loadAndSortJoys(shuffle: true);
+                setState(() {
+                  sortOrder = SortOrder.none;
+                });
+              },
               color: Colors.white,
               backgroundColor: Theme.of(context).primaryColor,
               child: ListView.builder(
