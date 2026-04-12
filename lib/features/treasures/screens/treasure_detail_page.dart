@@ -100,23 +100,25 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
           child: Text('${s.articleId}. ${s.title}'),
         ),
         actions: [
+          // Mark Done Button
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8),
+          //   child: ActionChip(
+          //     avatar: Icon(
+          //       isDone ? Icons.check_circle : Icons.radio_button_unchecked,
+          //       color: Colors.white,
+          //       size: 18,
+          //     ),
+          //     backgroundColor: isDone ? Colors.green : Colors.grey,
+          //     label: Text(
+          //       isDone ? LocaleKeys.done.tr() : LocaleKeys.markDone.tr(),
+          //       style: const TextStyle(color: Colors.white),
+          //     ),
+          //     onPressed: _toggleStatus,
+          //   ),
+          // ),
+
           // Share Button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: ActionChip(
-              avatar: Icon(
-                isDone ? Icons.check_circle : Icons.radio_button_unchecked,
-                color: Colors.white,
-                size: 18,
-              ),
-              backgroundColor: isDone ? Colors.green : Colors.grey,
-              label: Text(
-                isDone ? LocaleKeys.done.tr() : LocaleKeys.markDone.tr(),
-                style: const TextStyle(color: Colors.white),
-              ),
-              onPressed: _toggleStatus,
-            ),
-          ),
           IconButton(
             icon: const Icon(Icons.share_outlined),
             tooltip: 'Share',
