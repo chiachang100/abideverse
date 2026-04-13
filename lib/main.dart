@@ -6,13 +6,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:window_size/window_size.dart';
-import 'package:abideverse/core/logging/logging_setup.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:abideverse/core/logging/logging_setup.dart';
 import 'package:abideverse/startup/abideverse_root.dart';
 import 'package:abideverse/shared/models/locale_info_model.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'firebase_options.dart';
 
 final logMain = Logger('main');
 final kDefaultLocale = const Locale('zh', 'TW');
@@ -48,6 +53,15 @@ Future<void> main() async {
   // Setup window (non-blocking call)
   _maybeSetupWindow();
 
+  // Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Enable offline persistence
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  );
+
   // Ensure easy_localization is ready
   await EasyLocalization.ensureInitialized();
 
@@ -55,15 +69,17 @@ Future<void> main() async {
 
   // Run the app as fast as possible
   runApp(
-    EasyLocalization(
-      supportedLocales: L10n.allLocales,
-      path: 'assets/translations',
-      fallbackLocale: kDefaultLocale,
-      startLocale: kDefaultLocale,
-      saveLocale: true,
-      child: ChangeNotifierProvider(
-        create: (_) => LocaleInfoModel(),
-        child: AbideVerseRoot(),
+    ProviderScope(
+      child: EasyLocalization(
+        supportedLocales: L10n.allLocales,
+        path: 'assets/translations',
+        fallbackLocale: kDefaultLocale,
+        startLocale: kDefaultLocale,
+        saveLocale: true,
+        child: ChangeNotifierProvider(
+          create: (_) => LocaleInfoModel(),
+          child: AbideVerseRoot(),
+        ),
       ),
     ),
   );

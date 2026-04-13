@@ -1,0 +1,55 @@
+{
+  "resources": {
+    "awesome_references": {
+      "titleKey": "mdAwesomeReferences",
+      "descriptionKey": "mdAwesomeReferencesDesc",
+      "iconName": "stars",
+      "colorValue": 4280391411,
+      "displayOrder": 1,
+      "isActive": true,
+      "markdownContent": "# Awesome References\n\nContent here...",
+      "updatedAt": "2024-01-15T10:00:00Z"
+    },
+    "about": {
+      "titleKey": "mdAboutAbideVerse",
+      "descriptionKey": "mdAboutAbideVerseDesc",
+      "iconName": "info_outline",
+      "colorValue": 4282191888,
+      "displayOrder": 2,
+      "isActive": true,
+      "markdownContent": "# About AbideVerse\n\nContent here...",
+      "updatedAt": "2024-01-15T10:00:00Z"
+    },
+    "acknowledgments": {
+      "titleKey": "mdAcknowledgments",
+      "descriptionKey": "mdAcknowledgmentsDesc",
+      "iconName": "favorite_outline",
+      "colorValue": 4287712731,
+      "displayOrder": 3,
+      "isActive": true,
+      "markdownContent": "# Acknowledgments\n\nContent here...",
+      "updatedAt": "2024-01-15T10:00:00Z"
+    },
+    "study_guides": {
+      "titleKey": "mdStudyGuides",
+      "descriptionKey": "mdStudyGuidesDesc",
+      "iconName": "book_outlined",
+      "colorValue": 4291754768,
+      "displayOrder": 4,
+      "isActive": true,
+      "markdownContent": "# Study Guides\n\nContent here...",
+      "updatedAt": "2024-01-15T10:00:00Z"
+    },
+    "licenses": {
+      "titleKey": "mdOpenSourceLicenses",
+      "descriptionKey": "mdOpenSourceLicensesDesc",
+      "iconName": "code",
+      "colorValue": 4292607454,
+      "displayOrder": 5,
+      "isActive": true,
+      "markdownContent": "# Open Source Licenses\n\nContent here...",
+      "markdownContent": "# Licenses\n\nContent here...",
+      "updatedAt": "2024-01-15T10:00:00Z"
+    }
+  }
+}

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MarkdownViewer extends StatefulWidget {
-  final String assetPath;
+  // For local asset files (old way)
+  final String? assetPath;
+
+  // For Firebase content (new way)
+  final String? markdownContent;
+
   final String title;
-  final bool showAppBar;
-  final EdgeInsets padding;
-  final MarkdownStyleSheet? customStyle;
+  final String? resourceId;
 
   const MarkdownViewer({
     super.key,
-    required this.assetPath,
+    this.assetPath,
+    this.markdownContent,
     required this.title,
-    this.showAppBar = true,
-    this.padding = const EdgeInsets.all(16),
-    this.customStyle,
+    this.resourceId,
   });
 
   @override
@@ -24,126 +24,111 @@ class MarkdownViewer extends StatefulWidget {
 }
 
 class _MarkdownViewerState extends State<MarkdownViewer> {
-  Future<String>? _markdownFuture;
+  String _content = '';
+  bool _isLoading = true;
+  String? _error;
 
   @override
   void initState() {
     super.initState();
-    _markdownFuture = rootBundle.loadString(widget.assetPath);
+    _loadContent();
+  }
+
+  @override
+  void didUpdateWidget(MarkdownViewer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.assetPath != widget.assetPath ||
+        oldWidget.markdownContent != widget.markdownContent) {
+      _loadContent();
+    }
+  }
+
+  Future<void> _loadContent() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
+    try {
+      String content = '';
+
+      // Priority 1: Direct markdown content (from Firebase)
+      if (widget.markdownContent != null &&
+          widget.markdownContent!.isNotEmpty) {
+        content = widget.markdownContent!;
+      }
+      // Priority 2: Local asset file (fallback)
+      else if (widget.assetPath != null && widget.assetPath!.isNotEmpty) {
+        content = await DefaultAssetBundle.of(
+          context,
+        ).loadString(widget.assetPath!);
+      }
+      // No content available
+      else {
+        _error = 'No content available';
+      }
+
+      if (mounted) {
+        setState(() {
+          _content = content;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _error = 'Error loading content: $e';
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.showAppBar
-          ? AppBar(title: Text(widget.title), elevation: 0)
-          : null,
-      body: FutureBuilder<String>(
-        future: _markdownFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return _buildErrorWidget(snapshot.error);
-          }
-
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return SingleChildScrollView(
-            padding: widget.padding,
-            child: MarkdownBody(
-              data: snapshot.data!,
-              selectable: true,
-              styleSheet:
-                  widget.customStyle ?? _buildDefaultMarkdownStyle(context),
-              onTapLink: _handleLinkTap,
-              imageBuilder: _buildImage,
-            ),
-          );
-        },
-      ),
+      appBar: AppBar(title: Text(widget.title)),
+      body: _buildBody(),
     );
   }
 
-  Widget _buildErrorWidget(Object? error) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 48, color: Colors.red),
-          const SizedBox(height: 16),
-          Text('Error loading content: $error'),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _markdownFuture = rootBundle.loadString(widget.assetPath);
-              });
-            },
-            child: const Text('Retry'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _handleLinkTap(String? text, String? href, String? title) async {
-    if (href != null) {
-      final uri = Uri.parse(href);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
-    }
-  }
-
-  Widget _buildImage(Uri? uri, String? title, String? alt) {
-    if (uri == null) {
-      return const Icon(Icons.broken_image, size: 100);
+  Widget _buildBody() {
+    if (_isLoading) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('Loading content...'),
+          ],
+        ),
+      );
     }
 
-    return Image.network(
-      uri.toString(),
-      errorBuilder: (context, error, stackTrace) {
-        return const Icon(Icons.broken_image, size: 100);
-      },
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return const Center(
-          child: SizedBox(height: 100, child: CircularProgressIndicator()),
-        );
-      },
-    );
-  }
+    if (_error != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+            const SizedBox(height: 16),
+            Text(_error!),
+            const SizedBox(height: 16),
+            ElevatedButton(onPressed: _loadContent, child: const Text('Retry')),
+          ],
+        ),
+      );
+    }
 
-  MarkdownStyleSheet _buildDefaultMarkdownStyle(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
+    if (_content.isEmpty) {
+      return const Center(child: Text('No content available'));
+    }
 
-    // Safe approach: only use properties that definitely exist
-    final baseStyle = MarkdownStyleSheet.fromTheme(theme);
-
-    return baseStyle.copyWith(
-      h1: textTheme.headlineMedium?.copyWith(
-        fontWeight: FontWeight.bold,
-        color: theme.colorScheme.primary,
-      ),
-      h2: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-      h3: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-      p: textTheme.bodyLarge,
-      strong: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-      em: textTheme.bodyLarge?.copyWith(fontStyle: FontStyle.italic),
-      blockquote: textTheme.bodyMedium?.copyWith(
-        color: Colors.grey[600],
-        fontStyle: FontStyle.italic,
-      ),
-      a: textTheme.bodyLarge?.copyWith(
-        color: Colors.blue,
-        decoration: TextDecoration.underline,
-      ),
-      code: textTheme.bodySmall?.copyWith(
-        fontFamily: 'monospace',
-        backgroundColor: Colors.grey[200],
-      ),
+    // Use MarkdownBody (not MarkdownPlusBody) - this is the correct widget name
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: MarkdownBody(data: _content, selectable: true),
     );
   }
 }
