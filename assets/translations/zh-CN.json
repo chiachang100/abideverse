@@ -16,7 +16,8 @@
   "xlcd": "笑里藏道",
   "joys": "笑里藏道",
   "more": "更多",
-  "about": "资源简介",
+  "about": "关于",
+  "resources": "资源",
   "settings": "个人设置",
   "admin": "管理",
   "topList": "喜乐榜",
@@ -46,7 +47,7 @@
   "useQrCode": "扫描二维码即可快速访问: ",
   "youtubeVideo": "YouTube视频",
 
-  "aboutTitle": "资源简介",
+  "aboutTitle": "关于",
   "abideverseQrCode": "AbideVerse 常在主里 App 二维码",
   "xlcdappQrCode": "《笑里藏道》App 二维码",
   "joyolordComQrCode": "joyolord.com 二维码",
@@ -104,5 +105,16 @@
   "verify": "验证",
   "incorrectCode": "密码错误",
   "done": "完成",
-  "markDone": "标记为完成"
+  "markDone": "标记为完成",
+
+  "mdAwesomeReferences": "精选参考资料",
+  "mdAwesomeReferencesDesc": "精心整理的圣经研读资源、工具与参考列表",
+  "mdAboutAbideVerse": "关于 AbideVers",
+  "mdAboutAbideVerseDesc": "了解本应用、使命与团队",
+  "mdAcknowledgments": "致谢",
+  "mdAcknowledgmentsDesc": "鸣谢与贡献者致谢",
+  "mdStudyGuides": "研读指南",
+  "mdStudyGuidesDesc": "推荐阅读与研读材料",
+  "mdOpenSourceLicenses": "开源许可",
+  "mdOpenSourceLicensesDesc": "第三方库与许可协议"
 }

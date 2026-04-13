@@ -44,6 +44,7 @@ class AbideVerseAppShell extends StatelessWidget {
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     String abideverseMoreLabel = LocaleKeys.more.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
+    String abideverseResourcesLabel = LocaleKeys.resources.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
 
     // const maxWidth = 600.0;
@@ -59,6 +60,7 @@ class AbideVerseAppShell extends StatelessWidget {
       '/treasures',
       '/bible-chat',
       '/about',
+      '/resources',
       '/settings',
     ];
 
@@ -86,6 +88,11 @@ class AbideVerseAppShell extends StatelessWidget {
       NavigationDestination(
         label: abideverseAboutLabel,
         icon: const Icon(Icons.group_outlined),
+        selectedIcon: const Icon(Icons.group),
+      ),
+      NavigationDestination(
+        label: abideverseResourcesLabel,
+        icon: const Icon(Icons.library_books_outlined),
         selectedIcon: const Icon(Icons.group),
       ),
       NavigationDestination(
@@ -137,7 +144,8 @@ class AbideVerseAppShell extends StatelessWidget {
                   // FORCE TRANSPARENCY HERE
                   backgroundColor:
                       Theme.of(context).brightness == Brightness.dark
-                      ? Colors.black.withValues(alpha: 0.7)
+                      ? Theme.of(context).colorScheme.surfaceContainerHighest
+                            .withValues(alpha: 0.7)
                       : Colors.white.withValues(alpha: 0.7),
                   surfaceTintColor: Colors.transparent,
                   elevation: 0,
@@ -187,49 +195,71 @@ class AbideVerseAppShell extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch, // Ensures full height
         children: [
           if (!isSmall)
-            // The Navigation Rail stays pinned to the left
-            NavigationRail(
-              extended: width > 1100, // Only extend on very large screens
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (idx) => context.go(allPaths[idx]),
-
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.black.withValues(alpha: 0.8)
-                  : Colors.white.withValues(alpha: 0.8),
-
-              // Standard 2026 color syntax
-              indicatorColor: Colors.green.withValues(alpha: 0.2),
-              labelType: width > 1100
-                  ? NavigationRailLabelType.none
-                  : NavigationRailLabelType.all,
-
-              unselectedLabelTextStyle: TextStyle(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.7),
-                fontWeight: FontWeight.w500,
-              ),
-              selectedLabelTextStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-              ),
-
-              unselectedIconTheme: IconThemeData(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
-              selectedIconTheme: const IconThemeData(color: Colors.green),
-
-              destinations: fullDestinations
-                  .map(
-                    (d) => NavigationRailDestination(
-                      icon: d.icon,
-                      selectedIcon: d.selectedIcon,
-                      label: Text(d.label),
+            LayoutBuilder(
+              builder: (context, constraint) {
+                return SingleChildScrollView(
+                  // Constrain the scroll view to the height of the screen
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraint.maxHeight,
                     ),
-                  )
-                  .toList(),
+                    child: IntrinsicHeight(
+                      // The Navigation Rail stays pinned to the left
+                      child: NavigationRail(
+                        extended:
+                            width > 1100, // Only extend on very large screens
+                        selectedIndex: selectedIndex,
+                        onDestinationSelected: (idx) =>
+                            context.go(allPaths[idx]),
+
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withValues(alpha: 0.8)
+                            : Colors.white.withValues(alpha: 0.8),
+
+                        // Standard 2026 color syntax
+                        indicatorColor: Colors.green.withValues(alpha: 0.2),
+                        labelType: width > 1100
+                            ? NavigationRailLabelType.none
+                            : NavigationRailLabelType.all,
+
+                        unselectedLabelTextStyle: TextStyle(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.7),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        selectedLabelTextStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+                        unselectedIconTheme: IconThemeData(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                        selectedIconTheme: const IconThemeData(
+                          color: Colors.green,
+                        ),
+
+                        destinations: fullDestinations
+                            .map(
+                              (d) => NavigationRailDestination(
+                                icon: d.icon,
+                                selectedIcon: d.selectedIcon,
+                                label: Text(d.label),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
 
           // THE FIX: Vertical Divider to create a visual "wall" between menu and content

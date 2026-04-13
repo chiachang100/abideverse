@@ -17,12 +17,14 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
 import 'package:abideverse/features/joys/screens/joys_page.dart';
 import 'package:abideverse/features/scriptures/screens/scripture_detail_page.dart';
+import 'package:abideverse/features/resources/screens/resources_screen.dart';
 import 'package:abideverse/features/scriptures/screens/scriptures_page.dart';
 import 'package:abideverse/features/treasures/screens/treasure_detail_page.dart';
 import 'package:abideverse/features/treasures/screens/treasures_page.dart';
 import 'package:abideverse/shared/services/ai/ai_factory.dart';
 import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
+import 'package:abideverse/shared/widgets/markdown_viewer.dart';
 
 class AppRoutes {
   static const joys = '/joys';
@@ -36,6 +38,10 @@ class AppRoutes {
 
   static const bibleChat = '/bible-chat';
   static const about = '/about';
+
+  static const resources = '/resources';
+  static const resourcesMarkdown = '/resources/markdown/:title/:assetPath';
+
   static const settings = '/settings';
 
   static const signIn = '/sign-in';
@@ -158,7 +164,8 @@ GoRouter createRouter({
             '/more': 3,
             '/bible-chat': 3, // Map to 3 so the 'More' tab stays lit
             '/about': 4,
-            '/settings': 5,
+            '/resources': 5,
+            '/settings': 6,
           };
 
           final selectedIndex = indexMap.entries
@@ -269,6 +276,25 @@ GoRouter createRouter({
           ),
 
           // --------------------------
+          // RESOURCES
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.resources,
+            builder: (context, state) => const ResourcesScreen(),
+            pageBuilder: (context, state) =>
+                fadePage(ResourcesScreen(), state.pageKey),
+          ),
+
+          GoRoute(
+            path: AppRoutes.resourcesMarkdown,
+            builder: (context, state) {
+              final title = state.pathParameters['title'] ?? 'Content';
+              final assetPath = state.pathParameters['assetPath'] ?? '';
+              return MarkdownViewer(assetPath: assetPath, title: title);
+            },
+          ),
+
+          // --------------------------
           // SETTINGS
           // --------------------------
           GoRoute(
@@ -338,6 +364,7 @@ class Routes {
 
   void goMore() => context.go(AppRoutes.more);
   void goAbout() => context.go(AppRoutes.about);
+  void goResources() => context.go(AppRoutes.resources);
   void goSettings() => context.go(AppRoutes.settings);
   void goSignIn() => context.go(AppRoutes.signIn);
   void goFirestoreAdmin() => context.go(AppRoutes.firestoreAdmin);

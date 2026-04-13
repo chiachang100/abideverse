@@ -15,6 +15,7 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
   late String abideverseMoreLabel;
   late String abideverseBibleChatLabel;
   late String abideverseAboutLabel;
+  late String abideverseResourcesLabel;
   late String abideverseSettingsLabel;
 
   @override
@@ -23,6 +24,7 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
     abideverseMoreLabel = LocaleKeys.more.tr();
     abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     abideverseAboutLabel = LocaleKeys.about.tr();
+    abideverseResourcesLabel = LocaleKeys.resources.tr();
     abideverseSettingsLabel = LocaleKeys.settings.tr();
   }
 
@@ -47,6 +49,14 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
             ), // Use your localization keys here
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.go(AppRoutes.about),
+          ),
+          ListTile(
+            leading: const Icon(Icons.library_books_outlined),
+            title: Text(
+              abideverseResourcesLabel,
+            ), // Use your localization keys here
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.go(AppRoutes.resources),
           ),
           ListTile(
             leading: const Icon(Icons.settings_outlined),

@@ -20,6 +20,7 @@ abstract class  LocaleKeys {
   static const joys = 'joys';
   static const more = 'more';
   static const about = 'about';
+  static const resources = 'resources';
   static const settings = 'settings';
   static const admin = 'admin';
   static const topList = 'topList';
@@ -96,5 +97,15 @@ abstract class  LocaleKeys {
   static const incorrectCode = 'incorrectCode';
   static const done = 'done';
   static const markDone = 'markDone';
+  static const mdAwesomeReferences = 'mdAwesomeReferences';
+  static const mdAwesomeReferencesDesc = 'mdAwesomeReferencesDesc';
+  static const mdAboutAbideVerse = 'mdAboutAbideVerse';
+  static const mdAboutAbideVerseDesc = 'mdAboutAbideVerseDesc';
+  static const mdAcknowledgments = 'mdAcknowledgments';
+  static const mdAcknowledgmentsDesc = 'mdAcknowledgmentsDesc';
+  static const mdStudyGuides = 'mdStudyGuides';
+  static const mdStudyGuidesDesc = 'mdStudyGuidesDesc';
+  static const mdOpenSourceLicenses = 'mdOpenSourceLicenses';
+  static const mdOpenSourceLicensesDesc = 'mdOpenSourceLicensesDesc';
 
 }

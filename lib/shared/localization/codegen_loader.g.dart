@@ -32,6 +32,7 @@ class CodegenLoader extends AssetLoader{
   "joys": "The Word Hidden in a Smile",
   "more": "More",
   "about": "About",
+  "resources": "Resources",
   "settings": "Settings",
   "admin": "Admin",
   "topList": "Top List",
@@ -107,7 +108,17 @@ class CodegenLoader extends AssetLoader{
   "verify": "Verify",
   "incorrectCode": "IncorrectCode",
   "done": "Done",
-  "markDone": "Mark Done"
+  "markDone": "Mark Done",
+  "mdAwesomeReferences": "Awesome References",
+  "mdAwesomeReferencesDesc": "Curated list of Bible study resources, tools, and references",
+  "mdAboutAbideVerse": "About AbideVers",
+  "mdAboutAbideVerseDesc": "Learn about the app, mission, and team",
+  "mdAcknowledgments": "Acknowledgments",
+  "mdAcknowledgmentsDesc": "Credits and thanks to contributors",
+  "mdStudyGuides": "Study Guides",
+  "mdStudyGuidesDesc": "Recommended reading and study materials",
+  "mdOpenSourceLicenses": "Open Source Licenses",
+  "mdOpenSourceLicensesDesc": "Third-party libraries and licenses"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -126,7 +137,8 @@ static const Map<String,dynamic> _zh_CN = {
   "xlcd": "笑里藏道",
   "joys": "笑里藏道",
   "more": "更多",
-  "about": "资源简介",
+  "about": "关于",
+  "resources": "资源",
   "settings": "个人设置",
   "admin": "管理",
   "topList": "喜乐榜",
@@ -152,7 +164,7 @@ static const Map<String,dynamic> _zh_CN = {
   "joyolordCom": "主的喜乐 joyolord.com",
   "useQrCode": "扫描二维码即可快速访问: ",
   "youtubeVideo": "YouTube视频",
-  "aboutTitle": "资源简介",
+  "aboutTitle": "关于",
   "abideverseQrCode": "AbideVerse 常在主里 App 二维码",
   "xlcdappQrCode": "《笑里藏道》App 二维码",
   "joyolordComQrCode": "joyolord.com 二维码",
@@ -202,7 +214,17 @@ static const Map<String,dynamic> _zh_CN = {
   "verify": "验证",
   "incorrectCode": "密码错误",
   "done": "完成",
-  "markDone": "标记为完成"
+  "markDone": "标记为完成",
+  "mdAwesomeReferences": "精选参考资料",
+  "mdAwesomeReferencesDesc": "精心整理的圣经研读资源、工具与参考列表",
+  "mdAboutAbideVers": "关于 AbideVers",
+  "mdAboutAbideVersDesc": "了解本应用、使命与团队",
+  "mdAcknowledgments": "致谢",
+  "mdAcknowledgmentsDesc": "鸣谢与贡献者致谢",
+  "mdStudyGuides": "研读指南",
+  "mdStudyGuidesDesc": "推荐阅读与研读材料",
+  "mdOpenSourceLicenses": "开源许可",
+  "mdOpenSourceLicensesDesc": "第三方库与许可协议"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -221,7 +243,8 @@ static const Map<String,dynamic> _zh_TW = {
   "xlcd": "笑裡藏道",
   "joys": "笑裡藏道",
   "more": "更多",
-  "about": "資源簡介",
+  "about": "關於",
+  "resources": "資源",
   "settings": "個人設置",
   "admin": "管理",
   "topList": "喜樂榜",
@@ -247,7 +270,7 @@ static const Map<String,dynamic> _zh_TW = {
   "joyolordCom": "主的喜樂 joyolord.com",
   "useQrCode": "掃描二維碼即可快速訪問: ",
   "youtubeVideo": "YouTube視頻",
-  "aboutTitle": "資源簡介",
+  "aboutTitle": "關於",
   "abideverseQrCode": "AbideVerse 常在主裡 App 二維碼",
   "xlcdappQrCode": "《笑裡藏道》App 二維碼",
   "joyolordComQrCode": "joyolord.com 二維碼",
@@ -297,7 +320,17 @@ static const Map<String,dynamic> _zh_TW = {
   "verify": "驗證",
   "incorrectCode": "錯誤代碼",
   "done": "完成",
-  "markDone": "標記為完成"
+  "markDone": "標記為完成",
+  "mdAwesomeReferences": "精彩參考資料",
+  "mdAwesomeReferencesDesc": "精選聖經學習資源、工具和參考資料清單",
+  "mdAboutAbideVers": "關於 AbideVers",
+  "mdAboutAbideVersDesc": "了解應用、使命和團隊",
+  "mdAcknowledgments": "致謝",
+  "mdAcknowledgmentsDesc": "感謝所有貢獻者",
+  "mdStudyGuides": "學習指南",
+  "mdStudyGuidesDesc": "推薦閱讀與學習資料",
+  "mdOpenSourceLicenses": "開源授權",
+  "mdOpenSourceLicensesDesc": "第三方函式庫和許可證"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

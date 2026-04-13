@@ -16,7 +16,8 @@
   "xlcd": "笑裡藏道",
   "joys": "笑裡藏道",
   "more": "更多",
-  "about": "資源簡介",
+  "about": "關於",
+  "resources": "資源",
   "settings": "個人設置",
   "admin": "管理",
   "topList": "喜樂榜",
@@ -46,7 +47,7 @@
   "useQrCode": "掃描二維碼即可快速訪問: ",
   "youtubeVideo": "YouTube視頻",
 
-  "aboutTitle": "資源簡介",
+  "aboutTitle": "關於",
   "abideverseQrCode": "AbideVerse 常在主裡 App 二維碼",
   "xlcdappQrCode": "《笑裡藏道》App 二維碼",
   "joyolordComQrCode": "joyolord.com 二維碼",
@@ -104,5 +105,16 @@
   "verify": "驗證",
   "incorrectCode": "錯誤代碼",
   "done": "完成",
-  "markDone": "標記為完成"
+  "markDone": "標記為完成",
+
+  "mdAwesomeReferences": "精彩參考資料",
+  "mdAwesomeReferencesDesc": "精選聖經學習資源、工具和參考資料清單",
+  "mdAboutAbideVerse": "關於 AbideVers",
+  "mdAboutAbideVerseDesc": "了解應用、使命和團隊",
+  "mdAcknowledgments": "致謝",
+  "mdAcknowledgmentsDesc": "感謝所有貢獻者",
+  "mdStudyGuides": "學習指南",
+  "mdStudyGuidesDesc": "推薦閱讀與學習資料",
+  "mdOpenSourceLicenses": "開源授權",
+  "mdOpenSourceLicensesDesc": "第三方函式庫和許可證"
 }
