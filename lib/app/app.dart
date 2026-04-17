@@ -70,6 +70,8 @@ class _JoystoreState extends State<Joystore> {
           .doc('ping')
           .get();
 
+      debugPrint('Firestore connected: ${doc.exists}');
+
       logAppJoystore.info('[AppJoystore] Firestore connected: ${doc.exists}');
     } catch (e, st) {
       logAppJoystore.severe('[AppJoystore] Firestore error: $e', e, st);

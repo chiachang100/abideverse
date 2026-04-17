@@ -11,6 +11,7 @@ class ResourceModel extends Equatable {
   final int displayOrder;
   final bool isActive;
   final DateTime updatedAt;
+  final bool isLocalOnly;
 
   const ResourceModel({
     required this.id,
@@ -22,6 +23,7 @@ class ResourceModel extends Equatable {
     required this.displayOrder,
     required this.isActive,
     required this.updatedAt,
+    this.isLocalOnly = false,
   });
 
   factory ResourceModel.fromFirestore(DocumentSnapshot doc) {
