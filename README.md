@@ -1127,11 +1127,37 @@ C:\SRC\GIT\APPS\ABIDEVERSE\LIB
   samples, guidance on mobile development, and a full API reference.
 - [Compile to WebAssembly rather than JavaScript](https://flutter.dev/to/wasm).
 
+## Convert Images from .png to .webp
+
 ### Tools
 
 - [go_router: Routing package for Flutter](https://pub.dev/packages/go_router)
 - [Riverpod: Statement management](https://riverpod.dev/)
   - [riverpod_generator](https://pub.dev/packages/riverpod_generator)
+- [Google WebP converter](https://developers.google.com/speed/webp)
+  - `cwebp foo.png -o foo.webp`
+
+```
+find assets -name "*.png" | while read -r file; do
+  cwebp -q 80 "$file" -o "${file%.png}.webp"
+done
+```
+
+- Powershell command:
+
+```
+Get-ChildItem -Recurse assets -Filter *.png | ForEach-Object {
+    cwebp.exe -q 80 $_.FullName -o ($_.FullName -replace '\.png$', '.webp')
+}
+```
+
+- Powershell command:
+
+```
+Get-ChildItem -Filter *.png | ForEach-Object {
+    cwebp.exe -q 80 $_.FullName -o ($_.FullName -replace '\.png$', '.webp')
+}
+```
 
 ### "笑裡藏道"
 
