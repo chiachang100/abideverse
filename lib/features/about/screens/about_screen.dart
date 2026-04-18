@@ -67,7 +67,7 @@ class _AboutScreenState extends State<AboutScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
               onPressed: () {
                 // Navigate to the joys list
                 Routes(context).goJoys();
@@ -160,7 +160,7 @@ class _QRCodeSectionState extends State<QRCodeSection> {
                       height: 300,
                       width: 300,
                       child: Image.asset(
-                        'assets/icons/abideverse_qrcode.png',
+                        'assets/icons/abideverse_qrcode.webp',
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -214,7 +214,7 @@ class _QRCodeSectionState extends State<QRCodeSection> {
                       height: 300,
                       width: 300, // adjust as needed
                       child: Image.asset(
-                        'assets/icons/joyolord_com_qrcode.png',
+                        'assets/icons/joyolord_com_qrcode.webp',
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -282,7 +282,7 @@ class _BookIntroSectionState extends State<BookIntroSection> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
                   child: Image.asset(
-                    'assets/photos/xlcdapp_photo_default.png',
+                    'assets/photos/xlcdapp_photo_default.webp',
                     fit: BoxFit.fitWidth,
                     width: double.infinity,
                   ),
@@ -366,7 +366,7 @@ class _BookAuthorSectionState extends State<BookAuthorSection> {
                   child: AspectRatio(
                     aspectRatio: 4 / 3,
                     child: Image.asset(
-                      'assets/photos/pastor_cheng_photo.png',
+                      'assets/photos/pastor_cheng_photo.webp',
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
@@ -436,7 +436,7 @@ class _BookPraiseSectionState extends State<BookPraiseSection> {
                       top: Radius.circular(15),
                     ),
                     child: Image.asset(
-                      'assets/photos/xlcdapp_photo_default.png',
+                      'assets/photos/xlcdapp_photo_default.webp',
                       fit: BoxFit.fitWidth,
                       width: double.infinity,
                     ),
@@ -520,7 +520,7 @@ class _AppDeveloperSectionState extends State<AppDeveloperSection> {
                     bottom: Radius.circular(15),
                   ),
                   child: Image.asset(
-                    'assets/photos/joy_pray_thanks.png',
+                    'assets/photos/joy_pray_thanks.webp',
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width * 0.9,
                   ),

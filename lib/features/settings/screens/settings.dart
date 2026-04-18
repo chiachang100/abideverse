@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
               onPressed: () {
                 Routes(context).goJoys();
               },
@@ -158,7 +158,7 @@ class _LanguageSectionState extends State<LanguageSection> {
                 height: 300,
                 width: 200,
                 child: Image.asset(
-                  "assets/logos/abideverse_splash_logo.png",
+                  "assets/logos/abideverse_splash_logo.webp",
                   fit: BoxFit.contain,
                 ),
               ),

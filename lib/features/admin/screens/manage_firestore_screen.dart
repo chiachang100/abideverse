@@ -45,7 +45,7 @@ class _FirestoreAdminScreenState extends State<FirestoreAdminScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
               onPressed: () {
                 // Navigate to the joys list
                 Routes(context).goJoys();
@@ -167,7 +167,7 @@ class FirebaseDbSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(
-              'assets/photos/abideverse_photo_default.png',
+              'assets/photos/abideverse_photo_default.webp',
               height: MediaQuery.of(context).size.width * (3 / 4),
               width: MediaQuery.of(context).size.width,
               //height: 120, width: 640,

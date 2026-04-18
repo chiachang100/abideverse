@@ -226,7 +226,7 @@ class _BibleChatScreenState extends State<BibleChatScreen> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.png'),
+              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
               onPressed: () {
                 Routes(context).goJoys();
               },

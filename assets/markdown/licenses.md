@@ -2,7 +2,7 @@
 
 ## MIT License
 
-MIT License [https://opensource.org/license/mit](https://opensource.org/license/mit)
+MIT License: [https://opensource.org/license/mit](https://opensource.org/license/mit)
 
 Copyright (c) 2026 joyolord.com
 

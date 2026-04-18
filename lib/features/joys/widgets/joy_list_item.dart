@@ -88,7 +88,7 @@ class JoyListItem extends StatelessWidget {
                       size: qrSize, // Dynamic size
                       gapless: true,
                       embeddedImage: const AssetImage(
-                        'assets/logos/abideverse_splash_logo.png',
+                        'assets/logos/abideverse_splash_logo.webp',
                       ),
                       embeddedImageStyle: const QrEmbeddedImageStyle(
                         size: Size(40, 40),

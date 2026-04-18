@@ -112,7 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
         appBar: AppBar(
-          leading: Image.asset('assets/photos/abideverse_photo_default.png'),
+          leading: Image.asset('assets/photos/abideverse_photo_default.webp'),
           leadingWidth: 100,
           centerTitle: true,
           // title: Text('笑裡藏道'),
@@ -220,35 +220,30 @@ class _SignInScreenState extends State<SignInScreen> {
                                 onPressed: _resetPassword,
                                 child: const Text('Forgot password?'),
                               ),
-                              ...authButtons.keys
-                                  .map(
-                                    (button) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 5,
-                                      ),
-                                      child: AnimatedSwitcher(
-                                        duration: const Duration(
-                                          milliseconds: 200,
-                                        ),
-                                        child: isLoading
-                                            ? Container(
-                                                color: Colors.grey[200],
-                                                height: 50,
-                                                width: double.infinity,
-                                              )
-                                            : SizedBox(
-                                                width: double.infinity,
-                                                height: 50,
-                                                child: SignInButton(
-                                                  button,
-                                                  onPressed:
-                                                      authButtons[button]!,
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                  )
-                                  ,
+                              ...authButtons.keys.map(
+                                (button) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 5,
+                                  ),
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 200),
+                                    child: isLoading
+                                        ? Container(
+                                            color: Colors.grey[200],
+                                            height: 50,
+                                            width: double.infinity,
+                                          )
+                                        : SizedBox(
+                                            width: double.infinity,
+                                            height: 50,
+                                            child: SignInButton(
+                                              button,
+                                              onPressed: authButtons[button]!,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(height: 20),
                               RichText(
                                 text: TextSpan(

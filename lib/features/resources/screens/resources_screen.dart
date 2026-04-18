@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'package:abideverse/app/router.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/widgets/markdown_viewer.dart';
 import 'package:abideverse/features/resources/models/resource_model.dart';
@@ -26,7 +27,21 @@ class ResourcesScreen extends ConsumerWidget {
     final resourcesAsync = ref.watch(resourcesStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(LocaleKeys.resources.tr()), elevation: 0),
+      appBar: AppBar(
+        title: Text(LocaleKeys.resources.tr()),
+        elevation: 0,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
+              onPressed: () {
+                // Navigate to the joys list
+                Routes(context).goJoys();
+              },
+            );
+          },
+        ),
+      ),
       body: resourcesAsync.when(
         data: (resources) {
           if (resources.isEmpty) {

@@ -1159,6 +1159,13 @@ Get-ChildItem -Filter *.png | ForEach-Object {
 }
 ```
 
+- Calculate teh file size
+  - `flutter build web --release --wasm`
+  - `du -sh build/web`
+  - `du -sh build/web/assets`
+  - `du -sh build/web/assets/*`
+  - `du -sh build/web/assets/*/*`
+
 ### "笑裡藏道"
 
 - [靈糧書房購買"笑裡藏道"書籍](https://www.rolcc.net/opencart/index.php?route=product/product&product_id=358)
