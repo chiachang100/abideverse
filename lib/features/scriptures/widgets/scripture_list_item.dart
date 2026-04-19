@@ -1,19 +1,24 @@
 // lib/features/scriptures/widgets/scripture_list_item.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/core/constants/ui_constants.dart';
 import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/services/new_item_tracker.dart';
+import 'package:abideverse/shared/widgets/new_item_badge.dart';
 
-class ScriptureListItem extends StatelessWidget {
+class ScriptureListItem extends StatefulWidget {
   final Scripture scripture;
   final int index;
   final bool isLiked;
   final VoidCallback onLikeToggle;
   final VoidCallback? onTap;
+  final bool? initialNewStatus;
 
   const ScriptureListItem({
     super.key,
@@ -22,7 +27,166 @@ class ScriptureListItem extends StatelessWidget {
     required this.isLiked,
     required this.onLikeToggle,
     this.onTap,
+    this.initialNewStatus,
   });
+
+  @override
+  State<ScriptureListItem> createState() => _ScriptureListItemState();
+}
+
+class _ScriptureListItemState extends State<ScriptureListItem> {
+  bool _showNewBadge = false;
+  bool _isChecking = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialNewStatus != null) {
+      // Use cached value immediately
+      _showNewBadge = widget.initialNewStatus!;
+      _isChecking = false;
+    } else {
+      _checkNewStatus();
+    }
+  }
+
+  void _checkNewStatus() async {
+    try {
+      final isNew = await NewItemTracker().isItemNew(
+        FeatureType.scriptures,
+        widget.scripture.articleId,
+        widget.scripture.isNew,
+      );
+      if (mounted) {
+        setState(() {
+          _showNewBadge = isNew;
+          _isChecking = false;
+        });
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('Error checking new status: $e');
+      }
+
+      if (mounted) {
+        setState(() {
+          _isChecking = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _handleTap() async {
+    if (_showNewBadge) {
+      await NewItemTracker().markItemAsRead(
+        FeatureType.scriptures,
+        widget.scripture.articleId,
+      );
+      if (mounted) {
+        setState(() {
+          _showNewBadge = false;
+        });
+      }
+    }
+    widget.onTap?.call();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Avoid repeated list lookups + modulo operations.
+    final bgColors = UIConstants.circleAvatarBgColors;
+    final avatarColor = bgColors.isNotEmpty
+        ? bgColors[widget.scripture.articleId % bgColors.length]
+        : Colors.grey;
+
+    // Prevents crash if Scripture Name is empty (rare but safety first).
+    final safeTitle = (widget.scripture.title.isNotEmpty)
+        ? widget.scripture.title
+        : 'Untitled';
+
+    // Prevents crash if Scripture Name is empty (rare but safety first).
+    final safeScriptureName = (widget.scripture.scriptureName.isNotEmpty)
+        ? widget.scripture.scriptureName
+        : 'Untitled';
+
+    // Precompute subtitle efficiently (no string concatenation in Text widget).
+    final subtitleText =
+        '✞ ${widget.scripture.scriptureVerse} (${widget.scripture.scriptureName} ${widget.scripture.scriptureChapter})';
+
+    String extractLeadingChar(String text) {
+      // Enable Unicode mode
+      final regex = RegExp(r'\p{L}', unicode: true);
+
+      final match = regex.firstMatch(text);
+      return match != null ? match.group(0)! : '?';
+    }
+
+    final leadingChar = extractLeadingChar(safeScriptureName);
+
+    // Show loading state briefly if needed
+    if (_isChecking) {
+      return ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.grey.shade300,
+          child: const SizedBox.shrink(),
+        ),
+        title: Text(safeTitle),
+      );
+    }
+
+    return ListTile(
+      leading: Stack(
+        clipBehavior: Clip.none, // Allows badge to overflow
+        children: [
+          CircleAvatar(
+            backgroundColor: avatarColor,
+            child: Text(
+              leadingChar,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: readableTextColor(avatarColor),
+              ),
+            ),
+          ),
+          if (_showNewBadge)
+            Positioned(top: -4, right: -4, child: NewItemDot(isNew: true)),
+        ],
+      ),
+      title: Text(
+        '${widget.scripture.articleId}. $safeTitle',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        subtitleText,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      onTap: _handleTap,
+      onLongPress: () => _showQR(context, widget.scripture),
+      trailing: // Check Button
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_showNewBadge)
+            const Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: NewItemChip(isNew: true),
+            ),
+
+          IconButton(
+            icon: Icon(
+              widget.isLiked
+                  ? Icons.check_circle
+                  : Icons.radio_button_unchecked,
+              color: widget.isLiked ? Colors.green : Colors.grey[400],
+            ),
+            onPressed: widget.onLikeToggle,
+          ),
+        ],
+      ),
+    );
+  }
 
   /// Auto-selects black or white text for the best contrast.
   Color readableTextColor(Color bg) {
@@ -106,72 +270,6 @@ class ScriptureListItem extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Avoid repeated list lookups + modulo operations.
-    final bgColors = UIConstants.circleAvatarBgColors;
-    final avatarColor = bgColors.isNotEmpty
-        ? bgColors[scripture.articleId % bgColors.length]
-        : Colors.grey;
-
-    // Prevents crash if Scripture Name is empty (rare but safety first).
-    final safeTitle = (scripture.title.isNotEmpty)
-        ? scripture.title
-        : 'Untitled';
-
-    // Prevents crash if Scripture Name is empty (rare but safety first).
-    final safeScriptureName = (scripture.scriptureName.isNotEmpty)
-        ? scripture.scriptureName
-        : 'Untitled';
-
-    // Precompute subtitle efficiently (no string concatenation in Text widget).
-    final subtitleText =
-        '✞ ${scripture.scriptureVerse} (${scripture.scriptureName} ${scripture.scriptureChapter})';
-
-    String extractLeadingChar(String text) {
-      // Enable Unicode mode
-      final regex = RegExp(r'\p{L}', unicode: true);
-
-      final match = regex.firstMatch(text);
-      return match != null ? match.group(0)! : '?';
-    }
-
-    final leadingChar = extractLeadingChar(safeScriptureName);
-
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: avatarColor,
-        child: Text(
-          leadingChar,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: readableTextColor(avatarColor),
-          ),
-        ),
-      ),
-      title: Text(
-        '${scripture.articleId}. $safeTitle',
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        subtitleText,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      onTap: onTap,
-      onLongPress: () => _showQR(context, scripture),
-      trailing: // Check Button
-      IconButton(
-        icon: Icon(
-          isLiked ? Icons.check_circle : Icons.radio_button_unchecked,
-          color: isLiked ? Colors.green : Colors.grey[400],
-        ),
-        onPressed: onLikeToggle,
-      ),
     );
   }
 }

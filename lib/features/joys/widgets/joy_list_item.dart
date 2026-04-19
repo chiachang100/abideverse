@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/core/constants/ui_constants.dart';
 import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/services/new_item_tracker.dart';
+import 'package:abideverse/shared/widgets/new_item_badge.dart';
 
-class JoyListItem extends StatelessWidget {
+class JoyListItem extends StatefulWidget {
   final Joy joy;
   final int index;
   final bool isRanked;
   final bool isLiked;
   final VoidCallback onLikeToggle;
   final VoidCallback? onTap;
+  final bool? initialNewStatus;
 
   const JoyListItem({
     super.key,
@@ -22,7 +27,165 @@ class JoyListItem extends StatelessWidget {
     required this.isLiked,
     required this.onLikeToggle,
     required this.onTap,
+    this.initialNewStatus,
   });
+
+  @override
+  State<JoyListItem> createState() => _JoyListItemState();
+}
+
+class _JoyListItemState extends State<JoyListItem> {
+  bool _showNewBadge = false;
+  bool _isChecking = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialNewStatus != null) {
+      // Use cached value immediately
+      _showNewBadge = widget.initialNewStatus!;
+      _isChecking = false;
+    } else {
+      _checkNewStatus();
+    }
+  }
+
+  void _checkNewStatus() async {
+    try {
+      final isNew = await NewItemTracker().isItemNew(
+        FeatureType.joys,
+        widget.joy.articleId,
+        widget.joy.isNew,
+      );
+      if (mounted) {
+        setState(() {
+          _showNewBadge = isNew;
+          _isChecking = false;
+        });
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('Error checking new status: $e');
+      }
+
+      if (mounted) {
+        setState(() {
+          _isChecking = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _handleTap() async {
+    if (_showNewBadge) {
+      await NewItemTracker().markItemAsRead(
+        FeatureType.joys,
+        widget.joy.articleId,
+      );
+      if (mounted) {
+        setState(() {
+          _showNewBadge = false;
+        });
+      }
+    }
+    widget.onTap?.call();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Avoid repeated list lookups + modulo operations.
+    final bgColors = UIConstants.circleAvatarBgColors;
+    final avatarColor = bgColors.isNotEmpty
+        ? bgColors[widget.joy.articleId % bgColors.length]
+        : Colors.grey;
+
+    // Prevents crash if Scripture Name is empty (rare but safety first).
+    final safeTitle = (widget.joy.title.isNotEmpty)
+        ? widget.joy.title
+        : 'Untitled';
+
+    // Precompute subtitle efficiently (no string concatenation in Text widget).
+    final subtitleText =
+        '✞ ${widget.joy.scriptureVerse} (${widget.joy.scriptureName} ${widget.joy.scriptureChapter})';
+
+    // Precompute subtitle efficiently (no string concatenation in Text widget).
+    final laughText = '•ᴗ• ${widget.joy.laugh}';
+
+    String extractLeadingChar(String text) {
+      // Enable Unicode mode
+      final regex = RegExp(r'\p{L}', unicode: true);
+
+      final match = regex.firstMatch(text);
+      return match != null ? match.group(0)! : '?';
+    }
+
+    final leadingChar = extractLeadingChar(safeTitle);
+
+    // Show loading state briefly if needed
+    if (_isChecking) {
+      return ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.grey.shade300,
+          child: const SizedBox.shrink(),
+        ),
+        title: Text(safeTitle),
+      );
+    }
+
+    return ListTile(
+      leading: Stack(
+        clipBehavior: Clip.none, // Allows badge to overflow
+        children: [
+          CircleAvatar(
+            backgroundColor: avatarColor,
+            child: Text(
+              leadingChar,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: readableTextColor(avatarColor), // dynamically readable
+              ),
+            ),
+          ),
+          if (_showNewBadge)
+            Positioned(top: -4, right: -4, child: NewItemDot(isNew: true)),
+        ],
+      ),
+      title: Text(
+        '${widget.joy.articleId}. $safeTitle',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(subtitleText, maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(laughText, maxLines: 1, overflow: TextOverflow.ellipsis),
+        ],
+      ),
+      //onTap: widget.onTap,
+      onTap: _handleTap,
+      onLongPress: () => _showQR(context, widget.joy),
+      trailing: // Favorite Button
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_showNewBadge)
+            const Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: NewItemChip(isNew: true),
+            ),
+
+          IconButton(
+            icon: Icon(
+              widget.isLiked ? Icons.favorite : Icons.favorite_border,
+              color: widget.isLiked ? Colors.red : null,
+            ),
+            onPressed: widget.onLikeToggle,
+          ),
+        ],
+      ),
+    );
+  }
 
   /// Auto-selects black or white text for the best contrast.
   Color readableTextColor(Color bg) {
@@ -106,71 +269,6 @@ class JoyListItem extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Avoid repeated list lookups + modulo operations.
-    final bgColors = UIConstants.circleAvatarBgColors;
-    final avatarColor = bgColors.isNotEmpty
-        ? bgColors[joy.articleId % bgColors.length]
-        : Colors.grey;
-
-    // Prevents crash if Scripture Name is empty (rare but safety first).
-    final safeTitle = (joy.title.isNotEmpty) ? joy.title : 'Untitled';
-
-    // Precompute subtitle efficiently (no string concatenation in Text widget).
-    final subtitleText =
-        '✞ ${joy.scriptureVerse} (${joy.scriptureName} ${joy.scriptureChapter})';
-
-    // Precompute subtitle efficiently (no string concatenation in Text widget).
-    final laughText = '•ᴗ• ${joy.laugh}';
-
-    String extractLeadingChar(String text) {
-      // Enable Unicode mode
-      final regex = RegExp(r'\p{L}', unicode: true);
-
-      final match = regex.firstMatch(text);
-      return match != null ? match.group(0)! : '?';
-    }
-
-    final leadingChar = extractLeadingChar(safeTitle);
-
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: avatarColor,
-        child: Text(
-          leadingChar,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: readableTextColor(avatarColor), // dynamically readable
-          ),
-        ),
-      ),
-      title: Text(
-        '${joy.articleId}. $safeTitle',
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(subtitleText, maxLines: 1, overflow: TextOverflow.ellipsis),
-          Text(laughText, maxLines: 1, overflow: TextOverflow.ellipsis),
-        ],
-      ),
-      //onTap: () => onTap(joy),
-      onTap: onTap,
-      onLongPress: () => _showQR(context, joy),
-      trailing: // Favorite Button
-      IconButton(
-        icon: Icon(
-          isLiked ? Icons.favorite : Icons.favorite_border,
-          color: isLiked ? Colors.red : null,
-        ),
-        onPressed: onLikeToggle,
-      ),
     );
   }
 }

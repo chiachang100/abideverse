@@ -17,6 +17,7 @@ import 'package:abideverse/core/logging/logging_setup.dart';
 import 'package:abideverse/startup/abideverse_root.dart';
 import 'package:abideverse/shared/models/locale_info_model.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'firebase_options.dart';
 
 final logMain = Logger('main');
@@ -38,6 +39,7 @@ Future<void> main() async {
 
   // Minimal required init
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await NewItemTracker.init();
 
   // Preserve native splash until we explicitly remove it in StartupScreen
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

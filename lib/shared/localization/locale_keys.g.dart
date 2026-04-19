@@ -97,6 +97,7 @@ abstract class  LocaleKeys {
   static const incorrectCode = 'incorrectCode';
   static const done = 'done';
   static const markDone = 'markDone';
+  static const newFlag = 'newFlag';
   static const mdAwesomeReferences = 'mdAwesomeReferences';
   static const mdAwesomeReferencesDesc = 'mdAwesomeReferencesDesc';
   static const mdAboutAbideVerse = 'mdAboutAbideVerse';
