@@ -1,6 +1,6 @@
-// lib/features/scriptures/models/scripture.dart
+import 'package:equatable/equatable.dart';
 
-class Scripture {
+class Scripture extends Equatable {
   final int id;
   final int articleId;
   final String title;
@@ -10,13 +10,14 @@ class Scripture {
   final String zhCNScriptureVerse;
   final int likes;
   final int type;
+  final bool isNew;
   final String scriptureReader;
   final String category;
   final String videoId;
   final String videoName;
   final bool isRicherDaily;
 
-  Scripture({
+  const Scripture({
     required this.id,
     required this.articleId,
     required this.title,
@@ -26,6 +27,7 @@ class Scripture {
     required this.zhCNScriptureVerse,
     required this.likes,
     required this.type,
+    required this.isNew,
     required this.scriptureReader,
     required this.category,
     required this.videoId,
@@ -44,6 +46,7 @@ class Scripture {
       zhCNScriptureVerse: json['zhCNScriptureVerse'] ?? '',
       likes: json['likes'] ?? 0,
       type: json['type'] ?? 0,
+      isNew: json['isNew'] as bool,
       scriptureReader: json['scriptureReader'] ?? '',
       category: json['category'] ?? '',
       videoId: json['videoId'] ?? '',
@@ -63,6 +66,7 @@ class Scripture {
       'zhCNScriptureVerse': zhCNScriptureVerse,
       'likes': likes,
       'type': type,
+      'isNew': isNew,
       'scriptureReader': scriptureReader,
       'category': category,
       'videoId': videoId,
@@ -70,4 +74,23 @@ class Scripture {
       'isRicherDaily': isRicherDaily,
     };
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    articleId,
+    title,
+    scriptureName,
+    scriptureChapter,
+    scriptureVerse,
+    zhCNScriptureVerse,
+    likes,
+    type,
+    isNew,
+    scriptureReader,
+    category,
+    videoId,
+    videoName,
+    isRicherDaily,
+  ];
 }

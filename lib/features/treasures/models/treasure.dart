@@ -1,6 +1,6 @@
-// lib/features/treasures/models/treasure.dart
+import 'package:equatable/equatable.dart';
 
-class Treasure {
+class Treasure extends Equatable {
   final int articleId;
   final String title;
   final String treasureImage;
@@ -9,9 +9,10 @@ class Treasure {
   final String treasureRealLife;
   final int likes;
   final int type;
+  final bool isNew;
   final String category;
 
-  Treasure({
+  const Treasure({
     required this.articleId,
     required this.title,
     required this.treasureImage,
@@ -20,6 +21,7 @@ class Treasure {
     required this.treasureRealLife,
     required this.likes,
     required this.type,
+    required this.isNew,
     required this.category,
   });
 
@@ -33,6 +35,7 @@ class Treasure {
       treasureRealLife: json['treasureRealLife'] ?? '',
       likes: json['likes'] ?? 0,
       type: json['type'] ?? 0,
+      isNew: json['isNew'] as bool,
       category: json['category'] ?? '',
     );
   }
@@ -47,7 +50,22 @@ class Treasure {
       'treasureRealLife': treasureRealLife,
       'likes': likes,
       'type': type,
+      'isNew': isNew,
       'category': category,
     };
   }
+
+  @override
+  List<Object?> get props => [
+    articleId,
+    title,
+    treasureImage,
+    treasureMeaning,
+    treasureStory,
+    treasureRealLife,
+    likes,
+    type,
+    isNew,
+    category,
+  ];
 }

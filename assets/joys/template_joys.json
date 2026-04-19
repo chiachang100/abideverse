@@ -14,7 +14,7 @@
     "talk": "",
     "likes": 1,
     "type": 1,
-    "isNew": false,
+    "isNew": true,
     "category": "春"
   },
   {
@@ -32,7 +32,7 @@
     "talk": "",
     "likes": 1,
     "type": 1,
-    "isNew": false,
+    "isNew": true,
     "category": "春"
   }
 ]
