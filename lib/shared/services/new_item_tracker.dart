@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 
 enum FeatureType { joys, scriptures, treasures }

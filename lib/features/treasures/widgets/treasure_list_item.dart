@@ -178,7 +178,9 @@ class _TreasureListItemState extends State<TreasureListItem> {
           fontWeight: _showNewBadge ? FontWeight.bold : FontWeight.normal,
           color: _showNewBadge
               ? Theme.of(context).colorScheme.onSurface
-              : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+              : Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
         ),
       ),
       subtitle: Text(
