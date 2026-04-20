@@ -174,7 +174,12 @@ class _TreasureListItemState extends State<TreasureListItem> {
       ),
       title: Text(
         '${widget.treasure.articleId}. $safeTitle',
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontWeight: _showNewBadge ? FontWeight.bold : FontWeight.normal,
+          color: _showNewBadge
+              ? Theme.of(context).colorScheme.onSurface
+              : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+        ),
       ),
       subtitle: Text(
         subtitleText,
@@ -184,25 +189,12 @@ class _TreasureListItemState extends State<TreasureListItem> {
       onTap: _handleTap,
       onLongPress: () => _showQR(context, widget.treasure),
       trailing: // Chek Button
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (_showNewBadge)
-            const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: NewItemChip(isNew: true),
-            ),
-
-          IconButton(
-            icon: Icon(
-              widget.isLiked
-                  ? Icons.check_circle
-                  : Icons.radio_button_unchecked,
-              color: widget.isLiked ? Colors.green : Colors.grey[400],
-            ),
-            onPressed: widget.onLikeToggle,
-          ),
-        ],
+      IconButton(
+        icon: Icon(
+          widget.isLiked ? Icons.favorite : Icons.favorite_border,
+          color: widget.isLiked ? Colors.red : null,
+        ),
+        onPressed: widget.onLikeToggle,
       ),
     );
   }

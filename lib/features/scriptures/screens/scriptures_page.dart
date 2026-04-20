@@ -223,7 +223,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
           children: [
             Text(LocaleKeys.bibleVerse.tr()),
             Text(
-              '${filteredItems.length} ✝️',
+              '✝️ ${filteredItems.length}',
               style: Theme.of(context).textTheme.bodySmall?.apply(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

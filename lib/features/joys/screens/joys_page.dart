@@ -190,7 +190,7 @@ class _JoysPageState extends State<JoysPage> {
           children: [
             Text(LocaleKeys.xlcd.tr()),
             Text(
-              '${filteredItems.length} 😊',
+              '😊 ${filteredItems.length}',
               style: Theme.of(context).textTheme.bodySmall?.apply(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

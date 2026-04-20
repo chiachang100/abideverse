@@ -190,7 +190,12 @@ class _JoyListItemState extends State<JoyListItem> {
       ),
       title: Text(
         '${widget.joy.articleId}. $safeTitle',
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontWeight: _showNewBadge ? FontWeight.bold : FontWeight.normal,
+          color: _showNewBadge
+              ? Theme.of(context).colorScheme.onSurface
+              : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+        ),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,23 +208,12 @@ class _JoyListItemState extends State<JoyListItem> {
       onTap: _handleTap,
       onLongPress: () => _showQR(context, widget.joy),
       trailing: // Favorite Button
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (_showNewBadge)
-            const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: NewItemChip(isNew: true),
-            ),
-
-          IconButton(
-            icon: Icon(
-              widget.isLiked ? Icons.favorite : Icons.favorite_border,
-              color: widget.isLiked ? Colors.red : null,
-            ),
-            onPressed: widget.onLikeToggle,
-          ),
-        ],
+      IconButton(
+        icon: Icon(
+          widget.isLiked ? Icons.favorite : Icons.favorite_border,
+          color: widget.isLiked ? Colors.red : null,
+        ),
+        onPressed: widget.onLikeToggle,
       ),
     );
   }
