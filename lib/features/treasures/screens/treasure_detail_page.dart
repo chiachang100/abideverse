@@ -30,7 +30,7 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
   Treasure? treasure;
   YoutubePlayerController? _youtubeController;
 
-  bool isDone = false; // Task state
+  bool isLiked = false; // Liked state
   bool isLoading = true;
   late TreasureRepository repository;
 
@@ -44,30 +44,29 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
   Future<void> _loadData() async {
     final data = await repository.getTreasure(widget.articleId);
     final prefs = await SharedPreferences.getInstance();
-    final doneList = prefs.getStringList('treasures_done_status') ?? [];
+    final likedList = prefs.getStringList('liked_treasures') ?? [];
 
     setState(() {
       treasure = data;
-      isDone = doneList.contains(widget.articleId.toString());
+      isLiked = likedList.contains(widget.articleId.toString());
       isLoading = false;
     });
   }
 
   Future<void> _toggleStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    final doneList = (prefs.getStringList('treasures_done_status') ?? [])
-        .toSet();
+    final likedList = (prefs.getStringList('liked_treasures') ?? []).toSet();
     final id = widget.articleId.toString();
 
     setState(() {
-      isDone = !isDone;
-      if (isDone) {
-        doneList.add(id);
+      isLiked = !isLiked;
+      if (isLiked) {
+        likedList.add(id);
       } else {
-        doneList.remove(id);
+        likedList.remove(id);
       }
     });
-    await prefs.setStringList('treasures_done_status', doneList.toList());
+    await prefs.setStringList('liked_treasures', likedList.toList());
   }
 
   @override
@@ -100,24 +99,6 @@ class _TreasureDetailPageState extends State<TreasureDetailPage> {
           child: Text('${s.articleId}. ${s.title}'),
         ),
         actions: [
-          // Mark Done Button
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 8),
-          //   child: ActionChip(
-          //     avatar: Icon(
-          //       isDone ? Icons.check_circle : Icons.radio_button_unchecked,
-          //       color: Colors.white,
-          //       size: 18,
-          //     ),
-          //     backgroundColor: isDone ? Colors.green : Colors.grey,
-          //     label: Text(
-          //       isDone ? LocaleKeys.done.tr() : LocaleKeys.markDone.tr(),
-          //       style: const TextStyle(color: Colors.white),
-          //     ),
-          //     onPressed: _toggleStatus,
-          //   ),
-          // ),
-
           // Share Button
           IconButton(
             icon: const Icon(Icons.share_outlined),

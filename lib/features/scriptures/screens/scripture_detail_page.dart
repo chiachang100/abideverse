@@ -30,7 +30,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
   Scripture? scripture;
   YoutubePlayerController? _youtubeController;
 
-  bool isDone = false; // Task state
+  bool isLiked = false; // Liked state
   bool isLoading = true;
   late ScriptureRepository repository;
 
@@ -44,7 +44,7 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
   Future<void> _loadData() async {
     final data = await repository.getScripture(widget.articleId);
     final prefs = await SharedPreferences.getInstance();
-    final doneList = prefs.getStringList('scriptures_done_status') ?? [];
+    final likedList = prefs.getStringList('liked_scriptures') ?? [];
 
     if (data != null && data.videoId.isNotEmpty) {
       _youtubeController = YoutubePlayerController(
@@ -55,26 +55,25 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
 
     setState(() {
       scripture = data;
-      isDone = doneList.contains(widget.articleId.toString());
+      isLiked = likedList.contains(widget.articleId.toString());
       isLoading = false;
     });
   }
 
   Future<void> _toggleStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    final doneList = (prefs.getStringList('scriptures_done_status') ?? [])
-        .toSet();
+    final likedList = (prefs.getStringList('liked_scriptures') ?? []).toSet();
     final id = widget.articleId.toString();
 
     setState(() {
-      isDone = !isDone;
-      if (isDone) {
-        doneList.add(id);
+      isLiked = !isLiked;
+      if (isLiked) {
+        likedList.add(id);
       } else {
-        doneList.remove(id);
+        likedList.remove(id);
       }
     });
-    await prefs.setStringList('scriptures_done_status', doneList.toList());
+    await prefs.setStringList('liked_scriptures', likedList.toList());
   }
 
   @override
@@ -107,24 +106,6 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
           child: Text('${s.articleId}. ${s.title}'),
         ),
         actions: [
-          // Mark Done Button
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 8),
-          //   child: ActionChip(
-          //     avatar: Icon(
-          //       isDone ? Icons.check_circle : Icons.radio_button_unchecked,
-          //       color: Colors.white,
-          //       size: 18,
-          //     ),
-          //     backgroundColor: isDone ? Colors.green : Colors.grey,
-          //     label: Text(
-          //       isDone ? LocaleKeys.done.tr() : LocaleKeys.markDone.tr(),
-          //       style: const TextStyle(color: Colors.white),
-          //     ),
-          //     onPressed: _toggleStatus,
-          //   ),
-          // ),
-
           // Share Button
           IconButton(
             icon: const Icon(Icons.share_outlined),

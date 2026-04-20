@@ -39,7 +39,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
   final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.desc; // Initial state
-  Set<String> doneTreasureIds = {}; // Stores articleIds of liked items
+  Set<String> likedTreasureIds = {}; // Stores articleIds of liked items
   TaskStatus filterStatus = TaskStatus.all;
   bool showOnlyBibleStories = false;
 
@@ -64,8 +64,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
   Future<void> _loadInitialData({bool shuffle = false}) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      doneTreasureIds = (prefs.getStringList('treasures_done_status') ?? [])
-          .toSet();
+      likedTreasureIds = (prefs.getStringList('liked_treasures') ?? []).toSet();
     });
     await _loadAndSortTreasures(shuffle: shuffle);
   }
@@ -133,11 +132,11 @@ class _TreasuresPageState extends State<TreasuresPage> {
     final q = query.trim().toLowerCase();
     return items.where((treasure) {
       final String id = treasure.articleId.toString();
-      final bool isDone = doneTreasureIds.contains(id);
+      final bool isLiked = likedTreasureIds.contains(id);
 
       // 1. Tri-State Logic (Task Status)
-      if (filterStatus == TaskStatus.done && !isDone) return false;
-      if (filterStatus == TaskStatus.pending && isDone) return false;
+      if (filterStatus == TaskStatus.done && !isLiked) return false;
+      if (filterStatus == TaskStatus.pending && isLiked) return false;
 
       // 2. Check Bible Stories Filter (New)
       if (showOnlyBibleStories &&
@@ -162,17 +161,14 @@ class _TreasuresPageState extends State<TreasuresPage> {
   Future<void> _toggleTaskDone(String treasureId) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      if (doneTreasureIds.contains(treasureId)) {
-        doneTreasureIds.remove(treasureId);
+      if (likedTreasureIds.contains(treasureId)) {
+        likedTreasureIds.remove(treasureId);
       } else {
-        doneTreasureIds.add(treasureId);
+        likedTreasureIds.add(treasureId);
       }
       filteredItems = _applyFilter(treasures, _searchController.text);
     });
-    await prefs.setStringList(
-      'treasures_done_status',
-      doneTreasureIds.toList(),
-    );
+    await prefs.setStringList('liked_treasures', likedTreasureIds.toList());
   }
 
   void _onSearchChanged() {
@@ -328,7 +324,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
                     ), // ← Key changes when sort changes
                     treasure: treasure,
                     index: index,
-                    isLiked: doneTreasureIds.contains(treasureId),
+                    isLiked: likedTreasureIds.contains(treasureId),
                     onLikeToggle: () => _toggleTaskDone(treasureId),
                     onTap: () async {
                       await context.push(

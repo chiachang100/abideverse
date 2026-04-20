@@ -42,7 +42,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
   final TextEditingController _searchController = TextEditingController();
 
   SortOrder sortOrder = SortOrder.desc; // Initial state
-  Set<String> doneScriptureIds = {}; // Stores articleIds of liked items
+  Set<String> likedScriptureIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
   TaskStatus filterStatus = TaskStatus.all;
   bool showOnlyRolcc = false;
@@ -68,7 +68,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
   Future<void> _loadInitialData({bool shuffle = false}) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      doneScriptureIds = (prefs.getStringList('scriptures_done_status') ?? [])
+      likedScriptureIds = (prefs.getStringList('liked_scriptures') ?? [])
           .toSet();
     });
     await _loadAndSortScriptures(shuffle: shuffle);
@@ -137,11 +137,11 @@ class _ScripturesPageState extends State<ScripturesPage> {
     final q = query.trim().toLowerCase();
     return items.where((scripture) {
       final String id = scripture.articleId.toString();
-      final bool isDone = doneScriptureIds.contains(id);
+      final bool isLiked = likedScriptureIds.contains(id);
 
       // 1. Tri-State Logic
-      if (filterStatus == TaskStatus.done && !isDone) return false;
-      if (filterStatus == TaskStatus.pending && isDone) return false;
+      if (filterStatus == TaskStatus.done && !isLiked) return false;
+      if (filterStatus == TaskStatus.pending && isLiked) return false;
 
       // 2. Check ROLCC Filter (New)
       if (showOnlyRolcc &&
@@ -166,17 +166,14 @@ class _ScripturesPageState extends State<ScripturesPage> {
   Future<void> _toggleTaskDone(String scriptureId) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      if (doneScriptureIds.contains(scriptureId)) {
-        doneScriptureIds.remove(scriptureId);
+      if (likedScriptureIds.contains(scriptureId)) {
+        likedScriptureIds.remove(scriptureId);
       } else {
-        doneScriptureIds.add(scriptureId);
+        likedScriptureIds.add(scriptureId);
       }
       filteredItems = _applyFilter(scriptures, _searchController.text);
     });
-    await prefs.setStringList(
-      'scriptures_done_status',
-      doneScriptureIds.toList(),
-    );
+    await prefs.setStringList('liked_scriptures', likedScriptureIds.toList());
   }
 
   void _onSearchChanged() {
@@ -335,7 +332,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
                     ), // ← Key changes when sort changes
                     scripture: scripture,
                     index: index,
-                    isLiked: doneScriptureIds.contains(scriptureId),
+                    isLiked: likedScriptureIds.contains(scriptureId),
                     onLikeToggle: () => _toggleTaskDone(scriptureId),
                     onTap: () async {
                       await context.push(
