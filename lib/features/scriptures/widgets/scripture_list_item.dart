@@ -1,7 +1,7 @@
 // lib/features/scriptures/widgets/scripture_list_item.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,6 +11,8 @@ import 'package:abideverse/features/scriptures/models/scripture.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'package:abideverse/shared/widgets/new_item_badge.dart';
+
+final logger = Logger('ScriptureListItem');
 
 class ScriptureListItem extends StatefulWidget {
   final Scripture scripture;
@@ -46,7 +48,8 @@ class _ScriptureListItemState extends State<ScriptureListItem> {
       _showNewBadge = widget.initialNewStatus!;
       _isChecking = false;
     } else {
-      _checkNewStatus();
+      //_checkNewStatus();
+      _checkNewStatusSync();
     }
   }
 
@@ -71,28 +74,58 @@ class _ScriptureListItemState extends State<ScriptureListItem> {
   }
 
   void _checkNewStatus() async {
+    final id = widget.scripture.articleId;
+    final isNewFlag = widget.scripture.isNew;
+
+    logger.fine(
+      ' 🟡 START CHECK [$id]: isNewFlag=$isNewFlag, current _showNewBadge=$_showNewBadge',
+    );
+
     try {
       final isNew = await NewItemTracker().isItemNew(
         FeatureType.scriptures,
-        widget.scripture.articleId,
-        widget.scripture.isNew,
+        id,
+        isNewFlag,
       );
+
+      logger.fine(' 🟢 RESULT [$id]: tracker returned $isNew');
+
       if (mounted) {
         setState(() {
+          logger.fine(
+            ' 🔵 SET STATE [$id]: changing _showNewBadge from $_showNewBadge to $isNew',
+          );
           _showNewBadge = isNew;
           _isChecking = false;
         });
       }
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Error checking new status: $e');
-      }
+      logger.info(' Error checking new status: $e');
 
       if (mounted) {
         setState(() {
           _isChecking = false;
         });
       }
+    }
+  }
+
+  void _checkNewStatusSync() {
+    final id = widget.scripture.articleId;
+    final isNewFlag = widget.scripture.isNew;
+
+    // Use synchronous version for better performance
+    final isNew = NewItemTracker().isItemNewSync(
+      FeatureType.scriptures,
+      id,
+      isNewFlag,
+    );
+
+    if (mounted) {
+      setState(() {
+        _showNewBadge = isNew;
+        _isChecking = false;
+      });
     }
   }
 

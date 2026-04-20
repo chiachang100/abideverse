@@ -14,6 +14,7 @@ import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/utils/task_status.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/shared/services/new_item_tracker.dart';
 
 final logger = Logger('ScripturesPage');
 
@@ -30,6 +31,8 @@ class ScripturesPage extends StatefulWidget {
 }
 
 class _ScripturesPageState extends State<ScripturesPage> {
+  int _newItemsCount = 0;
+
   late final ScriptureRepository repository;
 
   final ScrollController _scrollController = ScrollController();
@@ -49,9 +52,33 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   final rolccTag = 'ROLCC';
 
+  void _updateNewItemsCount() {
+    if (scriptures.isEmpty) return;
+
+    // Use synchronous version - no need for async/await!
+    final count = NewItemTracker().getNewItemsCountSync(
+      FeatureType.scriptures,
+      scriptures,
+      (scripture) => scripture.isNew,
+      (scripture) => scripture.articleId,
+    );
+
+    if (mounted && _newItemsCount != count) {
+      setState(() {
+        _newItemsCount = count;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    // Initialize tracker first
+    NewItemTracker.init().then((_) {
+      _loadAndSortScriptures(shuffle: false);
+    });
+
     repository = ScriptureRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
     _loadInitialData(shuffle: false); // Combined loader
@@ -102,6 +129,9 @@ class _ScripturesPageState extends State<ScripturesPage> {
       filteredItems = _applyFilter(data, _searchController.text);
       isLoading = false;
     });
+
+    // Update count synchronously
+    _updateNewItemsCount();
   }
 
   /// Toggle between ascending/descending sort order
@@ -217,13 +247,38 @@ class _ScripturesPageState extends State<ScripturesPage> {
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(LocaleKeys.bibleVerse.tr()),
-            Text(
-              '✝️ ${filteredItems.length}',
-              style: Theme.of(context).textTheme.bodySmall?.apply(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            // Second row: Filtered count + New items badge
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '✝️ ${filteredItems.length}',
+                  style: Theme.of(context).textTheme.bodySmall?.apply(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                if (_newItemsCount > 0) ...[
+                  const SizedBox(width: 12),
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '$_newItemsCount',
+                    style: Theme.of(context).textTheme.bodySmall?.apply(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ],
         ),

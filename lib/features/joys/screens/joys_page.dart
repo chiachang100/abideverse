@@ -13,6 +13,7 @@ import 'package:abideverse/shared/utils/task_status.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/shared/services/new_item_tracker.dart';
 
 final logger = Logger('JoysPage');
 
@@ -26,6 +27,8 @@ class JoysPage extends StatefulWidget {
 }
 
 class _JoysPageState extends State<JoysPage> {
+  int _newItemsCount = 0;
+
   late JoyRepository repository;
 
   final ScrollController _scrollController = ScrollController();
@@ -42,9 +45,33 @@ class _JoysPageState extends State<JoysPage> {
   Set<String> likedJoyIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
 
+  void _updateNewItemsCount() {
+    if (allJoys.isEmpty) return;
+
+    // Use synchronous version - no need for async/await!
+    final count = NewItemTracker().getNewItemsCountSync(
+      FeatureType.joys,
+      allJoys,
+      (joy) => joy.isNew,
+      (joy) => joy.articleId,
+    );
+
+    if (mounted && _newItemsCount != count) {
+      setState(() {
+        _newItemsCount = count;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    // Initialize tracker first
+    NewItemTracker.init().then((_) {
+      _loadAndSortJoys(shuffle: false);
+    });
+
     repository = JoyRepository(locale: widget.locale);
     _searchController.addListener(_onSearchChanged);
     _loadAndSortJoys(shuffle: true);
@@ -68,6 +95,9 @@ class _JoysPageState extends State<JoysPage> {
       filteredItems = _applyFilter(data, _searchController.text);
       isLoading = false;
     });
+
+    // Update count synchronously
+    _updateNewItemsCount();
   }
 
   Future<void> _toggleSortOrder() async {
@@ -187,13 +217,38 @@ class _JoysPageState extends State<JoysPage> {
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(LocaleKeys.xlcd.tr()),
-            Text(
-              '😊 ${filteredItems.length}',
-              style: Theme.of(context).textTheme.bodySmall?.apply(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            // Second row: Filtered count + New items badge
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '😊 ${filteredItems.length}',
+                  style: Theme.of(context).textTheme.bodySmall?.apply(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                if (_newItemsCount > 0) ...[
+                  const SizedBox(width: 12),
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '$_newItemsCount',
+                    style: Theme.of(context).textTheme.bodySmall?.apply(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ],
         ),

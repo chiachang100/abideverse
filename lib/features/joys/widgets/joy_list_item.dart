@@ -48,7 +48,8 @@ class _JoyListItemState extends State<JoyListItem> {
       _showNewBadge = widget.initialNewStatus!;
       _isChecking = false;
     } else {
-      _checkNewStatus();
+      //_checkNewStatus();
+      _checkNewStatusSync();
     }
   }
 
@@ -64,7 +65,8 @@ class _JoyListItemState extends State<JoyListItem> {
       } else {
         _showNewBadge = false;
         _isChecking = true;
-        _checkNewStatus();
+        //_checkNewStatus();
+        _checkNewStatusSync();
       }
     } else if (oldWidget.initialNewStatus != widget.initialNewStatus) {
       // Update if initialNewStatus changed
@@ -106,6 +108,25 @@ class _JoyListItemState extends State<JoyListItem> {
           _isChecking = false;
         });
       }
+    }
+  }
+
+  void _checkNewStatusSync() {
+    final id = widget.joy.articleId;
+    final isNewFlag = widget.joy.isNew;
+
+    // Use synchronous version for better performance
+    final isNew = NewItemTracker().isItemNewSync(
+      FeatureType.joys,
+      id,
+      isNewFlag,
+    );
+
+    if (mounted) {
+      setState(() {
+        _showNewBadge = isNew;
+        _isChecking = false;
+      });
     }
   }
 

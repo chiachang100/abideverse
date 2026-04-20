@@ -1,7 +1,7 @@
 // lib/features/treasures/widgets/treasure_list_item.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,6 +11,8 @@ import 'package:abideverse/features/treasures/models/treasure.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'package:abideverse/shared/widgets/new_item_badge.dart';
+
+final logger = Logger('TreasureListItem');
 
 class TreasureListItem extends StatefulWidget {
   final Treasure treasure;
@@ -46,7 +48,8 @@ class _TreasureListItemState extends State<TreasureListItem> {
       _showNewBadge = widget.initialNewStatus!;
       _isChecking = false;
     } else {
-      _checkNewStatus();
+      //_checkNewStatus();
+      _checkNewStatusSync();
     }
   }
 
@@ -71,28 +74,58 @@ class _TreasureListItemState extends State<TreasureListItem> {
   }
 
   void _checkNewStatus() async {
+    final id = widget.treasure.articleId;
+    final isNewFlag = widget.treasure.isNew;
+
+    logger.fine(
+      ' 🟡 START CHECK [$id]: isNewFlag=$isNewFlag, current _showNewBadge=$_showNewBadge',
+    );
+
     try {
       final isNew = await NewItemTracker().isItemNew(
         FeatureType.treasures,
-        widget.treasure.articleId,
-        widget.treasure.isNew,
+        id,
+        isNewFlag,
       );
+
+      logger.fine(' 🟢 RESULT [$id]: tracker returned $isNew');
+
       if (mounted) {
         setState(() {
+          logger.fine(
+            ' 🔵 SET STATE [$id]: changing _showNewBadge from $_showNewBadge to $isNew',
+          );
           _showNewBadge = isNew;
           _isChecking = false;
         });
       }
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Error checking new status: $e');
-      }
+      logger.info(' Error checking new status: $e');
 
       if (mounted) {
         setState(() {
           _isChecking = false;
         });
       }
+    }
+  }
+
+  void _checkNewStatusSync() {
+    final id = widget.treasure.articleId;
+    final isNewFlag = widget.treasure.isNew;
+
+    // Use synchronous version for better performance
+    final isNew = NewItemTracker().isItemNewSync(
+      FeatureType.treasures,
+      id,
+      isNewFlag,
+    );
+
+    if (mounted) {
+      setState(() {
+        _showNewBadge = isNew;
+        _isChecking = false;
+      });
     }
   }
 
