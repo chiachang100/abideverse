@@ -50,6 +50,26 @@ class _ScriptureListItemState extends State<ScriptureListItem> {
     }
   }
 
+  @override
+  void didUpdateWidget(ScriptureListItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.scripture.articleId != widget.scripture.articleId) {
+      // Reset state for recycled widget
+      if (widget.initialNewStatus != null) {
+        _showNewBadge = widget.initialNewStatus!;
+        _isChecking = false;
+      } else {
+        _showNewBadge = false;
+        _isChecking = true;
+        _checkNewStatus();
+      }
+    } else if (oldWidget.initialNewStatus != widget.initialNewStatus) {
+      // Update if initialNewStatus changed
+      _showNewBadge = widget.initialNewStatus ?? false;
+    }
+  }
+
   void _checkNewStatus() async {
     try {
       final isNew = await NewItemTracker().isItemNew(

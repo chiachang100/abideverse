@@ -330,6 +330,9 @@ class _ScripturesPageState extends State<ScripturesPage> {
                   final String scriptureId = scripture.articleId.toString();
 
                   return ScriptureListItem(
+                    key: ValueKey(
+                      '${scripture.articleId}_$sortOrder',
+                    ), // ← Key changes when sort changes
                     scripture: scripture,
                     index: index,
                     isLiked: doneScriptureIds.contains(scriptureId),

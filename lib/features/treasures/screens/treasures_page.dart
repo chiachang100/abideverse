@@ -323,6 +323,9 @@ class _TreasuresPageState extends State<TreasuresPage> {
                   final String treasureId = treasure.articleId.toString();
 
                   return TreasureListItem(
+                    key: ValueKey(
+                      '${treasure.articleId}_$sortOrder',
+                    ), // ← Key changes when sort changes
                     treasure: treasure,
                     index: index,
                     isLiked: doneTreasureIds.contains(treasureId),

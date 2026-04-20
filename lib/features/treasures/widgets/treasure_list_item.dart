@@ -50,6 +50,26 @@ class _TreasureListItemState extends State<TreasureListItem> {
     }
   }
 
+  @override
+  void didUpdateWidget(TreasureListItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.treasure.articleId != widget.treasure.articleId) {
+      // Reset state for recycled widget
+      if (widget.initialNewStatus != null) {
+        _showNewBadge = widget.initialNewStatus!;
+        _isChecking = false;
+      } else {
+        _showNewBadge = false;
+        _isChecking = true;
+        _checkNewStatus();
+      }
+    } else if (oldWidget.initialNewStatus != widget.initialNewStatus) {
+      // Update if initialNewStatus changed
+      _showNewBadge = widget.initialNewStatus ?? false;
+    }
+  }
+
   void _checkNewStatus() async {
     try {
       final isNew = await NewItemTracker().isItemNew(

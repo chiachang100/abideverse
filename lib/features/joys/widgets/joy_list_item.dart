@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -9,6 +9,8 @@ import 'package:abideverse/features/joys/models/joy.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'package:abideverse/shared/widgets/new_item_badge.dart';
+
+final logger = Logger('JoyListItem');
 
 class JoyListItem extends StatefulWidget {
   final Joy joy;
@@ -50,23 +52,54 @@ class _JoyListItemState extends State<JoyListItem> {
     }
   }
 
+  @override
+  void didUpdateWidget(JoyListItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.joy.articleId != widget.joy.articleId) {
+      // Reset state for recycled widget
+      if (widget.initialNewStatus != null) {
+        _showNewBadge = widget.initialNewStatus!;
+        _isChecking = false;
+      } else {
+        _showNewBadge = false;
+        _isChecking = true;
+        _checkNewStatus();
+      }
+    } else if (oldWidget.initialNewStatus != widget.initialNewStatus) {
+      // Update if initialNewStatus changed
+      _showNewBadge = widget.initialNewStatus ?? false;
+    }
+  }
+
   void _checkNewStatus() async {
+    final id = widget.joy.articleId;
+    final isNewFlag = widget.joy.isNew;
+
+    logger.fine(
+      ' 🟡 START CHECK [$id]: isNewFlag=$isNewFlag, current _showNewBadge=$_showNewBadge',
+    );
+
     try {
       final isNew = await NewItemTracker().isItemNew(
         FeatureType.joys,
-        widget.joy.articleId,
-        widget.joy.isNew,
+        id,
+        isNewFlag,
       );
+
+      logger.fine(' 🟢 RESULT [$id]: tracker returned $isNew');
+
       if (mounted) {
         setState(() {
+          logger.fine(
+            ' 🔵 SET STATE [$id]: changing _showNewBadge from $_showNewBadge to $isNew',
+          );
           _showNewBadge = isNew;
           _isChecking = false;
         });
       }
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Error checking new status: $e');
-      }
+      logger.info(' Error checking new status: $e');
 
       if (mounted) {
         setState(() {
@@ -93,6 +126,10 @@ class _JoyListItemState extends State<JoyListItem> {
 
   @override
   Widget build(BuildContext context) {
+    // DEBUG: Print actual isNew value from the model
+    logger.fine(
+      ' BUILD: ID=${widget.joy.articleId}, isNew from model=${widget.joy.isNew}, sort order unknown',
+    );
     // Avoid repeated list lookups + modulo operations.
     final bgColors = UIConstants.circleAvatarBgColors;
     final avatarColor = bgColors.isNotEmpty

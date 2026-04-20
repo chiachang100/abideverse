@@ -1,6 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
 enum FeatureType { joys, scriptures, treasures }
+
+final logger = Logger('NewItemTracker');
 
 class NewItemTracker {
   static const String _readItemsPrefix = 'read_items_';
@@ -23,11 +27,21 @@ class NewItemTracker {
     int itemId,
     bool isNewFlag,
   ) async {
-    if (!isNewFlag) return false;
+    logger.fine(' 📊 TRACKER CALL: id=$itemId, isNewFlag=$isNewFlag');
+
+    if (!isNewFlag) {
+      logger.fine(' ⏭️ RETURNING FALSE because isNewFlag=false');
+
+      return false;
+    }
 
     final readKey = '$_readItemsPrefix${feature.name}_$itemId';
     final isRead = _prefs.getBool(readKey) ?? false;
-    return !isRead;
+    final result = !isRead;
+
+    logger.fine(' ✅ readKey=$readKey, isRead=$isRead, result=$result');
+
+    return result;
   }
 
   /// Mark item as read (when user taps)

@@ -289,6 +289,9 @@ class _JoysPageState extends State<JoysPage> {
                   final String joyId = joy.articleId.toString();
 
                   return JoyListItem(
+                    key: ValueKey(
+                      '${joy.articleId}_$sortOrder',
+                    ), // ← Key changes when sort changes
                     joy: joy,
                     index: index,
                     isLiked: likedJoyIds.contains(joyId),
