@@ -39,17 +39,34 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate exact heights
-    final screenWidth = MediaQuery.of(context).size.width;
-    final cardWidth = screenWidth * 0.85;
-    final imageHeight = cardWidth * 0.56; // 16:9 ratio
-    final textHeight = 80.0;
-    final baseCardHeight = imageHeight + textHeight;
+    final screenSize = MediaQuery.of(context).size;
+    final isLandscape = screenSize.width > screenSize.height;
+    final isWeb = screenSize.width > 800;
 
-    // Add extra height for enlargeCenterPage effect
-    // The enlargeFactor default is 0.3 (30% larger for center card)
-    // Side cards need extra padding to prevent overflow
-    final extraHeight = 50.0; // This prevents yellow bars on side cards
+    // Responsive calculations
+    double imageHeight;
+    double textHeight;
+    double extraHeight;
+
+    if (isLandscape && !isWeb) {
+      // iPhone Landscape - use smaller heights
+      imageHeight = 160;
+      textHeight = 70;
+      extraHeight = 30;
+    } else if (isWeb) {
+      // Web browsers - use moderate heights
+      imageHeight = 200;
+      textHeight = 80;
+      extraHeight = 40;
+    } else {
+      // Default (portrait mobile)
+      final cardWidth = screenSize.width * 0.85;
+      imageHeight = (cardWidth * 0.56).clamp(180, 250);
+      textHeight = 80;
+      extraHeight = 45;
+    }
+
+    final baseCardHeight = imageHeight + textHeight;
     final totalCarouselHeight = baseCardHeight + extraHeight;
 
     return Column(
@@ -58,39 +75,43 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         // Carousel with extra height for enlarged center card
         SizedBox(
           height: totalCarouselHeight,
-          child: CarouselSlider.builder(
-            itemCount: _cards.length,
-            itemBuilder: (context, index, realIndex) {
-              final card = _cards[index];
-              return Center(
-                child: SizedBox(
-                  // Card height is the base height, but carousel has extra padding
-                  height: baseCardHeight,
-                  child: _buildFeatureCard(
-                    context: context,
-                    title: card['title'] as String,
-                    description: card['description'] as String,
-                    imagePath: card['imagePath'] as String,
-                    imageHeight: imageHeight,
-                    onTap: () => context.push(card['route'] as String),
+          child: ClipRect(
+            // Prevents overflow rendering
+            child: CarouselSlider.builder(
+              itemCount: _cards.length,
+              itemBuilder: (context, index, realIndex) {
+                final card = _cards[index];
+                return Center(
+                  child: SizedBox(
+                    height: baseCardHeight,
+                    child: _buildFeatureCard(
+                      context: context,
+                      title: card['title'] as String,
+                      description: card['description'] as String,
+                      imagePath: card['imagePath'] as String,
+                      imageHeight: imageHeight,
+                      textHeight: textHeight,
+                      onTap: () => context.push(card['route'] as String),
+                    ),
                   ),
-                ),
-              );
-            },
-            options: CarouselOptions(
-              height:
-                  totalCarouselHeight, // Taller to accommodate enlarged center
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 4),
-              enlargeCenterPage: true, // Keep this enabled
-              enlargeFactor: 0.25, // Slightly reduced from default 0.3
-              viewportFraction: 0.85,
-              enableInfiniteScroll: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
+                );
               },
+              options: CarouselOptions(
+                height: totalCarouselHeight,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 4),
+                enlargeCenterPage: true,
+                enlargeFactor: isLandscape
+                    ? 0.15
+                    : 0.25, // Less enlargement in landscape
+                viewportFraction: isLandscape ? 0.7 : 0.85,
+                enableInfiniteScroll: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
             ),
           ),
         ),
@@ -134,6 +155,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     required String description,
     required String imagePath,
     required double imageHeight,
+    required double textHeight,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
@@ -175,53 +197,57 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
               ),
             ),
 
-            // Text Content - Fixed height container
+            // Text Content - Dynamic height
             SizedBox(
-              height: 80,
+              height: textHeight,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: constraints.maxHeight < 75 ? 13 : 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              description,
+                              style: TextStyle(
+                                fontSize: constraints.maxHeight < 75 ? 10 : 11,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          description,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.7),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            LocaleKeys.tapToExplore.tr(),
+                            style: TextStyle(
+                              fontSize: constraints.maxHeight < 75 ? 10 : 11,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        LocaleKeys.tapToExplore.tr(),
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),
