@@ -24,11 +24,14 @@ class CodegenLoader extends AssetLoader{
   "signOut": "↪Sign Out",
   "bibleVerse": "Abide Daily",
   "bibleVerseHeader": "Bible Verse",
+  "bibleVerseDescription": "Daily Bible verse memorization. Grow richer in God's Word one day at a time.",
   "bibleStories": "Bible Stories",
   "idiomStories": "Idiom Stories",
   "treasures": "Treasures",
   "treasuresHeader": "Treasures",
+  "treasuresDescription": "Bible stories and Chinese idioms with corresponding verses. Timeless wisdom bridging faith and culture.",
   "xlcd": "XLCD",
+  "xlcdDescription": "52 humorous stories with biblical wisdom. Laughter that heals and inspires.",
   "joys": "The Word Hidden in a Smile",
   "more": "More",
   "about": "About",
@@ -44,8 +47,8 @@ class CodegenLoader extends AssetLoader{
   "coreMenu": "Core Menu",
   "infoMenu": "Info Menu",
   "futureMenu": "Future Menu",
-  "localeZhTw": "Chinese Traditional",
-  "localeZhCn": "Chinese Simplified",
+  "localeZhTw": "Traditional Chinese",
+  "localeZhCn": "Simplified Chinese",
   "localeEnUs": "English",
   "search": "Search",
   "qian": "Top",
@@ -119,7 +122,11 @@ class CodegenLoader extends AssetLoader{
   "mdStudyGuides": "Study Guides",
   "mdStudyGuidesDesc": "Recommended reading and study materials",
   "mdOpenSourceLicenses": "Open Source Licenses",
-  "mdOpenSourceLicensesDesc": "Third-party libraries and licenses"
+  "mdOpenSourceLicensesDesc": "Third-party libraries and licenses",
+  "tapToExplore": "Tap to Explore →",
+  "continueYourJourney": "Continue Your Journey",
+  "moreContentComingSoon": "More content coming soon...",
+  "welcomeHome": "Welcome to "
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -131,11 +138,14 @@ static const Map<String,dynamic> _zh_CN = {
   "signOut": "↪登出",
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "圣经经文",
+  "bibleVerseDescription": "每日背诵圣经经文。一日比一日更富足于神的话语。",
   "bibleStories": "圣经故事",
   "idiomStories": "成语故事",
   "treasures": "金玉良言",
   "treasuresHeader": "金玉良言",
+  "treasuresDescription": "圣经故事与中国成语对照经文。连结信仰与文化的永恒智慧。",
   "xlcd": "笑里藏道",
+  "xlcdDescription": "52篇幽默故事与圣经智慧。能医治心灵的喜乐良药。",
   "joys": "笑里藏道",
   "more": "更多",
   "about": "关于",
@@ -226,7 +236,11 @@ static const Map<String,dynamic> _zh_CN = {
   "mdStudyGuides": "研读指南",
   "mdStudyGuidesDesc": "推荐阅读与研读材料",
   "mdOpenSourceLicenses": "开源许可",
-  "mdOpenSourceLicensesDesc": "第三方库与许可协议"
+  "mdOpenSourceLicensesDesc": "第三方库与许可协议",
+  "tapToExplore": "点击探索 →",
+  "continueYourJourney": "继续您的旅程",
+  "moreContentComingSoon": "更多内容即将上线...",
+  "welcomeHome": "欢迎来到 "
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -238,11 +252,14 @@ static const Map<String,dynamic> _zh_TW = {
   "signOut": "↪登出",
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "聖經經文",
+  "bibleVerseDescription": "每日背誦聖經經文。一日比一日更富足於神的話語。",
   "bibleStories": "聖經故事",
   "idiomStories": "成語故事",
   "treasures": "金玉良言",
   "treasuresHeader": "金玉良言",
+  "treasuresDescription": "聖經故事與中國成語對照經文。連結信仰與文化的永恆智慧。",
   "xlcd": "笑裡藏道",
+  "xlcdDescription": "52篇幽默故事與聖經智慧。能醫治心靈的喜樂良藥。",
   "joys": "笑裡藏道",
   "more": "更多",
   "about": "關於",
@@ -258,8 +275,8 @@ static const Map<String,dynamic> _zh_TW = {
   "coreMenu": "核心選項",
   "infoMenu": "附加選項",
   "futureMenu": "未來選項",
-  "localeZhTw": "中文繁體",
-  "localeZhCn": "中文簡體",
+  "localeZhTw": "繁體中文",
+  "localeZhCn": "簡體中文",
   "localeEnUs": "英文",
   "search": "搜尋",
   "qian": "前",
@@ -333,7 +350,11 @@ static const Map<String,dynamic> _zh_TW = {
   "mdStudyGuides": "學習指南",
   "mdStudyGuidesDesc": "推薦閱讀與學習資料",
   "mdOpenSourceLicenses": "開源授權",
-  "mdOpenSourceLicensesDesc": "第三方函式庫和許可證"
+  "mdOpenSourceLicensesDesc": "第三方函式庫和許可證",
+  "tapToExplore": "點擊探索 →",
+  "continueYourJourney": "繼續您的旅程",
+  "moreContentComingSoon": "更多內容即將推出...",
+  "welcomeHome": "歡迎來到 "
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

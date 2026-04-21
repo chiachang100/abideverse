@@ -63,7 +63,7 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${LocaleKeys.about.tr()} (v${AppConfig.appVersion})'),
+        title: Text('${LocaleKeys.about.tr()} '),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -102,6 +102,7 @@ class _AboutContentState extends State<AboutContent> {
 
     return ListView(
       children: const <Widget>[
+        AboutHeaderSection(),
         QRCodeSection(),
         BookIntroSection(),
         BookAuthorSection(),
@@ -111,6 +112,48 @@ class _AboutContentState extends State<AboutContent> {
         CopyrightSection(),
         SizedBox(height: 10),
       ],
+    );
+  }
+}
+
+class AboutHeaderSection extends StatefulWidget {
+  const AboutHeaderSection({super.key});
+
+  @override
+  State<AboutHeaderSection> createState() => _AboutHeaderSectionState();
+}
+
+class _AboutHeaderSectionState extends State<AboutHeaderSection> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.all(16.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center, // Centers vertically
+        crossAxisAlignment: CrossAxisAlignment.center, // Centers horizontally
+        children: <Widget>[
+          Text("AbideVerse", style: const TextStyle(fontSize: 18.0)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: SizedBox(
+                height: 100,
+                width: 70,
+                child: Image.asset(
+                  "assets/logos/abideverse_splash_logo.webp",
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
+          Text('v${AppConfig.appVersion}'),
+          Text("@ 2024 Joyolord"),
+          Text("Powered by Flutter"),
+        ],
+      ),
     );
   }
 }

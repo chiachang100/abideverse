@@ -12,11 +12,14 @@ abstract class  LocaleKeys {
   static const signOut = 'signOut';
   static const bibleVerse = 'bibleVerse';
   static const bibleVerseHeader = 'bibleVerseHeader';
+  static const bibleVerseDescription = 'bibleVerseDescription';
   static const bibleStories = 'bibleStories';
   static const idiomStories = 'idiomStories';
   static const treasures = 'treasures';
   static const treasuresHeader = 'treasuresHeader';
+  static const treasuresDescription = 'treasuresDescription';
   static const xlcd = 'xlcd';
+  static const xlcdDescription = 'xlcdDescription';
   static const joys = 'joys';
   static const more = 'more';
   static const about = 'about';
@@ -108,5 +111,9 @@ abstract class  LocaleKeys {
   static const mdStudyGuidesDesc = 'mdStudyGuidesDesc';
   static const mdOpenSourceLicenses = 'mdOpenSourceLicenses';
   static const mdOpenSourceLicensesDesc = 'mdOpenSourceLicensesDesc';
+  static const tapToExplore = 'tapToExplore';
+  static const continueYourJourney = 'continueYourJourney';
+  static const moreContentComingSoon = 'moreContentComingSoon';
+  static const welcomeHome = 'welcomeHome';
 
 }

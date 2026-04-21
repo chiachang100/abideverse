@@ -9,11 +9,14 @@
 
   "bibleVerse": "Abide Daily",
   "bibleVerseHeader": "Bible Verse",
+  "bibleVerseDescription": "Daily Bible verse memorization. Grow richer in God's Word one day at a time.",
   "bibleStories": "Bible Stories",
   "idiomStories": "Idiom Stories",
   "treasures": "Treasures",
   "treasuresHeader": "Treasures",
+  "treasuresDescription": "Bible stories and Chinese idioms with corresponding verses. Timeless wisdom bridging faith and culture.",
   "xlcd": "XLCD",
+  "xlcdDescription": "52 humorous stories with biblical wisdom. Laughter that heals and inspires.",
   "joys": "The Word Hidden in a Smile",
   "more": "More",
   "about": "About",
@@ -31,8 +34,8 @@
   "infoMenu": "Info Menu",
   "futureMenu": "Future Menu",
 
-  "localeZhTw": "Chinese Traditional",
-  "localeZhCn": "Chinese Simplified",
+  "localeZhTw": "Traditional Chinese",
+  "localeZhCn": "Simplified Chinese",
   "localeEnUs": "English",
   "search": "Search",
   "qian": "Top",
@@ -117,5 +120,9 @@
   "mdStudyGuides": "Study Guides",
   "mdStudyGuidesDesc": "Recommended reading and study materials",
   "mdOpenSourceLicenses": "Open Source Licenses",
-  "mdOpenSourceLicensesDesc": "Third-party libraries and licenses"
+  "mdOpenSourceLicensesDesc": "Third-party libraries and licenses",
+  "tapToExplore": "Tap to Explore →",
+  "continueYourJourney": "Continue Your Journey",
+  "moreContentComingSoon": "More content coming soon...",
+  "welcomeHome": "Welcome to "
 }

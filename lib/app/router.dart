@@ -13,6 +13,7 @@ import 'package:abideverse/features/bible_chat/screens/bible_chat_screen.dart';
 import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
+import 'package:abideverse/features/home/screens/home_screen.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/features/joys/screens/joy_detail_page.dart';
 import 'package:abideverse/features/joys/screens/joys_page.dart';
@@ -27,6 +28,8 @@ import 'package:abideverse/shared/widgets/fade_transition_page.dart';
 import 'package:abideverse/shared/widgets/markdown_viewer.dart';
 
 class AppRoutes {
+  static const home = '/';
+
   static const joys = '/joys';
   static const joysDetail = '/joys/joy/:articleId';
 
@@ -93,7 +96,19 @@ GoRouter createRouter({
     // AUTH GUARD
     // -----------------------------
     if (AppConfig.enableSignIn) {
-      if (!joyAuth.signedIn && path != AppRoutes.signIn) {
+      // if (!joyAuth.signedIn && path != AppRoutes.signIn) {
+      //   return AppRoutes.signIn;
+      // }
+
+      // Allow home screen, sign-in screen, and maybe about/resources without auth
+      final publicRoutes = [
+        AppRoutes.home,
+        AppRoutes.signIn,
+        AppRoutes.about,
+        AppRoutes.resources,
+      ];
+
+      if (!joyAuth.signedIn && !publicRoutes.any((r) => path.startsWith(r))) {
         return AppRoutes.signIn;
       }
     }
@@ -144,7 +159,7 @@ GoRouter createRouter({
 
   return GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: AppRoutes.joys,
+    initialLocation: AppRoutes.home, // Changed from AppRoutes.joys
     refreshListenable: joyAuth,
     redirect: guardRedirect,
     observers: [
@@ -158,26 +173,41 @@ GoRouter createRouter({
         navigatorKey: appShellNavigatorKey,
         builder: (context, state, child) {
           final indexMap = {
-            '/joys': 0,
-            '/scriptures': 1,
-            '/treasures': 2,
-            '/more': 3,
-            '/bible-chat': 3, // Map to 3 so the 'More' tab stays lit
-            '/about': 4,
-            '/resources': 5,
-            '/settings': 6,
+            '/joys': 1,
+            '/scriptures': 2,
+            '/treasures': 3,
+            '/bible-chat': 4, // Map to 4 so the 'More' tab stays lit
+            '/about': 5,
+            '/resources': 6,
+            '/settings': 7,
+            '/more': 4,
           };
 
-          final selectedIndex = indexMap.entries
-              .firstWhere(
-                (e) => state.uri.path.startsWith(e.key),
-                orElse: () => const MapEntry('', 0),
-              )
-              .value;
+          // Special handling for home
+          int selectedIndex;
+          if (state.uri.path == '/') {
+            selectedIndex = 0; // Exact home match
+          } else {
+            selectedIndex = indexMap.entries
+                .firstWhere(
+                  (e) => state.uri.path.startsWith(e.key),
+                  orElse: () => const MapEntry('/', 1),
+                )
+                .value;
+          }
 
           return AbideVerseAppShell(selectedIndex: selectedIndex, child: child);
         },
         routes: [
+          // --------------------------
+          // HOME
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.home,
+            pageBuilder: (context, state) =>
+                fadePage(const HomeScreen(), state.pageKey),
+          ),
+
           // --------------------------
           // JOYS
           // --------------------------
@@ -341,6 +371,8 @@ GoRouter createRouter({
 class Routes {
   final BuildContext context;
   Routes(this.context);
+
+  void goHome() => context.go(AppRoutes.home);
 
   void goJoys() => context.go(AppRoutes.joys);
 

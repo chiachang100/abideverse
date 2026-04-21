@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:custom_adaptive_scaffold/custom_adaptive_scaffold.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:logging/logging.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -38,6 +37,7 @@ class AbideVerseAppShell extends StatelessWidget {
       },
     );
 
+    String abideverseHomeLabel = LocaleKeys.home.tr();
     String abideverseXlcdTitle = LocaleKeys.xlcd.tr();
     String abideverseScriptLabel = LocaleKeys.bibleVerse.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
@@ -55,6 +55,7 @@ class AbideVerseAppShell extends StatelessWidget {
 
     // The absolute order of your features
     const allPaths = [
+      '/', // Home
       '/joys',
       '/scriptures',
       '/treasures',
@@ -66,19 +67,24 @@ class AbideVerseAppShell extends StatelessWidget {
 
     final List<NavigationDestination> fullDestinations = [
       NavigationDestination(
-        label: abideverseXlcdTitle,
+        label: abideverseHomeLabel,
         icon: const Icon(Icons.home_outlined),
         selectedIcon: const Icon(Icons.home),
       ),
       NavigationDestination(
-        label: abideverseScriptLabel,
+        label: abideverseXlcdTitle,
         icon: const Icon(Icons.record_voice_over_outlined),
         selectedIcon: const Icon(Icons.record_voice_over),
       ),
       NavigationDestination(
+        label: abideverseScriptLabel,
+        icon: const Icon(Icons.menu_book_outlined),
+        selectedIcon: const Icon(Icons.menu_book),
+      ),
+      NavigationDestination(
         label: abideverseTreasureLabel,
-        icon: const Icon(Icons.my_library_books_outlined),
-        selectedIcon: const Icon(Icons.my_library_books),
+        icon: const Icon(Icons.card_giftcard_outlined),
+        selectedIcon: const Icon(Icons.card_giftcard),
       ),
       NavigationDestination(
         label: abideverseBibleChatLabel,
@@ -87,13 +93,13 @@ class AbideVerseAppShell extends StatelessWidget {
       ),
       NavigationDestination(
         label: abideverseAboutLabel,
-        icon: const Icon(Icons.group_outlined),
-        selectedIcon: const Icon(Icons.group),
+        icon: const Icon(Icons.info_outline),
+        selectedIcon: const Icon(Icons.info),
       ),
       NavigationDestination(
         label: abideverseResourcesLabel,
         icon: const Icon(Icons.library_books_outlined),
-        selectedIcon: const Icon(Icons.group),
+        selectedIcon: const Icon(Icons.library_books),
       ),
       NavigationDestination(
         label: abideverseSettingsLabel,
@@ -104,7 +110,7 @@ class AbideVerseAppShell extends StatelessWidget {
     // 1. Determine which destinations to show
     final List<NavigationDestination> currentDestinations = isSmall
         ? [
-            ...fullDestinations.take(3), // First 3 items
+            ...fullDestinations.take(4), // First 4 items
             NavigationDestination(
               label: abideverseMoreLabel,
               icon: Icon(Icons.more_horiz_outlined),
@@ -115,7 +121,7 @@ class AbideVerseAppShell extends StatelessWidget {
 
     // 2. Define the Navigation Logic helper
     void handleNavigation(int idx) {
-      if (isSmall && idx == 3) {
+      if (isSmall && idx == 4) {
         context.go('/more');
       } else {
         // Direct navigation logic
@@ -124,11 +130,11 @@ class AbideVerseAppShell extends StatelessWidget {
     }
 
     // 3. Fix the Selected Index
-    // If we are on mobile and the user is on 'Bible Chat' (3), 'About' (4) or 'Settings' (5),
-    // we highlight the 'More' tab (index 3).
+    // If we are on mobile and the user is on index 4 or above,
+    // we highlight the 'More' tab (index 4).
     int displayIndex = selectedIndex;
-    if (isSmall && selectedIndex >= 3) {
-      displayIndex = 3;
+    if (isSmall && selectedIndex >= 4) {
+      displayIndex = 4;
     }
 
     return Scaffold(

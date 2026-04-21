@@ -9,11 +9,14 @@
 
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "聖經經文",
+  "bibleVerseDescription": "每日背誦聖經經文。一日比一日更富足於神的話語。",
   "bibleStories": "聖經故事",
   "idiomStories": "成語故事",
   "treasures": "金玉良言",
   "treasuresHeader": "金玉良言",
+  "treasuresDescription": "聖經故事與中國成語對照經文。連結信仰與文化的永恆智慧。",
   "xlcd": "笑裡藏道",
+  "xlcdDescription": "52篇幽默故事與聖經智慧。能醫治心靈的喜樂良藥。",
   "joys": "笑裡藏道",
   "more": "更多",
   "about": "關於",
@@ -31,8 +34,8 @@
   "infoMenu": "附加選項",
   "futureMenu": "未來選項",
 
-  "localeZhTw": "中文繁體",
-  "localeZhCn": "中文簡體",
+  "localeZhTw": "繁體中文",
+  "localeZhCn": "簡體中文",
   "localeEnUs": "英文",
   "search": "搜尋",
   "qian": "前",
@@ -117,5 +120,9 @@
   "mdStudyGuides": "學習指南",
   "mdStudyGuidesDesc": "推薦閱讀與學習資料",
   "mdOpenSourceLicenses": "開源授權",
-  "mdOpenSourceLicensesDesc": "第三方函式庫和許可證"
+  "mdOpenSourceLicensesDesc": "第三方函式庫和許可證",
+  "tapToExplore": "點擊探索 →",
+  "continueYourJourney": "繼續您的旅程",
+  "moreContentComingSoon": "更多內容即將推出...",
+  "welcomeHome": "歡迎來到 "
 }

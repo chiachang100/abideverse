@@ -9,11 +9,14 @@
 
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "圣经经文",
+  "bibleVerseDescription": "每日背诵圣经经文。一日比一日更富足于神的话语。",
   "bibleStories": "圣经故事",
   "idiomStories": "成语故事",
   "treasures": "金玉良言",
   "treasuresHeader": "金玉良言",
+  "treasuresDescription": "圣经故事与中国成语对照经文。连结信仰与文化的永恒智慧。",
   "xlcd": "笑里藏道",
+  "xlcdDescription": "52篇幽默故事与圣经智慧。能医治心灵的喜乐良药。",
   "joys": "笑里藏道",
   "more": "更多",
   "about": "关于",
@@ -117,5 +120,9 @@
   "mdStudyGuides": "研读指南",
   "mdStudyGuidesDesc": "推荐阅读与研读材料",
   "mdOpenSourceLicenses": "开源许可",
-  "mdOpenSourceLicensesDesc": "第三方库与许可协议"
+  "mdOpenSourceLicensesDesc": "第三方库与许可协议",
+  "tapToExplore": "点击探索 →",
+  "continueYourJourney": "继续您的旅程",
+  "moreContentComingSoon": "更多内容即将上线...",
+  "welcomeHome": "欢迎来到 "
 }
