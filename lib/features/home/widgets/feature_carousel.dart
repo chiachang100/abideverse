@@ -16,7 +16,6 @@ class FeatureCarousel extends StatefulWidget {
 class _FeatureCarouselState extends State<FeatureCarousel> {
   int _currentIndex = 0;
 
-  // Store cards in a list for easier management
   final List<Map<String, dynamic>> _cards = [
     {
       'title': LocaleKeys.xlcd.tr(),
@@ -40,36 +39,59 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    // Make height responsive to screen size
-    final screenHeight = MediaQuery.of(context).size.height;
-    final carouselHeight = screenHeight * 0.35; // 35% of screen height
-    final clampedHeight = carouselHeight.clamp(200.0, 280.0); // Between 200-280
+    // Calculate exact heights
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = screenWidth * 0.85;
+    final imageHeight = cardWidth * 0.56; // 16:9 ratio
+    final textHeight = 80.0;
+    final baseCardHeight = imageHeight + textHeight;
+
+    // Add extra height for enlargeCenterPage effect
+    // The enlargeFactor default is 0.3 (30% larger for center card)
+    // Side cards need extra padding to prevent overflow
+    final extraHeight = 50.0; // This prevents yellow bars on side cards
+    final totalCarouselHeight = baseCardHeight + extraHeight;
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        // Carousel
-        CarouselSlider(
-          items: _cards.map((card) {
-            return _buildFeatureCard(
-              context: context,
-              title: card['title'] as String,
-              description: card['description'] as String,
-              imagePath: card['imagePath'] as String,
-              onTap: () => context.push(card['route'] as String),
-            );
-          }).toList(),
-          options: CarouselOptions(
-            height: clampedHeight,
-            autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 4),
-            enlargeCenterPage: true,
-            viewportFraction: 0.85,
-            enableInfiniteScroll: true,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _currentIndex = index;
-              });
+        // Carousel with extra height for enlarged center card
+        SizedBox(
+          height: totalCarouselHeight,
+          child: CarouselSlider.builder(
+            itemCount: _cards.length,
+            itemBuilder: (context, index, realIndex) {
+              final card = _cards[index];
+              return Center(
+                child: SizedBox(
+                  // Card height is the base height, but carousel has extra padding
+                  height: baseCardHeight,
+                  child: _buildFeatureCard(
+                    context: context,
+                    title: card['title'] as String,
+                    description: card['description'] as String,
+                    imagePath: card['imagePath'] as String,
+                    imageHeight: imageHeight,
+                    onTap: () => context.push(card['route'] as String),
+                  ),
+                ),
+              );
             },
+            options: CarouselOptions(
+              height:
+                  totalCarouselHeight, // Taller to accommodate enlarged center
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 4),
+              enlargeCenterPage: true, // Keep this enabled
+              enlargeFactor: 0.25, // Slightly reduced from default 0.3
+              viewportFraction: 0.85,
+              enableInfiniteScroll: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+            ),
           ),
         ),
 
@@ -80,7 +102,6 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
           children: _cards.asMap().entries.map((entry) {
             return GestureDetector(
               onTap: () {
-                // Animate to the tapped dot's card
                 final carouselController = CarouselSliderController();
                 carouselController.animateToPage(entry.key);
                 setState(() {
@@ -102,16 +123,6 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
             );
           }).toList(),
         ),
-
-        // Optional: Text indicator (shows "1 / 3")
-        const SizedBox(height: 4),
-        Text(
-          '${_currentIndex + 1} / ${_cards.length}',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.withValues(alpha: 0.7),
-          ),
-        ),
         const SizedBox(height: 8),
       ],
     );
@@ -122,96 +133,99 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     required String title,
     required String description,
     required String imagePath,
+    required double imageHeight,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              // Background Image
-              Image.asset(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Image
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
+              child: Image.asset(
                 imagePath,
+                height: imageHeight,
+                width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
+                    height: imageHeight,
                     color: Colors.grey.withValues(alpha: 0.3),
                     child: const Center(
-                      child: Icon(Icons.image_not_supported, size: 50),
+                      child: Icon(Icons.image_not_supported, size: 40),
                     ),
                   );
                 },
               ),
+            ),
 
-              // Dark overlay for text readability
-              Container(color: Colors.black.withValues(alpha: 0.5)),
-
-              // Content
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+            // Text Content - Fixed height container
+            SizedBox(
+              height: 80,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 12),
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [Shadow(blurRadius: 10, color: Colors.black)],
-                      ),
-                      textAlign: TextAlign.center,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          description,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.7),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      description,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.white,
-                        shadows: [Shadow(blurRadius: 5, color: Colors.black)],
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                    Align(
+                      alignment: Alignment.centerRight,
                       child: Text(
                         LocaleKeys.tapToExplore.tr(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.black87,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

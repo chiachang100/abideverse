@@ -10,47 +10,30 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBar(
-            title: Text('AbideVerse'),
-            floating: true,
-            centerTitle: false,
-          ),
-
-          // Featured Content Carousel
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: const FeatureCarousel(),
-            ),
-          ),
-
-          // Section Title
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                LocaleKeys.continueYourJourney.tr(),
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-            ),
-          ),
-
-          // You can add more sections here later
-          // For example: Recent Joys, Verse of the Day, etc.
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  LocaleKeys.moreContentComingSoon.tr(),
-                  style: Theme.of(context).textTheme.bodyMedium,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: Column(
+            children: [
+              // Optional: Welcome text
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '${LocaleKeys.welcomeHome.tr()} \n${LocaleKeys.abideverseName.tr()}!',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 20),
+              // Carousel
+              const Expanded(child: FeatureCarousel()),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
