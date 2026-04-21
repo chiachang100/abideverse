@@ -224,10 +224,10 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
                             Text(
                               description,
                               style: TextStyle(
-                                fontSize: constraints.maxHeight < 75 ? 10 : 11,
+                                fontSize: constraints.maxHeight < 75 ? 11 : 12,
                                 color: Theme.of(
                                   context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.7),
+                                ).colorScheme.onSurface.withValues(alpha: 0.8),
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -239,8 +239,10 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
                           child: Text(
                             LocaleKeys.tapToExplore.tr(),
                             style: TextStyle(
-                              fontSize: constraints.maxHeight < 75 ? 10 : 11,
-                              color: Theme.of(context).primaryColor,
+                              fontSize: constraints.maxHeight < 75 ? 11 : 12,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.8),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
