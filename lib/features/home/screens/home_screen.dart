@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '${LocaleKeys.welcomeHome.tr()} ${LocaleKeys.abideverseName.tr()}!',
+                    '${LocaleKeys.welcomeHome.tr()} \n${LocaleKeys.abideverseName.tr()}!',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
