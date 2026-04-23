@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 
 class MoreMenuScreen extends StatefulWidget {
   const MoreMenuScreen({super.key});
@@ -31,7 +33,8 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(abideverseMoreLabel)), // Optional
+      appBar: AbideAppBar(title: abideverseMoreLabel),
+      drawer: const AppDrawer(),
       body: ListView(
         children: [
           ListTile(
@@ -41,14 +44,6 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
             ), // Use your localization keys here
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.go(AppRoutes.bibleChat),
-          ),
-          ListTile(
-            leading: const Icon(Icons.group_outlined),
-            title: Text(
-              abideverseAboutLabel,
-            ), // Use your localization keys here
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.go(AppRoutes.about),
           ),
           ListTile(
             leading: const Icon(Icons.library_books_outlined),
@@ -65,6 +60,14 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
             ), // Use your localization keys here
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.go(AppRoutes.settings),
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outlined),
+            title: Text(
+              abideverseAboutLabel,
+            ), // Use your localization keys here
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.go(AppRoutes.about),
           ),
         ],
       ),

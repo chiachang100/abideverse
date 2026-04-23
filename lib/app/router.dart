@@ -177,9 +177,9 @@ GoRouter createRouter({
             '/scriptures': 2,
             '/treasures': 3,
             '/bible-chat': 4, // Map to 4 so the 'More' tab stays lit
-            '/about': 5,
-            '/resources': 6,
-            '/settings': 7,
+            '/resources': 5,
+            '/settings': 6,
+            '/about': 7,
             '/more': 4,
           };
 
@@ -297,15 +297,6 @@ GoRouter createRouter({
           ),
 
           // --------------------------
-          // ABOUT
-          // --------------------------
-          GoRoute(
-            path: AppRoutes.about,
-            pageBuilder: (context, state) =>
-                fadePage(AboutScreen(firestore: firestore), state.pageKey),
-          ),
-
-          // --------------------------
           // RESOURCES
           // --------------------------
           GoRoute(
@@ -336,6 +327,15 @@ GoRouter createRouter({
               ),
               state.pageKey,
             ),
+          ),
+
+          // --------------------------
+          // ABOUT
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.about,
+            pageBuilder: (context, state) =>
+                fadePage(AboutScreen(firestore: firestore), state.pageKey),
           ),
         ],
       ),

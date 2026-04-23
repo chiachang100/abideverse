@@ -14,6 +14,8 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/firebase/firebase_service.dart';
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 
 final logSignIn = Logger('sign_in');
 
@@ -111,13 +113,8 @@ class _SignInScreenState extends State<SignInScreen> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        appBar: AppBar(
-          leading: Image.asset('assets/photos/abideverse_photo_default.webp'),
-          leadingWidth: 100,
-          centerTitle: true,
-          // title: Text('笑裡藏道'),
-          title: Text(LocaleKeys.appTitle.tr()),
-        ),
+        appBar: AbideAppBar(title: LocaleKeys.appTitle.tr()),
+        drawer: const AppDrawer(),
         body: Center(
           child: SingleChildScrollView(
             child: Center(

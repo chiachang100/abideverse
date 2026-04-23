@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:logging/logging.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import 'package:abideverse/features/home/widgets/feature_carousel.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/shared/services/db/local_storage_service.dart';
 import 'package:abideverse/features/joys/data/joy_repository.dart';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:logging/logging.dart';
+
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 
 final logHomeScreen = Logger('HomeScreen');
 
@@ -236,6 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),

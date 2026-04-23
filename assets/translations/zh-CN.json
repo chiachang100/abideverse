@@ -7,6 +7,7 @@
   "signIn": "🗝登入",
   "signOut": "↪登出",
 
+  "scriptures": "日富一日",
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "圣经经文",
   "bibleVerseDescription": "每日背诵圣经经文。一日比一日更富足于神的话语。",
@@ -124,5 +125,6 @@
   "tapToExplore": "点击探索 →",
   "continueYourJourney": "继续您的旅程",
   "moreContentComingSoon": "更多内容即将上线...",
-  "welcomeHome": "欢迎来到 "
+  "welcomeHome": "欢迎来到 ",
+  "manageFirestore": "管理 Firestore"
 }

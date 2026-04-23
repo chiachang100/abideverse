@@ -12,6 +12,9 @@ import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/db/local_storage_service.dart';
 
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+
 final logSettings = Logger('settings');
 
 class SettingsScreen extends StatefulWidget {
@@ -44,19 +47,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(LocaleKeys.settings.tr()),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
-              onPressed: () {
-                Routes(context).goJoys();
-              },
-            );
-          },
-        ),
-      ),
+      appBar: AbideAppBar(title: LocaleKeys.settings.tr()),
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: ListView(
           children: [
@@ -155,8 +147,8 @@ class _LanguageSectionState extends State<LanguageSection> {
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: SizedBox(
-                height: 300,
-                width: 200,
+                height: 150,
+                width: 100,
                 child: Image.asset(
                   "assets/logos/abideverse_splash_logo.webp",
                   fit: BoxFit.contain,

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
+
 import 'package:abideverse/app/router.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/core/constants/ui_constants.dart';
@@ -13,6 +16,8 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 
 import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/core/config/app_config.dart';
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 
 final logFirestoreAdmin = Logger('manage-firestore');
 
@@ -40,20 +45,8 @@ class _FirestoreAdminScreenState extends State<FirestoreAdminScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Firestore'),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
-              onPressed: () {
-                // Navigate to the joys list
-                Routes(context).goJoys();
-              },
-            );
-          },
-        ),
-      ),
+      appBar: AbideAppBar(title: LocaleKeys.manageFirestore.tr()),
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: FirestoreSettingsContent(firestore: widget.firestore),
       ),

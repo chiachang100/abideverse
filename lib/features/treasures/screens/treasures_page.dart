@@ -16,6 +16,9 @@ import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/shared/services/new_item_tracker.dart';
 
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+
 final logger = Logger('TreasuresPage');
 
 class TreasuresPage extends StatefulWidget {
@@ -277,16 +280,16 @@ class _TreasuresPageState extends State<TreasuresPage> {
             ),
           ],
         ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
-              onPressed: () {
-                Routes(context).goJoys();
-              },
-            );
-          },
-        ),
+        // leading: Builder(
+        //   builder: (BuildContext context) {
+        //     return IconButton(
+        //       icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
+        //       onPressed: () {
+        //         Routes(context).goJoys();
+        //       },
+        //     );
+        //   },
+        // ),
         actions: [
           // Bible Stories Filter
           IconButton(
@@ -329,6 +332,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
           ),
         ],
       ),
+      drawer: const AppDrawer(),
       body: Column(
         children: [
           // Search Bar (assumes you have a SearchBar widget in your project)

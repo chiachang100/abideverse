@@ -22,6 +22,7 @@ class CodegenLoader extends AssetLoader{
   "xlcdappName": "xlcdapp",
   "signIn": "🗝Sign In",
   "signOut": "↪Sign Out",
+  "scriptures": "Abide Daily",
   "bibleVerse": "Abide Daily",
   "bibleVerseHeader": "Bible Verse",
   "bibleVerseDescription": "Daily Bible verse memorization. Grow richer in God's Word one day at a time.",
@@ -32,7 +33,7 @@ class CodegenLoader extends AssetLoader{
   "treasuresDescription": "Bible stories and Chinese idioms with corresponding verses. Timeless wisdom bridging faith and culture.",
   "xlcd": "XLCD",
   "xlcdDescription": "52 humorous stories with biblical wisdom. Laughter that heals and inspires.",
-  "joys": "The Word Hidden in a Smile",
+  "joys": "Xiào Lǐ Cáng Dào",
   "more": "More",
   "about": "About",
   "resources": "Resources",
@@ -126,16 +127,18 @@ class CodegenLoader extends AssetLoader{
   "tapToExplore": "Tap to Explore →",
   "continueYourJourney": "Continue Your Journey",
   "moreContentComingSoon": "More content coming soon...",
-  "welcomeHome": "Welcome to "
+  "welcomeHome": "Welcome to ",
+  "manageFirestore": "Manage Firestore"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
   "abideverse": "AbideVerse",
   "joyolord": "主的喜乐",
-  "abideverseName": "AbideVerse 常在主里",
+  "abideverseName": "常在主里 AbideVerse",
   "xlcdappName": "xlcdapp",
   "signIn": "🗝登入",
   "signOut": "↪登出",
+  "scriptures": "日富一日",
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "圣经经文",
   "bibleVerseDescription": "每日背诵圣经经文。一日比一日更富足于神的话语。",
@@ -240,16 +243,18 @@ static const Map<String,dynamic> _zh_CN = {
   "tapToExplore": "点击探索 →",
   "continueYourJourney": "继续您的旅程",
   "moreContentComingSoon": "更多内容即将上线...",
-  "welcomeHome": "欢迎来到 "
+  "welcomeHome": "欢迎来到 ",
+  "manageFirestore": "管理 Firestore"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
   "abideverse": "AbideVerse ",
   "joyolord": "主的喜樂",
-  "abideverseName": "AbideVerse 常在主裡",
+  "abideverseName": "常在主裡 AbideVerse",
   "xlcdappName": "xlcdapp",
   "signIn": "🗝登入",
   "signOut": "↪登出",
+  "scriptures": "日富一日",
   "bibleVerse": "日富一日",
   "bibleVerseHeader": "聖經經文",
   "bibleVerseDescription": "每日背誦聖經經文。一日比一日更富足於神的話語。",
@@ -354,7 +359,8 @@ static const Map<String,dynamic> _zh_TW = {
   "tapToExplore": "點擊探索 →",
   "continueYourJourney": "繼續您的旅程",
   "moreContentComingSoon": "更多內容即將推出...",
-  "welcomeHome": "歡迎來到 "
+  "welcomeHome": "歡迎來到 ",
+  "manageFirestore": "管理 Firestore"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

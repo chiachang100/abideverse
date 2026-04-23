@@ -8,6 +8,9 @@ import 'package:abideverse/shared/widgets/markdown_viewer.dart';
 import 'package:abideverse/features/resources/models/resource_model.dart';
 import 'package:abideverse/features/resources/services/resource_service.dart';
 
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+
 // Provider for ResourceService
 final resourceServiceProvider = Provider<ResourceService>((ref) {
   return ResourceService();
@@ -27,21 +30,8 @@ class ResourcesScreen extends ConsumerWidget {
     final resourcesAsync = ref.watch(resourcesStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(LocaleKeys.resources.tr()),
-        elevation: 0,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
-              onPressed: () {
-                // Navigate to the joys list
-                Routes(context).goJoys();
-              },
-            );
-          },
-        ),
-      ),
+      appBar: AbideAppBar(title: LocaleKeys.resources.tr()),
+      drawer: const AppDrawer(),
       body: resourcesAsync.when(
         data: (resources) {
           if (resources.isEmpty) {

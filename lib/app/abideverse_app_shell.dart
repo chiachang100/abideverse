@@ -39,10 +39,10 @@ class AbideVerseAppShell extends StatelessWidget {
 
     String abideverseHomeLabel = LocaleKeys.home.tr();
     String abideverseXlcdTitle = LocaleKeys.xlcd.tr();
-    String abideverseScriptLabel = LocaleKeys.bibleVerse.tr();
+    String abideverseScriptLabel = LocaleKeys.scriptures.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
-    String abideverseMoreLabel = LocaleKeys.more.tr();
+    //String abideverseMoreLabel = LocaleKeys.more.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
@@ -60,9 +60,9 @@ class AbideVerseAppShell extends StatelessWidget {
       '/scriptures',
       '/treasures',
       '/bible-chat',
-      '/about',
       '/resources',
       '/settings',
+      '/about',
     ];
 
     final List<NavigationDestination> fullDestinations = [
@@ -92,11 +92,6 @@ class AbideVerseAppShell extends StatelessWidget {
         selectedIcon: const Icon(Icons.chat_bubble),
       ),
       NavigationDestination(
-        label: abideverseAboutLabel,
-        icon: const Icon(Icons.info_outline),
-        selectedIcon: const Icon(Icons.info),
-      ),
-      NavigationDestination(
         label: abideverseResourcesLabel,
         icon: const Icon(Icons.library_books_outlined),
         selectedIcon: const Icon(Icons.library_books),
@@ -106,35 +101,29 @@ class AbideVerseAppShell extends StatelessWidget {
         icon: const Icon(Icons.settings_outlined),
         selectedIcon: const Icon(Icons.settings),
       ),
+      NavigationDestination(
+        label: abideverseAboutLabel,
+        icon: const Icon(Icons.info_outline),
+        selectedIcon: const Icon(Icons.info),
+      ),
     ];
-    // 1. Determine which destinations to show
+
+    // 1. Destinations remain 4 items on small screens
     final List<NavigationDestination> currentDestinations = isSmall
-        ? [
-            ...fullDestinations.take(4), // First 4 items
-            NavigationDestination(
-              label: abideverseMoreLabel,
-              icon: Icon(Icons.more_horiz_outlined),
-              selectedIcon: Icon(Icons.more_horiz),
-            ),
-          ]
+        ? fullDestinations.take(4).toList()
         : fullDestinations;
 
-    // 2. Define the Navigation Logic helper
-    void handleNavigation(int idx) {
-      if (isSmall && idx == 4) {
-        context.go('/more');
-      } else {
-        // Direct navigation logic
-        context.go(allPaths[idx]);
-      }
-    }
+    // 2. The "Safe" Index for the Widget
+    // We must provide an index < 4 to avoid the crash.
+    // If the actual index is >= 4, we pass 0, but we won't color it as selected.
+    final int widgetSelectedIndex = (isSmall && selectedIndex >= 4)
+        ? 0
+        : selectedIndex;
 
-    // 3. Fix the Selected Index
-    // If we are on mobile and the user is on index 4 or above,
-    // we highlight the 'More' tab (index 4).
-    int displayIndex = selectedIndex;
-    if (isSmall && selectedIndex >= 4) {
-      displayIndex = 4;
+    // 3. Navigation Logic
+    void handleNavigation(int idx) {
+      // idx will only ever be 0, 1, 2, or 3 from the BottomBar
+      context.go(allPaths[idx]);
     }
 
     return Scaffold(
@@ -145,9 +134,8 @@ class AbideVerseAppShell extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: NavigationBar(
-                  selectedIndex: displayIndex,
+                  selectedIndex: widgetSelectedIndex, // Use the safe index here
                   onDestinationSelected: handleNavigation,
-                  // FORCE TRANSPARENCY HERE
                   backgroundColor:
                       Theme.of(context).brightness == Brightness.dark
                       ? Theme.of(context).colorScheme.surfaceContainerHighest
@@ -155,21 +143,21 @@ class AbideVerseAppShell extends StatelessWidget {
                       : Colors.white.withValues(alpha: 0.7),
                   surfaceTintColor: Colors.transparent,
                   elevation: 0,
-                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                  indicatorColor: Colors.green.withValues(alpha: 0.15),
+                  indicatorColor: (isSmall && selectedIndex >= 4)
+                      ? Colors
+                            .transparent // Hide the green pill if we're on a drawer-only page
+                      : Colors.green.withValues(alpha: 0.15),
 
-                  // MAP DESTINATIONS MANUALLY TO FORCE COLOR
                   destinations: currentDestinations.map((destination) {
                     final int index = currentDestinations.indexOf(destination);
-                    final bool isSelected = displayIndex == index;
 
-                    // Get the default text/icon color for the current theme
-                    // (White in Dark Mode, Black in Light Mode)
+                    // 3. DEFINE isActuallySelected HERE
+                    // It is true ONLY if the app's current index matches this specific tab
+                    final bool isActuallySelected = selectedIndex == index;
+
                     final Color adaptiveColor = Theme.of(
                       context,
                     ).colorScheme.onSurface;
-
-                    // 1. Extract the icon data from your list
                     final IconData iconData = (destination.icon as Icon).icon!;
                     final IconData selectedIconData =
                         (destination.selectedIcon as Icon).icon ?? iconData;
@@ -178,8 +166,7 @@ class AbideVerseAppShell extends StatelessWidget {
                       label: destination.label,
                       icon: Icon(
                         iconData,
-                        // FIX: Use adaptiveColor instead of hardcoded Black
-                        color: isSelected
+                        color: isActuallySelected
                             ? Colors.green
                             : adaptiveColor.withValues(alpha: 0.7),
                         size: 24,

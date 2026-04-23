@@ -10,6 +10,7 @@ abstract class  LocaleKeys {
   static const xlcdappName = 'xlcdappName';
   static const signIn = 'signIn';
   static const signOut = 'signOut';
+  static const scriptures = 'scriptures';
   static const bibleVerse = 'bibleVerse';
   static const bibleVerseHeader = 'bibleVerseHeader';
   static const bibleVerseDescription = 'bibleVerseDescription';
@@ -115,5 +116,6 @@ abstract class  LocaleKeys {
   static const continueYourJourney = 'continueYourJourney';
   static const moreContentComingSoon = 'moreContentComingSoon';
   static const welcomeHome = 'welcomeHome';
+  static const manageFirestore = 'manageFirestore';
 
 }

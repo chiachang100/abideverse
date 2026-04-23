@@ -15,6 +15,9 @@ import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
 import 'package:abideverse/shared/services/new_item_tracker.dart';
 
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+
 final logger = Logger('JoysPage');
 
 class JoysPage extends StatefulWidget {
@@ -252,16 +255,16 @@ class _JoysPageState extends State<JoysPage> {
             ),
           ],
         ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
-              onPressed: () {
-                Routes(context).goJoys();
-              },
-            );
-          },
-        ),
+        // leading: Builder(
+        //   builder: (BuildContext context) {
+        //     return IconButton(
+        //       icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
+        //       onPressed: () {
+        //         Routes(context).goJoys();
+        //       },
+        //     );
+        //   },
+        // ),
         actions: [
           // Favorites Filter Toggle
           IconButton(
@@ -299,6 +302,7 @@ class _JoysPageState extends State<JoysPage> {
           ),
         ],
       ),
+      drawer: const AppDrawer(),
       body: Column(
         children: [
           // Search Bar

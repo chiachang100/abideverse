@@ -7,6 +7,7 @@
   "signIn": "🗝Sign In",
   "signOut": "↪Sign Out",
 
+  "scriptures": "Abide Daily",
   "bibleVerse": "Abide Daily",
   "bibleVerseHeader": "Bible Verse",
   "bibleVerseDescription": "Daily Bible verse memorization. Grow richer in God's Word one day at a time.",
@@ -17,7 +18,7 @@
   "treasuresDescription": "Bible stories and Chinese idioms with corresponding verses. Timeless wisdom bridging faith and culture.",
   "xlcd": "XLCD",
   "xlcdDescription": "52 humorous stories with biblical wisdom. Laughter that heals and inspires.",
-  "joys": "The Word Hidden in a Smile",
+  "joys": "Xiào Lǐ Cáng Dào",
   "more": "More",
   "about": "About",
   "resources": "Resources",
@@ -124,5 +125,6 @@
   "tapToExplore": "Tap to Explore →",
   "continueYourJourney": "Continue Your Journey",
   "moreContentComingSoon": "More content coming soon...",
-  "welcomeHome": "Welcome to "
+  "welcomeHome": "Welcome to ",
+  "manageFirestore": "Manage Firestore"
 }

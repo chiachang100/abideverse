@@ -8,6 +8,9 @@ import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/ai/ai_service.dart';
 import 'package:abideverse/shared/services/ai/ai_factory.dart';
 
+import 'package:abideverse/shared/widgets/shared_app_bar.dart';
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+
 // --- Data Model for a Chat Message ---
 class ChatMessage {
   final String text;
@@ -221,19 +224,8 @@ class _BibleChatScreenState extends State<BibleChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(LocaleKeys.bibleChatTitle.tr()),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: Image.asset('assets/icons/abideverse-leading-icon.webp'),
-              onPressed: () {
-                Routes(context).goJoys();
-              },
-            );
-          },
-        ),
-      ),
+      appBar: AbideAppBar(title: LocaleKeys.bibleChatTitle.tr()),
+      drawer: const AppDrawer(),
       body: Column(
         children: <Widget>[
           // Message List Area
