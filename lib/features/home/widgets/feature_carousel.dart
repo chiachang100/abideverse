@@ -16,32 +16,38 @@ class FeatureCarousel extends StatefulWidget {
 class _FeatureCarouselState extends State<FeatureCarousel> {
   int _currentIndex = 0;
 
-  final List<Map<String, dynamic>> _cards = [
-    {
-      'title': LocaleKeys.xlcd.tr(),
-      'description': LocaleKeys.xlcdDescription.tr(),
-      'imagePath': 'assets/images/carousel/joys_preview.webp',
-      'route': '/joys',
-    },
-    {
-      'title': LocaleKeys.bibleVerse.tr(),
-      'description': LocaleKeys.bibleVerseDescription.tr(),
-      'imagePath': 'assets/images/carousel/scriptures_preview.webp',
-      'route': '/scriptures',
-    },
-    {
-      'title': LocaleKeys.treasures.tr(),
-      'description': LocaleKeys.treasuresDescription.tr(),
-      'imagePath': 'assets/images/carousel/treasures_preview.webp',
-      'route': '/treasures',
-    },
-  ];
+  // Use a method instead of a final list - this will be called on each rebuild
+  List<Map<String, dynamic>> _getCards() {
+    return [
+      {
+        'title': LocaleKeys.xlcd.tr(),
+        'description': LocaleKeys.xlcdDescription.tr(),
+        'imagePath': 'assets/images/carousel/joys_preview.webp',
+        'route': '/joys',
+      },
+      {
+        'title': LocaleKeys.bibleVerse.tr(),
+        'description': LocaleKeys.bibleVerseDescription.tr(),
+        'imagePath': 'assets/images/carousel/scriptures_preview.webp',
+        'route': '/scriptures',
+      },
+      {
+        'title': LocaleKeys.treasures.tr(),
+        'description': LocaleKeys.treasuresDescription.tr(),
+        'imagePath': 'assets/images/carousel/treasures_preview.webp',
+        'route': '/treasures',
+      },
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final isLandscape = screenSize.width > screenSize.height;
     final isWeb = screenSize.width > 800;
+
+    // Get fresh cards on every build
+    final cards = _getCards();
 
     // Responsive calculations
     double imageHeight;
@@ -78,9 +84,9 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
           child: ClipRect(
             // Prevents overflow rendering
             child: CarouselSlider.builder(
-              itemCount: _cards.length,
+              itemCount: cards.length,
               itemBuilder: (context, index, realIndex) {
-                final card = _cards[index];
+                final card = cards[index];
                 return Center(
                   child: SizedBox(
                     height: baseCardHeight,
@@ -120,7 +126,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: _cards.asMap().entries.map((entry) {
+          children: cards.asMap().entries.map((entry) {
             return GestureDetector(
               onTap: () {
                 final carouselController = CarouselSliderController();

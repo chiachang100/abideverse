@@ -24,6 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final LocalStorageService storage = LocalStorageService.instance;
   bool _isChangingLanguage = false;
 
+  // Add a key that changes when language changes to force rebuild
+  Key _carouselKey = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -69,13 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
       if (mounted) {
+        // Force carousel to rebuild with new key
+        setState(() {
+          _carouselKey = UniqueKey();
+        });
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Language changed to ${locale.toLanguageTag()}'),
             duration: const Duration(seconds: 2),
           ),
         );
-        setState(() {});
       }
     } catch (e) {
       logHomeScreen.severe('[HomeScreen] Error changing language: $e');
@@ -229,13 +236,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: Column(
             children: [
-              // Carousel takes all available space
-              Expanded(child: FeatureCarousel()),
+              // Use key to force rebuild when language changes
+              Expanded(child: FeatureCarousel(key: _carouselKey)),
             ],
           ),
         ),
