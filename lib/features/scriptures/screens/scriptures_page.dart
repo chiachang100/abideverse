@@ -122,10 +122,40 @@ class _ScripturesPageState extends State<ScripturesPage> {
   /// Load and sort scriptures based on the current sortOrder
   Future<void> _loadAndSortScriptures({bool shuffle = false}) async {
     setState(() => isLoading = true);
-    final data = await repository.getScriptures(
+
+    // 1. Fetch the data from repository
+    var data = await repository.getScriptures(
       order: sortOrder,
       shuffle: shuffle,
     );
+
+    // 2. Priority Sort for "None" order
+    if (sortOrder == SortOrder.none) {
+      final tracker = NewItemTracker();
+
+      // Create two buckets based on the tracker's logic
+      final newItems = <Scripture>[];
+      final oldItems = <Scripture>[];
+
+      for (final item in data) {
+        // Use your tracker logic here
+        final isNew = tracker.isItemNewSync(
+          FeatureType.scriptures,
+          item.articleId,
+          item.isNew, // Assuming this is the 'isNewFlag' from the model
+        );
+
+        if (isNew) {
+          newItems.add(item);
+        } else {
+          oldItems.add(item);
+        }
+      }
+
+      // 3. Recombine: New items first (maintaining their relative order), then old items
+      data = [...newItems, ...oldItems];
+    }
+
     setState(() {
       scriptures = data;
       // apply current search query if any
@@ -150,7 +180,11 @@ class _ScripturesPageState extends State<ScripturesPage> {
       }
     });
 
-    await _loadAndSortScriptures();
+    if (sortOrder == SortOrder.none) {
+      await _loadAndSortScriptures(shuffle: true);
+    } else {
+      await _loadAndSortScriptures();
+    }
 
     // FORCE scroll to top AFTER rebuild
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -196,7 +230,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
     }).toList();
   }
 
-  Future<void> _toggleTaskDone(String scriptureId) async {
+  Future<void> _toggleLike(String scriptureId) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       if (likedScriptureIds.contains(scriptureId)) {
@@ -317,8 +351,10 @@ class _ScripturesPageState extends State<ScripturesPage> {
               });
             },
           ),
+
           // Generic Tri-State Filter
           TaskStatusFilterIcon(status: filterStatus, onTap: _cycleTaskFilter),
+
           // Sort Toggle
           IconButton(
             icon: Icon(
@@ -392,7 +428,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
                     scripture: scripture,
                     index: index,
                     isLiked: likedScriptureIds.contains(scriptureId),
-                    onLikeToggle: () => _toggleTaskDone(scriptureId),
+                    onLikeToggle: () => _toggleLike(scriptureId),
                     onTap: () async {
                       await context.push(
                         '/scriptures/scripture/${scripture.articleId}',

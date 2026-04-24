@@ -17,7 +17,7 @@ class TaskStatusFilterIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     IconData icon;
-    Color color;
+    Color? color;
 
     switch (status) {
       case TaskStatus.all:
@@ -25,12 +25,12 @@ class TaskStatusFilterIcon extends StatelessWidget {
         color = Colors.grey;
         break;
       case TaskStatus.done:
-        icon = Icons.check_box;
-        color = Colors.green;
+        icon = Icons.favorite;
+        color = Colors.red;
         break;
       case TaskStatus.pending:
-        icon = Icons.check_box_outline_blank;
-        color = Colors.orange;
+        icon = Icons.favorite_border;
+        color = null;
         break;
     }
 

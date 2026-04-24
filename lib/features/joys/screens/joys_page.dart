@@ -89,9 +89,54 @@ class _JoysPageState extends State<JoysPage> {
     );
   }
 
+  // Generic toggle for the tri-state filter
+  void _cycleTaskFilter() {
+    setState(() {
+      if (filterStatus == TaskStatus.all) {
+        filterStatus = TaskStatus.done;
+      } else if (filterStatus == TaskStatus.done) {
+        filterStatus = TaskStatus.pending;
+      } else {
+        filterStatus = TaskStatus.all;
+      }
+
+      filteredItems = _applyFilter(allJoys, _searchController.text);
+    });
+  }
+
   Future<void> _loadAndSortJoys({bool shuffle = false}) async {
     setState(() => isLoading = true);
-    final data = await repository.getJoys(order: sortOrder, shuffle: shuffle);
+
+    // 1. Fetch the data from repository
+    var data = await repository.getJoys(order: sortOrder, shuffle: shuffle);
+
+    // 2. Priority Sort for "None" order
+    if (sortOrder == SortOrder.none) {
+      final tracker = NewItemTracker();
+
+      // Create two buckets based on the tracker's logic
+      final newItems = <Joy>[];
+      final oldItems = <Joy>[];
+
+      for (final item in data) {
+        // Use your tracker logic here
+        final isNew = tracker.isItemNewSync(
+          FeatureType.joys,
+          item.articleId,
+          item.isNew, // Assuming this is the 'isNewFlag' from the model
+        );
+
+        if (isNew) {
+          newItems.add(item);
+        } else {
+          oldItems.add(item);
+        }
+      }
+
+      // 3. Recombine: New items first (maintaining their relative order), then old items
+      data = [...newItems, ...oldItems];
+    }
+
     setState(() {
       allJoys = data;
       // apply current search query if any
@@ -115,7 +160,11 @@ class _JoysPageState extends State<JoysPage> {
       }
     });
 
-    await _loadAndSortJoys();
+    if (sortOrder == SortOrder.none) {
+      await _loadAndSortJoys(shuffle: true);
+    } else {
+      await _loadAndSortJoys();
+    }
 
     // FORCE scroll to top AFTER rebuild
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -134,11 +183,12 @@ class _JoysPageState extends State<JoysPage> {
     query = query.trim().toLowerCase();
 
     return items.where((joy) {
-      // 1. Check Favorites Filter
-      if (showOnlyFavorites &&
-          !likedJoyIds.contains(joy.articleId.toString())) {
-        return false;
-      }
+      final String id = joy.articleId.toString();
+      final bool isLiked = likedJoyIds.contains(id);
+
+      // 1. Tri-State Logic (Task Status)
+      if (filterStatus == TaskStatus.done && !isLiked) return false;
+      if (filterStatus == TaskStatus.pending && isLiked) return false;
 
       // 2. Check Search Query
       if (query.isEmpty) return true;
@@ -197,9 +247,6 @@ class _JoysPageState extends State<JoysPage> {
       } else {
         likedJoyIds.add(joyId);
       }
-
-      // Refresh the list immediately so un-liked items disappear
-      // if showOnlyFavorites is true
       filteredItems = _applyFilter(allJoys, _searchController.text);
     });
 
@@ -267,7 +314,7 @@ class _JoysPageState extends State<JoysPage> {
         // ),
         actions: [
           // Favorites Filter Toggle
-          IconButton(
+          /*           IconButton(
             icon: Icon(
               showOnlyFavorites ? Icons.favorite : Icons.favorite_border,
               color: showOnlyFavorites ? Colors.red : null,
@@ -280,7 +327,11 @@ class _JoysPageState extends State<JoysPage> {
                 filteredItems = _applyFilter(allJoys, _searchController.text);
               });
             },
-          ),
+          ), */
+
+          // Generic Tri-State Task Filter
+          TaskStatusFilterIcon(status: filterStatus, onTap: _cycleTaskFilter),
+
           // Sort Toggle
           IconButton(
             icon: Icon(

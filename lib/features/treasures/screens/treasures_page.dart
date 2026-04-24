@@ -117,10 +117,40 @@ class _TreasuresPageState extends State<TreasuresPage> {
   /// Load and sort treasures based on the current sortOrder
   Future<void> _loadAndSortTreasures({bool shuffle = false}) async {
     setState(() => isLoading = true);
-    final data = await repository.getTreasures(
+
+    // 1. Fetch the data from repository
+    var data = await repository.getTreasures(
       order: sortOrder,
       shuffle: shuffle,
     );
+
+    // 2. Priority Sort for "None" order
+    if (sortOrder == SortOrder.none) {
+      final tracker = NewItemTracker();
+
+      // Create two buckets based on the tracker's logic
+      final newItems = <Treasure>[];
+      final oldItems = <Treasure>[];
+
+      for (final item in data) {
+        // Use your tracker logic here
+        final isNew = tracker.isItemNewSync(
+          FeatureType.treasures,
+          item.articleId,
+          item.isNew, // Assuming this is the 'isNewFlag' from the model
+        );
+
+        if (isNew) {
+          newItems.add(item);
+        } else {
+          oldItems.add(item);
+        }
+      }
+
+      // 3. Recombine: New items first (maintaining their relative order), then old items
+      data = [...newItems, ...oldItems];
+    }
+
     setState(() {
       treasures = data;
       // apply current search query if any
@@ -145,7 +175,11 @@ class _TreasuresPageState extends State<TreasuresPage> {
       }
     });
 
-    await _loadAndSortTreasures();
+    if (sortOrder == SortOrder.none) {
+      await _loadAndSortTreasures(shuffle: true);
+    } else {
+      await _loadAndSortTreasures();
+    }
 
     // FORCE scroll to top AFTER rebuild
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -191,7 +225,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
     }).toList();
   }
 
-  Future<void> _toggleTaskDone(String treasureId) async {
+  Future<void> _toggleLike(String treasureId) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       if (likedTreasureIds.contains(treasureId)) {
@@ -309,8 +343,10 @@ class _TreasuresPageState extends State<TreasuresPage> {
               });
             },
           ),
+
           // Generic Tri-State Task Filter
           TaskStatusFilterIcon(status: filterStatus, onTap: _cycleTaskFilter),
+
           // Sort Toggle
           IconButton(
             icon: Icon(
@@ -384,7 +420,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
                     treasure: treasure,
                     index: index,
                     isLiked: likedTreasureIds.contains(treasureId),
-                    onLikeToggle: () => _toggleTaskDone(treasureId),
+                    onLikeToggle: () => _toggleLike(treasureId),
                     onTap: () async {
                       await context.push(
                         '/treasures/treasure/${treasure.articleId}',
