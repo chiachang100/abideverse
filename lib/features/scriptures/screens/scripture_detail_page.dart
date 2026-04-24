@@ -134,6 +134,27 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
               DisplayYouTubeVideo(videoId: s.videoId, videoName: s.videoName),
             ] else
               Text(LocaleKeys.noVideoAvailable.tr()),
+
+            if (s.meditationEnUS?.isNotEmpty ?? false) ...[
+              DisplayArticleContent(
+                title: 'Scripture Meditation (AI3Magi)',
+                content: s.meditationEnUS!,
+              ),
+            ],
+
+            if (s.meditationZhTW?.isNotEmpty ?? false) ...[
+              DisplayArticleContent(
+                title: '經文默想｜繁體中文 (AI3Magi)',
+                content: s.meditationZhTW!,
+              ),
+            ],
+
+            if (s.meditationZhCN?.isNotEmpty ?? false) ...[
+              DisplayArticleContent(
+                title: '经文默想｜简体中文 (AI3Magi)',
+                content: s.meditationZhCN!,
+              ),
+            ],
           ],
         ),
       ),

@@ -16,6 +16,9 @@ class Scripture extends Equatable {
   final String videoId;
   final String videoName;
   final bool isRicherDaily;
+  final String? meditationEnUS;
+  final String? meditationZhTW;
+  final String? meditationZhCN;
 
   const Scripture({
     required this.id,
@@ -33,6 +36,9 @@ class Scripture extends Equatable {
     required this.videoId,
     required this.videoName,
     required this.isRicherDaily,
+    this.meditationEnUS,
+    this.meditationZhTW,
+    this.meditationZhCN,
   });
 
   factory Scripture.fromJson(Map<String, dynamic> json) {
@@ -52,6 +58,9 @@ class Scripture extends Equatable {
       videoId: json['videoId'] ?? '',
       videoName: json['videoName'] ?? '',
       isRicherDaily: json['isRicherDaily'] ?? false,
+      meditationEnUS: json['meditationEnUS'],
+      meditationZhTW: json['meditationZhTW'],
+      meditationZhCN: json['meditationZhCN'],
     );
   }
 
@@ -72,6 +81,9 @@ class Scripture extends Equatable {
       'videoId': videoId,
       'videoName': videoName,
       'isRicherDaily': isRicherDaily,
+      'meditationEnUS': meditationEnUS,
+      'meditationZhTW': meditationZhTW,
+      'meditationZhCN': meditationZhCN,
     };
   }
 
@@ -92,5 +104,8 @@ class Scripture extends Equatable {
     videoId,
     videoName,
     isRicherDaily,
+    meditationEnUS,
+    meditationZhTW,
+    meditationZhCN,
   ];
 }
