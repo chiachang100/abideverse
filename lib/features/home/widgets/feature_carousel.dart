@@ -16,6 +16,10 @@ class FeatureCarousel extends StatefulWidget {
 class _FeatureCarouselState extends State<FeatureCarousel> {
   int _currentIndex = 0;
 
+  // Add this controller - create it once
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
+
   // Use a method instead of a final list - this will be called on each rebuild
   List<Map<String, dynamic>> _getCards() {
     return [
@@ -38,6 +42,13 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         'route': '/treasures',
       },
     ];
+  }
+
+  void animateToPage(int index) {
+    _carouselController.animateToPage(index);
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -84,6 +95,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
           child: ClipRect(
             // Prevents overflow rendering
             child: CarouselSlider.builder(
+              carouselController: _carouselController,
               itemCount: cards.length,
               itemBuilder: (context, index, realIndex) {
                 final card = cards[index];
@@ -104,8 +116,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
               },
               options: CarouselOptions(
                 height: totalCarouselHeight,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 4),
+                autoPlay: false,
                 enlargeCenterPage: true,
                 enlargeFactor: isLandscape
                     ? 0.15
@@ -126,29 +137,54 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: cards.asMap().entries.map((entry) {
-            return GestureDetector(
-              onTap: () {
-                final carouselController = CarouselSliderController();
-                carouselController.animateToPage(entry.key);
-                setState(() {
-                  _currentIndex = entry.key;
-                });
+          children: [
+            // Left arrow
+            IconButton(
+              icon: Icon(Icons.chevron_left, size: 24),
+              onPressed: () {
+                final newIndex =
+                    (_currentIndex - 1 + cards.length) % cards.length;
+                animateToPage(newIndex);
               },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: _currentIndex == entry.key ? 24.0 : 8.0,
-                height: 8.0,
-                margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  color: _currentIndex == entry.key
-                      ? Colors.green
-                      : Colors.grey.withValues(alpha: 0.5),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+
+            // Dots
+            ...cards.asMap().entries.map((entry) {
+              return GestureDetector(
+                onTap: () {
+                  _carouselController.animateToPage(entry.key);
+                  setState(() {
+                    _currentIndex = entry.key;
+                  });
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: _currentIndex == entry.key ? 24.0 : 8.0,
+                  height: 8.0,
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                    color: _currentIndex == entry.key
+                        ? Colors.green
+                        : Colors.grey.withValues(alpha: 0.5),
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }),
+
+            // Right arrow
+            IconButton(
+              icon: Icon(Icons.chevron_right, size: 24),
+              onPressed: () {
+                final newIndex = (_currentIndex + 1) % cards.length;
+                animateToPage(newIndex);
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
         ),
         const SizedBox(height: 8),
       ],
