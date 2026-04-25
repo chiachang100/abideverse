@@ -46,6 +46,7 @@ class AbideVerseAppShell extends StatelessWidget {
     String abideverseAboutLabel = LocaleKeys.about.tr();
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
+    String abideverseGalleryLabel = LocaleKeys.gallery.tr();
 
     // const maxWidth = 600.0;
     final maxWidth = (MediaQuery.of(context).size.width) * 1.0;
@@ -60,6 +61,7 @@ class AbideVerseAppShell extends StatelessWidget {
       '/scriptures',
       '/treasures',
       '/bible-chat',
+      '/gallery',
       '/resources',
       '/settings',
       '/about',
@@ -90,6 +92,11 @@ class AbideVerseAppShell extends StatelessWidget {
         label: abideverseBibleChatLabel,
         icon: const Icon(Icons.chat_bubble_outline),
         selectedIcon: const Icon(Icons.chat_bubble),
+      ),
+      NavigationDestination(
+        label: abideverseGalleryLabel,
+        icon: const Icon(Icons.collections_outlined),
+        selectedIcon: const Icon(Icons.collections),
       ),
       NavigationDestination(
         label: abideverseResourcesLabel,

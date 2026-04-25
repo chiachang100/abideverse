@@ -64,6 +64,7 @@ dependencies:
   flutter_riverpod: ^3.3.1
   cached_network_image: ^3.4.1
   carousel_slider: ^5.1.2
+  youtube_explode_dart: ^3.0.5
 
 dev_dependencies:
   flutter_test:

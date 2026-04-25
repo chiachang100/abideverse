@@ -118,5 +118,6 @@ abstract class  LocaleKeys {
   static const welcomeHome = 'welcomeHome';
   static const manageFirestore = 'manageFirestore';
   static const scriptureMeditation = 'scriptureMeditation';
+  static const gallery = 'gallery';
 
 }

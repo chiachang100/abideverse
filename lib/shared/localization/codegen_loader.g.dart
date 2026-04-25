@@ -129,7 +129,8 @@ class CodegenLoader extends AssetLoader{
   "moreContentComingSoon": "More content coming soon...",
   "welcomeHome": "Welcome to ",
   "manageFirestore": "Manage Firestore",
-  "scriptureMeditation": "Scripture Meditation (AI3Magi)"
+  "scriptureMeditation": "Scripture Meditation (AI3Magi)",
+  "gallery": "Gallery"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -246,7 +247,8 @@ static const Map<String,dynamic> _zh_CN = {
   "moreContentComingSoon": "更多内容即将上线...",
   "welcomeHome": "欢迎来到 ",
   "manageFirestore": "管理 Firestore",
-  "scriptureMeditation": "经文默想｜简体中文 (AI3Magi)"
+  "scriptureMeditation": "经文默想｜简体中文 (AI3Magi)",
+  "gallery": "播放列表库"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -363,7 +365,8 @@ static const Map<String,dynamic> _zh_TW = {
   "moreContentComingSoon": "更多內容即將推出...",
   "welcomeHome": "歡迎來到 ",
   "manageFirestore": "管理 Firestore",
-  "scriptureMeditation": "經文默想｜繁體中文 (AI3Magi)"
+  "scriptureMeditation": "經文默想｜繁體中文 (AI3Magi)",
+  "gallery": "播放清單庫"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

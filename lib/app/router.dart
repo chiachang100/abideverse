@@ -26,6 +26,7 @@ import 'package:abideverse/shared/services/ai/ai_factory.dart';
 import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
 import 'package:abideverse/shared/widgets/markdown_viewer.dart';
+import 'package:abideverse/features/gallery/screens/gallery_screen.dart';
 
 class AppRoutes {
   static const home = '/';
@@ -49,6 +50,8 @@ class AppRoutes {
 
   static const signIn = '/sign-in';
   static const firestoreAdmin = '/firestore-admin';
+
+  static const gallery = '/gallery';
 
   static const more = '/more';
 }
@@ -177,9 +180,10 @@ GoRouter createRouter({
             '/scriptures': 2,
             '/treasures': 3,
             '/bible-chat': 4, // Map to 4 so the 'More' tab stays lit
-            '/resources': 5,
-            '/settings': 6,
-            '/about': 7,
+            '/gallery': 5,
+            '/resources': 6,
+            '/settings': 7,
+            '/about': 8,
             '/more': 4,
           };
 
@@ -275,15 +279,6 @@ GoRouter createRouter({
           ),
 
           // --------------------------
-          // MORE MENU
-          // --------------------------
-          GoRoute(
-            path: AppRoutes.more,
-            pageBuilder: (context, state) =>
-                fadePage(const MoreMenuScreen(), state.pageKey),
-          ),
-
-          // --------------------------
           // BIBLE CHAT
           // --------------------------
           GoRoute(
@@ -294,6 +289,15 @@ GoRouter createRouter({
               ), // <-- Use the factory instance
               state.pageKey,
             ),
+          ),
+
+          // --------------------------
+          // GALLERY
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.gallery,
+            pageBuilder: (context, state) =>
+                fadePage(const GalleryScreen(), state.pageKey),
           ),
 
           // --------------------------
@@ -336,6 +340,15 @@ GoRouter createRouter({
             path: AppRoutes.about,
             pageBuilder: (context, state) =>
                 fadePage(AboutScreen(firestore: firestore), state.pageKey),
+          ),
+
+          // --------------------------
+          // MORE MENU
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.more,
+            pageBuilder: (context, state) =>
+                fadePage(const MoreMenuScreen(), state.pageKey),
           ),
         ],
       ),
@@ -398,6 +411,8 @@ class Routes {
   void goAbout() => context.go(AppRoutes.about);
   void goResources() => context.go(AppRoutes.resources);
   void goSettings() => context.go(AppRoutes.settings);
+  void goGallery() => context.go(AppRoutes.gallery);
+
   void goSignIn() => context.go(AppRoutes.signIn);
   void goFirestoreAdmin() => context.go(AppRoutes.firestoreAdmin);
 }

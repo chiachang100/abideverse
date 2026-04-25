@@ -17,6 +17,7 @@ class AppDrawer extends StatelessWidget {
     String abideverseScriptLabel = LocaleKeys.scriptures.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
+    String abideverseGalleryLabel = LocaleKeys.gallery.tr();
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
@@ -84,6 +85,12 @@ class AppDrawer extends StatelessWidget {
             Icons.chat_bubble_outline,
             abideverseBibleChatLabel,
             () => Routes(context).goBibleChat(),
+          ),
+          _buildMenuItem(
+            context,
+            Icons.collections_outlined,
+            abideverseGalleryLabel,
+            () => Routes(context).goGallery(),
           ),
           _buildMenuItem(
             context,
