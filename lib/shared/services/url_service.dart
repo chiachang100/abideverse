@@ -5,7 +5,8 @@ class UrlService {
   /// The single source of truth for launching any external URL
   static Future<void> launch(
     String urlString, {
-    LaunchMode mode = LaunchMode.externalApplication,
+    //LaunchMode mode = LaunchMode.externalApplication,
+    LaunchMode mode = LaunchMode.platformDefault,
   }) async {
     final Uri? url = Uri.tryParse(urlString);
 
@@ -16,7 +17,7 @@ class UrlService {
 
     try {
       if (await canLaunchUrl(url)) {
-        await launchUrl(url, mode: mode);
+        await launchUrl(url, mode: mode, webOnlyWindowName: '_self');
       } else {
         debugPrint('UrlService: Could not launch $urlString');
       }
