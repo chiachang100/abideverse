@@ -36,26 +36,27 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
 
     final value = _controller.value;
 
-    // KEY FIX: Instead of waiting for PlayerState.ended, we catch it
-    // just BEFORE it ends (e.g., when there is 0.5 seconds left)
-    // OR as soon as it hits the ended state but BEFORE the IFrame reloads.
+    // 1. SAFETY CHECK: If metadata hasn't loaded, the duration might be 0.
+    // We don't want to close the player if the video hasn't even started.
+    if (value.metaData.duration.inSeconds == 0) return;
 
+    // 2. ONLY check for the end if the video has played for at least a few seconds
+    if (value.position.inSeconds < 2) return;
+
+    // 3. DEFINE THE END: Check if we are within the last 500ms
     bool isNearEnd =
         value.position >=
         (value.metaData.duration - const Duration(milliseconds: 500));
     bool isEnded = value.playerState == PlayerState.ended;
 
     if (isEnded || (isNearEnd && value.isPlaying)) {
-      // 1. SILENCE the player immediately to stop the native thread
+      // Stop the listener immediately so it doesn't trigger twice
+      _controller.removeListener(_onPlayerStateChange);
+
       _controller.pause();
 
-      // 2. Hide the player visually (optional but prevents the "flash")
-      setState(() => _isPlayerReady = false);
-
-      // 3. Give iOS a clear window to breathe
-      Future.delayed(const Duration(milliseconds: 200), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         if (mounted) {
-          // 4. Use a "Clean Pop"
           Navigator.of(context).pop();
         }
       });
