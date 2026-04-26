@@ -34,13 +34,18 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   void _onPlayerStateChange() {
     if (!mounted) return;
 
-    // 2. If the video has ended, force the 'ready' state to true
-    // and ensure the internal player isn't stuck in a buffering loop.
     if (_controller.value.playerState == PlayerState.ended) {
-      setState(() {
-        _isPlayerReady = true;
+      // 1. First, pause the controller to stop the underlying native stream
+      _controller.pause();
+
+      // 2. Add a tiny delay to let the iOS WebKit engine clean up its resources
+      // This prevents the "Black Screen of Death" deadlock
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) {
+          // 3. Now it is safe to pop the screen
+          Navigator.of(context).pop();
+        }
       });
-      Navigator.of(context).pop();
     }
   }
 
