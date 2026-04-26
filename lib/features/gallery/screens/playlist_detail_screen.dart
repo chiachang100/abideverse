@@ -15,14 +15,7 @@ class PlaylistDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // The Shared Widget from your youtube library
-            YoutubePlaylistView(playlistId: playlistId),
-          ],
-        ),
-      ),
+      body: YoutubePlaylistView(playlistId: playlistId),
     );
   }
 }

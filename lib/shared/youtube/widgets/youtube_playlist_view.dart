@@ -1,80 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:abideverse/shared/youtube/services/youtube_service.dart';
+import 'package:abideverse/shared/youtube/widgets/youtube_player_screen.dart';
+import 'package:abideverse/shared/youtube/services/youtube_pagination_service.dart';
 
-import 'package:abideverse/shared/widgets/youtube_player.dart';
-
-class YoutubePlaylistView extends ConsumerWidget {
+class YoutubePlaylistView extends ConsumerStatefulWidget {
   final String playlistId;
-
-  const YoutubePlaylistView({super.key, required this.playlistId});
+  const YoutubePlaylistView({required this.playlistId, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // We watch the "Service" here
-    final playlistAsync = ref.watch(youtubePlaylistService(playlistId));
+  ConsumerState<YoutubePlaylistView> createState() =>
+      _YoutubePlaylistViewState();
+}
+
+class _YoutubePlaylistViewState extends ConsumerState<YoutubePlaylistView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      // If we are within 200 pixels of the bottom, load more
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
+        ref
+            .read(youtubePaginationProvider(widget.playlistId).notifier)
+            .fetchNextBatch();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final playlistAsync = ref.watch(
+      youtubePaginationProvider(widget.playlistId),
+    );
+
+    // ACCESS THE NOTIFIER: We need to check the 'hasMore' flag we added to the service
+    final paginationNotifier = ref.watch(
+      youtubePaginationProvider(widget.playlistId).notifier,
+    );
+    final bool hasMore = paginationNotifier.hasMore;
 
     return playlistAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-
-      // ADD/UPDATE THIS SECTION HERE:
-      error: (err, stack) {
-        debugPrint('UI Error Display: $err');
-        // This will show the actual error message on your phone screen
-        return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Error loading videos: $err',
-              style: const TextStyle(color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
-      },
-
       data: (videos) {
-        // 1. Handle the Empty State
         if (videos.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('This content format is not supported in-app yet.'),
-                const SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: () => YoutubePlayerWidget(
-                    videoId: playlistId,
-                    videoName: 'videoName',
-                  ),
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text('View on YouTube'),
-                ),
-              ],
-            ),
-          );
+          return const Center(child: Text('No videos found in this playlist.'));
         }
 
-        // 2. Build the list if there ARE videos
         return ListView.builder(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          itemCount: videos.length,
+          controller: _scrollController,
+          // DYNAMIC COUNT: If hasMore is true, we add 1 for the spinner. If false, we add 0.
+          itemCount: videos.length + (hasMore ? 1 : 0),
           itemBuilder: (context, index) {
-            final video = videos[index];
-            // Safe thumbnail check
-            final thumbnailUrl = video.thumbnails.lowResUrl.isNotEmpty
-                ? video.thumbnails.lowResUrl
-                : 'https://via.placeholder.com/150'; // Fallback image
+            // SPINNER LOGIC: Show spinner only if this is the last item and we have more to load
+            if (index == videos.length) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
 
+            final video = videos[index];
+
+            // THUMBNAIL FIX: Using mediumResUrl for stability and ClipRRect for aesthetics
             return ListTile(
-              leading: Image.network(thumbnailUrl),
-              title: Text(video.title),
-              subtitle: Text(video.duration?.toString() ?? 'Shorts'),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  video
+                      .thumbnails
+                      .mediumResUrl, // Use medium for best balance of speed/quality
+                  width: 100,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  // FALLBACK: If the thumbnail fails to load, show a placeholder
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: 100,
+                    height: 60,
+                    color: Colors.grey[200],
+                    child: const Icon(Icons.video_library, color: Colors.grey),
+                  ),
+                ),
+              ),
+              title: Text(
+                video.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+              subtitle: Text(
+                video.author,
+                style: const TextStyle(fontSize: 12),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        YoutubePlayerScreen(videoId: video.id.value),
+                  ),
+                );
+              },
             );
           },
         );
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text('Error: $e')),
     );
   }
 }

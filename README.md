@@ -26,7 +26,9 @@ This project is a starting point for the AbideVerse App (abideverse).
   - `flutter pub add google_fonts shared_preferences equatable`
 
 - Add more Dev Dependencies
-- `flutter pub add --dev build_runner custom_lint`
+- `flutter pub add --dev custom_lint`
+- `flutter pub add dev:build_runner`
+- `flutter pub add dev:riverpod_generator`
 
 - Add Dependencies for "Share", etc.
   - Share: `flutter pub add share_plus`
@@ -41,6 +43,11 @@ This project is a starting point for the AbideVerse App (abideverse).
 - `flutter build -v web --release`
 - `flutter upgrade`
 - `flutter pub get`
+
+- `dart run build_runner build --delete-conflicting-outputs`
+
+If you want it to run automatically every time you save a file, use:
+`dart run build_runner watch --delete-conflicting-outputs`
 
 ---
 
