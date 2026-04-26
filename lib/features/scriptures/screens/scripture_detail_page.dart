@@ -30,6 +30,9 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
   Scripture? scripture;
   YoutubePlayerController? _youtubeController;
 
+  // This will store the shuffled widgets
+  List<Widget> _randomizedMeditations = [];
+
   bool isLiked = false; // Liked state
   bool isLoading = true;
   late ScriptureRepository repository;
@@ -46,11 +49,36 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
     final prefs = await SharedPreferences.getInstance();
     final likedList = prefs.getStringList('liked_scriptures') ?? [];
 
-    if (data != null && data.videoId.isNotEmpty) {
-      _youtubeController = YoutubePlayerController(
-        initialVideoId: data.videoId,
-        flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
-      );
+    if (data != null) {
+      if (data.videoId.isNotEmpty) {
+        _youtubeController = YoutubePlayerController(
+          initialVideoId: data.videoId,
+          flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
+        );
+      }
+
+      final List<Widget> items = [
+        if (data.meditationEnUS?.isNotEmpty ?? false)
+          DisplayArticleContent(
+            key: const ValueKey('en'),
+            title: 'Scripture Meditation (AI3Magi)',
+            content: data.meditationEnUS!,
+          ),
+        if (data.meditationZhTW?.isNotEmpty ?? false)
+          DisplayArticleContent(
+            key: const ValueKey('zhTW'),
+            title: '經文默想｜繁體中文 (AI3Magi)',
+            content: data.meditationZhTW!,
+          ),
+        if (data.meditationZhCN?.isNotEmpty ?? false)
+          DisplayArticleContent(
+            key: const ValueKey('zhCN'),
+            title: '经文默想｜简体中文 (AI3Magi)',
+            content: data.meditationZhCN!,
+          ),
+      ];
+      items.shuffle(); // Randomize the order once
+      _randomizedMeditations = items;
     }
 
     setState(() {
@@ -135,26 +163,8 @@ class _ScriptureDetailPageState extends State<ScriptureDetailPage> {
             ] else
               Text(LocaleKeys.noVideoAvailable.tr()),
 
-            if (s.meditationEnUS?.isNotEmpty ?? false) ...[
-              DisplayArticleContent(
-                title: 'Scripture Meditation (AI3Magi)',
-                content: s.meditationEnUS!,
-              ),
-            ],
-
-            if (s.meditationZhTW?.isNotEmpty ?? false) ...[
-              DisplayArticleContent(
-                title: '經文默想｜繁體中文 (AI3Magi)',
-                content: s.meditationZhTW!,
-              ),
-            ],
-
-            if (s.meditationZhCN?.isNotEmpty ?? false) ...[
-              DisplayArticleContent(
-                title: '经文默想｜简体中文 (AI3Magi)',
-                content: s.meditationZhCN!,
-              ),
-            ],
+            // Use the pre-shuffled list here!
+            ..._randomizedMeditations,
           ],
         ),
       ),

@@ -34,10 +34,10 @@ class GalleryScreen extends StatelessWidget {
         'title': '優視SPOTLIGHT (優視頻道)',
         'id': 'PLvrKRwXvxwNpM2-O2S_7WFRvwsE8rn4mH',
       },
-      {
-        'title': '2025聖誕嘉年華特輯 (優視頻道)',
-        'id': 'PLvrKRwXvxwNpDpMX-QYsGdfvszPsDA9ET',
-      },
+      // {
+      //   'title': '2025聖誕嘉年華特輯 (優視頻道)',
+      //   'id': 'PLvrKRwXvxwNpDpMX-QYsGdfvszPsDA9ET',
+      // },
     ];
 
     return Scaffold(

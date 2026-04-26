@@ -3,7 +3,13 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerScreen extends StatefulWidget {
   final String videoId;
-  const YoutubePlayerScreen({required this.videoId, super.key});
+  final String title;
+
+  const YoutubePlayerScreen({
+    required this.videoId,
+    required this.title,
+    super.key,
+  });
 
   @override
   State<YoutubePlayerScreen> createState() => _YoutubePlayerScreenState();
@@ -100,11 +106,14 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
             // The Scaffold background will now be white in light mode / grey-black in dark mode
             appBar: AppBar(
               // Removing hardcoded black so it uses the theme's AppBar color
-              title: Text(
-                'AbideVerse Player',
-                // Uses the theme's text color automatically
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.titleLarge?.color,
+              title: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  widget.title,
+                  // Uses the theme's text color automatically
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.titleLarge?.color,
+                  ),
                 ),
               ),
               // Ensure the automatic back button uses the theme's icon color
@@ -114,6 +123,8 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
               elevation: 0,
             ),
             body: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // Align text to the left
               children: [
                 // We wrap the player in a black container so the video "letterboxing"
                 // remains cinematic regardless of the app theme.
@@ -132,7 +143,39 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
                 ),
 
                 // You can add video details here later
-                if (!isDarkMode) const Divider(),
+                //if (!isDarkMode) const Divider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 12.0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title,
+                        // Use copyWith to keep the theme's font size/weight but ensure the color
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              // This ensures it uses the theme color you wanted
+                              color: Theme.of(
+                                context,
+                              ).textTheme.titleMedium?.color,
+                            ),
+                        maxLines:
+                            4, // Prevents a massive title from breaking the UI
+                        overflow:
+                            TextOverflow.ellipsis, // Adds "..." if too long
+                      ),
+                      // const SizedBox(height: 8),
+                      // Text(
+                      //   "1.2M views • 2 hours ago", // Example metadata
+                      //   style: Theme.of(context).textTheme.bodySmall,
+                      // ),
+                    ],
+                  ),
+                ),
               ],
             ),
           );

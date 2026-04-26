@@ -6,6 +6,7 @@ import 'package:abideverse/shared/youtube/services/youtube_pagination_service.da
 
 class YoutubePlaylistView extends ConsumerStatefulWidget {
   final String playlistId;
+
   const YoutubePlaylistView({required this.playlistId, super.key});
 
   @override
@@ -101,8 +102,10 @@ class _YoutubePlaylistViewState extends ConsumerState<YoutubePlaylistView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        YoutubePlayerScreen(videoId: video.id.value),
+                    builder: (context) => YoutubePlayerScreen(
+                      videoId: video.id.value,
+                      title: video.title,
+                    ),
                   ),
                 );
               },
