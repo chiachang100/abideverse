@@ -14,7 +14,12 @@ class PlaylistDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Text(title),
+        ),
+      ),
       body: YoutubePlaylistView(playlistId: playlistId),
     );
   }
