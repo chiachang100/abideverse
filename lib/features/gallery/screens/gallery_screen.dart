@@ -17,7 +17,6 @@ class GalleryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Curated playlists for the AbideVerse Gallery
     final galleryItems = [
-      //{'title': '日富一日背誦聖經 Shorts', 'id': 'PLKdEkGc8_SfF1gfJAFamxM_PLLCTEUsEr'},
       {'title': '日富一日背誦聖經 Shorts', 'id': 'PLFyg5v4HpNhWy6JkmAPhEML1N1gH-Q5jv'},
       {'title': '曾興才牧師講道集', 'id': 'PLFyg5v4HpNhVEKQd7IGhXmz_a4dEbQgme'},
       {
@@ -28,10 +27,6 @@ class GalleryScreen extends StatelessWidget {
         'title': '焦點新聞 - 帶您來關心最新全球新聞焦點 (優視頻道)',
         'id': 'PLw09jf23adiGZAuPOAHVnauCLlokJpFFf',
       },
-      {
-        'title': '焦點話題 - 老章陪你看新聞 (優視頻道)',
-        'id': 'PLG4UBWNLO49iJ05lOPFLvRjPZN4ciCU0o',
-      },
       {'title': '龍門陣直播 (優視頻道)', 'id': 'PLZxghdYE0TEPvmZ-xPKF4g30WpqztrHvI'},
       {'title': '2026 誰來作客 (優視頻道)', 'id': 'PLPR_qC7y5PLujUWJYoGqWr6w3zRBcPJ9X'},
       {'title': '焦點財經 (優視頻道)', 'id': 'PLV66nvIGRo-Tv4X5_Wrd7y1H2V-tYoVHh'},
@@ -39,6 +34,10 @@ class GalleryScreen extends StatelessWidget {
         'title': 'AI 新時代 // AI 來了 - 掌握AI，就是掌握未來 (優視頻道)',
         'id': 'PLvrKRwXvxwNqAcCFR97PHJkdw9Q2EyLSl',
       } /* 
+      {
+        'title': '焦點話題 - 老章陪你看新聞 (優視頻道)',
+        'id': 'PLG4UBWNLO49iJ05lOPFLvRjPZN4ciCU0o',
+      },
       {
         'title': '優視特別活動 // Special Event (優視頻道)',
         'id': 'PLvrKRwXvxwNqT3iRu8eC4pfIMWKSuy5-i',
