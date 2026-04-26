@@ -34,15 +34,28 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
   void _onPlayerStateChange() {
     if (!mounted) return;
 
-    if (_controller.value.playerState == PlayerState.ended) {
-      // 1. First, pause the controller to stop the underlying native stream
+    final value = _controller.value;
+
+    // KEY FIX: Instead of waiting for PlayerState.ended, we catch it
+    // just BEFORE it ends (e.g., when there is 0.5 seconds left)
+    // OR as soon as it hits the ended state but BEFORE the IFrame reloads.
+
+    bool isNearEnd =
+        value.position >=
+        (value.metaData.duration - const Duration(milliseconds: 500));
+    bool isEnded = value.playerState == PlayerState.ended;
+
+    if (isEnded || (isNearEnd && value.isPlaying)) {
+      // 1. SILENCE the player immediately to stop the native thread
       _controller.pause();
 
-      // 2. Add a tiny delay to let the iOS WebKit engine clean up its resources
-      // This prevents the "Black Screen of Death" deadlock
+      // 2. Hide the player visually (optional but prevents the "flash")
+      setState(() => _isPlayerReady = false);
+
+      // 3. Give iOS a clear window to breathe
       Future.delayed(const Duration(milliseconds: 200), () {
         if (mounted) {
-          // 3. Now it is safe to pop the screen
+          // 4. Use a "Clean Pop"
           Navigator.of(context).pop();
         }
       });
