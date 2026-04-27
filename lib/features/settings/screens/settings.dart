@@ -352,7 +352,7 @@ class _ResetPrefsSectionState extends State<ResetPrefsSection> {
     final bool? confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('${LocaleKeys.resetText.tr()} [$featureName?]'),
+        title: Text('${LocaleKeys.resetText.tr()} [$featureName]?'),
         content: Text('[$featureName]: ${LocaleKeys.resetConfirmMsg.tr()}}'),
         actions: [
           TextButton(
