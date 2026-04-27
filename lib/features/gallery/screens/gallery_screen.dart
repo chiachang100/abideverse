@@ -20,18 +20,33 @@ class GalleryScreen extends StatelessWidget {
       {'title': '日富一日背誦聖經 Shorts', 'id': 'PLFyg5v4HpNhWy6JkmAPhEML1N1gH-Q5jv'},
       {'title': '曾興才牧師講道集', 'id': 'PLFyg5v4HpNhVEKQd7IGhXmz_a4dEbQgme'},
       {
+        'title': '主的喜樂(joyolord)-中文詩歌',
+        'id': 'PLFyg5v4HpNhW7FCTafVkB_jH1Lm7ZhBv3',
+      },
+      {
+        'title': '主的喜樂(joyolord)-English_Hymns',
+        'id': 'PLFyg5v4HpNhX9jZfRTKD9pDLnVb4MTW2Z',
+      },
+      {
+        'title': 'Hymns for the Soul In English & Chinese',
+        'id': 'PLFyg5v4HpNhWah9MwwJNHyTNl0-SrJf3g',
+      },
+      {
         'title': '優美食 - 巧手家常菜 (優視頻道)',
         'id': 'PL0ua7D5NJtvVBYciPwuC3lQxomrTlbqS0',
       },
+      {'title': '2026 誰來作客 (優視頻道)', 'id': 'PLPR_qC7y5PLujUWJYoGqWr6w3zRBcPJ9X'},
+
+      /* 
+      {'title': '', 'id': ''},
+
       {
         'title': '焦點新聞 - 帶您來關心最新全球新聞焦點 (優視頻道)',
         'id': 'PLw09jf23adiGZAuPOAHVnauCLlokJpFFf',
       },
       {'title': '龍門陣直播 (優視頻道)', 'id': 'PLZxghdYE0TEPvmZ-xPKF4g30WpqztrHvI'},
-      {'title': '2026 誰來作客 (優視頻道)', 'id': 'PLPR_qC7y5PLujUWJYoGqWr6w3zRBcPJ9X'},
       {'title': '焦點財經 (優視頻道)', 'id': 'PLV66nvIGRo-Tv4X5_Wrd7y1H2V-tYoVHh'},
 
-      /* 
       {
         'title': 'AI 新時代 // AI 來了 - 掌握AI，就是掌握未來 (優視頻道)',
         'id': 'PLvrKRwXvxwNqAcCFR97PHJkdw9Q2EyLSl',
