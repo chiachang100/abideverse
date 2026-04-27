@@ -179,7 +179,7 @@ class NewItemTracker {
 
   /// Alternative: Use timestamp-based "read since" approach
   Future<void> markAllAsReadSince(FeatureType feature, DateTime since) async {
-    final key = '${_readItemsKey}${feature.name}_last_read_timestamp';
+    final key = '$_readItemsKey${feature.name}_last_read_timestamp';
     await _prefs.setString(key, since.toIso8601String());
   }
 
@@ -188,13 +188,18 @@ class NewItemTracker {
     FeatureType feature,
     DateTime itemCreatedDate,
   ) async {
-    final key = '${_readItemsKey}${feature.name}_last_read_timestamp';
+    final key = '$_readItemsKey${feature.name}_last_read_timestamp';
     final lastReadStr = _prefs.getString(key);
 
     if (lastReadStr == null) return true;
 
     final lastRead = DateTime.parse(lastReadStr);
     return itemCreatedDate.isAfter(lastRead);
+  }
+
+  /// Get total number of read items (for debugging)
+  int getReadItemsCount(FeatureType feature) {
+    return _readItemsCache[feature]?.length ?? 0;
   }
 
   /// Reset tracking for testing
@@ -205,18 +210,15 @@ class NewItemTracker {
     await _saveFeatureReadItems(feature);
   }
 
-  /// Get total number of read items (for debugging)
-  int getReadItemsCount(FeatureType feature) {
-    return _readItemsCache[feature]?.length ?? 0;
-  }
-
   /// Clear all read items (use with caution!)
   Future<void> clearAllReadItems() async {
-    if (!_isInitialized) await init();
+    // if (!_isInitialized) await init();
 
     for (final feature in FeatureType.values) {
-      _readItemsCache[feature] = {};
-      await _saveFeatureReadItems(feature);
+      // _readItemsCache[feature] = {};
+      // await _saveFeatureReadItems(feature);
+
+      resetFeature(feature);
     }
   }
 }

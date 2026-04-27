@@ -130,7 +130,12 @@ class CodegenLoader extends AssetLoader{
   "welcomeHome": "Welcome to ",
   "manageFirestore": "Manage Firestore",
   "scriptureMeditation": "Scripture Meditation (AI3Magi)",
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "dataMgmt": "Data Management",
+  "resetText": "Reset",
+  "allFeatures": "All Features",
+  "resetCompleteMsg": "Reset complete: all items are now marked as new.",
+  "resetConfirmMsg": "This will mark all items as 'NEW' again. This action cannot be undone."
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "AbideVerse 常在主里",
@@ -248,7 +253,12 @@ static const Map<String,dynamic> _zh_CN = {
   "welcomeHome": "欢迎来到 ",
   "manageFirestore": "管理 Firestore",
   "scriptureMeditation": "经文默想｜简体中文 (AI3Magi)",
-  "gallery": "播放列表库"
+  "gallery": "播放列表库",
+  "dataMgmt": "数据管理",
+  "resetText": "重置",
+  "allFeatures": "所有功能",
+  "resetCompleteMsg": "重置完成：所有项目现已标记为「新」。",
+  "resetConfirmMsg": "此操作会将所有项目重新标记为“新”。此操作无法撤销。"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "AbideVerse 常在主裡",
@@ -366,7 +376,12 @@ static const Map<String,dynamic> _zh_TW = {
   "welcomeHome": "歡迎來到 ",
   "manageFirestore": "管理 Firestore",
   "scriptureMeditation": "經文默想｜繁體中文 (AI3Magi)",
-  "gallery": "播放清單庫"
+  "gallery": "播放清單庫",
+  "dataMgmt": "資料管理",
+  "resetText": "重置",
+  "allFeatures": "所有功能",
+  "resetCompleteMsg": "重設完成：所有項目現已標記為「新」。",
+  "resetConfirmMsg": "這將再次標記所有項目為「新」。此操作無法撤銷。"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

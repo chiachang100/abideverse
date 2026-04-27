@@ -128,5 +128,10 @@
   "welcomeHome": "欢迎来到 ",
   "manageFirestore": "管理 Firestore",
   "scriptureMeditation": "经文默想｜简体中文 (AI3Magi)",
-  "gallery": "播放列表库"
+  "gallery": "播放列表库",
+  "dataMgmt": "数据管理",
+  "resetText": "重置",
+  "allFeatures": "所有功能",
+  "resetCompleteMsg": "重置完成：所有项目现已标记为「新」。",
+  "resetConfirmMsg": "此操作会将所有项目重新标记为“新”。此操作无法撤销。"
 }

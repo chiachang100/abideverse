@@ -128,5 +128,10 @@
   "welcomeHome": "Welcome to ",
   "manageFirestore": "Manage Firestore",
   "scriptureMeditation": "Scripture Meditation (AI3Magi)",
-  "gallery": "Gallery"
+  "gallery": "Gallery",
+  "dataMgmt": "Data Management",
+  "resetText": "Reset",
+  "allFeatures": "All Features",
+  "resetCompleteMsg": "Reset complete: all items are now marked as new.",
+  "resetConfirmMsg": "This will mark all items as 'NEW' again. This action cannot be undone."
 }

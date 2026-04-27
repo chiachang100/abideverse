@@ -119,5 +119,10 @@ abstract class  LocaleKeys {
   static const manageFirestore = 'manageFirestore';
   static const scriptureMeditation = 'scriptureMeditation';
   static const gallery = 'gallery';
+  static const dataMgmt = 'dataMgmt';
+  static const resetText = 'resetText';
+  static const allFeatures = 'allFeatures';
+  static const resetCompleteMsg = 'resetCompleteMsg';
+  static const resetConfirmMsg = 'resetConfirmMsg';
 
 }

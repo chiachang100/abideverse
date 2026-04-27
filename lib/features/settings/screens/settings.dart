@@ -11,6 +11,7 @@ import 'package:abideverse/features/joys/data/joy_repository.dart';
 import 'package:abideverse/shared/widgets/copyright.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/shared/services/db/local_storage_service.dart';
+import 'package:abideverse/shared/services/new_item_tracker.dart';
 
 import 'package:abideverse/shared/widgets/shared_app_bar.dart';
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
@@ -53,6 +54,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: ListView(
           children: [
             LanguageSection(joyRepository: widget.joyRepository),
+            Divider(),
+            ResetPrefsSection(),
             const CopyrightSection(),
             const SizedBox(height: 10),
           ],
@@ -62,6 +65,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
+//
+// Language Selection Section
+//
 class LanguageSection extends StatefulWidget {
   const LanguageSection({super.key, required this.joyRepository});
 
@@ -232,5 +238,157 @@ class _LanguageSectionState extends State<LanguageSection> {
         ],
       ),
     );
+  }
+}
+
+//
+// Reset Shared Preferences Section
+//
+class ResetPrefsSection extends StatefulWidget {
+  const ResetPrefsSection({super.key});
+
+  @override
+  State<ResetPrefsSection> createState() => _ResetPrefsSectionState();
+}
+
+class _ResetPrefsSectionState extends State<ResetPrefsSection> {
+  @override
+  Widget build(BuildContext context) {
+    return _buildDataManagementCard(context);
+  }
+
+  Widget _buildDataManagementCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 4.0, bottom: 8.0),
+            child: Text(
+              LocaleKeys.dataMgmt.tr(),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Colors.grey.shade300),
+            ),
+            clipBehavior: Clip.antiAlias, // Ensures splash stays inside corners
+            child: Column(
+              children: [
+                _buildResetTile(
+                  context,
+                  title:
+                      '${LocaleKeys.resetText.tr()} ${LocaleKeys.newFlag.tr()} [joys]',
+                  featureType: FeatureType.joys,
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                _buildResetTile(
+                  context,
+                  title:
+                      '${LocaleKeys.resetText.tr()} ${LocaleKeys.newFlag.tr()} [scriptures]',
+                  featureType: FeatureType.scriptures,
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                _buildResetTile(
+                  context,
+                  title:
+                      '${LocaleKeys.resetText.tr()} ${LocaleKeys.newFlag.tr()} [treasures]',
+                  featureType: FeatureType.treasures,
+                ),
+                Container(
+                  color: Colors.red.withValues(
+                    alpha: 0.05,
+                  ), // Subtle hint of danger
+                  child: ListTile(
+                    title: Text(
+                      '${LocaleKeys.resetText.tr()} ${LocaleKeys.newFlag.tr()} [all features]',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    leading: const Icon(Icons.delete_sweep, color: Colors.red),
+                    trailing: const Icon(
+                      Icons.chevron_right,
+                      color: Colors.red,
+                    ),
+                    onTap: () => _confirmReset(context, isAll: true),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResetTile(
+    BuildContext context, {
+    required String title,
+    required FeatureType featureType,
+  }) {
+    return ListTile(
+      title: Text(title),
+      leading: const Icon(Icons.refresh),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () => _confirmReset(context, feature: featureType),
+    );
+  }
+
+  Future<void> _confirmReset(
+    BuildContext context, {
+    FeatureType? feature,
+    bool isAll = false,
+  }) async {
+    final String featureName = isAll ? 'all features' : feature!.name;
+
+    logger.info('User initiated reset for $featureName');
+
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('${LocaleKeys.resetText.tr()} [$featureName?]'),
+        content: Text('[$featureName]: ${LocaleKeys.resetConfirmMsg.tr()}}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(LocaleKeys.resetText.tr()),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      final tracker = NewItemTracker();
+      if (isAll) {
+        await tracker.clearAllReadItems();
+      } else {
+        await tracker.resetFeature(feature!);
+      }
+
+      logger.info(
+        'Reset complete: all items of $featureName are now marked as new.',
+      );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '[$featureName]: ${LocaleKeys.resetCompleteMsg.tr()}',
+            ),
+          ),
+        );
+      }
+    }
   }
 }
