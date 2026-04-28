@@ -35,15 +35,15 @@ class GalleryScreen extends StatelessWidget {
         'title': '優美食 - 巧手家常菜 (優視頻道)',
         'id': 'PL0ua7D5NJtvVBYciPwuC3lQxomrTlbqS0',
       },
-      {'title': '2026 誰來作客 (優視頻道)', 'id': 'PLPR_qC7y5PLujUWJYoGqWr6w3zRBcPJ9X'},
-
-      /* 
-      {'title': '', 'id': ''},
-
       {
         'title': '焦點新聞 - 帶您來關心最新全球新聞焦點 (優視頻道)',
         'id': 'PLw09jf23adiGZAuPOAHVnauCLlokJpFFf',
       },
+
+      /* 
+      {'title': '', 'id': ''},
+
+      {'title': '2026 誰來作客 (優視頻道)', 'id': 'PLPR_qC7y5PLujUWJYoGqWr6w3zRBcPJ9X'},
       {'title': '龍門陣直播 (優視頻道)', 'id': 'PLZxghdYE0TEPvmZ-xPKF4g30WpqztrHvI'},
       {'title': '焦點財經 (優視頻道)', 'id': 'PLV66nvIGRo-Tv4X5_Wrd7y1H2V-tYoVHh'},
 

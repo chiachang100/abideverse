@@ -33,6 +33,9 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  int _secretTapCount = 0; // Track taps
+  bool _showAdminSection = false; // Control visibility
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +48,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _handleSecretTap() {
+    setState(() {
+      _secretTapCount++;
+      debugPrint("_handleSecretTap: Tapped $_secretTapCount times.");
+
+      if (_secretTapCount >= 7) {
+        // 7 taps is a safe standard
+        _showAdminSection = !_showAdminSection;
+        _secretTapCount = 0;
+
+        debugPrint("_handleSecretTap: Tapped 7 or more times.");
+
+        // Optional: Provide subtle haptic feedback so you know it worked
+        // HapticFeedback.lightImpact();
+      }
+    });
+
+    // Reset the count if the user stops tapping for 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) _secretTapCount = 0;
+      debugPrint(
+        "Reset the count due to the user stops tapping for 2 seconds.",
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,8 +84,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             LanguageSection(joyRepository: widget.joyRepository),
             Divider(),
-            ResetPrefsSection(),
-            const CopyrightSection(),
+
+            // Step 2: Conditional Rendering
+            if (_showAdminSection) ...[
+              const ResetPrefsSection(),
+              const Divider(),
+            ],
+
+            // Step 3: The Secret Trigger
+            GestureDetector(
+              onTap: _handleSecretTap,
+              child: const CopyrightSection(),
+            ),
+
             const SizedBox(height: 10),
           ],
         ),
