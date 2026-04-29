@@ -1,8 +1,8 @@
-import 'package:abideverse/shared/widgets/youtube_player.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
+
+import 'package:abideverse/shared/youtube/widgets/youtube_player.dart';
 
 class DisplayYouTubeVideo extends StatelessWidget {
   final String videoId;
@@ -32,7 +32,11 @@ class DisplayYouTubeVideo extends StatelessWidget {
             const SizedBox(height: 10),
             Text(videoName, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 10),
-            YoutubePlayerWidget(videoId: videoId, videoName: videoName),
+            YoutubePlayerWidget(
+              videoId: videoId,
+              videoName: videoName,
+              autoPop: false,
+            ),
           ],
         ),
       ),

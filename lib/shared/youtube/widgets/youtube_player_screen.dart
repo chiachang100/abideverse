@@ -1,5 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:abideverse/shared/youtube/widgets/youtube_player.dart';
+
+// youtube_player_screen.dart
+
+class YoutubePlayerScreen extends StatelessWidget {
+  final String videoId;
+  final String title;
+
+  const YoutubePlayerScreen({
+    required this.videoId,
+    required this.title,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Text(title),
+        ),
+      ),
+      body: Column(
+        children: [
+          YoutubePlayerWidget(
+            videoId: videoId,
+            videoName: title,
+            autoPop: false,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              title,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*
 
 class YoutubePlayerScreen extends StatefulWidget {
   final String videoId;
@@ -191,3 +237,5 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     super.dispose();
   }
 }
+
+*/

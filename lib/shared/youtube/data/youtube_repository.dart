@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -17,15 +19,19 @@ class ApiKeyClient extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {
-    // Manually append the key to the URL query parameters
+    // Directly manipulate the URI without recreating the whole Request object
     final uri = request.url.replace(
       queryParameters: {...request.url.queryParameters, 'key': apiKey},
     );
 
-    // Create a new request with the updated URI
-    final newRequest = http.Request(request.method, uri)
-      ..headers.addAll(request.headers)
-      ..bodyBytes = (request is http.Request) ? request.bodyBytes : [];
+    // Use a Request copy approach that is more resilient
+    final newRequest = http.Request(request.method, uri);
+    newRequest.headers.addAll(request.headers);
+
+    // Copy body if it's a standard Request
+    if (request is http.Request) {
+      newRequest.bodyBytes = request.bodyBytes;
+    }
 
     return _inner.send(newRequest);
   }
@@ -70,18 +76,38 @@ class GoogleApiYoutubeRepository implements IYoutubeRepository {
     String? pageToken,
   }) async {
     try {
+      // Explicitly defining the parts as a list.
+      // If the URL still shows only one, try joining them: ['snippet,contentDetails']
       final response = await _api.playlistItems.list(
-        ['snippet', 'contentDetails'],
+        ['snippet,contentDetails'],
         playlistId: playlistId,
         maxResults: limit,
         pageToken: pageToken,
       );
 
       final items = (response.items ?? [])
-          .map(
-            (item) => AppVideo(
+          .where(
+            (item) =>
+                item.contentDetails?.videoId != null &&
+                item.snippet?.title != 'Private video' &&
+                item.snippet?.title != 'Deleted video',
+          )
+          .map((item) {
+            // Log this to see if you are actually getting data
+            debugPrint(
+              'Mapping video id: ${item.contentDetails?.videoId}; title: ${item.snippet?.title}',
+            );
+            // DEBUG: Check if snippet is actually there
+            if (item.snippet == null) {
+              debugPrint(
+                'WARNING: Snippet is null for video ${item.contentDetails?.videoId}',
+              );
+            }
+
+            return AppVideo(
               id: item.contentDetails?.videoId ?? '',
-              title: item.snippet?.title ?? 'No Title',
+              // Use a better fallback so you can see if the UI is working
+              title: item.snippet?.title ?? 'Title Unavailable',
               author:
                   item.snippet?.videoOwnerChannelTitle ??
                   item.snippet?.channelTitle ??
@@ -91,10 +117,16 @@ class GoogleApiYoutubeRepository implements IYoutubeRepository {
                 mediumResUrl: item.snippet?.thumbnails?.medium?.url ?? '',
                 highResUrl: item.snippet?.thumbnails?.high?.url ?? '',
               ),
-              description: item.snippet?.description,
-            ),
-          )
+              description: item.snippet?.description ?? '',
+            );
+          })
           .toList();
+
+      // CRITICAL DEBUG: If this prints 0, the API is returning
+      // successful empty wrappers, not actual videos.
+      debugPrint(
+        '[GoogleApiYoutubeRepository] Total items mapped: ${items.length}',
+      );
 
       return (items, response.nextPageToken);
     } catch (e) {
