@@ -27,7 +27,7 @@ jobs:
           flutter --disable-analytics
           flutter pub get
           flutter test
-          flutter build web --release --wasm
+          flutter build web --dart-define=YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }} --release --wasm
         #- run: flutter build -v web --release
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
