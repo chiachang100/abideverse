@@ -133,5 +133,6 @@
   "resetText": "重置",
   "allFeatures": "所有功能",
   "resetCompleteMsg": "重置完成：所有项目现已标记为「新」。",
-  "resetConfirmMsg": "此操作会将所有项目重新标记为“新”。此操作无法撤销。"
+  "resetConfirmMsg": "此操作会将所有项目重新标记为“新”。此操作无法撤销。",
+  "moreConnections": "更多连结"
 }

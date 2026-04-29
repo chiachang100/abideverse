@@ -124,5 +124,6 @@ abstract class  LocaleKeys {
   static const allFeatures = 'allFeatures';
   static const resetCompleteMsg = 'resetCompleteMsg';
   static const resetConfirmMsg = 'resetConfirmMsg';
+  static const moreConnections = 'moreConnections';
 
 }

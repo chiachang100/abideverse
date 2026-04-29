@@ -3,14 +3,18 @@ import 'package:abideverse/core/constants/ui_constants.dart';
 
 class GalleryListItem extends StatelessWidget {
   final String title;
+  final String subtitle;
   final VoidCallback onTap;
   final int index;
+  final bool isExternal;
 
   const GalleryListItem({
     super.key,
     required this.title,
+    required this.subtitle,
     required this.onTap,
     required this.index,
+    this.isExternal = false,
   });
 
   @override
@@ -37,14 +41,17 @@ class GalleryListItem extends StatelessWidget {
             horizontal: 20,
             vertical: 8,
           ),
-          leading: CircleAvatar(
-            backgroundColor: avatarColor,
-            child: Text(
-              leadingChar,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: _readableTextColor(avatarColor),
+          leading: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            child: CircleAvatar(
+              backgroundColor: avatarColor,
+              child: Text(
+                leadingChar,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _readableTextColor(avatarColor),
+                ),
               ),
             ),
           ),
@@ -54,7 +61,24 @@ class GalleryListItem extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+          subtitle: subtitle.isNotEmpty
+              ? Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                    fontSize: 13,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+              : null,
+          trailing: Icon(
+            isExternal ? Icons.arrow_outward : Icons.chevron_right,
+            color: Colors.grey.withValues(alpha: 0.6),
+            size: 20,
+          ),
           onTap: onTap,
         ),
 
@@ -65,7 +89,7 @@ class GalleryListItem extends StatelessWidget {
           endIndent: 20, // Ends the line slightly before the right edge
           color: Theme.of(
             context,
-          ).dividerColor.withValues(alpha: 0.5), // Subtle color
+          ).dividerColor.withValues(alpha: 0.3), // Subtle color
         ),
       ],
     );

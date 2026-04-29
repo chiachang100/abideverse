@@ -133,5 +133,6 @@
   "resetText": "重置",
   "allFeatures": "所有功能",
   "resetCompleteMsg": "重設完成：所有項目現已標記為「新」。",
-  "resetConfirmMsg": "這將再次標記所有項目為「新」。此操作無法撤銷。"
+  "resetConfirmMsg": "這將再次標記所有項目為「新」。此操作無法撤銷。",
+  "moreConnections": "更多連結"
 }
