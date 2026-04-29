@@ -47,7 +47,8 @@ This project is a starting point for the AbideVerse App (abideverse).
 - `dart run build_runner build --delete-conflicting-outputs`
 
 If you want it to run automatically every time you save a file, use:
-`dart run build_runner watch --delete-conflicting-outputs`
+
+- `dart run build_runner watch --delete-conflicting-outputs`
 
 ---
 

@@ -13,7 +13,7 @@ part of 'youtube_pagination_service.dart';
 final youtubePaginationProvider = YoutubePaginationFamily._();
 
 final class YoutubePaginationProvider
-    extends $AsyncNotifierProvider<YoutubePagination, List<Video>> {
+    extends $AsyncNotifierProvider<YoutubePagination, List<AppVideo>> {
   YoutubePaginationProvider._({
     required YoutubePaginationFamily super.from,
     required String super.argument,
@@ -50,15 +50,15 @@ final class YoutubePaginationProvider
   }
 }
 
-String _$youtubePaginationHash() => r'2496c5bcb37abde96b0a616135c3ea736fa17537';
+String _$youtubePaginationHash() => r'f14bcf513fe5745c69514c945c3f374ab823f79f';
 
 final class YoutubePaginationFamily extends $Family
     with
         $ClassFamilyOverride<
           YoutubePagination,
-          AsyncValue<List<Video>>,
-          List<Video>,
-          FutureOr<List<Video>>,
+          AsyncValue<List<AppVideo>>,
+          List<AppVideo>,
+          FutureOr<List<AppVideo>>,
           String
         > {
   YoutubePaginationFamily._()
@@ -77,20 +77,20 @@ final class YoutubePaginationFamily extends $Family
   String toString() => r'youtubePaginationProvider';
 }
 
-abstract class _$YoutubePagination extends $AsyncNotifier<List<Video>> {
+abstract class _$YoutubePagination extends $AsyncNotifier<List<AppVideo>> {
   late final _$args = ref.$arg as String;
   String get playlistId => _$args;
 
-  FutureOr<List<Video>> build(String playlistId);
+  FutureOr<List<AppVideo>> build(String playlistId);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<Video>>, List<Video>>;
+    final ref = this.ref as $Ref<AsyncValue<List<AppVideo>>, List<AppVideo>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<Video>>, List<Video>>,
-              AsyncValue<List<Video>>,
+              AnyNotifier<AsyncValue<List<AppVideo>>, List<AppVideo>>,
+              AsyncValue<List<AppVideo>>,
               Object?,
               Object?
             >;

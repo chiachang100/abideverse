@@ -25,7 +25,7 @@ class _YoutubePlayerScreenState extends State<YoutubePlayerScreen> {
     _controller = YoutubePlayerController(
       initialVideoId: widget.videoId,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
         disableDragSeek: false,
         loop: false,

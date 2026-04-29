@@ -1,25 +1,31 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:abideverse/shared/youtube/data/youtube_repository.dart';
+import 'package:abideverse/shared/youtube/services/youtube_service.dart'; // Import where your manual provider lives
+import 'package:abideverse/shared/youtube/data/app_video.dart';
 
 part 'youtube_pagination_service.g.dart';
 
 @riverpod
 class YoutubePagination extends _$YoutubePagination {
+  String? _nextPageToken;
   bool _hasMore = true; // Add this private flag
   bool get hasMore => _hasMore;
 
   @override
-  Future<List<Video>> build(String playlistId) async {
+  Future<List<AppVideo>> build(String playlistId) async {
+    _nextPageToken = null;
     _hasMore = true; // Reset when building for a new ID
+
     final repo = ref.watch(youtubeRepositoryProvider);
-    final initial = await repo.fetchPlaylistBatch(
+    final (initialBatch, nextToken) = await repo.fetchPlaylistBatch(
       playlistId,
       limit: 20,
-      skip: 0,
+      pageToken: null, // First page has no token
     );
-    if (initial.length < 20) _hasMore = false;
-    return initial;
+
+    _nextPageToken = nextToken;
+    _hasMore = nextToken != null;
+
+    return initialBatch;
   }
 
   Future<void> fetchNextBatch() async {
@@ -30,16 +36,14 @@ class YoutubePagination extends _$YoutubePagination {
     final repo = ref.watch(youtubeRepositoryProvider);
 
     // Fetch the next 20 starting from the end of our current list
-    final nextBatch = await repo.fetchPlaylistBatch(
+    final (nextBatch, nextToken) = await repo.fetchPlaylistBatch(
       playlistId,
       limit: 20,
-      skip: currentVideos.length,
+      pageToken: _nextPageToken,
     );
+    _nextPageToken = nextToken;
+    _hasMore = nextToken != null;
 
-    if (nextBatch.isEmpty || nextBatch.length < 20) {
-      _hasMore = false;
-    }
-
-    state = AsyncData([...currentVideos, ...nextBatch]);
+    state = AsyncValue.data([...currentVideos, ...nextBatch]);
   }
 }

@@ -1,1 +1,1 @@
-flutter run -d 00008130 --release
+flutter run --dart-define-from-file=config.json -d 00008130 --release

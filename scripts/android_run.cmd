@@ -1,1 +1,1 @@
-flutter run -d emulator-5554
+flutter run --dart-define-from-file=config.json -d emulator-5554

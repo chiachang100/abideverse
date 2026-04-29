@@ -1,1 +1,1 @@
-flutter run -d web-server --web-port=5100 --wasm
+flutter run --dart-define-from-file=config.json -d web-server --web-port=5100 --wasm

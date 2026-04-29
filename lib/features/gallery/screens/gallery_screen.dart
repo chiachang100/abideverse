@@ -139,17 +139,32 @@ class GalleryScreen extends StatelessWidget {
               index: entry.key,
               title: item['title']!,
               subtitle: item['subtitle'] ?? '',
-              onTap: kIsWeb
-                  ? () => YoutubeLinkService.launchPlaylist(item['id']!)
-                  : () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PlaylistDetailScreen(
-                          title: item['title']!,
-                          playlistId: item['id']!,
-                        ),
+              onTap: () {
+                const apiKey = String.fromEnvironment('YOUTUBE_API_KEY');
+
+                // FAIL-SAFE: If we are on web and haven't setup the key yet,
+                // skip the detail screen and just launch the YouTube link.
+                if (kIsWeb && apiKey.isEmpty) {
+                  debugPrint(
+                    "[GalleryScreen] Web: (kIsWeb && apiKey.isEmpty), Use YoutubeLinkService.",
+                  );
+                  YoutubeLinkService.launchPlaylist(item['id']!);
+                } else {
+                  debugPrint(
+                    "[GalleryScreen] Use normal PlaylistDetailScreen.",
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlaylistDetailScreen(
+                        title: item['title']!,
+                        playlistId: item['id']!,
                       ),
                     ),
+                  );
+                }
+              },
             );
           }).toList(),
 
