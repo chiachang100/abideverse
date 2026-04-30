@@ -22,7 +22,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
 
   // Use a method instead of a final list - this will be called on each rebuild
   List<Map<String, dynamic>> _getCards() {
-    return [
+    final cards = [
       {
         'title': LocaleKeys.xlcd.tr(),
         'description': LocaleKeys.xlcdDescription.tr(),
@@ -42,6 +42,9 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         'route': '/treasures',
       },
     ];
+
+    cards.shuffle();
+    return cards;
   }
 
   void animateToPage(int index) {
