@@ -161,7 +161,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
                         style: Theme.of(
                           context,
                         ).textTheme.bodyMedium, // Using bodyMedium as requested
-                        maxLines: isLandscape ? 1 : 2,
+                        maxLines: isLandscape ? 1 : 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -183,8 +183,10 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         IconButton(
           icon: const Icon(Icons.chevron_left, size: 28),
           onPressed: () => _carouselController.previousPage(),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
+          // Increased padding creates a larger 'hit' zone around the icon
+          padding: const EdgeInsets.all(12.0),
+          // We remove the zero-constraints so it can expand to include the padding
+          constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
         ),
         const SizedBox(width: 16),
 
@@ -213,8 +215,10 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         IconButton(
           icon: const Icon(Icons.chevron_right, size: 28),
           onPressed: () => _carouselController.nextPage(),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
+          // Increased padding creates a larger 'hit' zone around the icon
+          padding: const EdgeInsets.all(12.0),
+          // We remove the zero-constraints so it can expand to include the padding
+          constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
         ),
       ],
     );
