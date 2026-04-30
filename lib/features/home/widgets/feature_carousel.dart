@@ -20,9 +20,19 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
   final CarouselSliderController _carouselController =
       CarouselSliderController();
 
+  late List<Map<String, dynamic>> _shuffledCards;
+
+  @override
+  void initState() {
+    super.initState();
+    // 2. Initialize and shuffle once
+    _shuffledCards = _generateInitialCards();
+    _shuffledCards.shuffle();
+  }
+
   // Use a method instead of a final list - this will be called on each rebuild
-  List<Map<String, dynamic>> _getCards() {
-    final cards = [
+  List<Map<String, dynamic>> _generateInitialCards() {
+    return [
       {
         'title': LocaleKeys.xlcd.tr(),
         'description': LocaleKeys.xlcdDescription.tr(),
@@ -42,9 +52,6 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         'route': '/treasures',
       },
     ];
-
-    cards.shuffle();
-    return cards;
   }
 
   void animateToPage(int index) {
@@ -61,7 +68,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     final isWeb = screenSize.width > 800;
 
     // Get fresh cards on every build
-    final cards = _getCards();
+    final cards = _shuffledCards;
 
     // Responsive calculations
     double imageHeight;
