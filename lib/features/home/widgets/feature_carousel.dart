@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
+// ... imports remain the same
+
 class FeatureCarousel extends StatefulWidget {
   const FeatureCarousel({super.key});
 
@@ -15,22 +17,16 @@ class FeatureCarousel extends StatefulWidget {
 
 class _FeatureCarouselState extends State<FeatureCarousel> {
   int _currentIndex = 0;
-
-  // Add this controller - create it once
   final CarouselSliderController _carouselController =
       CarouselSliderController();
-
   late List<Map<String, dynamic>> _shuffledCards;
 
   @override
   void initState() {
     super.initState();
-    // 2. Initialize and shuffle once
-    _shuffledCards = _generateInitialCards();
-    _shuffledCards.shuffle();
+    _shuffledCards = _generateInitialCards()..shuffle();
   }
 
-  // Use a method instead of a final list - this will be called on each rebuild
   List<Map<String, dynamic>> _generateInitialCards() {
     return [
       {
@@ -54,150 +50,63 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     ];
   }
 
-  void animateToPage(int index) {
-    _carouselController.animateToPage(index);
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isLandscape = screenSize.width > screenSize.height;
-    final isWeb = screenSize.width > 800;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double screenWidth = constraints.maxWidth;
+        final double screenHeight = MediaQuery.of(context).size.height;
+        final bool isLandscape = screenWidth > screenHeight; // Defined here
+        final bool isWeb = screenWidth > 800;
 
-    // Get fresh cards on every build
-    final cards = _shuffledCards;
+        double dynamicAspectRatio;
+        if (isWeb) {
+          dynamicAspectRatio = 3.0;
+        } else if (isLandscape) {
+          dynamicAspectRatio = 2.2;
+        } else {
+          dynamicAspectRatio = 1.1;
+        }
 
-    // Responsive calculations
-    double imageHeight;
-    double textHeight;
-    double extraHeight;
-
-    if (isLandscape && !isWeb) {
-      // iPhone Landscape - use smaller heights
-      imageHeight = 160;
-      textHeight = 70;
-      extraHeight = 30;
-    } else if (isWeb) {
-      // Web browsers - use moderate heights
-      imageHeight = 200;
-      textHeight = 80;
-      extraHeight = 40;
-    } else {
-      // Default (portrait mobile)
-      final cardWidth = screenSize.width * 0.85;
-      imageHeight = (cardWidth * 0.56).clamp(180, 250);
-      textHeight = 80;
-      extraHeight = 45;
-    }
-
-    final baseCardHeight = imageHeight + textHeight;
-    final totalCarouselHeight = baseCardHeight + extraHeight;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Carousel with extra height for enlarged center card
-        SizedBox(
-          height: totalCarouselHeight,
-          child: ClipRect(
-            // Prevents overflow rendering
-            child: CarouselSlider.builder(
-              carouselController: _carouselController,
-              itemCount: cards.length,
-              itemBuilder: (context, index, realIndex) {
-                final card = cards[index];
-                return Center(
-                  child: SizedBox(
-                    height: baseCardHeight,
-                    child: _buildFeatureCard(
-                      context: context,
-                      title: card['title'] as String,
-                      description: card['description'] as String,
-                      imagePath: card['imagePath'] as String,
-                      imageHeight: imageHeight,
-                      textHeight: textHeight,
-                      onTap: () => context.push(card['route'] as String),
-                    ),
-                  ),
-                );
-              },
-              options: CarouselOptions(
-                height: totalCarouselHeight,
-                autoPlay: false,
-                enlargeCenterPage: true,
-                enlargeFactor: isLandscape
-                    ? 0.15
-                    : 0.25, // Less enlargement in landscape
-                viewportFraction: isLandscape ? 0.7 : 0.85,
-                enableInfiniteScroll: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: isLandscape
+                    ? screenHeight * 0.5
+                    : screenHeight * 0.6,
+              ),
+              child: CarouselSlider.builder(
+                carouselController: _carouselController,
+                itemCount: _shuffledCards.length,
+                options: CarouselOptions(
+                  aspectRatio: dynamicAspectRatio,
+                  viewportFraction: isWeb ? 0.4 : (isLandscape ? 0.6 : 0.85),
+                  enlargeCenterPage: true,
+                  enlargeFactor: 0.2,
+                  disableCenter: true,
+                  onPageChanged: (index, reason) =>
+                      setState(() => _currentIndex = index),
+                ),
+                itemBuilder: (context, index, realIndex) {
+                  return _buildFeatureCard(
+                    context: context,
+                    title: _shuffledCards[index]['title'],
+                    description: _shuffledCards[index]['description'],
+                    imagePath: _shuffledCards[index]['imagePath'],
+                    onTap: () => context.push(_shuffledCards[index]['route']),
+                    isLandscape: isLandscape, // Pass it here
+                  );
                 },
               ),
             ),
-          ),
-        ),
-
-        // Dots Indicator
-        const SizedBox(height: 12),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Left arrow
-            IconButton(
-              icon: Icon(Icons.chevron_left, size: 24),
-              onPressed: () {
-                final newIndex =
-                    (_currentIndex - 1 + cards.length) % cards.length;
-                animateToPage(newIndex);
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-            ),
-
-            // Dots
-            ...cards.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () {
-                  _carouselController.animateToPage(entry.key);
-                  setState(() {
-                    _currentIndex = entry.key;
-                  });
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: _currentIndex == entry.key ? 24.0 : 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
-                    color: _currentIndex == entry.key
-                        ? Colors.green
-                        : Colors.grey.withValues(alpha: 0.5),
-                  ),
-                ),
-              );
-            }),
-
-            // Right arrow
-            IconButton(
-              icon: Icon(Icons.chevron_right, size: 24),
-              onPressed: () {
-                final newIndex = (_currentIndex + 1) % cards.length;
-                animateToPage(newIndex);
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-            ),
+            const SizedBox(height: 12),
+            _buildIndicators(),
+            const SizedBox(height: 8),
           ],
-        ),
-        const SizedBox(height: 8),
-      ],
+        );
+      },
     );
   }
 
@@ -206,95 +115,108 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
     required String title,
     required String description,
     required String imagePath,
-    required double imageHeight,
-    required double textHeight,
     required VoidCallback onTap,
+    required bool isLandscape, // Added parameter
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        clipBehavior: Clip.antiAlias,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Image
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
+            Expanded(
+              flex: 3,
               child: Image.asset(
                 imagePath,
-                height: imageHeight,
-                width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    height: imageHeight,
-                    color: Colors.grey.withValues(alpha: 0.3),
-                    child: const Center(
-                      child: Icon(Icons.image_not_supported, size: 40),
-                    ),
-                  );
-                },
+                // ... errorBuilder
               ),
             ),
-
-            // Text Content - Dynamic height
-            SizedBox(
-              height: textHeight,
+            Expanded(
+              flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                fontSize: constraints.maxHeight < 75 ? 13 : 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              description,
-                              style: TextStyle(
-                                fontSize: constraints.maxHeight < 75 ? 11 : 12,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.8),
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: isLandscape
+                            ? 18
+                            : null, // Slight adjustment for landscape
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Flexible(
+                      child: Text(
+                        description,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium, // Using bodyMedium as requested
+                        maxLines: isLandscape ? 1 : 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildIndicators() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Left Navigation
+        IconButton(
+          icon: const Icon(Icons.chevron_left, size: 28),
+          onPressed: () => _carouselController.previousPage(),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+        ),
+        const SizedBox(width: 16),
+
+        // Dot Array
+        ..._shuffledCards.asMap().entries.map((entry) {
+          return GestureDetector(
+            onTap: () => _carouselController.animateToPage(entry.key),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              width: _currentIndex == entry.key ? 24.0 : 8.0,
+              height: 8.0,
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                color: _currentIndex == entry.key
+                    ? Colors.green
+                    : Colors.grey.withValues(alpha: 0.5),
+              ),
+            ),
+          );
+        }),
+
+        const SizedBox(width: 16),
+
+        // Right Navigation
+        IconButton(
+          icon: const Icon(Icons.chevron_right, size: 28),
+          onPressed: () => _carouselController.nextPage(),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+        ),
+      ],
     );
   }
 }
