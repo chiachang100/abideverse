@@ -46,8 +46,9 @@ class GalleryScreen extends StatelessWidget {
         'id': 'PLFyg5v4HpNhX9jZfRTKD9pDLnVb4MTW2Z',
       },
       {
-        'title': 'Hymns for the Soul In English & Chinese',
-        'subtitle': '10 Inspired Hymns: Billy Graham Crusade Legacy.',
+        'title': '心靈詩歌 Hymns for the Soul',
+        'subtitle':
+            '10首讚美詩：葛培理佈道大會的傳承 10 Inspired Hymns: Billy Graham Crusade Legacy. ',
         'id': 'PLFyg5v4HpNhWah9MwwJNHyTNl0-SrJf3g',
       },
       {
@@ -100,17 +101,23 @@ class GalleryScreen extends StatelessWidget {
 
     final externalResources = [
       {
-        'title': '矽谷生命河靈糧堂',
+        'title': '主的喜樂網站 (joyolord.)',
+        'subtitle':
+            '主的喜樂是我力量 (尼 8:10). / The joy of the Lord is my strength (Neh. 8:10).',
+        'url': 'https://joyolord.com/',
+      },
+      {
+        'title': '矽谷生命河靈糧堂網站',
         'subtitle': '異象: 建造神榮耀的教會。 策略: 敬拜讚美、聖靈更新、小組教會、全地轉化。',
         'url': 'https://rolcc.net/',
       },
       {
-        'title': 'UChannel TV 優視頻道',
+        'title': 'UChannel TV 優視頻道網站',
         'subtitle': '優視頻道是全美#1華人非營利、全方位、生活頻道。',
         'url': 'https://www.uchanneltv.us/',
       },
       {
-        'title': 'GOOD TV',
+        'title': 'GOOD TV 網站',
         'subtitle': 'GOOD TV 好消息電視台',
         'url': 'https://www.youtube.com/user/goodtv',
       },
