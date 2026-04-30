@@ -24,6 +24,12 @@ class GalleryScreen extends StatelessWidget {
         'id': 'PLFyg5v4HpNhWy6JkmAPhEML1N1gH-Q5jv',
       },
       {
+        'title': '生命河精彩信息 | Sermon',
+        'subtitle': '矽谷生命河靈糧堂主日講道集。',
+        'id': 'PLU9oumaMMswAO6FzQ9cJeZk_Ac5WRLVeb',
+      },
+
+      {
         'title': '矽谷生命河靈糧堂 曾興才牧師講道集',
         'subtitle': '生命河流，真理餵養，活出豐盛人生。',
         'id': 'PLFyg5v4HpNhVEKQd7IGhXmz_a4dEbQgme',
