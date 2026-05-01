@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -7,6 +8,7 @@ import 'package:googleapis/youtube/v3.dart' as youtube;
 import 'package:http/http.dart' as http;
 
 import 'package:abideverse/shared/youtube/data/app_video.dart';
+import 'package:abideverse/shared/youtube/services/youtube_service.dart';
 
 // 1. Add the part file (ensure it matches the filename)
 //part 'youtube_repository.g.dart';
@@ -137,14 +139,9 @@ class GoogleApiYoutubeRepository implements IYoutubeRepository {
 
 class ExplodeYoutubeRepository implements IYoutubeRepository {
   final YoutubeExplode _yt;
+  final IYoutubeRepository fallback; // Pass your GoogleApi repo here
 
-  ExplodeYoutubeRepository(this._yt);
-
-  @override
-  Future<List<AppVideo>> fetchPlaylist(String playlistId) async {
-    final (items, _) = await fetchPlaylistBatch(playlistId);
-    return items;
-  }
+  ExplodeYoutubeRepository(this._yt, {required this.fallback});
 
   @override
   Future<(List<AppVideo>, String?)> fetchPlaylistBatch(
@@ -156,13 +153,38 @@ class ExplodeYoutubeRepository implements IYoutubeRepository {
       // Convert pageToken (string) back to skip (int)
       final skip = int.tryParse(pageToken ?? '0') ?? 0;
 
-      final videoStream = _yt.playlists.getVideos(playlistId);
-      final videos = await videoStream.skip(skip).take(limit).toList();
+      // 1. FAST CHECK: Try to get just ONE video with a 2-second timeout.
+      // If it's a 1000+ Shorts playlist, the scraper will likely return 0
+      // or timeout immediately here.
+      final List<Video> probe = await _yt.playlists
+          .getVideos(playlistId)
+          .take(1)
+          .toList()
+          .timeout(const Duration(seconds: 2));
+
+      if (probe.isEmpty) {
+        debugPrint(
+          "[ExplodeRepo] Fast-fail: No videos found. Switching to Fallback.",
+        );
+        return await fallback.fetchPlaylistBatch(
+          playlistId,
+          limit: limit,
+          pageToken: pageToken,
+        );
+      }
+
+      // 2. If the probe succeeded, proceed with the full batch
+      final videos = await _yt.playlists
+          .getVideos(playlistId)
+          .skip(skip)
+          .take(limit)
+          .toList();
 
       // The "next token" is just the next skip index
-      final nextToken = (videos.length == limit)
-          ? (skip + limit).toString()
-          : null;
+      // final nextToken = (videos.length == limit)
+      //     ? (skip + limit).toString()
+      //     : null;
+      final nextToken = (skip + limit).toString();
 
       // Mapping Explode Video to Google PlaylistItem snippet
       final mappedItems = videos
@@ -183,46 +205,27 @@ class ExplodeYoutubeRepository implements IYoutubeRepository {
 
       return (mappedItems, nextToken);
     } catch (e) {
-      throw Exception('ExplodeYoutubeRepository Error: $e');
+      if (e is TimeoutException) {
+        debugPrint(
+          "Shorts Playlist timed out. Consider using Data API fallback.",
+        );
+      }
+
+      //throw Exception('ExplodeYoutubeRepository Error: $e');
+
+      debugPrint("[ExplodeRepo] Scraper error: $e. Using API fallback.");
+      // 3. Fallback on any error (including real timeouts)
+      return await fallback.fetchPlaylistBatch(
+        playlistId,
+        limit: limit,
+        pageToken: pageToken,
+      );
     }
   }
+
+  @override
+  Future<List<AppVideo>> fetchPlaylist(String playlistId) async {
+    final (items, _) = await fetchPlaylistBatch(playlistId);
+    return items;
+  }
 }
-
-// class YoutubeRepository {
-//   final YoutubeExplode _yt;
-
-//   YoutubeRepository(this._yt);
-
-//   Future<List<Video>> fetchPlaylist(String playlistId) async {
-//     try {
-//       // Returns a Stream of videos, converted to a List
-//       return await _yt.playlists.getVideos(playlistId).toList();
-//     } catch (e) {
-//       throw Exception('YoutubeRepository Error: $e');
-//     }
-//   }
-
-//   Future<List<Video>> fetchPlaylistBatch(
-//     String playlistId, {
-//     int limit = 20,
-//     int skip = 0,
-//   }) async {
-//     try {
-//       // getVideos returns a Stream, which is perfect for batching
-//       final videoStream = _yt.playlists.getVideos(playlistId);
-
-//       // Skip the ones we already have and take the next batch
-//       return await videoStream.skip(skip).take(limit).toList();
-//     } catch (e) {
-//       throw Exception('YoutubeRepository Error: $e');
-//     }
-//   }
-// }
-
-// // 2. Add the provider function here
-// @riverpod
-// YoutubeRepository youtubeRepository(Ref ref) {
-//   final yt = YoutubeExplode();
-//   ref.onDispose(() => yt.close());
-//   return YoutubeRepository(yt);
-// }

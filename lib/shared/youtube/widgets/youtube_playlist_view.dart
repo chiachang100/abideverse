@@ -23,13 +23,22 @@ class _YoutubePlaylistViewState extends ConsumerState<YoutubePlaylistView> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      // If we are within 200 pixels of the bottom, load more
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        ref
-            .read(youtubePaginationProvider(widget.playlistId).notifier)
-            .fetchNextBatch();
-      }
+      // 1. Check the current state of the pagination
+      final asyncValue = ref.read(youtubePaginationProvider(widget.playlistId));
+
+      // 2. ONLY proceed if we have valid data and ARE NOT currently in an error/loading state
+      asyncValue.whenData((videos) {
+        if (videos.isNotEmpty &&
+            !asyncValue.isLoading &&
+            !asyncValue.hasError) {
+          if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 200) {
+            ref
+                .read(youtubePaginationProvider(widget.playlistId).notifier)
+                .fetchNextBatch();
+          }
+        }
+      });
     });
   }
 

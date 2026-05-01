@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -14,27 +16,19 @@ final youtubeClientProvider = Provider.autoDispose<YoutubeExplode>((ref) {
 });
 
 final youtubeRepositoryProvider = Provider<IYoutubeRepository>((ref) {
-  // 1. Logic for choosing the engine
+  const apiKey = String.fromEnvironment('YOUTUBE_API_KEY');
+
+  // Create the reliable API repo (but don't use it as primary on mobile yet)
+  final IYoutubeRepository googleRepo = apiKey.isNotEmpty
+      ? GoogleApiYoutubeRepository(apiKey)
+      : MissingKeyRepository();
+
   if (kIsWeb) {
-    const apiKey = String.fromEnvironment('YOUTUBE_API_KEY');
-
-    debugPrint("[youtube_repository] Web: Found YouTube API Key.");
-
-    // Fallback: If no key is provided, the UI will handle the error by launching a link
-    if (apiKey.isEmpty) {
-      debugPrint("[youtube_repository] Web: YouTube API Key not found.");
-      return MissingKeyRepository();
-    }
-
-    return GoogleApiYoutubeRepository(apiKey);
+    return googleRepo;
   } else {
-    // 2. Logic for iOS/Android
-
-    debugPrint("[youtube_repository] iOS/Android: Use YoutubeExplode.");
-
-    final yt = YoutubeExplode();
-    ref.onDispose(() => yt.close());
-    return ExplodeYoutubeRepository(yt);
+    // 2. For Mobile, pass the googleRepo into the Explode wrapper
+    final yt = ref.watch(youtubeClientProvider);
+    return ExplodeYoutubeRepository(yt, fallback: googleRepo);
   }
 });
 
@@ -56,14 +50,22 @@ final youtubePlaylistService = FutureProvider.family<List<AppVideo>, String>((
   ref,
   id,
 ) async {
+  // Keep the provider alive even on error to prevent the loop
+  final keeper = ref.keepAlive();
+
+  final repo = ref.watch(youtubeRepositoryProvider);
+
   try {
-    final repo = ref.watch(youtubeRepositoryProvider);
     final videos = await repo.fetchPlaylist(id);
     debugPrint('Successfully fetched ${videos.length} videos for $id');
     return videos;
-  } catch (e, stack) {
+  } catch (e) {
     debugPrint('YOUTUBE ERROR: $e');
-    debugPrint('STACKTRACE: $stack');
+
+    // If it fails, start a timer to allow disposal after 30 seconds,
+    // but don't let it retry every millisecond in the meantime.
+    Timer(const Duration(seconds: 30), () => keeper.close());
+
     rethrow;
   }
 });

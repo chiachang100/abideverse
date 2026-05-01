@@ -6,7 +6,9 @@ class UrlService {
   static Future<void> launch(
     String urlString, {
     //LaunchMode mode = LaunchMode.externalApplication,
-    LaunchMode mode = LaunchMode.platformDefault,
+    //LaunchMode mode = LaunchMode.platformDefault,
+    //LaunchMode mode = LaunchMode.externalNonBrowserApplication,
+    LaunchMode mode = LaunchMode.inAppBrowserView,
   }) async {
     final Uri? url = Uri.tryParse(urlString);
 
