@@ -86,6 +86,9 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
                   enlargeCenterPage: true,
                   enlargeFactor: 0.2,
                   disableCenter: true,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 5),
+                  enableInfiniteScroll: true,
                   onPageChanged: (index, reason) =>
                       setState(() => _currentIndex = index),
                 ),
