@@ -71,9 +71,8 @@ class GalleryRepository {
       ),
       const GalleryItem(
         title: '耶穌愛你 App',
-        subtitle: 'Jesus Loves You! (Same as AbideVerse App.)',
-        //target: 'https://jesuslovesyou.app/',
-        target: '',
+        subtitle: '耶穌愛你 耶稣爱你 Jesus Loves You! (JesusLovesYou.app)',
+        target: 'https://jesuslovesyou.app/',
         type: GalleryItemType.externalLink,
       ),
       const GalleryItem(
