@@ -31,14 +31,14 @@ import 'package:abideverse/features/gallery/screens/gallery_screen.dart';
 class AppRoutes {
   static const home = '/';
 
-  static const joys = '/joys';
-  static const joysDetail = '/joys/joy/:articleId';
-
   static const scriptures = '/scriptures';
   static const scriptureDetail = '/scriptures/scripture/:articleId';
 
   static const treasures = '/treasures';
   static const treasureDetail = '/treasures/treasure/:articleId';
+
+  static const joys = '/joys';
+  static const joysDetail = '/joys/joy/:articleId';
 
   static const bibleChat = '/bible-chat';
   static const about = '/about';
@@ -176,9 +176,9 @@ GoRouter createRouter({
         navigatorKey: appShellNavigatorKey,
         builder: (context, state, child) {
           final indexMap = {
-            '/joys': 1,
-            '/scriptures': 2,
-            '/treasures': 3,
+            '/scriptures': 1,
+            '/treasures': 2,
+            '/joys': 3,
             '/bible-chat': 4, // Map to 4 so the 'More' tab stays lit
             '/gallery': 5,
             '/resources': 6,
@@ -210,28 +210,6 @@ GoRouter createRouter({
             path: AppRoutes.home,
             pageBuilder: (context, state) =>
                 fadePage(const HomeScreen(), state.pageKey),
-          ),
-
-          // --------------------------
-          // JOYS
-          // --------------------------
-          GoRoute(
-            path: AppRoutes.joys,
-            pageBuilder: (context, state) => fadePage(
-              JoysPage(locale: context.locale.toLanguageTag()),
-              state.pageKey,
-            ),
-          ),
-
-          GoRoute(
-            path: AppRoutes.joysDetail,
-            builder: (context, state) {
-              final id = int.parse(state.pathParameters['articleId']!);
-              return JoyDetailPage(
-                articleId: id,
-                locale: context.locale.toLanguageTag(),
-              );
-            },
           ),
 
           // --------------------------
@@ -272,6 +250,28 @@ GoRouter createRouter({
             builder: (context, state) {
               final id = int.parse(state.pathParameters['articleId']!);
               return TreasureDetailPage(
+                articleId: id,
+                locale: context.locale.toLanguageTag(),
+              );
+            },
+          ),
+
+          // --------------------------
+          // JOYS
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.joys,
+            pageBuilder: (context, state) => fadePage(
+              JoysPage(locale: context.locale.toLanguageTag()),
+              state.pageKey,
+            ),
+          ),
+
+          GoRoute(
+            path: AppRoutes.joysDetail,
+            builder: (context, state) {
+              final id = int.parse(state.pathParameters['articleId']!);
+              return JoyDetailPage(
                 articleId: id,
                 locale: context.locale.toLanguageTag(),
               );

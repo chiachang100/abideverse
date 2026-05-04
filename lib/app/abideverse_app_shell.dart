@@ -57,9 +57,9 @@ class AbideVerseAppShell extends StatelessWidget {
     // The absolute order of your features
     const allPaths = [
       '/', // Home
-      '/joys',
       '/scriptures',
       '/treasures',
+      '/joys',
       '/bible-chat',
       '/gallery',
       '/resources',
@@ -74,11 +74,6 @@ class AbideVerseAppShell extends StatelessWidget {
         selectedIcon: const Icon(Icons.home),
       ),
       NavigationDestination(
-        label: abideverseXlcdTitle,
-        icon: const Icon(Icons.record_voice_over_outlined),
-        selectedIcon: const Icon(Icons.record_voice_over),
-      ),
-      NavigationDestination(
         label: abideverseScriptLabel,
         icon: const Icon(Icons.menu_book_outlined),
         selectedIcon: const Icon(Icons.menu_book),
@@ -87,6 +82,11 @@ class AbideVerseAppShell extends StatelessWidget {
         label: abideverseTreasureLabel,
         icon: const Icon(Icons.card_giftcard_outlined),
         selectedIcon: const Icon(Icons.card_giftcard),
+      ),
+      NavigationDestination(
+        label: abideverseXlcdTitle,
+        icon: const Icon(Icons.record_voice_over_outlined),
+        selectedIcon: const Icon(Icons.record_voice_over),
       ),
       NavigationDestination(
         label: abideverseBibleChatLabel,
