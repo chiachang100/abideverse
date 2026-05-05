@@ -70,12 +70,6 @@ class GalleryRepository {
         type: GalleryItemType.externalLink,
       ),
       const GalleryItem(
-        title: '耶穌愛你 App',
-        subtitle: '耶穌愛你 耶稣爱你 Jesus Loves You! (JesusLovesYou.app)',
-        target: 'https://jesuslovesyou.app/',
-        type: GalleryItemType.externalLink,
-      ),
-      const GalleryItem(
         title: '矽谷生命河靈糧堂網站',
         subtitle: '異象: 建造神榮耀的教會。 策略: 敬拜讚美、聖靈更新、小組教會、全地轉化。',
         target: 'https://rolcc.net/',
@@ -163,6 +157,13 @@ class GalleryRepository {
         subtitle: '優視SPOTLIGHT (優視頻道)',
         target: 'PLvrKRwXvxwNpM2-O2S_7WFRvwsE8rn4mH',
         type: GalleryItemType.playlist,
+      ),
+
+      const GalleryItem(
+        title: '耶穌愛你 App',
+        subtitle: '耶穌愛你 耶稣爱你 Jesus Loves You! (JesusLovesYou.app)',
+        target: 'https://jesuslovesyou.app/',
+        type: GalleryItemType.externalLink,
       ),
 
     */
