@@ -44,7 +44,7 @@ class _JoysPageState extends State<JoysPage> {
   bool isLoading = true;
   bool isSearchInitial = true;
 
-  SortOrder sortOrder = SortOrder.desc; // Initial state
+  SortOrder sortOrder = SortOrder.none; // Initial state
   Set<String> likedJoyIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
 
