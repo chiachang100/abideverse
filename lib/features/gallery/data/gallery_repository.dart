@@ -5,9 +5,9 @@ class GalleryRepository {
   /// In the future, this could be an async call to a CMS or JSON file.
   List<GalleryItem> getGalleryItems() {
     return [
-      //
-      // --- Playlists ---
-      //
+      //===================================
+      // Playlists
+      //===================================
       const GalleryItem(
         title: '日富一日背誦聖經 Shorts',
         subtitle: '神的話語，每日靈糧，積累屬天財富。',
@@ -60,9 +60,9 @@ class GalleryRepository {
 
       // More Connections
 
-      //
-      // --- External Links ---
-      //
+      //===================================
+      // External Links
+      //===================================
       const GalleryItem(
         title: '主的喜樂網站 (joyolord.com)',
         subtitle: '主的喜樂是我力量 (尼 8:10).',
@@ -88,6 +88,10 @@ class GalleryRepository {
         target: 'https://www.youtube.com/user/goodtv',
         type: GalleryItemType.externalLink,
       ),
+
+      //===================================
+      // Template and Archived List
+      //===================================
 
       /*
 

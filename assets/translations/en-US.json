@@ -134,5 +134,6 @@
   "allFeatures": "All Features",
   "resetCompleteMsg": "Reset complete: all items are now marked as new.",
   "resetConfirmMsg": "This will mark all items as 'NEW' again. This action cannot be undone.",
-  "moreConnections": "More Connections"
+  "moreConnections": "More Connections",
+  "totalCount": "Total"
 }
