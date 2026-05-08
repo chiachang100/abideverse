@@ -245,6 +245,15 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: Column(
             children: [
+              Text(
+                'v${AppConfig.appVersion}',
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+
               // Use key to force rebuild when language changes
               Expanded(child: FeatureCarousel(key: _carouselKey)),
             ],
