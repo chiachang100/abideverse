@@ -42,14 +42,28 @@ class AppDrawer extends StatelessWidget {
               ),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  abideverseName,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    // 2. Uses the theme's 'onSurface' color (Black in Light, White in Dark)
-                    color: colorScheme.onSurface,
-                  ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/icons/abideverse-leading-icon.webp',
+                        height: 30.0,
+                        width: 30.0,
+                      ),
+                      onPressed: () {
+                        Routes(context).goHome();
+                      },
+                    ),
+                    Text(
+                      abideverseName,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        // 2. Uses the theme's 'onSurface' color (Black in Light, White in Dark)
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

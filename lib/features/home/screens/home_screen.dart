@@ -229,7 +229,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocaleKeys.abideverseName.tr()),
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/icons/abideverse-leading-icon.webp',
+              height: 30.0,
+              width: 30.0,
+            ),
+            SizedBox(width: 2.0),
+            Text(LocaleKeys.abideverseName.tr()),
+          ],
+        ),
         centerTitle: false,
         actions: [
           IconButton(
