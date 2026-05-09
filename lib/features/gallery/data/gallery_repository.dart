@@ -9,21 +9,10 @@ class GalleryRepository {
       // Playlists
       //===================================
       const GalleryItem(
-        title: '日富一日背誦聖經 Shorts',
-        subtitle: '神的話語，每日靈糧，積累屬天財富。',
-        target: 'PLFyg5v4HpNhWy6JkmAPhEML1N1gH-Q5jv',
-        type: GalleryItemType.playlist,
-      ),
-      const GalleryItem(
-        title: '生命河精彩信息 | Sermon',
-        subtitle: '矽谷生命河靈糧堂主日講道集。',
-        target: 'PLU9oumaMMswAO6FzQ9cJeZk_Ac5WRLVeb',
-        type: GalleryItemType.playlist,
-      ),
-      const GalleryItem(
-        title: '矽谷生命河靈糧堂 曾興才牧師講道集',
-        subtitle: '生命河流，真理餵養，活出豐盛人生。',
-        target: 'PLFyg5v4HpNhVEKQd7IGhXmz_a4dEbQgme',
+        title: '心靈詩歌 Hymns for the Soul',
+        subtitle:
+            '10首讚美詩：葛培理佈道大會的傳承 10 Inspired Hymns: Billy Graham Crusade Legacy. ',
+        target: 'PLFyg5v4HpNhWah9MwwJNHyTNl0-SrJf3g',
         type: GalleryItemType.playlist,
       ),
       const GalleryItem(
@@ -39,10 +28,15 @@ class GalleryRepository {
         type: GalleryItemType.playlist,
       ),
       const GalleryItem(
-        title: '心靈詩歌 Hymns for the Soul',
-        subtitle:
-            '10首讚美詩：葛培理佈道大會的傳承 10 Inspired Hymns: Billy Graham Crusade Legacy. ',
-        target: 'PLFyg5v4HpNhWah9MwwJNHyTNl0-SrJf3g',
+        title: '生命河精彩信息 | Sermon',
+        subtitle: '矽谷生命河靈糧堂主日講道集。建造神榮耀的教會。敬拜讚美、聖靈更新、小組教會、全地轉化。',
+        target: 'PLU9oumaMMswAO6FzQ9cJeZk_Ac5WRLVeb',
+        type: GalleryItemType.playlist,
+      ),
+      const GalleryItem(
+        title: '曾興才牧師講道集',
+        subtitle: '生命河流、真理餵養、活出豐盛人生。 (矽谷生命河靈糧堂) ',
+        target: 'PLFyg5v4HpNhVEKQd7IGhXmz_a4dEbQgme',
         type: GalleryItemType.playlist,
       ),
       const GalleryItem(
@@ -111,6 +105,13 @@ class GalleryRepository {
         title: 'CoComelon Playdates #shorts',
         subtitle: 'CoComelon Playdates #shorts。',
         target: 'PLT1rvk7Trkw58_e-9kX5Lj8eTetvYhHUx',
+        type: GalleryItemType.playlist,
+      ),
+
+      const GalleryItem(
+        title: '日富一日背誦聖經 Shorts',
+        subtitle: '神的話語，每日靈糧，積累屬天財富。',
+        target: 'PLFyg5v4HpNhWy6JkmAPhEML1N1gH-Q5jv',
         type: GalleryItemType.playlist,
       ),
 

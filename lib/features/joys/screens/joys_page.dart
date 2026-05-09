@@ -269,7 +269,7 @@ class _JoysPageState extends State<JoysPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(LocaleKeys.xlcd.tr()),
+            Text(LocaleKeys.joys.tr()),
             // Second row: Filtered count + New items badge
             Row(
               mainAxisSize: MainAxisSize.min,

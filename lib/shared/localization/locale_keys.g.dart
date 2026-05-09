@@ -21,6 +21,8 @@ abstract class  LocaleKeys {
   static const treasuresDescription = 'treasuresDescription';
   static const xlcd = 'xlcd';
   static const xlcdDescription = 'xlcdDescription';
+  static const JesusLovesYou = 'JesusLovesYou';
+  static const JesusLovesYouDescription = 'JesusLovesYouDescription';
   static const joys = 'joys';
   static const more = 'more';
   static const about = 'about';
@@ -125,5 +127,6 @@ abstract class  LocaleKeys {
   static const resetCompleteMsg = 'resetCompleteMsg';
   static const resetConfirmMsg = 'resetConfirmMsg';
   static const moreConnections = 'moreConnections';
+  static const totalCount = 'totalCount';
 
 }

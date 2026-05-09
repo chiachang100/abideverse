@@ -33,6 +33,8 @@ class CodegenLoader extends AssetLoader{
   "treasuresDescription": "Bible stories and Chinese idioms with corresponding Bible Verses. Timeless wisdom bridging faith and culture.",
   "xlcd": "XLCD",
   "xlcdDescription": "52 humorous stories with biblical wisdom. Laughter that heals and inspires.",
+  "JesusLovesYou": "Jesus Loves You",
+  "JesusLovesYouDescription": "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life. (John 3:16)",
   "joys": "Xiào Lǐ Cáng Dào",
   "more": "More",
   "about": "About",
@@ -136,13 +138,14 @@ class CodegenLoader extends AssetLoader{
   "allFeatures": "All Features",
   "resetCompleteMsg": "Reset complete: all items are now marked as new.",
   "resetConfirmMsg": "This will mark all items as 'NEW' again. This action cannot be undone.",
-  "moreConnections": "More Connections"
+  "moreConnections": "More Connections",
+  "totalCount": "Total"
 };
 static const Map<String,dynamic> _zh_CN = {
-  "appTitle": "AbideVerse 常在主里",
+  "appTitle": "常在主里",
   "abideverse": "AbideVerse",
   "joyolord": "主的喜乐",
-  "abideverseName": "常在主里 AbideVerse",
+  "abideverseName": "常在主里",
   "xlcdappName": "xlcdapp",
   "signIn": "🗝登入",
   "signOut": "↪登出",
@@ -157,6 +160,8 @@ static const Map<String,dynamic> _zh_CN = {
   "treasuresDescription": "圣经故事与中国成语(附带相应的圣经经文)。连结信仰与文化的永恒智慧。",
   "xlcd": "笑里藏道",
   "xlcdDescription": "52篇幽默故事与圣经智慧。能医治心灵的喜乐良药。",
+  "JesusLovesYou": "耶稣爱你",
+  "JesusLovesYouDescription": "「神爱世人，甚至将他的独生子赐给他们，叫一切信他的不致灭亡，反得永生。」 (约翰福音 3:16)",
   "joys": "笑里藏道",
   "more": "更多",
   "about": "关于",
@@ -260,13 +265,14 @@ static const Map<String,dynamic> _zh_CN = {
   "allFeatures": "所有功能",
   "resetCompleteMsg": "重置完成：所有项目现已标记为「新」。",
   "resetConfirmMsg": "此操作会将所有项目重新标记为“新”。此操作无法撤销。",
-  "moreConnections": "更多连结"
+  "moreConnections": "更多连结",
+  "totalCount": "总计"
 };
 static const Map<String,dynamic> _zh_TW = {
-  "appTitle": "AbideVerse 常在主裡",
+  "appTitle": "常在主裡",
   "abideverse": "AbideVerse ",
   "joyolord": "主的喜樂",
-  "abideverseName": "常在主裡 AbideVerse",
+  "abideverseName": "常在主裡",
   "xlcdappName": "xlcdapp",
   "signIn": "🗝登入",
   "signOut": "↪登出",
@@ -281,6 +287,8 @@ static const Map<String,dynamic> _zh_TW = {
   "treasuresDescription": "聖經故事與中國成語(附上相應的聖經經文)。連結信仰與文化的永恆智慧。",
   "xlcd": "笑裡藏道",
   "xlcdDescription": "52篇幽默故事與聖經智慧。能醫治心靈的喜樂良藥。",
+  "JesusLovesYou": "耶穌愛你",
+  "JesusLovesYouDescription": "「神愛世人，甚至將他的獨生子賜給他們，叫一切信他的不致滅亡，反得永生。」 (約翰福音 3:16)",
   "joys": "笑裡藏道",
   "more": "更多",
   "about": "關於",
@@ -384,7 +392,8 @@ static const Map<String,dynamic> _zh_TW = {
   "allFeatures": "所有功能",
   "resetCompleteMsg": "重設完成：所有項目現已標記為「新」。",
   "resetConfirmMsg": "這將再次標記所有項目為「新」。此操作無法撤銷。",
-  "moreConnections": "更多連結"
+  "moreConnections": "更多連結",
+  "totalCount": "總計"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

@@ -30,7 +30,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
   List<Map<String, dynamic>> _generateInitialCards() {
     return [
       {
-        'title': LocaleKeys.xlcd.tr(),
+        'title': LocaleKeys.joys.tr(),
         'description': LocaleKeys.xlcdDescription.tr(),
         'imagePath': 'assets/images/carousel/joys_preview.webp',
         'route': '/joys',
@@ -46,6 +46,12 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         'description': LocaleKeys.treasuresDescription.tr(),
         'imagePath': 'assets/images/carousel/treasures_preview.webp',
         'route': '/treasures',
+      },
+      {
+        'title': LocaleKeys.JesusLovesYou.tr(),
+        'description': LocaleKeys.JesusLovesYouDescription.tr(),
+        'imagePath': 'assets/images/carousel/jesuslovesyou_preview.webp',
+        'route': '/scriptures',
       },
     ];
   }
@@ -134,7 +140,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
               flex: 3,
               child: Image.asset(
                 imagePath,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 // ... errorBuilder
               ),
             ),

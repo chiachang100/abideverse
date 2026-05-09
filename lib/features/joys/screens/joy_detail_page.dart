@@ -72,7 +72,7 @@ class _JoyDetailPageState extends State<JoyDetailPage> {
 
     if (joy == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(LocaleKeys.xlcd.tr())),
+        appBar: AppBar(title: Text(LocaleKeys.joys.tr())),
         body: Center(
           child: Text(LocaleKeys.itemNotFound.tr()),
         ), // add translation key if available
