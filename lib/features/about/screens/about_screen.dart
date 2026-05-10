@@ -63,7 +63,9 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AbideAppBar(title: LocaleKeys.about.tr()),
+      appBar: AbideAppBar(
+        title: '${LocaleKeys.about.tr()} ${LocaleKeys.abideverseName.tr()}',
+      ),
       drawer: const AppDrawer(),
       // appBar: AppBar(
       //   title: Text('${LocaleKeys.about.tr()} '),
@@ -138,13 +140,16 @@ class _AboutHeaderSectionState extends State<AboutHeaderSection> {
         mainAxisAlignment: MainAxisAlignment.center, // Centers vertically
         crossAxisAlignment: CrossAxisAlignment.center, // Centers horizontally
         children: <Widget>[
-          Text("AbideVerse", style: const TextStyle(fontSize: 18.0)),
+          Text(
+            LocaleKeys.abideverseName.tr(),
+            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: SizedBox(
-                height: 100,
-                width: 70,
+                height: 300,
+                width: 300,
                 child: Image.asset(
                   "assets/logos/abideverse_splash_logo.webp",
                   fit: BoxFit.contain,

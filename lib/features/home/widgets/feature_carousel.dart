@@ -170,7 +170,7 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
                         style: Theme.of(
                           context,
                         ).textTheme.bodyMedium, // Using bodyMedium as requested
-                        maxLines: isLandscape ? 1 : 3,
+                        maxLines: isLandscape ? 1 : 4,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
