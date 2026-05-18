@@ -22,5 +22,17 @@
     "type": 1,
     "isNew": true,
     "category": "聖經故事"
+  },
+  {
+    "articleId": 9999,
+    "title": "",
+    "treasureImage": "assets/images/treasures/.webp",
+    "treasureMeaning": "",
+    "treasureStory": "",
+    "treasureRealLife": "",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "聖經故事"
   }
 ]
