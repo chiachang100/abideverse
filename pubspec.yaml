@@ -1,7 +1,7 @@
 name: abideverse
 description: "AbideVerse 常在主裡 - Your Daily Bible Verse Companion."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 6.20.40
+version: 6.20.42
 
 environment:
   sdk: ^3.10.1
@@ -45,7 +45,7 @@ dependencies:
 
   # REMOVE: flutter_signin_button: ^2.0.0
   # REPLACE WITH:
-  sign_in_button: ^3.2.0
+  sign_in_button: ^5.0.0
   flutter_native_splash: ^2.4.0
   youtube_player_flutter: ^9.0.0
   flutter_inappwebview: ^6.0.0
@@ -67,6 +67,7 @@ dependencies:
   youtube_explode_dart: ^3.0.5
   googleapis: ^16.0.0
   http: ^1.6.0
+  font_awesome_flutter: ^11.0.0
 
 dev_dependencies:
   flutter_test:

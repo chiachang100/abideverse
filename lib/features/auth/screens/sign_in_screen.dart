@@ -346,7 +346,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (email != null) {
       try {
-        await FirebaseService.instance.auth.sendPasswordResetEmail(
+        await AbideVerseFirebaseService.instance.auth.sendPasswordResetEmail(
           email: email!,
         );
         ScaffoldSnackbar.of(context).show('Password reset email is sent');
@@ -361,7 +361,7 @@ class _SignInScreenState extends State<SignInScreen> {
     setIsLoading();
 
     try {
-      await FirebaseService.instance.auth.signInAnonymously();
+      await AbideVerseFirebaseService.instance.auth.signInAnonymously();
     } on FirebaseAuthException catch (e) {
       setState(() {
         error = '${e.message}';
@@ -408,7 +408,7 @@ class _SignInScreenState extends State<SignInScreen> {
       },
     );
 
-    await FirebaseService.instance.auth.signInAnonymously();
+    await AbideVerseFirebaseService.instance.auth.signInAnonymously();
     logSignIn.info(
       '[SignIn] SingInAnonymously uid: ${FirebaseAuth.instance.currentUser?.uid}',
     );
@@ -432,7 +432,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (formKey.currentState?.validate() ?? false) {
       if (mode == AuthMode.login) {
-        userCredential = await FirebaseService.instance.auth
+        userCredential = await AbideVerseFirebaseService.instance.auth
             .signInWithEmailAndPassword(
               email: emailController.text,
               password: passwordController.text,
@@ -447,7 +447,7 @@ class _SignInScreenState extends State<SignInScreen> {
           },
         );
       } else {
-        userCredential = await FirebaseService.instance.auth
+        userCredential = await AbideVerseFirebaseService.instance.auth
             .createUserWithEmailAndPassword(
               email: emailController.text,
               password: passwordController.text,
@@ -511,9 +511,8 @@ class _SignInScreenState extends State<SignInScreen> {
       );
 
       // Once signed in, return the UserCredential
-      userCredential = await FirebaseService.instance.auth.signInWithCredential(
-        credential,
-      );
+      userCredential = await AbideVerseFirebaseService.instance.auth
+          .signInWithCredential(credential);
       user = userCredential.user;
       if (user != null) {
         logSignIn.info(
@@ -547,7 +546,7 @@ class _SignInScreenState extends State<SignInScreen> {
       },
     );
 
-    await FirebaseService.instance.auth.signOut();
+    await AbideVerseFirebaseService.instance.auth.signOut();
     await GoogleSignIn().signOut();
   }
 }

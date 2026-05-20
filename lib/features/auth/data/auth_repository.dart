@@ -19,7 +19,7 @@ class JoystoreAuth extends ChangeNotifier {
       },
     );
 
-    await FirebaseService.instance.auth.signOut();
+    await AbideVerseFirebaseService.instance.auth.signOut();
     await GoogleSignIn().signOut();
 
     await Future<void>.delayed(const Duration(milliseconds: 200));

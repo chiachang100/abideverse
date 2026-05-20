@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:abideverse/firebase_options.dart' as fbopts;
 
 /// A small Firebase initialization wrapper/service.
-/// Call FirebaseService.initialize(...) from main() before runApp().
-class FirebaseService {
-  FirebaseService._(); // private constructor
+/// Call AbideVerseFirebaseService.initialize(...) from main() before runApp().
+class AbideVerseFirebaseService {
+  AbideVerseFirebaseService._(); // private constructor
 
-  static final FirebaseService instance = FirebaseService._();
+  static final AbideVerseFirebaseService instance =
+      AbideVerseFirebaseService._();
 
   late final FirebaseApp app;
   late final FirebaseAuth auth;
@@ -16,9 +17,9 @@ class FirebaseService {
   /// DefaultFirebaseOptions.currentPlatform if available.
   ///
   /// Example:
-  ///   await FirebaseService.instance.initialize();
+  ///   await AbideVerseFirebaseService.instance.initialize();
   /// or
-  ///   await FirebaseService.instance.initialize(options: myOptions);
+  ///   await AbideVerseFirebaseService.instance.initialize(options: myOptions);
   Future<void> initialize({FirebaseOptions? options}) async {
     if (options != null) {
       app = await Firebase.initializeApp(options: options);

@@ -21,12 +21,14 @@ class StartupService {
   /// Run all heavy startup tasks. This is intended to be called
   /// AFTER runApp() on a background async path (e.g. from StartupScreen).
   Future<void> run() async {
-    // 1) Initialize Firebase and FirebaseService
+    // 1) Initialize Firebase and AbideVerseFirebaseService
     final app = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    FirebaseService.instance.app = app;
-    FirebaseService.instance.auth = FirebaseAuth.instanceFor(app: app);
+    AbideVerseFirebaseService.instance.app = app;
+    AbideVerseFirebaseService.instance.auth = FirebaseAuth.instanceFor(
+      app: app,
+    );
 
     // 2) Firestore settings
     final firestore = FirebaseFirestore.instance;
