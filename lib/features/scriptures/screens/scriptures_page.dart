@@ -47,7 +47,7 @@ class _ScripturesPageState extends State<ScripturesPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  SortOrder sortOrder = SortOrder.none; // Initial state
+  SortOrder sortOrder = SortOrder.desc; // Initial state
   Set<String> likedScriptureIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
   TaskStatus filterStatus = TaskStatus.all;
@@ -170,11 +170,11 @@ class _ScripturesPageState extends State<ScripturesPage> {
   /// Toggle between ascending/descending sort order
   Future<void> _toggleSortOrder() async {
     setState(() {
-      // Cycle through: none → asc → desc → none
+      // Cycle through: none → desc → asc → none
       if (sortOrder == SortOrder.none) {
-        sortOrder = SortOrder.asc;
-      } else if (sortOrder == SortOrder.asc) {
         sortOrder = SortOrder.desc;
+      } else if (sortOrder == SortOrder.desc) {
+        sortOrder = SortOrder.asc;
       } else {
         sortOrder = SortOrder.none;
       }

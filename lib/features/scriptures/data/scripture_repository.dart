@@ -20,7 +20,7 @@ class ScriptureRepository {
 
   /// Public loader - returns cached list if loaded; parses using compute() once.
   Future<List<Scripture>> getScriptures({
-    SortOrder order = SortOrder.none,
+    SortOrder order = SortOrder.desc,
     bool forceReload = false,
     bool shuffle = false,
   }) async {
@@ -65,7 +65,7 @@ class ScriptureRepository {
   /// Simple search that uses cached list
   Future<List<Scripture>> search(
     String query, {
-    SortOrder order = SortOrder.asc,
+    SortOrder order = SortOrder.desc,
   }) async {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) {

@@ -44,7 +44,7 @@ class _JoysPageState extends State<JoysPage> {
   bool isLoading = true;
   bool isSearchInitial = true;
 
-  SortOrder sortOrder = SortOrder.none; // Initial state
+  SortOrder sortOrder = SortOrder.desc; // Initial state
   Set<String> likedJoyIds = {}; // Stores articleIds of liked items
   bool showOnlyFavorites = false;
 
@@ -150,11 +150,11 @@ class _JoysPageState extends State<JoysPage> {
 
   Future<void> _toggleSortOrder() async {
     setState(() {
-      // Cycle through: none → asc → desc → none
+      // Cycle through: none → desc → asc → none
       if (sortOrder == SortOrder.none) {
-        sortOrder = SortOrder.asc;
-      } else if (sortOrder == SortOrder.asc) {
         sortOrder = SortOrder.desc;
+      } else if (sortOrder == SortOrder.desc) {
+        sortOrder = SortOrder.asc;
       } else {
         sortOrder = SortOrder.none;
       }
