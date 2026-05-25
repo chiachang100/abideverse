@@ -130,31 +130,31 @@ class _ScripturesPageState extends State<ScripturesPage> {
     );
 
     // 2. Priority Sort for "None" order
-    if (sortOrder == SortOrder.none) {
-      final tracker = NewItemTracker();
+    //if (sortOrder == SortOrder.none) {
+    final tracker = NewItemTracker();
 
-      // Create two buckets based on the tracker's logic
-      final newItems = <Scripture>[];
-      final oldItems = <Scripture>[];
+    // Create two buckets based on the tracker's logic
+    final newItems = <Scripture>[];
+    final oldItems = <Scripture>[];
 
-      for (final item in data) {
-        // Use your tracker logic here
-        final isNew = tracker.isItemNewSync(
-          FeatureType.scriptures,
-          item.articleId,
-          item.isNew, // Assuming this is the 'isNewFlag' from the model
-        );
+    for (final item in data) {
+      // Use your tracker logic here
+      final isNew = tracker.isItemNewSync(
+        FeatureType.scriptures,
+        item.articleId,
+        item.isNew, // Assuming this is the 'isNewFlag' from the model
+      );
 
-        if (isNew) {
-          newItems.add(item);
-        } else {
-          oldItems.add(item);
-        }
+      if (isNew) {
+        newItems.add(item);
+      } else {
+        oldItems.add(item);
       }
-
-      // 3. Recombine: New items first (maintaining their relative order), then old items
-      data = [...newItems, ...oldItems];
     }
+
+    // 3. Recombine: New items first (maintaining their relative order), then old items
+    data = [...newItems, ...oldItems];
+    //}
 
     setState(() {
       scriptures = data;

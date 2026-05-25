@@ -125,31 +125,31 @@ class _TreasuresPageState extends State<TreasuresPage> {
     );
 
     // 2. Priority Sort for "None" order
-    if (sortOrder == SortOrder.none) {
-      final tracker = NewItemTracker();
+    //if (sortOrder == SortOrder.none) {
+    final tracker = NewItemTracker();
 
-      // Create two buckets based on the tracker's logic
-      final newItems = <Treasure>[];
-      final oldItems = <Treasure>[];
+    // Create two buckets based on the tracker's logic
+    final newItems = <Treasure>[];
+    final oldItems = <Treasure>[];
 
-      for (final item in data) {
-        // Use your tracker logic here
-        final isNew = tracker.isItemNewSync(
-          FeatureType.treasures,
-          item.articleId,
-          item.isNew, // Assuming this is the 'isNewFlag' from the model
-        );
+    for (final item in data) {
+      // Use your tracker logic here
+      final isNew = tracker.isItemNewSync(
+        FeatureType.treasures,
+        item.articleId,
+        item.isNew, // Assuming this is the 'isNewFlag' from the model
+      );
 
-        if (isNew) {
-          newItems.add(item);
-        } else {
-          oldItems.add(item);
-        }
+      if (isNew) {
+        newItems.add(item);
+      } else {
+        oldItems.add(item);
       }
-
-      // 3. Recombine: New items first (maintaining their relative order), then old items
-      data = [...newItems, ...oldItems];
     }
+
+    // 3. Recombine: New items first (maintaining their relative order), then old items
+    data = [...newItems, ...oldItems];
+    //}
 
     setState(() {
       treasures = data;
