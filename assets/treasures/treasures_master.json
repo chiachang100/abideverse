@@ -4102,5 +4102,17 @@
     "type": 1,
     "isNew": true,
     "category": "成語故事"
+  },
+  {
+    "articleId": 343,
+    "title": "",
+    "treasureImage": "assets/images/treasures/.webp",
+    "treasureMeaning": "",
+    "treasureStory": "",
+    "treasureRealLife": "",
+    "likes": 1,
+    "type": 1,
+    "isNew": true,
+    "category": "成語故事"
   }
 ]
