@@ -128,5 +128,7 @@ abstract class  LocaleKeys {
   static const resetConfirmMsg = 'resetConfirmMsg';
   static const moreConnections = 'moreConnections';
   static const totalCount = 'totalCount';
+  static const gotoString = 'gotoString';
+  static const websiteString = 'websiteString';
 
 }

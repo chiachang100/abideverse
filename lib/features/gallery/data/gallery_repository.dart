@@ -1,4 +1,8 @@
 import 'package:abideverse/features/gallery/models/gallery_item.dart';
+import 'package:abideverse/core/constants/global_constants.dart';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 
 class GalleryRepository {
   /// Fetches the curated list of resources.
@@ -57,6 +61,26 @@ class GalleryRepository {
       //===================================
       // External Links
       //===================================
+      GalleryItem(
+        title: LocaleKeys.bibleVerse.tr(),
+        subtitle: LocaleKeys.bibleVerseDescription.tr(),
+        target: GlobalConstants.scripturesUrlString,
+        type: GalleryItemType.externalLink,
+      ),
+      GalleryItem(
+        title: LocaleKeys.treasures.tr(),
+        subtitle: LocaleKeys.treasuresDescription.tr(),
+        target: GlobalConstants.treasuresUrlString,
+        type: GalleryItemType.externalLink,
+      ),
+      GalleryItem(
+        title: LocaleKeys.joys.tr(),
+        subtitle: LocaleKeys.xlcdDescription.tr(),
+        target: GlobalConstants.joysUrlString,
+        type: GalleryItemType.externalLink,
+      ),
+
+      // More
       const GalleryItem(
         title: '主的喜樂網站 (joyolord.com)',
         subtitle: '主的喜樂是我力量 (尼 8:10).',

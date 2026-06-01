@@ -85,8 +85,8 @@ class AbideVerseAppShell extends StatelessWidget {
       ),
       NavigationDestination(
         label: abideverseXlcdTitle,
-        icon: const Icon(Icons.record_voice_over_outlined),
-        selectedIcon: const Icon(Icons.record_voice_over),
+        icon: const Icon(Icons.sentiment_very_satisfied_outlined),
+        selectedIcon: const Icon(Icons.sentiment_very_satisfied),
       ),
       NavigationDestination(
         label: abideverseBibleChatLabel,

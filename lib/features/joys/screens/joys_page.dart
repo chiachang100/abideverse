@@ -13,10 +13,12 @@ import 'package:abideverse/shared/utils/task_status.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/config/app_config.dart';
 import 'package:abideverse/core/constants/locale_constants.dart';
+import 'package:abideverse/core/constants/global_constants.dart';
 import 'package:abideverse/shared/services/new_item_tracker.dart';
 
 import 'package:abideverse/shared/widgets/shared_app_bar.dart';
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+import 'package:abideverse/shared/services/url_service.dart';
 
 final logger = Logger('JoysPage');
 
@@ -375,6 +377,22 @@ class _JoysPageState extends State<JoysPage> {
                   onPressed: _clearSearch,
                 ),
               ],
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () =>
+                    UrlService.launch(GlobalConstants.joysUrlString),
+                child: Text(
+                  '${LocaleKeys.gotoString.tr()} '
+                  '「${LocaleKeys.joys.tr()}」 '
+                  '${LocaleKeys.websiteString.tr()}',
+                ),
+              ),
             ),
           ),
 

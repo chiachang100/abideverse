@@ -90,7 +90,7 @@ class AppDrawer extends StatelessWidget {
           ),
           _buildMenuItem(
             context,
-            Icons.record_voice_over_outlined,
+            Icons.sentiment_very_satisfied_outlined,
             abideverseJoyTitle,
             () => Routes(context).goJoys(),
           ),

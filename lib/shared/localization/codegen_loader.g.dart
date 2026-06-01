@@ -139,7 +139,9 @@ class CodegenLoader extends AssetLoader{
   "resetCompleteMsg": "Reset complete: all items are now marked as new.",
   "resetConfirmMsg": "This will mark all items as 'NEW' again. This action cannot be undone.",
   "moreConnections": "More Connections",
-  "totalCount": "Total"
+  "totalCount": "Total",
+  "gotoString": "Go to",
+  "websiteString": "website"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "常在主里",
@@ -266,7 +268,9 @@ static const Map<String,dynamic> _zh_CN = {
   "resetCompleteMsg": "重置完成：所有项目现已标记为「新」。",
   "resetConfirmMsg": "此操作会将所有项目重新标记为“新”。此操作无法撤销。",
   "moreConnections": "更多连结",
-  "totalCount": "总计"
+  "totalCount": "总计",
+  "gotoString": "前往",
+  "websiteString": "网站"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "常在主裡",
@@ -393,7 +397,9 @@ static const Map<String,dynamic> _zh_TW = {
   "resetCompleteMsg": "重設完成：所有項目現已標記為「新」。",
   "resetConfirmMsg": "這將再次標記所有項目為「新」。此操作無法撤銷。",
   "moreConnections": "更多連結",
-  "totalCount": "總計"
+  "totalCount": "總計",
+  "gotoString": "前往",
+  "websiteString": "網站"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }
