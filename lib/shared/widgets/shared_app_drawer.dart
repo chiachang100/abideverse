@@ -85,7 +85,7 @@ class AppDrawer extends StatelessWidget {
           ),
           _buildMenuItem(
             context,
-            Icons.card_giftcard_outlined,
+            Icons.workspace_premium_outlined,
             abideverseTreasureLabel,
             () => Routes(context).goTreasures(),
           ),
@@ -97,7 +97,7 @@ class AppDrawer extends StatelessWidget {
           ),
           _buildMenuItem(
             context,
-            Icons.article_outlined,
+            Icons.feed_outlined,
             abideverseWPBlogsLabel,
             () => Routes(context).goWPBlogs(),
           ),

@@ -416,7 +416,7 @@ class _TreasuresPageState extends State<TreasuresPage> {
           //   child: SizedBox(
           //     width: double.infinity,
           //     child: OutlinedButton.icon(
-          //       icon: const Icon(Icons.article),
+          //       icon: const Icon(Icons.feed),
           //       onPressed: () => context.push(AppRoutes.wpblogs),
           //       label: Text(LocaleKeys.latestArticles.tr()),
           //     ),

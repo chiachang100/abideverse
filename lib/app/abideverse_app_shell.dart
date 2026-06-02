@@ -86,8 +86,8 @@ class AbideVerseAppShell extends StatelessWidget {
       ),
       NavigationDestination(
         label: abideverseTreasureLabel,
-        icon: const Icon(Icons.card_giftcard_outlined),
-        selectedIcon: const Icon(Icons.card_giftcard),
+        icon: const Icon(Icons.workspace_premium_outlined),
+        selectedIcon: const Icon(Icons.workspace_premium),
       ),
       NavigationDestination(
         label: abideverseXlcdLabel,
@@ -96,8 +96,8 @@ class AbideVerseAppShell extends StatelessWidget {
       ),
       NavigationDestination(
         label: abideverseWPBlogsLabel,
-        icon: const Icon(Icons.article_outlined),
-        selectedIcon: const Icon(Icons.article),
+        icon: const Icon(Icons.feed_outlined),
+        selectedIcon: const Icon(Icons.feed),
       ),
       NavigationDestination(
         label: abideverseBibleChatLabel,
