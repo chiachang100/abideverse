@@ -188,6 +188,7 @@ GoRouter createRouter({
             '/settings': 7,
             '/about': 8,
             '/more': 4,
+            '/wpblog': 1,
           };
 
           // Special handling for home
@@ -353,6 +354,15 @@ GoRouter createRouter({
             pageBuilder: (context, state) =>
                 fadePage(const MoreMenuScreen(), state.pageKey),
           ),
+
+          // --------------------------
+          // WPBLOGS - WORDPRESS BLOG APA
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.wpblog,
+            pageBuilder: (context, state) =>
+                fadePage(WPBlogScreen(), state.pageKey),
+          ),
         ],
       ),
 
@@ -376,15 +386,6 @@ GoRouter createRouter({
         path: AppRoutes.firestoreAdmin,
         pageBuilder: (context, state) =>
             fadePage(FirestoreAdminScreen(firestore: firestore), state.pageKey),
-      ),
-
-      // --------------------------
-      // WPBLOGS - WORDPRESS BLOG APA
-      // --------------------------
-      GoRoute(
-        path: AppRoutes.wpblog,
-        pageBuilder: (context, state) =>
-            fadePage(WPBlogScreen(), state.pageKey),
       ),
     ],
   );

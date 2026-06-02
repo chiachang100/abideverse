@@ -68,7 +68,7 @@ class WPBlogScreen extends StatelessWidget {
                   return Center(
                     child: Text(
                       '${LocaleKeys.unableToLoadArticles.tr()}'
-                      '\n\n'
+                      '\n'
                       '${LocaleKeys.tryAgainLater.tr()}',
                     ),
                   );
