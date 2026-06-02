@@ -11,10 +11,10 @@ import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/constants/global_constants.dart';
 import 'package:abideverse/shared/services/url_service.dart';
 
-class WPBlogScreen extends StatelessWidget {
+class WPBlogsScreen extends StatelessWidget {
   final api = WordpressApi();
 
-  WPBlogScreen({super.key});
+  WPBlogsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

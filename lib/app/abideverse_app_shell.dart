@@ -38,7 +38,7 @@ class AbideVerseAppShell extends StatelessWidget {
     );
 
     String abideverseHomeLabel = LocaleKeys.home.tr();
-    String abideverseXlcdTitle = LocaleKeys.xlcd.tr();
+    String abideverseXlcdLabel = LocaleKeys.xlcd.tr();
     String abideverseScriptLabel = LocaleKeys.scriptures.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
@@ -47,6 +47,7 @@ class AbideVerseAppShell extends StatelessWidget {
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
     String abideverseGalleryLabel = LocaleKeys.gallery.tr();
+    String abideverseWPBlogLabel = LocaleKeys.latestArticles.tr();
 
     // const maxWidth = 600.0;
     final maxWidth = (MediaQuery.of(context).size.width) * 1.0;
@@ -60,6 +61,7 @@ class AbideVerseAppShell extends StatelessWidget {
       '/scriptures',
       '/treasures',
       '/joys',
+      '/wpblogs',
       '/bible-chat',
       '/gallery',
       '/resources',
@@ -84,9 +86,14 @@ class AbideVerseAppShell extends StatelessWidget {
         selectedIcon: const Icon(Icons.card_giftcard),
       ),
       NavigationDestination(
-        label: abideverseXlcdTitle,
+        label: abideverseXlcdLabel,
         icon: const Icon(Icons.sentiment_very_satisfied_outlined),
         selectedIcon: const Icon(Icons.sentiment_very_satisfied),
+      ),
+      NavigationDestination(
+        label: abideverseWPBlogLabel,
+        icon: const Icon(Icons.article_outlined),
+        selectedIcon: const Icon(Icons.article),
       ),
       NavigationDestination(
         label: abideverseBibleChatLabel,
@@ -115,21 +122,21 @@ class AbideVerseAppShell extends StatelessWidget {
       ),
     ];
 
-    // 1. Destinations remain 4 items on small screens
+    // 1. Destinations remain 5 items on small screens
     final List<NavigationDestination> currentDestinations = isSmall
-        ? fullDestinations.take(4).toList()
+        ? fullDestinations.take(5).toList()
         : fullDestinations;
 
     // 2. The "Safe" Index for the Widget
-    // We must provide an index < 4 to avoid the crash.
-    // If the actual index is >= 4, we pass 0, but we won't color it as selected.
-    final int widgetSelectedIndex = (isSmall && selectedIndex >= 4)
+    // We must provide an index < 5 to avoid the crash.
+    // If the actual index is >= 5, we pass 0, but we won't color it as selected.
+    final int widgetSelectedIndex = (isSmall && selectedIndex >= 5)
         ? 0
         : selectedIndex;
 
     // 3. Navigation Logic
     void handleNavigation(int idx) {
-      // idx will only ever be 0, 1, 2, or 3 from the BottomBar
+      // idx will only ever be 0 - 4 from the BottomBar
       context.go(allPaths[idx]);
     }
 
@@ -150,7 +157,7 @@ class AbideVerseAppShell extends StatelessWidget {
                       : Colors.white.withValues(alpha: 0.7),
                   surfaceTintColor: Colors.transparent,
                   elevation: 0,
-                  indicatorColor: (isSmall && selectedIndex >= 4)
+                  indicatorColor: (isSmall && selectedIndex >= 5)
                       ? Colors
                             .transparent // Hide the green pill if we're on a drawer-only page
                       : Colors.green.withValues(alpha: 0.15),

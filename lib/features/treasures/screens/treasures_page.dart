@@ -411,17 +411,17 @@ class _TreasuresPageState extends State<TreasuresPage> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.article),
-                onPressed: () => context.push(AppRoutes.wpblog),
-                label: Text(LocaleKeys.latestArticles.tr()),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: SizedBox(
+          //     width: double.infinity,
+          //     child: OutlinedButton.icon(
+          //       icon: const Icon(Icons.article),
+          //       onPressed: () => context.push(AppRoutes.wpblogs),
+          //       label: Text(LocaleKeys.latestArticles.tr()),
+          //     ),
+          //   ),
+          // ),
 
           // List of Treasures
           Expanded(

@@ -419,18 +419,6 @@ class _ScripturesPageState extends State<ScripturesPage> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.article),
-                onPressed: () => context.push(AppRoutes.wpblog),
-                label: Text(LocaleKeys.latestArticles.tr()),
-              ),
-            ),
-          ),
-
           // List of Scriptures
           Expanded(
             child: RefreshIndicator(

@@ -56,7 +56,7 @@ class AppRoutes {
 
   static const more = '/more';
 
-  static const wpblog = '/wpblog';
+  static const wpblogs = '/wpblogs';
 }
 
 final GlobalKey<NavigatorState> appShellNavigatorKey =
@@ -188,7 +188,7 @@ GoRouter createRouter({
             '/settings': 7,
             '/about': 8,
             '/more': 4,
-            '/wpblog': 1,
+            '/wpblogs': 1,
           };
 
           // Special handling for home
@@ -359,9 +359,9 @@ GoRouter createRouter({
           // WPBLOGS - WORDPRESS BLOG APA
           // --------------------------
           GoRoute(
-            path: AppRoutes.wpblog,
+            path: AppRoutes.wpblogs,
             pageBuilder: (context, state) =>
-                fadePage(WPBlogScreen(), state.pageKey),
+                fadePage(WPBlogsScreen(), state.pageKey),
           ),
         ],
       ),
@@ -429,5 +429,5 @@ class Routes {
   void goSignIn() => context.go(AppRoutes.signIn);
   void goFirestoreAdmin() => context.go(AppRoutes.firestoreAdmin);
 
-  void goWPBlog() => context.go(AppRoutes.wpblog);
+  void goWPBlogs() => context.go(AppRoutes.wpblogs);
 }
