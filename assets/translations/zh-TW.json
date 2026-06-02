@@ -140,5 +140,9 @@
   "moreConnections": "更多連結",
   "totalCount": "總計",
   "gotoString": "前往",
-  "websiteString": "網站"
+  "websiteString": "網站",
+  "latestArticles": "最新文章",
+  "unableToLoadArticles": "無法載入最新文章。",
+  "tryAgainLater": "請稍後再試。",
+  "noArticlesAvailable": "暫無文章"
 }

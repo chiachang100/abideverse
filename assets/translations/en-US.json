@@ -140,5 +140,9 @@
   "moreConnections": "More Connections",
   "totalCount": "Total",
   "gotoString": "Go to",
-  "websiteString": "website"
+  "websiteString": "website",
+  "latestArticles": "Latest Articles",
+  "unableToLoadArticles": "Unable to load the latest articles.",
+  "tryAgainLater": "Please try again later.",
+  "noArticlesAvailable": "No Articles Available"
 }

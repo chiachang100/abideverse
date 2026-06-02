@@ -141,7 +141,11 @@ class CodegenLoader extends AssetLoader{
   "moreConnections": "More Connections",
   "totalCount": "Total",
   "gotoString": "Go to",
-  "websiteString": "website"
+  "websiteString": "website",
+  "latestArticles": "Latest Articles",
+  "unableToLoadArticles": "Unable to load the latest articles.",
+  "tryAgainLater": "Please try again later.",
+  "noArticlesAvailable": "No Articles Available"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "常在主里",
@@ -270,7 +274,11 @@ static const Map<String,dynamic> _zh_CN = {
   "moreConnections": "更多连结",
   "totalCount": "总计",
   "gotoString": "前往",
-  "websiteString": "网站"
+  "websiteString": "网站",
+  "latestArticles": "最新文章",
+  "unableToLoadArticles": "无法加载最新文章。",
+  "tryAgainLater": "请稍后重试。",
+  "noArticlesAvailable": "暂无文章"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "常在主裡",
@@ -399,7 +407,11 @@ static const Map<String,dynamic> _zh_TW = {
   "moreConnections": "更多連結",
   "totalCount": "總計",
   "gotoString": "前往",
-  "websiteString": "網站"
+  "websiteString": "網站",
+  "latestArticles": "最新文章",
+  "unableToLoadArticles": "無法載入最新文章。",
+  "tryAgainLater": "請稍後再試。",
+  "noArticlesAvailable": "暫無文章"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }

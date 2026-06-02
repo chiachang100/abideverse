@@ -27,6 +27,7 @@ import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
 import 'package:abideverse/shared/widgets/markdown_viewer.dart';
 import 'package:abideverse/features/gallery/screens/gallery_screen.dart';
+import 'package:abideverse/shared/wpblogs/screens/wpblogs_screen.dart';
 
 class AppRoutes {
   static const home = '/';
@@ -54,6 +55,8 @@ class AppRoutes {
   static const gallery = '/gallery';
 
   static const more = '/more';
+
+  static const wpblog = '/wpblog';
 }
 
 final GlobalKey<NavigatorState> appShellNavigatorKey =
@@ -374,6 +377,15 @@ GoRouter createRouter({
         pageBuilder: (context, state) =>
             fadePage(FirestoreAdminScreen(firestore: firestore), state.pageKey),
       ),
+
+      // --------------------------
+      // WPBLOGS - WORDPRESS BLOG APA
+      // --------------------------
+      GoRoute(
+        path: AppRoutes.wpblog,
+        pageBuilder: (context, state) =>
+            fadePage(WPBlogScreen(), state.pageKey),
+      ),
     ],
   );
 }
@@ -415,4 +427,6 @@ class Routes {
 
   void goSignIn() => context.go(AppRoutes.signIn);
   void goFirestoreAdmin() => context.go(AppRoutes.firestoreAdmin);
+
+  void goWPBlog() => context.go(AppRoutes.wpblog);
 }

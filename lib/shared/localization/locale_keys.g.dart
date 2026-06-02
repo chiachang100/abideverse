@@ -130,5 +130,9 @@ abstract class  LocaleKeys {
   static const totalCount = 'totalCount';
   static const gotoString = 'gotoString';
   static const websiteString = 'websiteString';
+  static const latestArticles = 'latestArticles';
+  static const unableToLoadArticles = 'unableToLoadArticles';
+  static const tryAgainLater = 'tryAgainLater';
+  static const noArticlesAvailable = 'noArticlesAvailable';
 
 }

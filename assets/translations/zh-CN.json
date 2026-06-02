@@ -140,5 +140,9 @@
   "moreConnections": "更多连结",
   "totalCount": "总计",
   "gotoString": "前往",
-  "websiteString": "网站"
+  "websiteString": "网站",
+  "latestArticles": "最新文章",
+  "unableToLoadArticles": "无法加载最新文章。",
+  "tryAgainLater": "请稍后重试。",
+  "noArticlesAvailable": "暂无文章"
 }
