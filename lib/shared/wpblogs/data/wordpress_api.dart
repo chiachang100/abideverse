@@ -10,7 +10,7 @@ class WordpressApi {
   Future<List<WPPost>> getPosts() async {
     try {
       final response = await http
-          .get(Uri.parse('$baseUrl/posts?per_page=20'))
+          .get(Uri.parse('$baseUrl/posts?per_page=10'))
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode != 200) {
