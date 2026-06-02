@@ -48,10 +48,13 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         'route': '/treasures',
       },
       {
-        'title': LocaleKeys.JesusLovesYou.tr(),
-        'description': LocaleKeys.JesusLovesYouDescription.tr(),
+        'title': LocaleKeys.latestArticles.tr(),
+        'description':
+            '${LocaleKeys.JesusLovesYou.tr()}'
+            '! '
+            '${LocaleKeys.JesusLovesYouDescription.tr()}',
         'imagePath': 'assets/images/carousel/jesuslovesyou_preview.webp',
-        'route': '/scriptures',
+        'route': '/wpblogs',
       },
     ];
   }
