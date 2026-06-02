@@ -15,7 +15,8 @@ class AppDrawer extends StatelessWidget {
     String abideverseHomeLabel = LocaleKeys.home.tr();
     String abideverseScriptLabel = LocaleKeys.scriptures.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
-    String abideverseJoyTitle = LocaleKeys.joys.tr();
+    String abideverseJoyLabel = LocaleKeys.joys.tr();
+    String abideverseWPBlogsLabel = LocaleKeys.latestArticles.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     String abideverseGalleryLabel = LocaleKeys.gallery.tr();
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
@@ -91,8 +92,14 @@ class AppDrawer extends StatelessWidget {
           _buildMenuItem(
             context,
             Icons.sentiment_very_satisfied_outlined,
-            abideverseJoyTitle,
+            abideverseJoyLabel,
             () => Routes(context).goJoys(),
+          ),
+          _buildMenuItem(
+            context,
+            Icons.article_outlined,
+            abideverseWPBlogsLabel,
+            () => Routes(context).goWPBlogs(),
           ),
           _buildMenuItem(
             context,

@@ -41,13 +41,13 @@ class AbideVerseAppShell extends StatelessWidget {
     String abideverseXlcdLabel = LocaleKeys.xlcd.tr();
     String abideverseScriptLabel = LocaleKeys.scriptures.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
+    String abideverseWPBlogsLabel = LocaleKeys.latestArticles.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     //String abideverseMoreLabel = LocaleKeys.more.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
     String abideverseSettingsLabel = LocaleKeys.settings.tr();
     String abideverseGalleryLabel = LocaleKeys.gallery.tr();
-    String abideverseWPBlogLabel = LocaleKeys.latestArticles.tr();
 
     // const maxWidth = 600.0;
     final maxWidth = (MediaQuery.of(context).size.width) * 1.0;
@@ -91,7 +91,7 @@ class AbideVerseAppShell extends StatelessWidget {
         selectedIcon: const Icon(Icons.sentiment_very_satisfied),
       ),
       NavigationDestination(
-        label: abideverseWPBlogLabel,
+        label: abideverseWPBlogsLabel,
         icon: const Icon(Icons.article_outlined),
         selectedIcon: const Icon(Icons.article),
       ),

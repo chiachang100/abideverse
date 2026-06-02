@@ -182,13 +182,13 @@ GoRouter createRouter({
             '/scriptures': 1,
             '/treasures': 2,
             '/joys': 3,
-            '/bible-chat': 4, // Map to 4 so the 'More' tab stays lit
-            '/gallery': 5,
-            '/resources': 6,
-            '/settings': 7,
-            '/about': 8,
-            '/more': 4,
-            '/wpblogs': 1,
+            '/wpblogs': 4,
+            '/bible-chat': 5, // Map to 4 so the 'More' tab stays lit
+            '/gallery': 6,
+            '/resources': 7,
+            '/settings': 8,
+            '/about': 9,
+            '/more': 5,
           };
 
           // Special handling for home
@@ -283,6 +283,15 @@ GoRouter createRouter({
           ),
 
           // --------------------------
+          // WPBLOGS - WORDPRESS BLOG APA
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.wpblogs,
+            pageBuilder: (context, state) =>
+                fadePage(WPBlogsScreen(), state.pageKey),
+          ),
+
+          // --------------------------
           // BIBLE CHAT
           // --------------------------
           GoRoute(
@@ -353,15 +362,6 @@ GoRouter createRouter({
             path: AppRoutes.more,
             pageBuilder: (context, state) =>
                 fadePage(const MoreMenuScreen(), state.pageKey),
-          ),
-
-          // --------------------------
-          // WPBLOGS - WORDPRESS BLOG APA
-          // --------------------------
-          GoRoute(
-            path: AppRoutes.wpblogs,
-            pageBuilder: (context, state) =>
-                fadePage(WPBlogsScreen(), state.pageKey),
           ),
         ],
       ),
