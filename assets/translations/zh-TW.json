@@ -144,5 +144,7 @@
   "latestArticles": "最新文章",
   "unableToLoadArticles": "無法載入最新文章。",
   "tryAgainLater": "請稍後再試。",
-  "noArticlesAvailable": "暫無文章"
+  "noArticlesAvailable": "暫無文章",
+  "articles": "最新文章",
+  "verses": "日富一日"
 }

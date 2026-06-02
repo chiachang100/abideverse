@@ -39,9 +39,13 @@ class AbideVerseAppShell extends StatelessWidget {
 
     String abideverseHomeLabel = LocaleKeys.home.tr();
     String abideverseXlcdLabel = LocaleKeys.xlcd.tr();
-    String abideverseScriptLabel = LocaleKeys.scriptures.tr();
+    String abideverseScriptLabel = isSmall
+        ? LocaleKeys.verses.tr()
+        : LocaleKeys.scriptures.tr();
     String abideverseTreasureLabel = LocaleKeys.treasures.tr();
-    String abideverseWPBlogsLabel = LocaleKeys.latestArticles.tr();
+    String abideverseWPBlogsLabel = isSmall
+        ? LocaleKeys.articles.tr()
+        : LocaleKeys.latestArticles.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
     //String abideverseMoreLabel = LocaleKeys.more.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();

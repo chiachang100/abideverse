@@ -144,5 +144,7 @@
   "latestArticles": "Latest Articles",
   "unableToLoadArticles": "Unable to load the latest articles.",
   "tryAgainLater": "Please try again later.",
-  "noArticlesAvailable": "No Articles Available"
+  "noArticlesAvailable": "No Articles Available",
+  "articles": "Articles",
+  "verses": "Verses"
 }

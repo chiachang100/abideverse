@@ -134,5 +134,7 @@ abstract class  LocaleKeys {
   static const unableToLoadArticles = 'unableToLoadArticles';
   static const tryAgainLater = 'tryAgainLater';
   static const noArticlesAvailable = 'noArticlesAvailable';
+  static const articles = 'articles';
+  static const verses = 'verses';
 
 }

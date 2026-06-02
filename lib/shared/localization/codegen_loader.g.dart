@@ -145,7 +145,9 @@ class CodegenLoader extends AssetLoader{
   "latestArticles": "Latest Articles",
   "unableToLoadArticles": "Unable to load the latest articles.",
   "tryAgainLater": "Please try again later.",
-  "noArticlesAvailable": "No Articles Available"
+  "noArticlesAvailable": "No Articles Available",
+  "articles": "Articles",
+  "verses": "Verses"
 };
 static const Map<String,dynamic> _zh_CN = {
   "appTitle": "常在主里",
@@ -278,7 +280,9 @@ static const Map<String,dynamic> _zh_CN = {
   "latestArticles": "最新文章",
   "unableToLoadArticles": "无法加载最新文章。",
   "tryAgainLater": "请稍后重试。",
-  "noArticlesAvailable": "暂无文章"
+  "noArticlesAvailable": "暂无文章",
+  "articles": "最新文章",
+  "verses": "日富一日"
 };
 static const Map<String,dynamic> _zh_TW = {
   "appTitle": "常在主裡",
@@ -411,7 +415,9 @@ static const Map<String,dynamic> _zh_TW = {
   "latestArticles": "最新文章",
   "unableToLoadArticles": "無法載入最新文章。",
   "tryAgainLater": "請稍後再試。",
-  "noArticlesAvailable": "暫無文章"
+  "noArticlesAvailable": "暫無文章",
+  "articles": "最新文章",
+  "verses": "日富一日"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en_US": _en_US, "zh_CN": _zh_CN, "zh_TW": _zh_TW};
 }
