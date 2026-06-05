@@ -20,12 +20,14 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: OutlinedButton(
-          onPressed: () => UrlService.launch(url),
-          child: Text(text),
-        ),
+      child: OutlinedButton.icon(
+        onPressed: () => UrlService.launch(url),
+        style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+        icon: const Icon(
+          Icons.open_in_new,
+          size: 18,
+        ), // Visual cue for external link
+        label: Text(text),
       ),
     );
   }
