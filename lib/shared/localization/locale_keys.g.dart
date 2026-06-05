@@ -136,5 +136,6 @@ abstract class  LocaleKeys {
   static const noArticlesAvailable = 'noArticlesAvailable';
   static const articles = 'articles';
   static const verses = 'verses';
+  static const browse = 'browse';
 
 }

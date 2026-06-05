@@ -19,6 +19,7 @@ import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'package:abideverse/shared/widgets/shared_app_bar.dart';
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 import 'package:abideverse/shared/services/url_service.dart';
+import 'package:abideverse/shared/widgets/customer_button.dart';
 
 final logger = Logger('JoysPage');
 
@@ -380,20 +381,12 @@ class _JoysPageState extends State<JoysPage> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () =>
-                    UrlService.launch(GlobalConstants.joysUrlString),
-                child: Text(
-                  '${LocaleKeys.gotoString.tr()} '
-                  '「${LocaleKeys.joys.tr()}」 '
-                  '${LocaleKeys.websiteString.tr()}',
-                ),
-              ),
-            ),
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.joys.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.joysUrlString,
           ),
 
           // List of Joys

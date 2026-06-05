@@ -27,7 +27,7 @@ import 'package:abideverse/features/settings/screens/settings.dart';
 import 'package:abideverse/shared/widgets/fade_transition_page.dart';
 import 'package:abideverse/shared/widgets/markdown_viewer.dart';
 import 'package:abideverse/features/gallery/screens/gallery_screen.dart';
-import 'package:abideverse/shared/wpblogs/screens/wpblogs_screen.dart';
+import 'package:abideverse/features/wpblogs/screens/wpblogs_screen.dart';
 
 class AppRoutes {
   static const home = '/';

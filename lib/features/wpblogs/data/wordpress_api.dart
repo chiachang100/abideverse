@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:abideverse/shared/wpblogs/models/wpblog.dart';
+import 'package:abideverse/features/wpblogs/models/wpblog.dart';
 
 class WordpressApi {
   static const String baseUrl = 'https://joyolord.com/wp-json/wp/v2';

@@ -20,6 +20,7 @@ import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'package:abideverse/shared/widgets/shared_app_bar.dart';
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 import 'package:abideverse/shared/services/url_service.dart';
+import 'package:abideverse/shared/widgets/customer_button.dart';
 
 final logger = Logger('TreasuresPage');
 
@@ -395,33 +396,13 @@ class _TreasuresPageState extends State<TreasuresPage> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () =>
-                    UrlService.launch(GlobalConstants.treasuresUrlString),
-                child: Text(
-                  '${LocaleKeys.gotoString.tr()} '
-                  '「${LocaleKeys.treasures.tr()}」 '
-                  '${LocaleKeys.websiteString.tr()}',
-                ),
-              ),
-            ),
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.treasures.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.treasuresUrlString,
           ),
-
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: SizedBox(
-          //     width: double.infinity,
-          //     child: OutlinedButton.icon(
-          //       icon: const Icon(Icons.feed),
-          //       onPressed: () => context.push(AppRoutes.wpblogs),
-          //       label: Text(LocaleKeys.latestArticles.tr()),
-          //     ),
-          //   ),
-          // ),
 
           // List of Treasures
           Expanded(

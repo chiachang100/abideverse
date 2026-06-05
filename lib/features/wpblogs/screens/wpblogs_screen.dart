@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:abideverse/shared/wpblogs/data/wordpress_api.dart';
-import 'package:abideverse/shared/wpblogs/models/wpblog.dart';
-import 'package:abideverse/shared/wpblogs/widgets/wpblog_list_item.dart';
+import 'package:abideverse/features/wpblogs/data/wordpress_api.dart';
+import 'package:abideverse/features/wpblogs/models/wpblog.dart';
+import 'package:abideverse/features/wpblogs/widgets/wpblog_list_item.dart';
 
 import 'package:abideverse/shared/widgets/shared_app_bar.dart';
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:abideverse/core/constants/global_constants.dart';
 import 'package:abideverse/shared/services/url_service.dart';
+import 'package:abideverse/shared/widgets/customer_button.dart';
 
 class WPBlogsScreen extends StatelessWidget {
   final api = WordpressApi();
@@ -23,7 +24,7 @@ class WPBlogsScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       body: Column(
         children: [
-          Padding(
+          /*           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               width: double.infinity,
@@ -53,6 +54,21 @@ class WPBlogsScreen extends StatelessWidget {
                 ),
               ),
             ),
+          ), */
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.bibleVerse.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.scripturesUrlString,
+          ),
+
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.treasures.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.treasuresUrlString,
           ),
 
           Expanded(

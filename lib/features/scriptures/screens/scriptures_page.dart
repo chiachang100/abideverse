@@ -20,6 +20,7 @@ import 'package:abideverse/shared/services/new_item_tracker.dart';
 import 'package:abideverse/shared/widgets/shared_app_bar.dart';
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
 import 'package:abideverse/shared/services/url_service.dart';
+import 'package:abideverse/shared/widgets/customer_button.dart';
 
 final logger = Logger('ScripturesPage');
 
@@ -403,20 +404,12 @@ class _ScripturesPageState extends State<ScripturesPage> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () =>
-                    UrlService.launch(GlobalConstants.scripturesUrlString),
-                child: Text(
-                  '${LocaleKeys.gotoString.tr()} '
-                  '「${LocaleKeys.bibleVerse.tr()}」 '
-                  '${LocaleKeys.websiteString.tr()}',
-                ),
-              ),
-            ),
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.bibleVerse.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.scripturesUrlString,
           ),
 
           // List of Scriptures
