@@ -381,6 +381,14 @@ class _JoysPageState extends State<JoysPage> {
             ),
           ),
 
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.joys.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.joysUrlString,
+          ),
+
           // List of Joys
           Expanded(
             child: RefreshIndicator(
