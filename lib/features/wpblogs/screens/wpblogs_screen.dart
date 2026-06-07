@@ -71,6 +71,14 @@ class WPBlogsScreen extends StatelessWidget {
             url: GlobalConstants.treasuresUrlString,
           ),
 
+          CustomButton(
+            text:
+                '${LocaleKeys.browse.tr()} '
+                '「${LocaleKeys.joys.tr()}」 '
+                '${LocaleKeys.latestArticles.tr()}',
+            url: GlobalConstants.joysUrlString,
+          ),
+
           Expanded(
             child: FutureBuilder<List<WPPost>>(
               future: api.getPosts(),

@@ -404,14 +404,6 @@ class _ScripturesPageState extends State<ScripturesPage> {
             ),
           ),
 
-          CustomButton(
-            text:
-                '${LocaleKeys.browse.tr()} '
-                '「${LocaleKeys.bibleVerse.tr()}」 '
-                '${LocaleKeys.latestArticles.tr()}',
-            url: GlobalConstants.scripturesUrlString,
-          ),
-
           // List of Scriptures
           Expanded(
             child: RefreshIndicator(

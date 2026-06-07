@@ -396,14 +396,6 @@ class _TreasuresPageState extends State<TreasuresPage> {
             ),
           ),
 
-          CustomButton(
-            text:
-                '${LocaleKeys.browse.tr()} '
-                '「${LocaleKeys.treasures.tr()}」 '
-                '${LocaleKeys.latestArticles.tr()}',
-            url: GlobalConstants.treasuresUrlString,
-          ),
-
           // List of Treasures
           Expanded(
             child: RefreshIndicator(
