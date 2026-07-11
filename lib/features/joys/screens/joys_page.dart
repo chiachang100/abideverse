@@ -136,6 +136,10 @@ class _JoysPageState extends State<JoysPage> {
       }
     }
 
+    if (sortOrder == SortOrder.none) {
+      oldItems.shuffle();
+    }
+
     // 3. Recombine: New items first (maintaining their relative order), then old items
     data = [...newItems, ...oldItems];
     //}

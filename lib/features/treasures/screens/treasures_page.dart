@@ -150,6 +150,10 @@ class _TreasuresPageState extends State<TreasuresPage> {
       }
     }
 
+    if (sortOrder == SortOrder.none) {
+      oldItems.shuffle();
+    }
+
     // 3. Recombine: New items first (maintaining their relative order), then old items
     data = [...newItems, ...oldItems];
     //}
