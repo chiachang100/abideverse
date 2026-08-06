@@ -60,8 +60,8 @@ WEB_SIZES = [
 
 # PWA manifest for Flutter web
 MANIFEST = {
-  "name": "AbideVerse 常在主裡",
-  "short_name": "AbideVerse 常在主裡",
+  "name": "JesusLovesYou 耶穌愛你",
+  "short_name": "JesusLovesYou 耶穌愛你",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -79,7 +79,9 @@ MANIFEST = {
 def create_icon(size, path):
     """Create a resized PNG icon."""
     os.makedirs(os.path.dirname(os.path.join(OUTPUT_DIR, path)), exist_ok=True)
-    img = Image.open(SOURCE_ICON).convert("RGBA").resize((size, size), Image.LANCZOS)
+    #img = Image.open(SOURCE_ICON).convert("RGBA").resize((size, size), Image.LANCZOS)
+    img = Image.open(SOURCE_ICON).convert("RGBA").resize((size, size), Image.Resampling.LANCZOS)
+
     img.save(os.path.join(OUTPUT_DIR, path))
 
 

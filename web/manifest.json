@@ -1,11 +1,11 @@
 {
-  "name": "AbideVerse 常在主裡 - Your Daily Bible Verse Companion.",
-  "short_name": "AbideVerse 常在主裡",
+  "name": "JesusLovesYou 耶穌愛你 - An AI-powered Bible companion for everyday faith.",
+  "short_name": "JesusLovesYou 耶穌愛你",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0175C2",
   "theme_color": "#0175C2",
-  "description": "AbideVerse 常在主裡 - Your Daily Bible Verse Companion.",
+  "description": "JesusLovesYou 耶穌愛你- An AI-powered Bible companion for everyday faith.",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [

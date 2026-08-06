@@ -1,6 +1,6 @@
-# 🙏 About AbideVerse
+# 🙏 About JesusLovesYou
 
-**AbideVerse 常在主裡** – Your Daily Bible Verse Companion
+**JesusLovesYou 耶穌愛你 - An AI-powered Bible companion for everyday faith**
 
 _"Abide in me, and I in you."_ — John 15:4
 

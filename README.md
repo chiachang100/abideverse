@@ -1,12 +1,12 @@
-# AbideVerse 常在主裡
+# JususLovesYou 耶穌愛你
 
-**AbideVerse 常在主裡 - Your Daily Bible Verse Companion**
+**JesusLovesYou 耶穌愛你 - An AI-powered Bible companion for everyday faith**
 
 _"你們要常在我裡面，我也常在你們裡面。" (約翰福音 15:4) “Abide in me, and I in you.”(John 15:4)._
 
 ## Getting Started
 
-This project is a starting point for the AbideVerse App (abideverse).
+This project is a starting point for the JesusLovesYou App (abideverse).
 
 ---
 
