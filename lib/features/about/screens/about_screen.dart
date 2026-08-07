@@ -64,7 +64,7 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AbideAppBar(
-        title: '${LocaleKeys.about.tr()} ${LocaleKeys.abideverseName.tr()}',
+        title: '${LocaleKeys.about.tr()} ${LocaleKeys.appTitle.tr()}',
       ),
       drawer: const AppDrawer(),
       // appBar: AppBar(

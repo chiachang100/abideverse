@@ -1,0 +1,24 @@
+translations:
+- id: web
+  name: World English Bible
+  language_code: en
+  source_url: https://ebible.org/bible/details.php?id=engwebp
+  download_url: https://ebible.org/Scriptures/engwebp_usfm.zip
+  license_url: https://ebible.org/engwebp/copyright.htm
+  redistributable: true
+
+- id: cuv_hant
+  name: 新標點和合本
+  language_code: zh-Hant
+  source_url: https://ebible.org/bible/details.php?id=cmn-cu89t
+  download_url: https://ebible.org/Scriptures/cmn-cu89t_usfm.zip
+  license_url: https://ebible.org/bible/details.php?id=cmn-cu89t
+  redistributable: true
+
+- id: cuv_hans
+  name: 新标点和合本
+  language_code: zh-Hans
+  source_url: https://ebible.org/bible/details.php?id=cmn-cu89s
+  download_url: https://ebible.org/Scriptures/cmn-cu89s_usfm.zip
+  license_url: https://ebible.org/bible/details.php?id=cmn-cu89s
+  redistributable: true

@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 30.0,
             ),
             SizedBox(width: 2.0),
-            Text(LocaleKeys.abideverseName.tr()),
+            Text(LocaleKeys.appTitle.tr()),
           ],
         ),
         centerTitle: false,
