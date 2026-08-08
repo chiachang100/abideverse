@@ -1,7 +1,7 @@
 name: abideverse
 description: "JesusLovesYou 耶穌愛你 - An AI-powered Bible companion for everyday faith."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 7.3.2
+version: 7.3.3
 
 environment:
   sdk: ^3.10.1
@@ -63,6 +63,7 @@ dependencies:
   qr_flutter: ^4.1.0
   flutter_riverpod: ^3.3.1
   sqlite3: ^3.5.0
+  typed_data: ^1.4.0
   cached_network_image: ^3.4.1
   carousel_slider: ^5.1.2
   youtube_explode_dart: ^3.0.5
