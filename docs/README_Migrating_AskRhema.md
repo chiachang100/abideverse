@@ -1,5 +1,8 @@
-# Bible Sources
+# Adding AskRhema Feature
 
+## Migrating AskRhema
+
+### Bible Sources
 I found a good common source for all three translations: `eBible.org`.
 
 - English: **World English Bible (WEBP)** — `eBible.org` explicitly states it is public domain and permits redistribution.
@@ -196,6 +199,11 @@ Immediately run:
 
 `python tooling/bible/validate_bible_db.py`
 
+  - Output:
+```text
+Bible database validation PASSED: 66 books, 31102 verses
+```
+
 We want this to verify at least:
 
 - 66 books
@@ -211,6 +219,9 @@ We want this to verify at least:
 
 But there is one thing I want to fix before you build
 
+### Run the SQLite test
+- `flutter test test/bible/sqlite_bible_repository_test.dart`
+- 
 ---
 ## Bible source ingestion layer
 
@@ -270,5 +281,30 @@ I do not recommend putting the raw USFM files into Flutter assets.
 They're build inputs. The only runtime asset should be:
 
 `assets/bible/bible.sqlite`
+
+---
+## Architecture for Adding AskRhema Feature
+
+### Our architecture is now
+
+```text
+                 AskRhemaController
+                         │
+                         ▼
+               AskRhemaServiceProvider
+                         │
+                         ▼
+                AskRhemaServiceImpl
+                    ↙          ↘
+                   ↙            ↘
+        BibleRepository        AIService
+              │                    │
+              ▼                    ▼
+     SqliteBibleRepository      AIFactory
+              │                    │
+              ▼                    ▼
+        BibleDatabase        Gemini/Firebase AI
+
+```
 
 ---
