@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/ask_rhema_message.dart';
@@ -15,7 +17,9 @@ class AskRhemaController extends AsyncNotifier<AskRhemaResponse?> {
   AskRhemaService get _service => ref.read(askRhemaServiceProvider);
 
   @override
-  Future<AskRhemaResponse?> build() async => null;
+  FutureOr<AskRhemaResponse?> build() {
+    return null;
+  }
 
   Future<void> ask({
     required String question,
