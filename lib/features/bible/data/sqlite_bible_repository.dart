@@ -166,46 +166,70 @@ class SqliteBibleRepository implements BibleRepository {
 
     final baseSql = _select(translationId);
 
-    // First try FTS5.
-    final ftsRows = _db.select(
-      '''
-    $baseSql
-    JOIN $table f ON f.verse_id = v.id
-    WHERE t.id = ?
-      AND f.text MATCH ?
-    LIMIT ?
-    ''',
-      [translationId, translationId, normalized, limit],
-    );
+    // FTS5 treats punctuation such as ":" as query syntax.
+    // Convert user input into a safe FTS query.
+    final ftsQuery = _buildSafeFtsQuery(normalized);
 
-    if (ftsRows.isNotEmpty) {
-      return ftsRows
-          .map((row) => _map(row, translationId))
-          .toList(growable: false);
+    if (ftsQuery.isNotEmpty) {
+      try {
+        final ftsRows = _db.select(
+          '''
+        $baseSql
+        JOIN $table f ON f.verse_id = v.id
+        WHERE t.id = ?
+          AND f.text MATCH ?
+        LIMIT ?
+        ''',
+          [translationId, translationId, ftsQuery, limit],
+        );
+
+        if (ftsRows.isNotEmpty) {
+          return ftsRows
+              .map((row) => _map(row, translationId))
+              .toList(growable: false);
+        }
+      } catch (e) {
+        // FTS5 can reject malformed queries.
+        // Fall through to the LIKE search.
+      }
     }
 
-    // Chinese fallback.
-    //
-    // This is particularly useful for short Chinese queries
-    // that cannot form a complete trigram.
-    if (translationId != 'web') {
-      final column = _column(translationId);
+    // Fallback search for both English and Chinese.
+    final column = _column(translationId);
 
-      final likeRows = _db.select(
-        '''
+    final likeRows = _db.select(
+      '''
     $baseSql
     WHERE t.id = ?
       AND v.$column LIKE ?
     LIMIT ?
     ''',
-        [translationId, translationId, '%$normalized%', limit],
-      );
+      [translationId, translationId, '%$normalized%', limit],
+    );
 
-      return likeRows
-          .map((row) => _map(row, translationId))
-          .toList(growable: false);
+    return likeRows
+        .map((row) => _map(row, translationId))
+        .toList(growable: false);
+  }
+
+  String _buildSafeFtsQuery(String input) {
+    final cleaned = input
+        .replaceAll(RegExp(r'[^\p{L}\p{N}\s]', unicode: true), ' ')
+        .trim();
+
+    if (cleaned.isEmpty) {
+      return '';
     }
 
-    return const [];
+    final words = cleaned
+        .split(RegExp(r'\s+'))
+        .where((word) => word.isNotEmpty)
+        .map((word) {
+          final escaped = word.replaceAll('"', '""');
+          return '"$escaped"';
+        })
+        .toList();
+
+    return words.join(' OR ');
   }
 }
