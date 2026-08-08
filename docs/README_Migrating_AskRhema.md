@@ -308,3 +308,15 @@ They're build inputs. The only runtime asset should be:
 ```
 
 ---
+## Testing
+
+### AskRhema Testing
+
+- `clear && flutter analyze lib/features/ask_rhema`
+- `clear && flutter test test/ask_rhema`
+- `clear && flutter test`
+
+---
+- Download `sqlite3.wasm`
+  - https://github.com/simolus3/sqlite3.dart/releases?utm_source=chatgpt.com
+

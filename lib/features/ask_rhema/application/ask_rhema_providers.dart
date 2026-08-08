@@ -10,28 +10,28 @@ import '../domain/ask_rhema_service.dart';
 
 final bibleDatabaseProvider = FutureProvider<BibleDatabase>((ref) async {
   final database = await BibleDatabase.open();
+
   ref.onDispose(database.dispose);
+
   return database;
 });
 
-final bibleRepositoryProvider = Provider<BibleRepository>((ref) {
-  final database = ref.watch(bibleDatabaseProvider);
+final bibleRepositoryProvider = FutureProvider<BibleRepository>((ref) async {
+  final database = await ref.watch(bibleDatabaseProvider.future);
 
-  return database.when(
-    data: (db) => SqliteBibleRepository(database: db),
-    loading: () => throw StateError('Bible database is loading'),
-    error: (error, _) =>
-        throw StateError('Failed to open Bible database: $error'),
-  );
+  return SqliteBibleRepository(database: database);
 });
 
 final aiServiceProvider = Provider<AIService>((ref) {
   return AIFactory.create();
 });
 
-final askRhemaServiceProvider = Provider<AskRhemaService>((ref) {
+final askRhemaServiceProvider = FutureProvider<AskRhemaService>((ref) async {
+  final bibleRepository = await ref.watch(bibleRepositoryProvider.future);
+  final aiService = ref.watch(aiServiceProvider);
+
   return AskRhemaServiceImpl(
-    bibleRepository: ref.read(bibleRepositoryProvider),
-    aiService: ref.read(aiServiceProvider),
+    bibleRepository: bibleRepository,
+    aiService: aiService,
   );
 });

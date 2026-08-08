@@ -1,4 +1,4 @@
-import 'package:sqlite3/sqlite3.dart';
+import 'package:sqlite3/common.dart';
 
 import '../domain/bible_repository.dart';
 import '../domain/bible_translation.dart';
@@ -10,7 +10,7 @@ class SqliteBibleRepository implements BibleRepository {
   SqliteBibleRepository({required BibleDatabase database})
     : _db = database.database;
 
-  final Database _db;
+  final CommonDatabase _db;
 
   String _column(String id) => switch (id) {
     'web' => 'web',

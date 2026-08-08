@@ -10,6 +10,7 @@ import 'package:abideverse/core/config/app_config.dart';
 
 import 'package:abideverse/features/about/screens/about_screen.dart';
 import 'package:abideverse/features/bible_chat/screens/bible_chat_screen.dart';
+import 'package:abideverse/features/ask_rhema/screens/ask_rhema_screen.dart';
 import 'package:abideverse/features/admin/screens/manage_firestore_screen.dart';
 import 'package:abideverse/features/auth/data/auth_repository.dart';
 import 'package:abideverse/features/auth/screens/sign_in_screen.dart';
@@ -42,6 +43,7 @@ class AppRoutes {
   static const joysDetail = '/joys/joy/:articleId';
 
   static const bibleChat = '/bible-chat';
+  static const askRhema = '/ask-rhema';
   static const about = '/about';
 
   static const resources = '/resources';
@@ -183,12 +185,12 @@ GoRouter createRouter({
             '/treasures': 2,
             '/joys': 3,
             '/wpblogs': 4,
-            '/bible-chat': 5, // Map to 4 so the 'More' tab stays lit
-            '/gallery': 6,
-            '/resources': 7,
-            '/settings': 8,
-            '/about': 9,
-            '/more': 5,
+            '/ask-rhema': 5,
+            '/bible-chat': 6, // Map to 4 so the 'More' tab stays lit
+            '/gallery': 7,
+            '/resources': 8,
+            '/settings': 9,
+            '/about': 10,
           };
 
           // Special handling for home
@@ -289,6 +291,15 @@ GoRouter createRouter({
             path: AppRoutes.wpblogs,
             pageBuilder: (context, state) =>
                 fadePage(WPBlogsScreen(), state.pageKey),
+          ),
+
+          // --------------------------
+          // ASK RHEMA
+          // --------------------------
+          GoRoute(
+            path: AppRoutes.askRhema,
+            pageBuilder: (context, state) =>
+                fadePage(const AskRhemaScreen(), state.pageKey),
           ),
 
           // --------------------------
@@ -419,6 +430,7 @@ class Routes {
   );
 
   void goBibleChat() => context.go(AppRoutes.bibleChat);
+  void goAskRhema() => context.go(AppRoutes.askRhema);
 
   void goMore() => context.go(AppRoutes.more);
   void goAbout() => context.go(AppRoutes.about);

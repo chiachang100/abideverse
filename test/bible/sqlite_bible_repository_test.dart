@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sqlite3/sqlite3.dart';
 
 import 'package:abideverse/features/bible/data/bible_database.dart';
 import 'package:abideverse/features/bible/data/sqlite_bible_repository.dart';
@@ -10,32 +9,25 @@ import 'package:abideverse/features/bible/domain/scripture_reference.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late Directory tempDirectory;
   late BibleDatabase database;
   late SqliteBibleRepository repository;
+  late Directory tempDirectory;
 
   setUpAll(() async {
     tempDirectory = await Directory.systemTemp.createTemp(
       'abideverse_bible_test_',
     );
 
-    final source = File('assets/bible/bible.sqlite');
-    final target = File('${tempDirectory.path}/bible.sqlite');
-
-    await source.copy(target.path);
-
-    database = BibleDatabase(
-      sqlite3.open(target.path, mode: OpenMode.readOnly),
-    );
+    database = await BibleDatabase.open(directory: tempDirectory);
 
     repository = SqliteBibleRepository(database: database);
   });
 
-  tearDownAll(() async {
+  tearDownAll(() {
     database.dispose();
 
-    if (await tempDirectory.exists()) {
-      await tempDirectory.delete(recursive: true);
+    if (tempDirectory.existsSync()) {
+      tempDirectory.deleteSync(recursive: true);
     }
   });
 

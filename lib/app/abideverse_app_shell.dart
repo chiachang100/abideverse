@@ -47,6 +47,7 @@ class AbideVerseAppShell extends StatelessWidget {
         ? LocaleKeys.articles.tr()
         : LocaleKeys.latestArticles.tr();
     String abideverseBibleChatLabel = LocaleKeys.bibleChat.tr();
+    String abideverseAskRhemaLabel = 'AskRhema';
     //String abideverseMoreLabel = LocaleKeys.more.tr();
     String abideverseAboutLabel = LocaleKeys.about.tr();
     String abideverseResourcesLabel = LocaleKeys.resources.tr();
@@ -65,6 +66,7 @@ class AbideVerseAppShell extends StatelessWidget {
       '/scriptures',
       '/treasures',
       '/joys',
+      '/ask-rhema',
       '/wpblogs',
       '/bible-chat',
       '/gallery',
@@ -93,6 +95,11 @@ class AbideVerseAppShell extends StatelessWidget {
         label: abideverseXlcdLabel,
         icon: const Icon(Icons.sentiment_very_satisfied_outlined),
         selectedIcon: const Icon(Icons.sentiment_very_satisfied),
+      ),
+      NavigationDestination(
+        label: abideverseAskRhemaLabel,
+        icon: const Icon(Icons.auto_awesome_outlined),
+        selectedIcon: const Icon(Icons.auto_awesome),
       ),
       NavigationDestination(
         label: abideverseWPBlogsLabel,

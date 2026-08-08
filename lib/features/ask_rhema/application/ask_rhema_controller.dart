@@ -14,7 +14,9 @@ final askRhemaControllerProvider =
     );
 
 class AskRhemaController extends AsyncNotifier<AskRhemaResponse?> {
-  AskRhemaService get _service => ref.read(askRhemaServiceProvider);
+  Future<AskRhemaService> get _service async {
+    return ref.read(askRhemaServiceProvider.future);
+  }
 
   @override
   FutureOr<AskRhemaResponse?> build() {
@@ -38,7 +40,10 @@ class AskRhemaController extends AsyncNotifier<AskRhemaResponse?> {
       history: history,
     );
 
-    state = await AsyncValue.guard(() => _service.ask(request));
+    state = await AsyncValue.guard(() async {
+      final service = await _service;
+      return service.ask(request);
+    });
   }
 
   void clear() {

@@ -46,6 +46,12 @@ class _MoreMenuScreenState extends State<MoreMenuScreen> {
             onTap: () => context.go(AppRoutes.bibleChat),
           ),
           ListTile(
+            leading: const Icon(Icons.auto_awesome),
+            title: const Text('AskRhema'),
+            subtitle: const Text('Ask questions about Scripture'),
+            onTap: () => Routes(context).goAskRhema(),
+          ),
+          ListTile(
             leading: const Icon(Icons.library_books_outlined),
             title: Text(
               abideverseResourcesLabel,
