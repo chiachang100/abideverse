@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:abideverse/features/ask_rhema/application/scripture_reference_parser.dart';
 import 'package:abideverse/features/ask_rhema/data/ask_rhema_service_impl.dart';
 import 'package:abideverse/features/ask_rhema/domain/ask_rhema_message.dart';
 import 'package:abideverse/features/ask_rhema/domain/ask_rhema_request.dart';
@@ -14,6 +15,7 @@ void main() {
   late FakeBibleRepository bibleRepository;
   late FakeAIService aiService;
   late AskRhemaService service;
+  late ScriptureReferenceParser parser;
 
   setUp(() {
     bibleRepository = FakeBibleRepository();
@@ -23,6 +25,7 @@ void main() {
       bibleRepository: bibleRepository,
       aiService: aiService,
     );
+    parser = ScriptureReferenceParser();
   });
 
   test('searches Bible and returns grounded response', () async {
@@ -110,6 +113,35 @@ void main() {
       aiService.lastPrompt,
       contains('The Bible teaches that grace is a gift from God.'),
     );
+  });
+
+  test('parses Romans 8:28', () {
+    final result = parser.parse('What does Romans 8:28 mean?');
+
+    expect(result?.bookId, 'romans');
+    expect(result?.chapter, 8);
+    expect(result?.startVerse, 28);
+    expect(result?.endVerse, isNull);
+  });
+
+  test('parses Romans 8:28-30', () {
+    final result = parser.parse('Explain Romans 8:28-30.');
+
+    expect(result?.bookId, 'romans');
+    expect(result?.chapter, 8);
+    expect(result?.startVerse, 28);
+    expect(result?.endVerse, 30);
+  });
+
+  test('parses 1 Corinthians 13:4-7', () {
+    final result = parser.parse(
+      'What does 1 Corinthians 13:4-7 teach about love?',
+    );
+
+    expect(result?.bookId, '1corinthians');
+    expect(result?.chapter, 13);
+    expect(result?.startVerse, 4);
+    expect(result?.endVerse, 7);
   });
 }
 

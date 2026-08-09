@@ -1,8 +1,10 @@
 import '../../bible/domain/bible_repository.dart';
+import '../../bible/domain/bible_verse.dart';
 import '../domain/ask_rhema_request.dart';
 import '../domain/ask_rhema_response.dart';
 import '../domain/ask_rhema_service.dart';
 import '../../../shared/services/ai/ai_service.dart';
+import '../application/scripture_reference_parser.dart';
 
 class AskRhemaServiceImpl implements AskRhemaService {
   AskRhemaServiceImpl({
@@ -14,13 +16,11 @@ class AskRhemaServiceImpl implements AskRhemaService {
   final BibleRepository _bibleRepository;
   final AIService _aiService;
 
+  final ScriptureReferenceParser _referenceParser = ScriptureReferenceParser();
+
   @override
   Future<AskRhemaResponse> ask(AskRhemaRequest request) async {
-    final sources = await _bibleRepository.search(
-      translationId: request.translationId,
-      query: request.question,
-      limit: 8,
-    );
+    final sources = await _findSources(request);
 
     final prompt = _buildPrompt(request: request, sources: sources);
 
@@ -29,9 +29,37 @@ class AskRhemaServiceImpl implements AskRhemaService {
     return AskRhemaResponse(answer: answer ?? '', sources: sources);
   }
 
+  Future<List<BibleVerse>> _findSources(AskRhemaRequest request) async {
+    final reference = _referenceParser.parse(request.question);
+
+    if (reference != null) {
+      if (reference.endVerse != null) {
+        return _bibleRepository.getRange(
+          translationId: request.translationId,
+          reference: reference,
+        );
+      }
+
+      final verse = await _bibleRepository.getVerse(
+        translationId: request.translationId,
+        bookId: reference.bookId,
+        chapter: reference.chapter,
+        verse: reference.startVerse,
+      );
+
+      return verse == null ? <BibleVerse>[] : [verse];
+    }
+
+    return _bibleRepository.search(
+      translationId: request.translationId,
+      query: request.question,
+      limit: 8,
+    );
+  }
+
   String _buildPrompt({
     required AskRhemaRequest request,
-    required List sources,
+    required List<BibleVerse> sources,
   }) {
     final scriptureContext = sources.isEmpty
         ? 'No Scripture passages were found.'
@@ -49,6 +77,7 @@ You are AskRhema, an AI Bible companion.
 Answer the user's question using the supplied Scripture passages.
 
 Rules:
+
 1. Do not invent Scripture references.
 2. Clearly distinguish Scripture from interpretation.
 3. If the supplied passages are insufficient, say so.
@@ -56,6 +85,8 @@ Rules:
 5. Answer in the user's language.
 6. Do not claim divine revelation or speak as though you are God.
 7. Encourage the user toward Scripture and thoughtful reflection.
+8. If the user asks about a specific Scripture reference, prioritize the supplied passage for that reference.
+9. Do not substitute another passage for the requested Scripture reference.
 
 SCRIPTURE SOURCES:
 
