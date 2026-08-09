@@ -1167,8 +1167,9 @@ Get-ChildItem -Filter *.png | ForEach-Object {
 }
 ```
 
-- Calculate teh file size
-  - `flutter build web --release --wasm`
+- Calculate the file size
+- NOTE: Don't use "--wasm" which may cause the performance issue.
+  - `flutter build web --release`
   - `du -sh build/web`
   - `du -sh build/web/assets`
   - `du -sh build/web/assets/*`
