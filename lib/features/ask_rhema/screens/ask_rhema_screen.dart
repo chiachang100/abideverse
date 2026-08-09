@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
+
 import 'package:abideverse/features/ask_rhema/application/ask_rhema_controller.dart';
 import 'package:abideverse/features/ask_rhema/domain/ask_rhema_message.dart';
 import 'package:abideverse/features/ask_rhema/domain/ask_rhema_response.dart';
@@ -139,6 +141,7 @@ class _AskRhemaScreenState extends ConsumerState<AskRhemaScreen> {
             ),
         ],
       ),
+      drawer: const AppDrawer(),
       body: Column(
         children: [
           Expanded(child: _buildConversation(state)),

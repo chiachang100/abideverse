@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_ai/firebase_ai.dart'; // hypothetical import
@@ -17,7 +19,7 @@ class FirebaseAIService implements AIService {
         //useLimitedUseAppCheckTokens: true,
       );
 
-  final String modelName = 'gemini-2.5-flash-lite';
+  static const String modelName = 'gemini-3.5-flash-lite';
 
   @override
   Future<String?> generateText(String prompt) async {
@@ -29,12 +31,19 @@ class FirebaseAIService implements AIService {
       },
     );
 
-    logAIServices.info(
-      '[FirebaseAIService] model: $modelName; generateText: $prompt',
-    );
+    logAIServices.info('[FirebaseAIService] model: $modelName');
 
     final model = _ai.generativeModel(model: modelName);
-    final response = await model.generateContent([Content.text(prompt)]);
+    final response = await model
+        .generateContent([Content.text(prompt)])
+        .timeout(
+          const Duration(seconds: 30),
+          onTimeout: () {
+            throw TimeoutException(
+              'FirebaseAIService took too long to respond.',
+            );
+          },
+        );
     return response.text;
   }
 }
