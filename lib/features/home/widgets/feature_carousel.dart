@@ -56,6 +56,12 @@ class _FeatureCarouselState extends State<FeatureCarousel> {
         'imagePath': 'assets/images/carousel/jesuslovesyou_preview.webp',
         'route': '/wpblogs',
       },
+      {
+        'title': LocaleKeys.askRhema.tr(),
+        'description': LocaleKeys.askRhemaDescription.tr(),
+        'imagePath': 'assets/images/carousel/askrhema_preview.webp',
+        'route': '/ask-rhema',
+      },
     ];
   }
 

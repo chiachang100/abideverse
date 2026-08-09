@@ -11,15 +11,23 @@
   "bibleVerse": "AbideVerse",
   "bibleVerseHeader": "Bible Verse",
   "bibleVerseDescription": "Daily Bible verse memorization. Grow richer in God's Word one day at a time.",
-  "bibleStories": "Bible Stories",
-  "idiomStories": "Idiom Stories",
+
   "treasures": "Treasures",
   "treasuresHeader": "Treasures",
   "treasuresDescription": "Bible stories and Chinese idioms with corresponding Bible Verses. Timeless wisdom bridging faith and culture.",
+
   "xlcd": "XLCD",
   "xlcdDescription": "52 humorous stories with biblical wisdom. Laughter that heals and inspires.",
+
   "JesusLovesYou": "Jesus Loves You",
   "JesusLovesYouDescription": "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life. (John 3:16)",
+
+  "askRhema": "AskRhema",
+  "askRhemaHeader": "AskRhema",
+  "askRhemaDescription": "Your AI Bible companion for exploring Scripture, asking faith questions, and finding biblical guidance.",
+
+  "bibleStories": "Bible Stories",
+  "idiomStories": "Idiom Stories",
 
   "joys": "Xiào Lǐ Cáng Dào",
   "more": "More",

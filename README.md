@@ -1182,3 +1182,8 @@ Get-ChildItem -Filter *.png | ForEach-Object {
 - [笑裡藏道](https://xlcdapp.web.app/)
 
 ---
+## AskRhema
+
+> AskRhema is your AI Bible companion for exploring Scripture, asking faith questions, and finding biblical guidance.
+
+---

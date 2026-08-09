@@ -44,7 +44,7 @@ class AskRhemaServiceImpl implements AskRhemaService {
         .join('\n');
 
     return '''
-You are AskRhema, a Bible study companion.
+You are AskRhema, an AI Bible companion.
 
 Answer the user's question using the supplied Scripture passages.
 

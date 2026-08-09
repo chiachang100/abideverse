@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:abideverse/shared/localization/locale_keys.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:abideverse/shared/widgets/shared_app_drawer.dart';
@@ -112,7 +114,7 @@ class _AskRhemaScreenState extends ConsumerState<AskRhemaScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AskRhema'),
+        title: Text(LocaleKeys.askRhema.tr()),
         actions: [
           DropdownButton<String>(
             value: _translationId,

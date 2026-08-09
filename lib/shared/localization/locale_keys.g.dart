@@ -14,8 +14,6 @@ abstract class  LocaleKeys {
   static const bibleVerse = 'bibleVerse';
   static const bibleVerseHeader = 'bibleVerseHeader';
   static const bibleVerseDescription = 'bibleVerseDescription';
-  static const bibleStories = 'bibleStories';
-  static const idiomStories = 'idiomStories';
   static const treasures = 'treasures';
   static const treasuresHeader = 'treasuresHeader';
   static const treasuresDescription = 'treasuresDescription';
@@ -23,6 +21,11 @@ abstract class  LocaleKeys {
   static const xlcdDescription = 'xlcdDescription';
   static const JesusLovesYou = 'JesusLovesYou';
   static const JesusLovesYouDescription = 'JesusLovesYouDescription';
+  static const askRhema = 'askRhema';
+  static const askRhemaHeader = 'askRhemaHeader';
+  static const askRhemaDescription = 'askRhemaDescription';
+  static const bibleStories = 'bibleStories';
+  static const idiomStories = 'idiomStories';
   static const joys = 'joys';
   static const more = 'more';
   static const about = 'about';
