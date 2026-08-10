@@ -26,6 +26,19 @@
   "askRhemaHeader": "AskRhema",
   "askRhemaDescription": "您的 AI 圣经伴侣，助您研读经文、探讨信仰问题并寻求圣经指引。",
 
+  "askRhemaWelcomeTitle": "您想了解什么？",
+  "askRhemaWelcomeSubtitle": "提出任何关于圣经的问题，并获得基于圣经的答案。",
+  "clearConversationTitle": "清除对话？",
+  "clearConversation": "清除对话",
+  "clearConversationContent": "这将删除所有讯息。此操作无法撤销。",
+  "clear": "清除",
+  "scriptureSources": "圣经来源",
+  "askErrorTitle": "发生错误",
+  "unknownError": "未知错误",
+  "askHint": "问有关圣经的问题…",
+  "askQuestion": "提出一个关于圣经的问题。",
+  "askRhemaThinking": "AskRhema 正在思考...",
+
   "bibleStories": "圣经故事",
   "idiomStories": "成语故事",
 

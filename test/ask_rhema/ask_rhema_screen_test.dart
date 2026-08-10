@@ -122,7 +122,7 @@ void main() {
 
     await tester.pumpWidget(buildTestApp(service));
 
-    await tester.tap(find.text('WEB'));
+    await tester.tap(find.text('World English Bible'));
     await tester.pump();
 
     await tester.tap(find.text('和合本（繁體）'));

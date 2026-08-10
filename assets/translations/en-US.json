@@ -26,6 +26,19 @@
   "askRhemaHeader": "AskRhema",
   "askRhemaDescription": "Your AI Bible companion for exploring Scripture, asking faith questions, and finding biblical guidance.",
 
+  "askRhemaWelcomeTitle": "What would you like to know?",
+  "askRhemaWelcomeSubtitle": "Ask any question about Scripture and receive answers rooted in the Bible.",
+  "clearConversationTitle": "Clear conversation?",
+  "clearConversation": "Clear conversation",
+  "clearConversationContent": "This will remove all messages. This action cannot be undone.",
+  "clear": "Clear",
+  "scriptureSources": "Scripture Sources",
+  "askErrorTitle": "Something went wrong",
+  "unknownError": "Unknown error",
+  "askHint": "Ask about Scripture…",
+  "askQuestion": "Ask a question about Scripture.",
+  "askRhemaThinking": "AskRhema is thinking...",
+
   "bibleStories": "Bible Stories",
   "idiomStories": "Idiom Stories",
 

@@ -26,6 +26,19 @@
   "askRhemaHeader": "AskRhema",
   "askRhemaDescription": "您的 AI 聖經伴侶，幫助您探索聖經、提出信仰問題並尋找聖經指導。",
 
+  "askRhemaWelcomeTitle": "您想了解什麼？",
+  "askRhemaWelcomeSubtitle": "提出任何關於聖經的問題，並獲得基於聖經的答案。",
+  "clearConversationTitle": "清除對話？",
+  "clearConversation": "清除對話",
+  "clearConversationContent": "這將刪除所有訊息。此操作無法撤銷。",
+  "clear": "清除",
+  "scriptureSources": "聖經來源",
+  "askErrorTitle": "發生錯誤",
+  "unknownError": "未知錯誤",
+  "askHint": "問有關聖經的問題…",
+  "askQuestion": "問一個與聖經有關的問題。",
+  "askRhemaThinking": "AskRhema 正在思考...",
+
   "bibleStories": "聖經故事",
   "idiomStories": "成語故事",
 
