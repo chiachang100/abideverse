@@ -128,7 +128,13 @@ class SqliteBibleRepository implements BibleRepository {
     required String translationId,
     required ScriptureReference reference,
   }) async {
-    final endVerse = reference.endVerse ?? reference.startVerse;
+    final startVerse = reference.startVerse;
+
+    if (startVerse == null) {
+      throw ArgumentError('getRange requires a verse reference.');
+    }
+
+    final endVerse = reference.endVerse ?? startVerse;
 
     final rows = _db.select(
       '''
@@ -142,7 +148,7 @@ class SqliteBibleRepository implements BibleRepository {
         translationId,
         reference.bookId,
         reference.chapter,
-        reference.startVerse,
+        startVerse,
         endVerse,
       ],
     );
@@ -213,7 +219,43 @@ class SqliteBibleRepository implements BibleRepository {
   }
 
   String _buildSafeFtsQuery(String input) {
+    const stopWords = {
+      'what',
+      'does',
+      'do',
+      'the',
+      'a',
+      'an',
+      'is',
+      'are',
+      'about',
+      'how',
+      'why',
+      'can',
+      'could',
+      'would',
+      'should',
+      'scripture',
+      'say',
+      'says',
+      'tell',
+      'me',
+      'explain',
+      'context',
+      'of',
+      'toward',
+      'towards',
+      'in',
+      'on',
+      'for',
+      'to',
+      'and',
+      'or',
+      'with',
+    };
+
     final cleaned = input
+        .toLowerCase()
         .replaceAll(RegExp(r'[^\p{L}\p{N}\s]', unicode: true), ' ')
         .trim();
 
@@ -223,11 +265,9 @@ class SqliteBibleRepository implements BibleRepository {
 
     final words = cleaned
         .split(RegExp(r'\s+'))
-        .where((word) => word.isNotEmpty)
-        .map((word) {
-          final escaped = word.replaceAll('"', '""');
-          return '"$escaped"';
-        })
+        .where((word) => word.length >= 3)
+        .where((word) => !stopWords.contains(word))
+        .map((word) => '"$word"')
         .toList();
 
     return words.join(' OR ');

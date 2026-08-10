@@ -29,10 +29,58 @@ class AskRhemaServiceImpl implements AskRhemaService {
     return AskRhemaResponse(answer: answer ?? '', sources: sources);
   }
 
+  String _buildSearchQuery(String question) {
+    final stopWords = {
+      'what',
+      'does',
+      'do',
+      'the',
+      'a',
+      'an',
+      'is',
+      'are',
+      'about',
+      'how',
+      'why',
+      'can',
+      'could',
+      'would',
+      'should',
+      'scripture',
+      'say',
+      'says',
+      'tell',
+      'me',
+      'explain',
+      'context',
+      'of',
+      'toward',
+      'towards',
+      'in',
+      'on',
+      'for',
+      'to',
+      'and',
+      'or',
+      'with',
+    };
+
+    final words = question
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9\s]'), ' ')
+        .split(RegExp(r'\s+'))
+        .where((word) => word.length >= 3)
+        .where((word) => !stopWords.contains(word))
+        .toList();
+
+    return words.join(' ');
+  }
+
   Future<List<BibleVerse>> _findSources(AskRhemaRequest request) async {
     final reference = _referenceParser.parse(request.question);
 
-    if (reference != null) {
+    // Specific reference: John 15:16
+    if (reference != null && reference.startVerse != null) {
       if (reference.endVerse != null) {
         return _bibleRepository.getRange(
           translationId: request.translationId,
@@ -44,12 +92,24 @@ class AskRhemaServiceImpl implements AskRhemaService {
         translationId: request.translationId,
         bookId: reference.bookId,
         chapter: reference.chapter,
-        verse: reference.startVerse,
+        verse: reference.startVerse!,
       );
 
       return verse == null ? <BibleVerse>[] : [verse];
     }
 
+    // Chapter reference: John 15 / John chapter 15
+    if (reference != null && reference.startVerse == null) {
+      return _bibleRepository.getChapter(
+        translationId: request.translationId,
+        bookId: reference.bookId,
+        chapter: reference.chapter,
+      );
+    }
+
+    // General theological question:
+    // "What does Scripture say about forgiveness?"
+    // "How does the Old Testament point toward Christ?"
     return _bibleRepository.search(
       translationId: request.translationId,
       query: request.question,
@@ -87,6 +147,7 @@ Rules:
 7. Encourage the user toward Scripture and thoughtful reflection.
 8. If the user asks about a specific Scripture reference, prioritize the supplied passage for that reference.
 9. Do not substitute another passage for the requested Scripture reference.
+10. When the supplied passages cover an entire chapter, use the chapter context when answering questions about that chapter.
 
 SCRIPTURE SOURCES:
 

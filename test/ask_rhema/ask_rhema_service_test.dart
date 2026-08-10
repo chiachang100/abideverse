@@ -143,6 +143,42 @@ void main() {
     expect(result?.startVerse, 4);
     expect(result?.endVerse, 7);
   });
+
+  test('parses John 15', () {
+    final result = parser.parse('John 15');
+
+    expect(result?.bookId, 'john');
+    expect(result?.chapter, 15);
+    expect(result?.startVerse, isNull);
+    expect(result?.endVerse, isNull);
+  });
+
+  test('parses John chapter 15', () {
+    final result = parser.parse('John chapter 15');
+
+    expect(result?.bookId, 'john');
+    expect(result?.chapter, 15);
+    expect(result?.startVerse, isNull);
+    expect(result?.endVerse, isNull);
+  });
+
+  test('parses chapter reference inside a sentence', () {
+    final result = parser.parse('Explain the context of John 15');
+
+    expect(result?.bookId, 'john');
+    expect(result?.chapter, 15);
+    expect(result?.startVerse, isNull);
+    expect(result?.endVerse, isNull);
+  });
+
+  test('parses chapter reference inside a sentence with chapter keyword', () {
+    final result = parser.parse('Explain the context of John chapter 15');
+
+    expect(result?.bookId, 'john');
+    expect(result?.chapter, 15);
+    expect(result?.startVerse, isNull);
+    expect(result?.endVerse, isNull);
+  });
 }
 
 // ---------------------------------------------------------------------------

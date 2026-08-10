@@ -313,8 +313,8 @@ They're build inputs. The only runtime asset should be:
 ### AskRhema Testing
 
 - `clear && flutter analyze lib/features/ask_rhema`
-- `clear && flutter test test/ask_rhema`
-- `clear && flutter test`
+- `clear && flutter test -r expanded test/ask_rhema`
+- `clear && flutter test -r expanded`
 
 ---
 - Download `sqlite3.wasm`
