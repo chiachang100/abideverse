@@ -225,16 +225,33 @@ class _AskRhemaScreenState extends ConsumerState<AskRhemaScreen> {
     final theme = Theme.of(context);
 
     if (!_hasTurns && !state.isLoading && !state.hasError) {
-      // Keep the original empty state text so tests pass
       return Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/photos/AskRhema.webp', width: 80, height: 80),
-              SizedBox(height: 16),
-              Text(LocaleKeys.askQuestion.tr()),
+              // Circle background to make the icon pop
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  'assets/photos/AskRhema.webp',
+                  width: 120,
+                  height: 120,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                LocaleKeys.askQuestion.tr(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16),
+              ),
             ],
           ),
         ),
